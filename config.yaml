@@ -25,3 +25,62 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: vd
+      description: 视频生成模型的后训练蒸馏，提升多样性及运动动态
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: video generation post-training
+          keyword_cn: 视频生成后训练
+          query: post-training for video generation models
+        - keyword: few-step video generation
+          keyword_cn: 少步视频生成
+          query: few-step sampling video generation
+        - keyword: video diversity motion dynamics
+          keyword_cn: 视频多样性运动动态
+          query: improving diversity and motion dynamics in video generation
+        - keyword: few-step diffusion models
+          keyword_cn: ''
+          query: few-step diffusion models for video generation
+        - keyword: diversity improvement distillation
+          keyword_cn: ''
+          query: improving diversity through distillation in generative models
+      intent_queries:
+        - query: distillation methods for accelerating video generation while maintaining quality
+          query_cn: 加速视频生成同时保持质量的蒸馏方法
+          enabled: true
+          source: manual
+          note: ''
+        - query: distillation methods for improving diversity and motion dynamics in few step video generation
+          query_cn: 提升少步视频生成多样性与运动动态的蒸馏方法
+          enabled: true
+          source: manual
+          note: ''
+        - query: knowledge distillation for diversity enhancement in image generation
+          query_cn: 图像生成中增强多样性的知识蒸馏
+          enabled: true
+          source: manual
+          note: ''
+        - query: post training distillation for video diffusion models
+          query_cn: 视频扩散模型的后训练蒸馏
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-06-07T07:11:55.744Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
