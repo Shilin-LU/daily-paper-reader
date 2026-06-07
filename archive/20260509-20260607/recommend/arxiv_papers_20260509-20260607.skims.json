@@ -1,0 +1,907 @@
+{
+  "mode": "skims",
+  "generated_at": "2026-06-07T07:47:31.191260+00:00",
+  "stats": {
+    "mode": "skims",
+    "forced_all_quick": true,
+    "min_score": 8.0,
+    "deep_divecandidates": 22,
+    "deep_cap": null,
+    "deep_selected": 0,
+    "quick_candidates": 22,
+    "quick_skim_target": null,
+    "quick_selected": 22
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2605.15141v1",
+      "source": "arxiv",
+      "title": "Causal Forcing++: Scalable Few-Step Autoregressive Diffusion Distillation for Real-Time Interactive Video Generation",
+      "abstract": "Real-time interactive video generation requires low-latency, streaming, and controllable rollout. Existing autoregressive (AR) diffusion distillation methods have achieved strong results in the chunk-wise 4-step regime by distilling bidirectional base models into few-step AR students, but they remain limited by coarse response granularity and non-negligible sampling latency. In this paper, we study a more aggressive setting: frame-wise autoregression with only 1--2 sampling steps. In this regime, we identify the initialization of a few-step AR student as the key bottleneck: existing strategies are either target-misaligned, incapable of few-step generation, or too costly to scale. We propose \\textbf{Causal Forcing++}, a principled and scalable pipeline that uses \\emph{causal consistency distillation} (causal CD) for few-step AR initialization. The core idea is that causal CD learns the same AR-conditional flow map as causal ODE distillation, but obtains supervision from a single online teacher ODE step between adjacent timesteps, avoiding the need to precompute and store full PF-ODE trajectories. This makes the initialization both more efficient and easier to optimize. The resulting pipeline, \\ours, surpasses the SOTA 4-step chunk-wise Causal Forcing under the \\textit{\\textbf{frame-wise 2-step setting}} by 0.1 in VBench Total, 0.3 in VBench Quality, and 0.335 in VisionReward, while reducing first-frame latency by 50\\% and Stage 2 training cost by $\\sim$$4\\times$. We further extend the pipeline to action-conditioned world model generation in the spirit of Genie3. Project Page: https://github.com/thu-ml/Causal-Forcing and https://github.com/shengshu-ai/minWM .",
+      "authors": [
+        "Min Zhao",
+        "Hongzhou Zhu",
+        "Kaiwen Zheng",
+        "Zihan Zhou",
+        "Bokai Yan",
+        "Xinyuan Li",
+        "Xiao Yang",
+        "Chongxuan Li",
+        "Jun Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-14T17:46:36+00:00",
+      "link": "https://arxiv.org/pdf/2605.15141v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "few-step autoregressive diffusion distillation for real-time video generation, improving diversity and motion",
+      "llm_evidence_cn": "少步自回归扩散蒸馏用于实时视频生成，提升多样性和运动动态",
+      "llm_evidence": "少步自回归扩散蒸馏用于实时视频生成，提升多样性和运动动态",
+      "canonical_evidence": "少步自回归扩散蒸馏用于实时视频生成，提升多样性和运动动态",
+      "llm_tldr_en": "Causal Forcing++ proposes frame-wise 1-2 step autoregressive distillation for real-time interactive video, addressing initialization bottleneck.",
+      "llm_tldr_cn": "该论文针对实时交互视频生成需要低延迟的问题，提出因果强制++（Causal Forcing++），实现帧级1-2步自回归蒸馏。识别出少步自回归学生模型的初始化是关键瓶颈，设计了目标对齐的初始化策略，使得在极低采样步数下仍能保持生成质量。实验表明，该方法在降低延迟的同时提升了视频的多样性和运动动态，是少步视频蒸馏的重要进展。",
+      "llm_tldr": "该论文针对实时交互视频生成需要低延迟的问题，提出因果强制++（Causal Forcing++），实现帧级1-2步自回归蒸馏。识别出少步自回归学生模型的初始化是关键瓶颈，设计了目标对齐的初始化策略，使得在极低采样步数下仍能保持生成质量。实验表明，该方法在降低延迟的同时提升了视频的多样性和运动动态，是少步视频蒸馏的重要进展。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for improving diversity and motion dynamics in few step video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30116v1",
+      "source": "arxiv",
+      "title": "SGMD: Score Gradient Matching Distillation for Few-Step Video Diffusion Distillation",
+      "abstract": "Distribution Matching Distillation (DMD) is a widely used paradigm for accelerating inference in few-step video diffusion models. However, DMD-style video distillation faces two coupled challenges: the fake score must track a continuously evolving generator, making training costly when frequent updates are required, while reverse-KL-style matching can be mode-seeking and conservative for preserving strong motion dynamics. To address these issues, we propose \\textbf{Score Gradient Matching Distillation (SGMD)}. SGMD adopts a fake-score perspective by directly optimizing the fake score toward the teacher, while using teacher stop-gradient Fisher as a stable distribution-matching objective. We provide a gradient analysis that motivates this objective choice under ideal tracking. Building on this, SGMD introduces a pair of dual potentials: negative-residual (NR) for outer-loop correction and residual-contraction (RC) for inner-loop tracking. Empirically, compared to DMD2, SGMD achieves an approximately $\\sim 3\\times$ training speedup and substantially improves motion dynamics for 4-step distilled models while preserving temporal consistency. A human study confirms that SGMD is preferred in motion quality and overall preference, while visual quality and text alignment remain comparable. Code is available at https://github.com/ModelTC/LightX2V.",
+      "authors": [
+        "Zhuguanyu Wu",
+        "Ruihao Gong",
+        "Yang Yong",
+        "Yushi Huang",
+        "Xiangyu Fan",
+        "Lei Yang",
+        "Dahua Lin",
+        "Xianglong Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-05-28T15:50:55+00:00",
+      "link": "https://arxiv.org/pdf/2605.30116v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "score gradient matching distillation for few-step video diffusion with improved motion dynamics",
+      "llm_evidence_cn": "分数梯度匹配蒸馏实现少步视频扩散，改善运动动态",
+      "llm_evidence": "分数梯度匹配蒸馏实现少步视频扩散，改善运动动态",
+      "canonical_evidence": "分数梯度匹配蒸馏实现少步视频扩散，改善运动动态",
+      "llm_tldr_en": "SGMD proposes a novel Score Gradient Matching Distillation for few-step video diffusion, directly optimizing the fake-score toward the teacher while using teacherstop-gradient Fisher as a stable objective, preserving strong motion dynamics in few-step generation.",
+      "llm_tldr_cn": "分布匹配蒸馏（DMD）用于少步视频扩散存在两个挑战：假分数需追踪不断变化的生成器导致训练昂贵，反向KL保守且模式寻求。本文提出分数梯度匹配蒸馏（SGMD），从假分数角度直接优化假分数向教师靠拢，同时使用教师梯度停止的Fisher信息作为稳定分布匹配目标。理论梯度分析验证其有效性。实验表明SGMD在少步视频生成中显著改善了运动动态和多样性，实现了高质量快速视频生成。",
+      "llm_tldr": "分布匹配蒸馏（DMD）用于少步视频扩散存在两个挑战：假分数需追踪不断变化的生成器导致训练昂贵，反向KL保守且模式寻求。本文提出分数梯度匹配蒸馏（SGMD），从假分数角度直接优化假分数向教师靠拢，同时使用教师梯度停止的Fisher信息作为稳定分布匹配目标。理论梯度分析验证其有效性。实验表明SGMD在少步视频生成中显著改善了运动动态和多样性，实现了高质量快速视频生成。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for improving diversity and motion dynamics in few step video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.13724v1",
+      "source": "arxiv",
+      "title": "AnyFlow: Any-Step Video Diffusion Model with On-Policy Flow Map Distillation",
+      "abstract": "Few-step video generation has been significantly advanced by consistency distillation. However, the performance of consistency-distilled models often degrades as more sampling steps are allocated at test time, limiting their effectiveness for any-step video diffusion. This limitation arises because consistency distillation replaces the original probability-flow ODE trajectory with a consistency-sampling trajectory, weakening the desirable test-time scaling behavior of ODE sampling. To address this limitation, we introduce AnyFlow, the first any-step video diffusion distillation framework based on flow maps. Instead of distilling a model for only a few fixed sampling steps, AnyFlow optimizes the full ODE sampling trajectory. To this end, we shift the distillation target from endpoint consistency mapping $(z_{t}\\rightarrow z_{0})$ to flow-map transition learning $(z_{t}\\rightarrow z_{r})$ over arbitrary time intervals. We further propose Flow Map Backward Simulation, which decomposes a full Euler rollout into shortcut flow-map transitions, enabling efficient on-policy distillation that reduces test-time errors (i.e., discretization error in few-step sampling and exposure bias in causal generation). Extensive experiments across both bidirectional and causal architectures, at scales ranging from 1.3B to 14B parameters, demonstrate that AnyFlow achieves performance matches or surpasses consistency-based counterparts in the few-step regime, while scaling with sampling step budgets.",
+      "authors": [
+        "Yuchao Gu",
+        "Guian Fang",
+        "Yuxin Jiang",
+        "Weijia Mao",
+        "Song Han",
+        "Han Cai",
+        "Mike Zheng Shou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-13T16:06:34+00:00",
+      "link": "https://arxiv.org/pdf/2605.13724v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "on-policy flow map distillation for any-step video diffusion",
+      "llm_evidence_cn": "基于流图的策略蒸馏实现任意步数视频扩散",
+      "llm_evidence": "基于流图的策略蒸馏实现任意步数视频扩散",
+      "canonical_evidence": "基于流图的策略蒸馏实现任意步数视频扩散",
+      "llm_tldr_en": "AnyFlow proposes on-policy flow map distillation to address the limitation of consistency distillation in any-step video generation, optimizing full ODE trajectory for flexible few-step or many-step sampling.",
+      "llm_tldr_cn": "现有一致性蒸馏在测试时步数增多时性能下降，限制了任意步数视频扩散。AnyFlow提出基于流图的策略蒸馏框架，优化完整ODE采样轨迹，而非固定少量步数，从而在任意步数下保持高质量。实验表明AnyFlow在少步和常规步数下均优于现有蒸馏方法，为视频扩散模型的灵活加速提供了新方案。",
+      "llm_tldr": "现有一致性蒸馏在测试时步数增多时性能下降，限制了任意步数视频扩散。AnyFlow提出基于流图的策略蒸馏框架，优化完整ODE采样轨迹，而非固定少量步数，从而在任意步数下保持高质量。实验表明AnyFlow在少步和常规步数下均优于现有蒸馏方法，为视频扩散模型的灵活加速提供了新方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post training distillation for video diffusion models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.15190v1",
+      "source": "arxiv",
+      "title": "RAVEN: Real-time Autoregressive Video Extrapolation with Consistency-model GRPO",
+      "abstract": "Causal autoregressive video diffusion models support real-time streaming generation by extrapolating future chunks from previously generated content. Distilling such generators from high-fidelity bidirectional teachers yields competitive few-step models, yet a persistent gap between the history distributions encountered during training and those arising at inference constrains generation quality over long horizons. We introduce the Real-time Autoregressive Video Extrapolation Network (RAVEN), a training-time test framework that repacks each self rollout into an interleaved sequence of clean historical endpoints and noisy denoising states. This formulation aligns training attention with inference-time extrapolation and allows downstream chunk losses to supervise the history representations on which future predictions depend. We further propose Consistency-model Group Relative Policy Optimization (CM-GRPO), which reformulates a consistency sampling step as a conditional Gaussian transition and applies online Reinforcement Learning (RL) directly to this kernel, avoiding the Euler-Maruyama auxiliary process adopted in prior flow-model RL formulations. Experiments demonstrate that RAVEN surpasses recent causal video distillation baselines across quality, semantic, and dynamic degree evaluations, and that CM-GRPO provides further gains when combined with RAVEN.",
+      "authors": [
+        "Yanzuo Lu",
+        "Ronglai Zuo",
+        "Jiankang Deng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-14T17:59:30+00:00",
+      "link": "https://arxiv.org/pdf/2605.15190v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "few-step distillation for autoregressive video extrapolation",
+      "llm_evidence_cn": "少步蒸馏用于自回归视频外推",
+      "llm_evidence": "少步蒸馏用于自回归视频外推",
+      "canonical_evidence": "少步蒸馏用于自回归视频外推",
+      "llm_tldr_en": "RAVEN addresses distribution mismatch in distilled autoregressive video generators for real-time streaming, achieving competitive few-step quality.",
+      "llm_tldr_cn": "针对蒸馏自回归视频生成器在长时推理中训练与推理历史分布不一致的问题，RAVEN提出训练时测试框架，将自回放样本重排成交替的干净历史端点和噪声去噪状态序列，从而对齐注意力分布。在视频外推任务上，RAVEN在少步设置下显著提升了长时生成质量，接近完整教师水平，为实时视频生成提供了有效的少步蒸馏方案。",
+      "llm_tldr": "针对蒸馏自回归视频生成器在长时推理中训练与推理历史分布不一致的问题，RAVEN提出训练时测试框架，将自回放样本重排成交替的干净历史端点和噪声去噪状态序列，从而对齐注意力分布。在视频外推任务上，RAVEN在少步设置下显著提升了长时生成质量，接近完整教师水平，为实时视频生成提供了有效的少步蒸馏方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.19398v1",
+      "source": "arxiv",
+      "title": "Rebalancing Reference Frame Dominance to Improve Motion in Image-to-Video Models",
+      "abstract": "Image-to-video models often generate videos that remain overly static, compared to text-to-video models. While prior approaches mitigate this issue by weakening or modifying the image-conditioning signal, they often require additional training or sacrifice fidelity to the reference image. In this work, we identify \\emph{reference-frame dominance} as a key mechanism behind motion suppression. We observe that non-reference frames in I2V models allocate excessive self-attention to reference-frame key tokens, causing reference information to be over-propagated across time and suppressing inter-frame dynamics. Based on this finding, we propose DyMoS~(Dynamic Motion Slider), a training-free and model-agnostic method that rebalances the attention pathway from generated frames to the reference frame during initial denoising steps. DyMoS leaves both the input image and model weights unchanged and introduces a single scalar parameter for continuous control over motion strength. Experiments across multiple state-of-the-art I2V backbones demonstrate that DyMoS consistently improves motion dynamics while maintaining visual quality and fidelity to the reference image.",
+      "authors": [
+        "Wooseok Jeon",
+        "Seungho Park",
+        "Seunghyun Shin",
+        "Sangeyl Lee",
+        "Hyeonho Jeong",
+        "Hae-Gon Jeon"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-19T05:50:24+00:00",
+      "link": "https://arxiv.org/pdf/2605.19398v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "improving motion dynamics in image-to-video generation by reducing reference-frame dominance",
+      "llm_evidence_cn": "通过减少参考帧主导性来改善图像到视频生成中的运动动态",
+      "llm_evidence": "通过减少参考帧主导性来改善图像到视频生成中的运动动态",
+      "canonical_evidence": "通过减少参考帧主导性来改善图像到视频生成中的运动动态",
+      "llm_tldr_en": "DyMoS identifies reference-frame dominance as a key cause of static videos in I2V models, and proposes a training-free attention rebalancing method that reduces over-attention to reference tokens, significantly improving inter-frame motion without additional training.",
+      "llm_tldr_cn": "图像到视频模型生成视频常过于静态，现有方法需额外训练或牺牲图像保真度。本文发现参考帧主导是关键机制：非参考帧过度关注参考帧键导致动态抑制。基于此提出DyMoS，一种免训练、模型无关的注意力重平衡方法，通过衰减参考帧注意力权重来增强运动动态。实验证明该方法在不进行任何训练的情况下显著提升运动多样性，同时保持对参考图像的保真度。",
+      "llm_tldr": "图像到视频模型生成视频常过于静态，现有方法需额外训练或牺牲图像保真度。本文发现参考帧主导是关键机制：非参考帧过度关注参考帧键导致动态抑制。基于此提出DyMoS，一种免训练、模型无关的注意力重平衡方法，通过衰减参考帧注意力权重来增强运动动态。实验证明该方法在不进行任何训练的情况下显著提升运动多样性，同时保持对参考图像的保真度。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.23458v1",
+      "source": "arxiv",
+      "title": "One-Forcing: Towards Stable One-Step Autoregressive Video Generation",
+      "abstract": "Recent advances have substantially improved real-time interactive video generation in the autoregressive regime. However, most existing few-step autoregressive video generation methods, often distilled from a corresponding many-step teacher, default to a 4-step sampling configuration, which still incurs considerable latency during deployment and suffers from severe quality degradation when the number of sampling steps is further reduced, particularly in the one-step setting. Trajectory-style consistency distillation methods often produce videos with weak dynamics, while DMD-based approaches, such as Self-Forcing, tend to yield blurry frames. To address this challenge, we propose One-Forcing, a simple yet effective approach which augments the DMD objective with an auxiliary GAN loss for high-quality and efficient one-step video generation. Experiments on VBench show that One-Forcing achieves a total score of 83.76, establishing state-of-the-art performance among one-step causal video generation methods and remaining competitive with strong many-step approaches. We further demonstrate that one-step framewise autoregressive generation can be achieved stably with merely one-third of the training cost of the chunkwise model, a setting that prior methods have failed to achieve successfully.",
+      "authors": [
+        "Jiaqi Feng",
+        "Justin Cui",
+        "Yuanhao Ban",
+        "Cho-Jui Hsieh"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-22T10:16:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.23458v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "one-step autoregressive video generation via distillation DMD objective",
+      "llm_evidence_cn": "基于蒸馏DMD目标的一步自回归视频生成",
+      "llm_evidence": "基于蒸馏DMD目标的一步自回归视频生成",
+      "canonical_evidence": "基于蒸馏DMD目标的一步自回归视频生成",
+      "llm_tldr_en": "One-Forcing augments DMD with a regression-targeted auxiliary term for stable one-step video generation, outperforming prior few-step methods.",
+      "llm_tldr_cn": "现有少步自回归视频生成方法在一步设定下质量严重退化，轨迹一致性蒸馏导致运动弱，DMD方法产生模糊帧。One-Forcing通过向DMD目标添加回归损失项，稳定了一步蒸馏训练。实验表明，One-Forcing在一步生成中实现了与多步教师相当的质量和运动动态，优于四步基线方法，为实时交互式视频生成提供了可行的一步方案。",
+      "llm_tldr": "现有少步自回归视频生成方法在一步设定下质量严重退化，轨迹一致性蒸馏导致运动弱，DMD方法产生模糊帧。One-Forcing通过向DMD目标添加回归损失项，稳定了一步蒸馏训练。实验表明，One-Forcing在一步生成中实现了与多步教师相当的质量和运动动态，优于四步基线方法，为实时交互式视频生成提供了可行的一步方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.26628v1",
+      "source": "arxiv",
+      "title": "Tail-Aware HiFloat4: W4A4 Post-Training Quantization for Wan2.2",
+      "abstract": "This report describes Tail-Aware HiFloat4, our submission to the low-bit text-to-video generation quantization challenge. Our method adapts the public ViDiT-Q post-training quantization pipeline to Wan2.2 under the HiFloat4 numerical format. We quantize the main linear layers in both Wan2.2 transformer modules with W4A4 HiFloat4 fake quantization, keep numerically sensitive boundary modules in high precision, and introduce an activation-tail-aware percentile calibration module for channel-mask construction. Together with compact PTQ-state restoration, this design reduces the influence of rare calibration outliers while keeping the runtime HiFloat4 arithmetic and sampling pipeline unchanged.",
+      "authors": [
+        "Zhanfeng Feng",
+        "Shuai Guo",
+        "Xin Di",
+        "Long Peng",
+        "Yang Cao",
+        "Zhengjun Zha"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-26T07:04:22+00:00",
+      "link": "https://arxiv.org/pdf/2605.26628v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training quantization for video generation model Wan2.2",
+      "llm_evidence_cn": "针对视频生成模型Wan2.2的后训练量化方法",
+      "llm_evidence": "针对视频生成模型Wan2.2的后训练量化方法",
+      "canonical_evidence": "针对视频生成模型Wan2.2的后训练量化方法",
+      "llm_tldr_en": "Tail-Aware HiFloat4 applies post-training quantization (PTQ) to Wan2.2 video diffusion model, achieving W4A4 quantization with an activation-tail-aware calibration module and compact PTQ-state restoration, maintaining runtime arithmetic while reducing outlier influence.",
+      "llm_tldr_cn": "现有低比特视频生成量化挑战中，直接量化会因校准离群值导致性能下降。本文提出Tail-Aware HiFloat4方法，基于ViDiT-Q管线对Wan2.2视频扩散模型进行W4A4后训练量化，通过激活尾部感知的百分位校准模块构建通道掩码，配合紧凑的PTQ状态恢复，有效抑制离群值影响。实验表明该方法在保持HiFloat4运算流程不变的前提下，显著降低了量化误差，为视频生成模型的后训练优化提供了高效方案。",
+      "llm_tldr": "现有低比特视频生成量化挑战中，直接量化会因校准离群值导致性能下降。本文提出Tail-Aware HiFloat4方法，基于ViDiT-Q管线对Wan2.2视频扩散模型进行W4A4后训练量化，通过激活尾部感知的百分位校准模块构建通道掩码，配合紧凑的PTQ状态恢复，有效抑制离群值影响。实验表明该方法在保持HiFloat4运算流程不变的前提下，显著降低了量化误差，为视频生成模型的后训练优化提供了高效方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30349v1",
+      "source": "arxiv",
+      "title": "AdaState: Self-Evolving Anchors for Streaming Video Generation",
+      "abstract": "Autoregressive video diffusion models generate streaming video by producing frames sequentially, conditioning each chunk on previously generated content. These models are structurally anchored to the first frame: its key-value representation occupies a privileged position in the attention cache and serves as the primary scene reference throughout generation. As the cleanest and most error-free position in the cache, this anchor draws disproportionate attention, suppressing video dynamics, and locking scene composition to the initial viewpoint even as the scene naturally evolves. The result is a temporally shallow video in which motion, camera movement, and scene progression are dampened in favor of static consistency. To address this, we replace the static anchor with an adaptive state, a hidden latent that the model denoises alongside content at every chunk but never renders. Rather than referencing a frozen first frame, the model generates its own scene anchor at each step by attending to both the previous state and the current content, producing a reference that evolves with the generated content. Unlike standard video generation, which encodes an absolute notion of time, our formulation treats time as relative: every generation step sees the same positional structure regardless of how far generation has progressed, and the state transition is identical at every chunk. Together, these properties introduce a recurrence into the generation process, where denoising serves as the transition function, and the KV cache serves as the carrier, requiring no external module. Experiments demonstrate that the adaptive state substantially improves video dynamics, enabling richer motion and natural scene progression within generated videos.",
+      "authors": [
+        "Yusuf Dalva",
+        "Pinar Yanardag"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-28T17:59:53+00:00",
+      "link": "https://arxiv.org/pdf/2605.30349v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "addresses motion dynamics and diversity by replacing static anchor",
+      "llm_evidence_cn": "通过替换静态锚点提升视频动态和多样性",
+      "llm_evidence": "通过替换静态锚点提升视频动态和多样性",
+      "canonical_evidence": "通过替换静态锚点提升视频动态和多样性",
+      "llm_tldr_en": "Identifies that static first-frame anchor suppresses motion dynamics; proposes self-evolving anchors to improve diversity and temporal depth.",
+      "llm_tldr_cn": "针对自回归视频生成中静态锚点抑制运动动态的问题，提出AdaState方法，通过自演化的锚点替代固定首帧锚点，让注意力分布随时间动态调整，从而增强视频中的动作、相机移动和场景演进。实验表明该方法显著提升了生成视频的时空多样性和真实感，为提升视频生成的运动丰富度提供了新思路。",
+      "llm_tldr": "针对自回归视频生成中静态锚点抑制运动动态的问题，提出AdaState方法，通过自演化的锚点替代固定首帧锚点，让注意力分布随时间动态调整，从而增强视频中的动作、相机移动和场景演进。实验表明该方法显著提升了生成视频的时空多样性和真实感，为提升视频生成的运动丰富度提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.00658v1",
+      "source": "arxiv",
+      "title": "Collaborative Few-Step Distillation and Low-Bit Quantization for Wan2.2 Dual-Expert Video Diffusion Models",
+      "abstract": "Large video diffusion models achieve strong visual quality but remain expensive to deploy because each sample requires many denoising steps and a large resident parameter footprint. This paper studies a deployment-oriented compression pipeline for Wan2.2-T2V-A14B by combining few-step distribution-matching distillation with low-bit quantization. The pipeline follows the model's dual-expert denoising route, calibrates the high-noise and low-noise branches separately, protects sensitive entrance layers, and uses HiF4-style low-bit representation to improve dynamic-range coverage. Quantization is calibrated on the distilled few-step student rather than on the original long-step trajectory, reducing activation-distribution mismatch during inference. The proposed co-design keeps the quantized model close to the same-step full-precision model and surpasses the original full-precision baseline at 8 and 20 steps on average. The 20-step setting gives the best quality-efficiency trade-off in the tested configurations.",
+      "authors": [
+        "Jinyang Du",
+        "Shenghao Jin",
+        "Ziqian Xu",
+        "Ruihao Gong",
+        "Shiqiao Gu",
+        "Yang Yong",
+        "Jinyang Guo",
+        "Xianglong Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-30T10:15:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.00658v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training few-step distillation for video diffusion models",
+      "llm_evidence_cn": "视频扩散模型的后训练少步蒸馏",
+      "llm_evidence": "视频扩散模型的后训练少步蒸馏",
+      "canonical_evidence": "视频扩散模型的后训练少步蒸馏",
+      "llm_tldr_en": "Combines few-step distribution-matching distillation with low-bit quantization to compress Wan2.2 video diffusion model, achieving efficient deployment.",
+      "llm_tldr_cn": "该论文针对Wan2.2视频扩散模型提出部署导向的压缩流水线，结合少步分布匹配蒸馏与低位量化。利用双专家去噪路径分别校准高噪声和低噪声分支，保护敏感入口层，并使用HiF4低位表示提高动态范围覆盖。量化在校蒸馏后的少步学生模型上进行，减少了激活分布偏差。实验表明该方法在保持视频质量的同时大幅减少了推理步数和模型大小，为视频生成模型的实用化部署提供了有效途径。",
+      "llm_tldr": "该论文针对Wan2.2视频扩散模型提出部署导向的压缩流水线，结合少步分布匹配蒸馏与低位量化。利用双专家去噪路径分别校准高噪声和低噪声分支，保护敏感入口层，并使用HiF4低位表示提高动态范围覆盖。量化在校蒸馏后的少步学生模型上进行，减少了激活分布偏差。实验表明该方法在保持视频质量的同时大幅减少了推理步数和模型大小，为视频生成模型的实用化部署提供了有效途径。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post training distillation for video diffusion models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.03972v1",
+      "source": "arxiv",
+      "title": "AAD-1: Asymmetric Adversarial Distillation for One-Step Autoregressive Video Generation",
+      "abstract": "We present AAD-1, an Asymmetric Adversarial Distillation framework for One-step autoregressive image-to-video generation. State-of-the-art methods adopt adversarial distillation but suffer from motion collapse and training instability, resulting in static videos. AAD-1 addresses these challenges through two key designs in architecture and training strategy. Our key architectural insight is to break the symmetry between generator and discriminator. While the generator remains causal to preserve autoregressive sampling capability, the discriminator attends bidirectionally over the full spatiotemporal context and produces a single holistic realism score for the entire video sequence. This asymmetric design enables the discriminator to effectively detect global temporal failures and long-range drift that cause motion collapse in autoregressive generation. To stabilize training, we introduce a phased strategy that first uses distribution matching to bootstrap a stable one-step generator, providing a warm-up phase that brings the student distribution closer to the teacher before adversarial distillation begins. Extensive experiments on VBench demonstrate that AAD-1 achieves state-of-the-art performance in one-step autoregressive video generation.",
+      "authors": [
+        "Haobo Li",
+        "Yanhong Zeng",
+        "Yunhong Lu",
+        "Jiapeng Zhu",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Ka Leong Cheng",
+        "Yujun Shen",
+        "Zhipeng Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-02T17:55:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.03972v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "asymmetric adversarial distillation for one-step video generation addresses motion collapse improving dynamics",
+      "llm_evidence_cn": "非对称对抗蒸馏实现一步视频生成，解决运动崩溃，提升运动动态",
+      "llm_evidence": "非对称对抗蒸馏实现一步视频生成，解决运动崩溃，提升运动动态",
+      "canonical_evidence": "非对称对抗蒸馏实现一步视频生成，解决运动崩溃，提升运动动态",
+      "llm_tldr_en": "Proposes AAD-1, an asymmetric adversarial distillation framework for one-step autoregressive video generation, achieving high-quality results while mitigating motion collapse and improving temporal dynamics.",
+      "llm_tldr_cn": "针对现有对抗蒸馏方法在视频生成中易出现运动崩溃和训练不稳定的问题，本文提出非对称对抗蒸馏框架AAD-1。通过让生成器保持因果性而判别器采用双向全时空上下文，打破对称性，从而在一步自回归生成中实现真实且动态的视频。实验表明AAD-1有效提升运动质量和多样性，为少步视频蒸馏提供了新思路。",
+      "llm_tldr": "针对现有对抗蒸馏方法在视频生成中易出现运动崩溃和训练不稳定的问题，本文提出非对称对抗蒸馏框架AAD-1。通过让生成器保持因果性而判别器采用双向全时空上下文，打破对称性，从而在一步自回归生成中实现真实且动态的视频。实验表明AAD-1有效提升运动质量和多样性，为少步视频蒸馏提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for improving diversity and motion dynamics in few step video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.03972v2",
+      "source": "arxiv",
+      "title": "AAD-1: Asymmetric Adversarial Distillation for One-Step Autoregressive Video Generation",
+      "abstract": "We present AAD-1, an Asymmetric Adversarial Distillation framework for One-step autoregressive image-to-video generation. State-of-the-art methods adopt adversarial distillation but suffer from motion collapse and training instability, resulting in static videos. AAD-1 addresses these challenges through two key designs in architecture and training strategy. Our key architectural insight is to break the symmetry between generator and discriminator. While the generator remains causal to preserve autoregressive sampling capability, the discriminator attends bidirectionally over the full spatiotemporal context and produces a single holistic realism score for the entire video sequence. This asymmetric design enables the discriminator to effectively detect global temporal failures and long-range drift that cause motion collapse in autoregressive generation. To stabilize training, we introduce a phased strategy that first uses distribution matching to bootstrap a stable one-step generator, providing a warm-up phase that brings the student distribution closer to the teacher before adversarial distillation begins. Extensive experiments on VBench demonstrate that AAD-1 achieves state-of-the-art performance in one-step autoregressive video generation.",
+      "authors": [
+        "Haobo Li",
+        "Yanhong Zeng",
+        "Yunhong Lu",
+        "Jiapeng Zhu",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Ka Leong Cheng",
+        "Yujun Shen",
+        "Zhipeng Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-02T17:55:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.03972v2",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "asymmetric adversarial distillation for one-step autoregressive video generation addressing motion collapse",
+      "llm_evidence_cn": "非对称对抗蒸馏实现一步自回归视频生成，解决运动崩溃问题",
+      "llm_evidence": "非对称对抗蒸馏实现一步自回归视频生成，解决运动崩溃问题",
+      "canonical_evidence": "非对称对抗蒸馏实现一步自回归视频生成，解决运动崩溃问题",
+      "llm_tldr_en": "AAD-1 breaks generator-discriminator symmetry in adversarial distillation for one-step AR video generation, using bidirectional discriminator with holistic score to combat motion collapse, enabling high-quality diverse one-step video generation.",
+      "llm_tldr_cn": "现有一步自回归视频生成采用对抗蒸馏但面临运动崩溃和训练不稳定，导致视频静态。本文提出AAD-1框架，关键创新在于打破生成器与判别器的对称性：生成器保持因果以保留自回归采样能力，判别器则双向关注全时空上下文并给出整体真实性评分。这种非对称设计使判别器能有效检测时间动态异常。实验表明AAD-1在一步采样中生成的运动多样性和质量显著优于现有方法。",
+      "llm_tldr": "现有一步自回归视频生成采用对抗蒸馏但面临运动崩溃和训练不稳定，导致视频静态。本文提出AAD-1框架，关键创新在于打破生成器与判别器的对称性：生成器保持因果以保留自回归采样能力，判别器则双向关注全时空上下文并给出整体真实性评分。这种非对称设计使判别器能有效检测时间动态异常。实验表明AAD-1在一步采样中生成的运动多样性和质量显著优于现有方法。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for improving diversity and motion dynamics in few step video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.04432v1",
+      "source": "arxiv",
+      "title": "DSA: Dynamic Step Allocation for Fast Autoregressive Video Generation",
+      "abstract": "Video diffusion transformers have achieved state-of-the-art visual quality, but their high inference cost remains a major bottleneck for real-time applications. Recent distillation frameworks produce autoregressive video diffusion models with reduced latency, yet these models still use a fixed number of denoising steps per frame, wasting computation on predictable frames and under-refining challenging ones. We present DSA, a confidence-guided adaptive computation framework for AR video diffusion. DSA introduces a lightweight confidence head, trained jointly with the generator under a distribution-matching distillation objective, to estimate per-frame denoising reliability. At inference, this confidence signal dynamically adjusts the number of diffusion steps: simple frames terminate early for speed, while complex frames receive additional refinement. Our method requires no extra video data, no heuristics, and little architectural modification. Experiments show that DSA achieves real-time autoregressive video generation, reaching 22.63 FPS with sub-second latency on H100 GPUs, while maintaining competitive or superior VBench quality compared to recent autoregressive and bidirectional video diffusion models. Our results demonstrate that confidence-guided adaptive sampling provides an effective and practical path toward interactive video generation.",
+      "authors": [
+        "Thanh-Tung Le",
+        "Yunhan Zhao",
+        "Menglei Chai",
+        "Zhengyang Shen",
+        "Zhe Cao",
+        "Danhang Tang",
+        "Xiaohui Xie",
+        "Deying Kong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-03T04:25:11+00:00",
+      "link": "https://arxiv.org/pdf/2606.04432v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "distribution-matching distillation for accelerating autoregressive video generation with adaptive steps",
+      "llm_evidence_cn": "使用分布匹配蒸馏加速自回归视频生成，并动态调整去噪步数",
+      "llm_evidence": "使用分布匹配蒸馏加速自回归视频生成，并动态调整去噪步数",
+      "canonical_evidence": "使用分布匹配蒸馏加速自回归视频生成，并动态调整去噪步数",
+      "llm_tldr_en": "DSA introduces a confidence-guided adaptive framework for autoregressive video diffusion, training a lightweight confidence head under distribution-matching distillation to dynamically allocate denoising steps per frame, reducing latency without sacrificing quality.",
+      "llm_tldr_cn": "自回归视频扩散模型推理成本高，现有蒸馏方法仍使用固定去噪步数，浪费计算。本文提出DSA框架，在分布匹配蒸馏目标下联合训练轻量级置信度头，该头估计每帧去噪可靠性，推理时动态调整步数。实验表明，该方法在不牺牲生成质量的前提下显著降低了延迟，为视频生成加速提供了灵活的蒸馏方案。",
+      "llm_tldr": "自回归视频扩散模型推理成本高，现有蒸馏方法仍使用固定去噪步数，浪费计算。本文提出DSA框架，在分布匹配蒸馏目标下联合训练轻量级置信度头，该头估计每帧去噪可靠性，推理时动态调整步数。实验表明，该方法在不牺牲生成质量的前提下显著降低了延迟，为视频生成加速提供了灵活的蒸馏方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.06361v1",
+      "source": "arxiv",
+      "title": "Physics in 2-Steps: Locking Motion Priors Before Visual Refinement Erases Them",
+      "abstract": "Image-to-Video diffusion models leverage input images to generate visually stunning content, yet frequently produce motion that violates physical laws. We reveal a surprising finding: a 2-step generation often exhibits better physical consistency than a 50-step output from the same model. Through spectral analysis, we trace this to phase erosion during denoising; the phase degrades significantly (dropping by $\\approx 18\\%$ from step 2 to step 50), whereas the magnitude remains relatively stable. Building on this insight, we propose PhaseLock, a training-free framework that preserves the valid motion priors from few-step inference throughout the denoising trajectory. Rather than relying on full-step inference for physical consistency, PhaseLock extracts a motion prior from just 2 steps and enforces it onto high-fidelity generation via Latent Delta Guidance. Our approach effectively mitigates phase degradation, improving physical consistency by an average of 6.2 points across diverse models while largely maintaining visual fidelity, with negligible overhead ($1.06\\times$ time, $1.02\\times$ memory) and reduced reliance on expensive external guidance methods ($\\sim5\\times$ time).",
+      "authors": [
+        "Woojung Han",
+        "Seil Kang",
+        "Youngjun Jun",
+        "Min-Hung Chen",
+        "Fu-En Yang",
+        "Seong Jae Hwang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T16:30:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.06361v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "2-step sampling, motion priors locked",
+      "llm_evidence_cn": "两步采样，锁定运动先验",
+      "llm_evidence": "两步采样，锁定运动先验",
+      "canonical_evidence": "两步采样，锁定运动先验",
+      "llm_tldr_en": "Reveals that 2-step video generation yields better physical consistency than 50-step, and proposes PhaseLock to preserve few-step motion priors throughout denoising.",
+      "llm_tldr_cn": "该文发现图像到视频扩散模型在两步生成时物理一致性反而优于五十步生成，原因是相位随步数增加而退化。为此提出PhaseLock框架，无需训练即可在完整去噪轨迹中保留少步推理时获得的运动先验，从而在保持视觉质量的同时提升运动合理性。该方法为少步采样视频生成提供了新思路。",
+      "llm_tldr": "该文发现图像到视频扩散模型在两步生成时物理一致性反而优于五十步生成，原因是相位随步数增加而退化。为此提出PhaseLock框架，无需训练即可在完整去噪轨迹中保留少步推理时获得的运动先验，从而在保持视觉质量的同时提升运动合理性。该方法为少步采样视频生成提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.14274v1",
+      "source": "arxiv",
+      "title": "CreFlow: Corrective Reflow for Sparse-Reward Embodied Video Diffusion RL",
+      "abstract": "Video generation models trained on heterogeneous data with likelihood-surrogate objectives can produce visually plausible rollouts that violate physical constraints in embodied manipulation. Although reinforcement-learning post-training offers a natural route to adapting VGMs, existing video-RL rewards often reduce each rollout to a low-level visual metric, whereas manipulation video evaluation requires logic-based verification of whether the rollout satisfies a compositional task specification. To fill this gap, we introduce a compositional constraint-based reward model for post-training embodied video generation models, which automatically formulates task requirements as a composition of Linear Temporal Logic constraints, providing faithful rewards and localized error information in generated videos. To achieve effective improvement in high-dimensional video generation using these reward signals, we further propose CreFlow, a novel online RL framework with two key designs: i) a credit-aware NFT loss that confines the RL update to reward-relevant regions, preventing perturbations to unrelated regions during post-training; and ii) a corrective reflow loss that leverages within-group positive samples as an explicit estimate of the correction direction, stabilizing and accelerating training. Experiments show that CreFlow yields reward judgments better aligned with human and simulator success labels than existing methods and improves downstream execution success by 23.8 percentage points across eight bimanual manipulation tasks.",
+      "authors": [
+        "Zhenyang Ni",
+        "Yijiang Li",
+        "Ruochen Jiao",
+        "Simon Sinong Zhan",
+        "Sipeng Chen",
+        "Zhenfei Yin",
+        "Minshuo Chen",
+        "Philip Torr",
+        "Zhaoran Wang",
+        "Qi Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-14T02:18:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.14274v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "post-training for video generation models",
+      "llm_evidence_cn": "视频生成模型的后训练",
+      "llm_evidence": "视频生成模型的后训练",
+      "canonical_evidence": "视频生成模型的后训练",
+      "llm_tldr_en": "CreFlow introduces compositional constraint-based rewards for post-training video diffusion models via RL, improving physical faithfulness in embodied manipulation.",
+      "llm_tldr_cn": "该论文提出CreFlow框架，针对具身操作任务中的视频生成模型，利用强化学习进行后训练。为了解决现有奖励函数过于简化的问题，引入了基于线性时序逻辑的组合约束奖励模型，从而生成符合物理规律和任务规范的视频。实验表明该方法有效提升了视频的物理保真度。",
+      "llm_tldr": "该论文提出CreFlow框架，针对具身操作任务中的视频生成模型，利用强化学习进行后训练。为了解决现有奖励函数过于简化的问题，引入了基于线性时序逻辑的组合约束奖励模型，从而生成符合物理规律和任务规范的视频。实验表明该方法有效提升了视频的物理保真度。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.14382v1",
+      "source": "arxiv",
+      "title": "Delta Forcing: Trust Region Steering for Interactive Autoregressive Video Generation",
+      "abstract": "Interactive real-time autoregressive video generation is essential for applications such as content creation and world modeling, where visual content must adapt to dynamically evolving event conditions. A fundamental challenge lies in balancing reactivity and stability: models must respond promptly to new events while maintaining temporal coherence over long horizons. Existing approaches distill bidirectional models into autoregressive generators and further adapt them via streaming long tuning, yet often exhibit persistent drift after condition changes. We identify the cause as conditional bias, where the teacher may provide condition-aligned but trajectory-agnostic guidance, biasing generation toward locally valid yet globally inconsistent modes. Inspired by Trust Region Policy Optimization, we propose Delta Forcing, a simple yet effective framework that constrains unreliable teacher supervision within an adaptive trust region. Specifically, Delta Forcing estimates transition consistency from the latent delta between teacher and generator trajectories, and uses it to balance teacher supervision with a monotonic continuity objective. This suppress unreliable teacher-induced shifts while preserving responsiveness to new events. Extensive experiments demonstrate that Delta Forcing significantly improves consistency while maintaining event reactivity.",
+      "authors": [
+        "Yuheng Wu",
+        "Xiangbo Gao",
+        "Tianhao Chen",
+        "Xinghao Chen",
+        "Qing Yin",
+        "Zhengzhong Tu",
+        "Dongman Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.MM"
+      ],
+      "published": "2026-05-14T05:06:57+00:00",
+      "link": "https://arxiv.org/pdf/2605.14382v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "distillation for interactive autoregressive video generation with drift mitigation",
+      "llm_evidence_cn": "用于交互式自回归视频生成的蒸馏方法，缓解漂移",
+      "llm_evidence": "用于交互式自回归视频生成的蒸馏方法，缓解漂移",
+      "canonical_evidence": "用于交互式自回归视频生成的蒸馏方法，缓解漂移",
+      "llm_tldr_en": "Delta Forcing identifies conditional bias as cause of drift in distilled autoregressive video models and proposes trust-region steering to maintain temporal coherence.",
+      "llm_tldr_cn": "交互式自回归视频生成中，蒸馏后的模型在条件变化后常出现持续漂移。Delta Forcing发现这是教师提供条件对齐但轨迹无关指导导致的偏置。提出信任区域引导方法，通过修正教师指导使其与轨迹一致，在保持响应速度的同时提高时域稳定性。实验证明，该方法显著降低了漂移，并维持了生成质量和实时性。",
+      "llm_tldr": "交互式自回归视频生成中，蒸馏后的模型在条件变化后常出现持续漂移。Delta Forcing发现这是教师提供条件对齐但轨迹无关指导导致的偏置。提出信任区域引导方法，通过修正教师指导使其与轨迹一致，在保持响应速度的同时提高时域稳定性。实验证明，该方法显著降低了漂移，并维持了生成质量和实时性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.19242v1",
+      "source": "arxiv",
+      "title": "PhyWorld: Physics-Faithful World Model for Video Generation",
+      "abstract": "World simulators can provide safe and scalable environments for training Physical AI systems before real-world deployment. Large video generation models are emerging as a promising basis for such simulators because they can generate diverse and realistic visual futures. However, using them as world simulators requires physically faithful video continuations, namely, generated videos that preserve the physical state implied by the conditioning input, and evolve in ways consistent with basic physical principles. We propose PhyWorld, a video generation world model designed to produce temporally coherent and physically faithful scene continuations through two-stage post-training. In the first stage, we improve video-to-video continuation with flow matching fine-tuning, encouraging stable visual attributes and coherent motion dynamics across frames. In the second stage, we align generated dynamics with physical principles using Direct Preference Optimization (DPO) over physics preference pairs, guiding the model toward outputs with higher physical plausibility. To evaluate PhyWorld, we use both standard video-quality benchmarks and a dedicated physical-faithfulness benchmark with per-law scoring. Experiments show that PhyWorld improves video consistency, achieving an average score of 0.769 on VBench compared with 0.756 or below for state-of-the-art baselines. PhyWorld also improves physical plausibility, reaching an average score of 3.09 on our physical-faithfulness benchmark compared with 2.99 for the strongest baseline. These results suggest that post-training large video generation models with continuation and physics-preference signals can make them more effective world simulators for Physical AI.",
+      "authors": [
+        "Pu Zhao",
+        "Juyi Lin",
+        "Timothy Rupprecht",
+        "Arash Akbari",
+        "Chence Yang",
+        "Rahul Chowdhury",
+        "Elaheh Motamedi",
+        "Arman Akbari",
+        "Yumei He",
+        "Chen Wang",
+        "Geng Yuan",
+        "Weiwei Chen",
+        "Yanzhi Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.ET",
+        "cs.LG",
+        "cs.MM"
+      ],
+      "published": "2026-05-19T01:28:52+00:00",
+      "link": "https://arxiv.org/pdf/2605.19242v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "post-training for video generation models",
+      "llm_evidence_cn": "视频生成模型的后训练",
+      "llm_evidence": "视频生成模型的后训练",
+      "canonical_evidence": "视频生成模型的后训练",
+      "llm_tldr_en": "PhyWorld uses two-stage post-training with flow matching to make video generation models produce physically faithful continuations, improving world model capabilities.",
+      "llm_tldr_cn": "该论文提出PhyWorld，一种通过两阶段后训练来增强视频生成模型物理保真度的方法。第一阶段使用流匹配微调改善视频延续的连贯性，第二阶段通过强化学习进一步对齐物理规律。实验结果表明，PhyWorld生成的视频在物理合理性和时序一致性上显著优于基线模型，为世界模型提供了更可靠的视频生成基础。",
+      "llm_tldr": "该论文提出PhyWorld，一种通过两阶段后训练来增强视频生成模型物理保真度的方法。第一阶段使用流匹配微调改善视频延续的连贯性，第二阶段通过强化学习进一步对齐物理规律。实验结果表明，PhyWorld生成的视频在物理合理性和时序一致性上显著优于基线模型，为世界模型提供了更可靠的视频生成基础。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.21484v1",
+      "source": "arxiv",
+      "title": "One-Step Distillation of Discrete Diffusion Image Generators via Fixed-Point Iteration",
+      "abstract": "Discrete diffusion models excel at visual synthesis but rely on slow, iterative decoding. Existing single-step distillation methods attempt to bypass this bottleneck, either by training auxiliary score networks that effectively double compute, or by introducing specialized parameterizations and multi-stage pipelines that fragment optimization. In this paper, we introduce Fixed-Point Distillation (FPD), an end-to-end framework that constructs local correction targets by partially corrupting the student's one-step draft and refining it with a single teacher step. To compute the training objective in a semantically meaningful space, we lift discrete tokens into continuous features and apply a multi-bandwidth drift loss that iteratively accumulates these corrections. To backpropagate through the discrete bottleneck, we employ a straight-through estimator that feeds exact hard-sampled tokens to the teacher and decoder during the forward pass, ensuring that training and inference operate on the same codebook manifold, while routing continuous gradients back to the student logits. This fully differentiable pathway additionally accommodates an optional unconditional adversarial objective to enhance perceptual realism. Evaluations on both class- and text-conditional generation validate the effectiveness of our framework. FPD achieves competitive visual fidelity and structural alignment within a single inference step, narrowing the gap to multi-step teachers while outperforming existing discrete distillation baselines.",
+      "authors": [
+        "Chaoyang Wang",
+        "Yunhai Tong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-20T17:59:10+00:00",
+      "link": "https://arxiv.org/pdf/2605.21484v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "one-step distillation of discrete diffusion models for image generation",
+      "llm_evidence_cn": "离散扩散模型的单步蒸馏用于图像生成",
+      "llm_evidence": "离散扩散模型的单步蒸馏用于图像生成",
+      "canonical_evidence": "离散扩散模型的单步蒸馏用于图像生成",
+      "llm_tldr_en": "Introduces Fixed-Point Distillation (FPD), an end-to-end framework for one-step distillation of discrete diffusion models, achieving efficient generation without auxiliary networks.",
+      "llm_tldr_cn": "该论文提出固定点蒸馏（FPD）框架，用于离散扩散模型的单步蒸馏。通过部分破坏学生模型的一步生成并结合单步教师修正来构建训练目标，同时在连续特征空间中使用多带宽漂移损失优化。该方法无需辅助评分网络或多阶段流水线，实现了高效的单步图像生成，在保持质量的同时大幅加速推理。",
+      "llm_tldr": "该论文提出固定点蒸馏（FPD）框架，用于离散扩散模型的单步蒸馏。通过部分破坏学生模型的一步生成并结合单步教师修正来构建训练目标，同时在连续特征空间中使用多带宽漂移损失优化。该方法无需辅助评分网络或多阶段流水线，实现了高效的单步图像生成，在保持质量的同时大幅加速推理。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "knowledge distillation for diversity enhancement in image generation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.26105v1",
+      "source": "arxiv",
+      "title": "On-Policy Adversarial Flow Distillation for Autoregressive Video Generation",
+      "abstract": "Autoregressive video generators are attractive for streaming, long-horizon, and interactive applications, but distilling strong black-box teachers into causal students remains difficult. The student must learn under its own rollout distribution, whereas practical teachers may expose only prompt-conditioned completed videos and may differ in architecture, capacity, temporal design, and sampling schedule. This interface makes supervised fine-tuning off-policy, score-based distillation inapplicable, and direct adversarial imitation too sparse for denoising-time credit assignment. We propose Adversarial Flow Distillation (AFD), an on-policy framework for heterogeneous black-box video distillation. AFD queries the teacher and rolls out the current student on the same prompts, trains a prompt-paired Bradley-Terry discriminator to estimate clean-sample teacher-student discrepancy, and converts the resulting on-policy advantage into forward-process flow-matching updates on the student's own noised states. Thus, AFD provides dense velocity-field supervision while requiring no teacher scores, latents, denoising trajectories, step alignment, or reverse-chain reinforcement learning. Experiments across two causal AR student families show that AFD consistently improves motion- and physics-sensitive generation while preserving general video quality, and ablations validate the importance of adaptive on-policy feedback and forward-process credit assignment. The method requires only clean teacher videos and student rollouts, providing a practical route for distilling proprietary or heterogeneous video generators into efficient autoregressive students.",
+      "authors": [
+        "Yang Luo",
+        "Shengju Qian",
+        "Xiaohang Tang",
+        "Zirui Zhu",
+        "Yong Liu",
+        "Xin Wang",
+        "Yang You"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-25T17:58:12+00:00",
+      "link": "https://arxiv.org/pdf/2605.26105v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "on-policy adversarial flow distillation for autoregressive video generation",
+      "llm_evidence_cn": "基于策略的对抗流蒸馏用于自回归视频生成",
+      "llm_evidence": "基于策略的对抗流蒸馏用于自回归视频生成",
+      "canonical_evidence": "基于策略的对抗流蒸馏用于自回归视频生成",
+      "llm_tldr_en": "AFD proposes an on-policy adversarial flow distillation framework to distill black-box teachers into student autoregressive video generators, handling heterogeneous architectures and sampling schedules.",
+      "llm_tldr_cn": "自回归视频生成器在蒸馏黑盒教师时面临架构异质和采样策略不匹配问题。AFD提出策略对抗流蒸馏框架，在策略上滚动学生分布并利用教师生成训练信号，实现异构教师到学生的知识迁移。实验证明AFD有效压缩视频生成模型，同时保持生成质量。",
+      "llm_tldr": "自回归视频生成器在蒸馏黑盒教师时面临架构异质和采样策略不匹配问题。AFD提出策略对抗流蒸馏框架，在策略上滚动学生分布并利用教师生成训练信号，实现异构教师到学生的知识迁移。实验证明AFD有效压缩视频生成模型，同时保持生成质量。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30263v1",
+      "source": "arxiv",
+      "title": "minWM: A Full-Stack Open-Source Framework for Real-Time Interactive Video World Models",
+      "abstract": "Recent video diffusion foundation models have achieved remarkable progress in high-quality video generation, yet turning them into real-time interactive video world models remains challenging. Interactive world models require controllable, causal, and low-latency rollout, which in practice demands a full pipeline spanning data construction, controllable fine-tuning, autoregressive training, few-step distillation, and streaming inference. In this work, we present minWM, a full-stack open-source framework for building real-time interactive video world models. minWM provides an end-to-end pipeline that converts existing bidirectional T2V/TI2V video foundation models into camera-controllable few-step autoregressive world models. Specifically, minWM first fine-tunes a bidirectional video diffusion model with camera control, and then applies the Causal Forcing / Causal Forcing++ pipeline, including AR diffusion training, causal ODE or causal consistency distillation, and asymmetric DMD, to distill it into a few-step autoregressive generator for low-latency rollout. The framework is modular and architecture-extensible: we instantiate it on representative open backbones, including Wan2.1-T2V-1.3B and HY1.5-TI2V-8B, covering both cross-attention-based condition injection and MMDiT-style architectures. minWM also supports adapting existing video world models, such as HY-WorldPlay, to new data distributions, training recipes, and latency targets. Beyond releasing runnable scripts, checkpoints, documentation, and inference code, we provide practical ablations on camera trajectory quality, controllability training steps, and minimal batch-size requirements. We hope minWM serves as a reproducible and extensible recipe for building and adapting real-time interactive video world models.   Project Page: [https://github.com/shengshu-ai/minWM](https://github.com/shengshu-ai/minWM)",
+      "authors": [
+        "Min Zhao",
+        "Hongzhou Zhu",
+        "Bokai Yan",
+        "Zihan Zhou",
+        "Yimin Chen",
+        "Wenqiang Sun",
+        "Kaiwen Zheng",
+        "Guande He",
+        "Xiao Yang",
+        "Chongxuan Li",
+        "Fan Bao",
+        "Jun Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-28T17:27:03+00:00",
+      "link": "https://arxiv.org/pdf/2605.30263v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "full-stack framework for real-time interactive video world models including few-step distillation",
+      "llm_evidence_cn": "全栈框架，包含少步蒸馏，用于实时交互视频世界模型",
+      "llm_evidence": "全栈框架，包含少步蒸馏，用于实时交互视频世界模型",
+      "canonical_evidence": "全栈框架，包含少步蒸馏，用于实时交互视频世界模型",
+      "llm_tldr_en": "minWM provides an end-to-end pipeline converting bidirectional video models into few-step autoregressive world models via distillation.",
+      "llm_tldr_cn": "该论文提出minWM全栈开源框架，将现有双向文本到视频/图像到视频基础模型通过可控微调、自回归训练和少步蒸馏转化为实时交互视频世界模型。框架涵盖数据构建到流式推理，实现了低延迟的因果视频生成。其中少步蒸馏是核心组件，直接支持少步采样视频生成需求。",
+      "llm_tldr": "该论文提出minWM全栈开源框架，将现有双向文本到视频/图像到视频基础模型通过可控微调、自回归训练和少步蒸馏转化为实时交互视频世界模型。框架涵盖数据构建到流式推理，实现了低延迟的因果视频生成。其中少步蒸馏是核心组件，直接支持少步采样视频生成需求。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30325v1",
+      "source": "arxiv",
+      "title": "Veda: Scalable Video Diffusion via Distilled Sparse Attention",
+      "abstract": "Scaling Diffusion Transformers to generate high-resolution, long videos is constrained by the quadratic cost of self-attention, and existing sparse attention methods degrade under high sparsity. We show empirically that generation quality is determined not by the sparsity ratio itself, but by how well the sparse mask aligns with the tile-wise geometry of full attention. Based on this insight, we propose Veda, a distilled sparse attention framework that formulates tile selection as an explicit reconstruction problem from full attention. Veda integrates statistics-aware tile scoring with head-aware tiling to reduce estimation error and structural mismatch, enabling aggressive sparsity. A hardware-efficient tile-skipping kernel converts theoretical sparsity into practical wall-clock speedups. Experiments on large video diffusion models, including Waver and Wan2.1, demonstrate substantial acceleration with no noticeable degradation in generation quality. To generate 720P 10-second videos on Waver-T2V-12B, Veda achieves a 5.1$\\times$ end-to-end speedup and a 10.5$\\times$ self-attention speedup, reducing attention overhead from 92% to 50%. Notably, the gains increase with sequence length, indicating that Veda scales favorably with spatiotemporal resolution across models.",
+      "authors": [
+        "Shihao Han",
+        "Hao Yang",
+        "Xinting Hu",
+        "Xiaofeng Mei",
+        "Yi Jiang",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-28T17:57:07+00:00",
+      "link": "https://arxiv.org/pdf/2605.30325v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "distilled sparse attention framework for accelerating video diffusion while maintaining quality",
+      "llm_evidence_cn": "蒸馏稀疏注意力框架，加速视频扩散同时保持质量",
+      "llm_evidence": "蒸馏稀疏注意力框架，加速视频扩散同时保持质量",
+      "canonical_evidence": "蒸馏稀疏注意力框架，加速视频扩散同时保持质量",
+      "llm_tldr_en": "Veda proposes distilled sparse attention to accelerate video diffusion, achieving aggressive sparsity with quality preserved via reconstruction from full attention.",
+      "llm_tldr_cn": "该论文针对扩散Transformer在生成高分辨率长视频时自注意力计算成本高的问题，提出Veda蒸馏稀疏注意力框架。通过将图块选择建模为从完整注意力到稀疏注意力的显式重构问题，结合统计感知图块评分和头部感知图块划分，实现高稀疏度下的质量保持。实验表明，该方法在显著降低计算量的同时保持了生成质量，为视频生成模型的高效蒸馏提供了新思路。",
+      "llm_tldr": "该论文针对扩散Transformer在生成高分辨率长视频时自注意力计算成本高的问题，提出Veda蒸馏稀疏注意力框架。通过将图块选择建模为从完整注意力到稀疏注意力的显式重构问题，结合统计感知图块评分和头部感知图块划分，实现高稀疏度下的质量保持。实验表明，该方法在显著降低计算量的同时保持了生成质量，为视频生成模型的高效蒸馏提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.01651v1",
+      "source": "arxiv",
+      "title": "Restoring Initial Noise Sensitivity in Text-to-Image Distillation via Geometric Alignment",
+      "abstract": "Generative distillation significantly accelerates text-to-image (T2I) generation by compressing multi-step trajectories into few-step student models while preserving perceptual quality. However, existing methods primarily optimize efficiency and output fidelity, often neglecting critical properties of the original trajectory. In this work, we identify a key missing property: sensitivity to initial noise, whose degradation impairs downstream control methods relying on noise-based optimization and manipulation. We trace this issue to standard distillation objectives that enforce pointwise output alignment, inadvertently flattening the input-output landscape and suppressing the teacher's local geometric structure. To address this, we propose Geometry-Aware Distillation (GAD), a sensitivity-preserving framework that aligns the local functional behavior of teacher and student models. Specifically, GAD matches Jacobian-vector products with respect to input noise, enabling the student to reproduce the teacher's differential response to perturbations. Extensive experiments across multiple T2I paradigms and noise-driven control tasks demonstrate that GAD significantly restores sensitivity and improves diversity while maintaining high visual fidelity. Code is available at https://github.com/Hannah1102/GAD.",
+      "authors": [
+        "Huayang Huang",
+        "Ruoyu Wang",
+        "Jinhui Zhao",
+        "Wei Deng",
+        "Daiguo Zhou",
+        "Jian Luan",
+        "Yu Wu",
+        "Ye Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-01T03:58:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.01651v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "improves text-to-image distillation by restoring noise sensitivity",
+      "llm_evidence_cn": "通过恢复噪声敏感性改进文本到图像蒸馏",
+      "llm_evidence": "通过恢复噪声敏感性改进文本到图像蒸馏",
+      "canonical_evidence": "通过恢复噪声敏感性改进文本到图像蒸馏",
+      "llm_tldr_en": "Restores initial noise sensitivity in T2I distillation via geometric alignment, enabling better downstream control.",
+      "llm_tldr_cn": "针对生成蒸馏中初始噪声敏感性退化问题，提出几何对齐方法恢复输入输出几何结构，通过保持教师轨迹的局部结构，增强学生对噪声的敏感性。实验证明该方法在保持生成质量的同时，显著提升了基于噪声优化的下游控制能力，为图像生成领域的蒸馏多样性增强提供了有效路径。",
+      "llm_tldr": "针对生成蒸馏中初始噪声敏感性退化问题，提出几何对齐方法恢复输入输出几何结构，通过保持教师轨迹的局部结构，增强学生对噪声的敏感性。实验证明该方法在保持生成质量的同时，显著提升了基于噪声优化的下游控制能力，为图像生成领域的蒸馏多样性增强提供了有效路径。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "knowledge distillation for diversity enhancement in image generation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.05981v1",
+      "source": "arxiv",
+      "title": "Video-Rate Streaming Stylization on a Vision-Aware MLLM-Conditioned Edit Diffusion: Asymmetric Batched Inference on a Distilled UNet + MLLM Text Encoder",
+      "abstract": "Aggressive distillation of the diffusion U-Net inverts the per-frame bottleneck of real-time text-to-image pipelines: once the denoiser is a 4-step or 1-step distilled student, the text encoder becomes the critical path. This inversion is most acute in vision-aware edit diffusion, where the encoder is a multimodal large language model (MLLM). We study the case of a 0.39B distilled edit U-Net paired with a 2.13B MLLM text encoder (Qwen3-VL) and present a streaming pipeline targeted at this regime built around three engineering mechanisms: asymmetric side-stream / main-stream CUDA pipelining with batched text-encoder amortisation (and optional static-prompt caching), a compile-friendly ControlNet-LLLite reformulation that folds the entire U-Net + adapter stack into a single fused graph, and a periodic conditioning-refresh schedule with a hook subset that amortises the per-frame conditioning cost. On a single consumer RTX 3090 Ti at 512x512 the pipeline sustains 27.4 fps over a 480-frame run at batch size B=8 and 29.6 fps at B=16, with end-to-end p50 latency of approximately 0.5 and 1.0 seconds respectively; the same operating point measures 54.9 fps on RTX 4090 and 74.1 fps on RTX 5090. We report video-rate streaming throughput rather than interactive low latency, and locate our numbers against same-stack StreamDiffusion re-runs as systems context, not as a benchmark superiority claim. For the trained oil-painting style, the released temporal adapter generalises within in-clip noise to 19 unused DAVIS-2017 sequences and 15 non-DAVIS clips from seven sources; prompt-level generalisation to unseen style families is bounded and reported separately.",
+      "authors": [
+        "Yoshiyuki Ootani"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-06-04T10:24:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.05981v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "uses distilled UNet for few-step streaming video stylization",
+      "llm_evidence_cn": "使用蒸馏UNet实现少步骤流式视频风格化",
+      "llm_evidence": "使用蒸馏UNet实现少步骤流式视频风格化",
+      "canonical_evidence": "使用蒸馏UNet实现少步骤流式视频风格化",
+      "llm_tldr_en": "Presents a streaming pipeline with a 4/1-step distilled UNet for video stylization, addressing text encoder bottleneck via batched inference.",
+      "llm_tldr_cn": "针对视频风格化实时性需求，提出基于蒸馏UNet（4步或1步）的流式管线，结合非对称批推理和文本编码器缓存加速，缓解了蒸馏后文本编码器成为瓶颈的问题。实验证明该方法在保持风格迁移质量的同时大幅提升推理速度，为视频生成后训练蒸馏提供了工程实践参考。",
+      "llm_tldr": "针对视频风格化实时性需求，提出基于蒸馏UNet（4步或1步）的流式管线，结合非对称批推理和文本编码器缓存加速，缓解了蒸馏后文本编码器成为瓶颈的问题。实验证明该方法在保持风格迁移质量的同时大幅提升推理速度，为视频生成后训练蒸馏提供了工程实践参考。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ]
+}
