@@ -1,0 +1,484 @@
+Title: Why Are DMD Students Lazy? Understanding the Copying Behavior in Few-Step Distillation
+
+URL Source: https://arxiv.org/pdf/2606.02237v1
+
+Published Time: Tue, 02 Jun 2026 03:17:25 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+# Why Are DMD Students Lazy? Understanding the Copying Behavior in Few-Step Distillation 
+
+Shucheng Li 1 Iolo Jones 1 Alexander Tong 2 * Michael M. Bronstein 1 2 * 
+
+# Abstract 
+
+Distribution Matching Distillation (DMD) com-presses pretrained diffusion models into efficient few-step generators by aligning their noised dis-tributions across all scales. In principle, such distribution-level supervision remains agnostic to the teacher’s specific noise–data pairings; this provides the student the freedom to remap latent noise, a behavior consistently observed in low-dimensional settings. Surprisingly, we find that in high-dimensional settings, distilled students spon-taneously reproduce the teacher’s original noise– data pairings—a phenomenon we term copying. We demonstrate that copying is neither a byprod-uct of adversarial objectives nor a result of teacher memorization. Instead, our evidence suggests that copying is an emergent property arising from the limited geometric freedom of the student model during high-dimensional distillation. 
+
+# 1. Introduction 
+
+Diffusion models have fueled significant advances across images, videos, and text (Song et al., 2021a; Ho et al., 2020; Luo et al., 2023; Ho et al., 2022; Wang et al., 2023; Rom-bach et al., 2022). However, high-quality sampling through stochastic differential equations (SDEs) is computationally expensive. Distillation methods, such as Distribution Match-ing Distillation (DMD) (Yin et al., 2024b;a), bypass this bottleneck by training single-step students to match the teacher’s distribution. While recent studies have uncovered reproducibility (Zhang et al., 2024), where multiple trained diffusion models with different architectures produce the same noise–data pair-ings, the noise–data pairings of distilled students remain 
+
+* Equal Supervision. 1Department of Computer Science, Uni-versity of Oxford, Oxford, UK 2AITHYRA, Research Institute for Biomedical AI, Vienna, AT. Correspondence to: Shucheng Li 
+
+<shucheng.li@cs.ox.ac.uk >.
+
+Published as a paper at the 1 st FoGen workshop, ICML 2026 ,Seoul, South Korea, 2026. Copyright 2026 by the author(s). 
+
+largely unexplored. In this work, we identify an unex-pected behavior which we term copying for distillation in high-dimensional settings: students faithfully reproduce the teacher’s noise–data pairings, despite being trained on an objective that is pairing-indifferent .We demonstrate that copying is neither a trivial artifact of teacher memorization (Bonnaire et al., 2025) nor a conse-quence of auxiliary losses. Instead, we posit that copying emerges from the constrained degrees of freedom inherent in high-dimensional manifolds. Our experiments reveal that copying is most pronounced at the distribution boundaries and correlates with the convergence level of the teacher. These patterns emphasize that student distillation dynamics are fundamentally governed by the geometric structure of the teacher’s mapping, providing a new perspective on the interaction between high-dimensional data geometry and generative distillation. Our main contributions are as follows: • Observing and Quantifying Copying: We establish copying as a non-trivial dynamical behavior by proving that the DMD objective is in principle invariant to the noise–data pairings learned by the student. We propose 
+
+Pairing Inefficiency (∆E ), a scale-invariant metric, al-lowing fair quantitative comparison of strengths of copying across datasets of disparate scales and resolu-tions. • Analyzing triggering factors of copying: We demon-strate a sharp empirical divergence in copying behavior between low- and high-dimensional settings. Through ablations, we rule out auxiliary objectives and teacher memorization as primary drivers for copying. We pro-vide evidence on macroscopic and microscopic scales that characterize copying as a consequence of emergent high-dimensional geometric constraints. 
+
+# 2. Background 
+
+2.1. Diffusion Models 
+
+Diffusion models generate samples from an unknown data distribution pdata by reversing a learned stochastic process 1
+
+> arXiv:2606.02237v1 [cs.LG] 1 Jun 2026 Understanding the Copying Behavior of DMD Students
+
+that transforms pdata into a prior noise distribution pε, typi-cally approximately a scaled isotropic Gaussian N (0 , σ 2I).This process is characterized by a pair of forward and back-ward stochastic differential equations (Song et al., 2021b). In the Variance Exploding (VE) framework, the forward SDE evolves x0 ∼ pdata into increasingly noisy latent vari-ables xt over the time interval t ∈ [0 , T ] according to a noise schedule σ(t):
+
+dxt = p2 ˙ σ(t)σ(t)d Wt,
+
+where Wt denotes a standard multi-dimensional Wiener process. The transition kernel for this process is given by 
+
+pt(xt|x0) = N (xt; x0, σ 2(t)I). The marginals {pt}t∈[0 ,T ]
+
+define a probability path starting at p0 = pdata and terminat-ing at a distribution pTd
+
+≈ pε := N (0 , σ 2(T )I), provided the noise variance scale σ2(T ) ≫ σ2 
+
+> data
+
+the variance scale of the data distribution. To sample from pdata , the probability path can be inverted by initializing xT = z ∼ N (0 , σ 2(T )I) and solving a cor-responding backward SDE, or its equivalent deterministic Probability Flow ODE: 
+
+dxt = − ˙σ(t)σ(t)s(xt, t )d t, (1) where s(xt, t ) := ∇x log pt(xt) represents the Stein score function for {pt}. Since the ground-truth score function is inaccessible, it is typically estimated by a learnable time-conditioned neural network sθ (xt, t ). While other frame-works such as Variance Preserving (VP) or Flow Match-ing (Lipman et al., 2023) can be similarly formulated under this SDE template with differing drift and diffusion coef-ficients (Karras et al., 2022; Lai et al., 2025), we restrict attention to the VE framework with σ(t) = t for ease of presentation. Under the VE framework, since the transition kernel 
+
+pt (xt|x0) is Gaussian, the Stein score s (xt, t ) relates to the posterior expectation of the clean signal via Tweedie’s formula: s (xt, t ) = ( E [x0|xt] − xt)/t 2. This identity al-lows a reparametrization of score to stabilize learning. In particular, we typically train a neural network x0,θ (xt, t ) to approximate E [x0|xt], then set 
+
+sθ (xt, t ) = x0,θ (xt, t ) − xt
+
+t2 .
+
+In image dataset learning tasks, this denoiser x0,θ is often implemented as a UNet with additional pre-conditioning to ensure learning stability (Yin et al., 2024a; Karras et al., 2022). 
+
+2.2. Distribution Matching Distillation 
+
+Distribution Matching Distillation (Yin et al., 2024b;a) aims to overcome the computational bottleneck of multi-step inference by distilling the teacher diffusion model s(xt, t )
+
+into a single-step student generator Gθ (z), by aligning the student probability path pθ,t , defined as 
+
+pθ,t := Law (Gθ (z) + σ(t)ε)
+
+where ε ∼ N (0 , I) is independent of z ∼ N (0 , σ 2(T )I),with the teacher’s probability path pt across all noise lev-els σ(t). This is achieved by minimizing a time-weighted integral of the Kullback-Leibler (KL) divergence, referred to as the Distribution Matching (DM) loss :
+
+LDM (θ) := 
+
+Z
+
+w(t)KL (pθ,t ∥pt) d t. (2) The gradient of this objective with respect to the student parameters θ can be expressed in closed form: 
+
+∇θ LDM (θ) = Et,z,ε 
+
+
+
+w(t) ( sψ (xt, t ) − s(xt, t )) ∂G θ (z)
+
+∂θ 
+
+
+
+,
+
+(3) where xt = Gθ (z) + σ(t)ε. Here, s(xt, t ) is the pre-trained teacher score, and sψ (xt, t ) is a learnable student score neural network that approximates the intractable student score ∇x log(( Gθ (z) ∗ N (0 , t 2I))( x)) during distillation. We initialize the student generator and student score with teacher’s weights, specifically setting Gθ (z) := x0(z, T ),and sψ (xt, t ) = ( x0(xt, t ) − xt)/t 2, providing a strong starting point for the distillation procedure. To maintain stability during distillation, the student score sψ and gener-ator Gθ are updated via a joint training schedule. In each iteration, sψ is updated by minimizing a standard denoising score matching loss 
+
+min  
+
+> ψ
+
+Et,z,ε 
+
+
+
+∥sψ (xt, t ) + εσ(t) ∥2
+
+
+
+,
+
+where xt = Gθ (z) + σ(t)ε, to ensure that sψ accurately tracks the score of the current student probability path pθ,t .The student generator Gθ is updated every 5 iterations us-ing the gradient from Equation 3. Auxiliary regression or adversarial objectives may be added (Yin et al., 2024a;b). 
+
+# 3. The Copying Behaviour 
+
+We observe an unexpected phenomenon of Distribution Matching Distillation (DMD) in high-dimensional settings: a student model tends to faithfully reproduce the teacher’s noise-data pairings pointwise, even though it is trained ex-clusively to match the teacher’s distribution . As illustrated 2Understanding the Copying Behavior of DMD Students 
+
+Figure 1. Significant copying in high-dimensional settings. The distilled student on unconditional MNIST exhibits strong copying behavior. Top: Thirty image quadruples generated from random initial noise seeds z. From top to bottom: teacher 1-step samples Φ1(z),teacher 8-step samples Φ8(z), teacher 32-step samples Φ32 (z), and student 1-step samples G(z). Bottom: Visualization of 2000 triplets 
+
+(Φ 8(z), Φ1(z), G (z)) projected onto the two leading principal components of Φ8(z). Points generated from the same noise seed are assigned the same color across panels, showing that G(z) occupies the same manifold location as the multi-step teacher Φ8(z). Pairing inefficiency is low at ∆E ≈ 0.0367 .
+
+in Figure 1, over the unconditional MNIST learning task, the student generator Gθ (z) aligns very closely with the multi-step teacher target ΦK (z) obtained by taking K Euler steps 1backwards with second-order corrections. We term this spontaneous alignment behavior copying .
+
+3.1. Measuring Copying by Pairing Inefficiency 
+
+To formally quantify the strength of copying and compare it across different scales and dimensions, we introduce a scale-invariant measure ∆E (Φ K , G θ ) called pairing inefficiency. 
+
+Definition 3.1 (Pairing Inefficiency) . Let the initial noise be z ∼ pε = N (0 , σ 2(T )I). Let pΦ = (Φ K )#pε and pG =
+
+G#pε be the distributions learned by the teacher and student. The Optimal Transport (OT) energy and the Distillation Transport (DT) energy are defined as: 
+
+EOT (Φ K , G ) := min 
+
+> π∈Γ( pΦ,p G)
+
+Z
+
+∥x − y∥22 dπ (x, y ) (4) 
+
+EDT (Φ K , G ) := 
+
+Z
+
+∥ΦK (z) − G(z)∥22 dp ε(z) (5) where Γ( pΦ, p G) is the class of all couplings with marginals pΦ and pG. We define the pairing inefficiency as 
+
+∆E (Φ K , G ) := EDT (Φ K , G )
+
+EOT (Φ K , G ) − 1. (6) 
+
+> 1
+
+We fix K = 8 across all experiments, as this setting suf-fices for high-quality synthesis, with larger values offering only marginal improvements in sample quality. 
+
+A small inefficiency ∆E ≈ 0 implies strong copying, while a larger inefficiency ∆E implies the teacher pairings are 
+
+remapped . In practice, we use a consistent Monte Carlo esti-mator ∆(N ) 
+
+> E
+
+with N = 1000 samples. Formal justifications including the non-negativeness and scale-invariance of ∆E
+
+are provided in Appendix C. 
+
+3.2. Copying is Not Required for Successful Distillation 
+
+Crucially, we emphasize that copying is not a theoretical necessity of the DMD objective. The Distribution Match-ing loss LDM is pairing-indifferent : it only penalizes the discrepancy between the student distribution pG and the teacher’s pΦ, remaining agnostic to the noise–data pairings the student learned. 
+
+Lemma 3.2. Let Gθ and Gθ′ be two student gen-erators. Whenever Gθ (z) d
+
+= Gθ′ (z), it follows that LDM (θ) = LDM (θ′), even though in general 
+
+∇θ LDM (θ)̸ = ∇θ LDM (θ′). Consequently, the stochas-tic optimization dynamics can drive students to converge toward pairings with vastly different inefficiencies ∆E de-spite achieving similar distributional fidelity. 
+
+A particular consequence of Lemma 3.2 is that minimizing the distillation objective in Equation 2 does not require the student to satisfy Gθ (z) ≈ ΦK (z) for most z hence achieving low pairing inefficiency ∆E ≈ 0. A student could match the teacher’s distribution perfectly while arbitrarily remapping or reflecting the noise-to-data manifold. The proof of this lemma, along with an intuitive example where a 3Understanding the Copying Behavior of DMD Students 
+
+Figure 2. Copying does not necessarily occur, and rarely occurs in low-dimensional space. The distilled student on synthetic chessboard dataset exhibits strong remapping behavior. The dataset is a 2D chessboard dataset embedded in the first two coordinates of a four-dimensional ambient space. Panels from left to right show the initial Gaussian noise z, the teacher 8-step samples Φ8(z), the teacher 1-step samples Φ1(z), and the student one-step samples G(z). Points generated from the same initial noise seed z are assigned the same color across panels. Visualization is obtained by projection onto the first two coordinates. The pairing inefficiency is high at ∆E ≈ 8.55 .
+
+(a) 2D Chessboard (b) Unconditional MNIST 
+
+Figure 3. Copying is more pronounced in high-dimensional settings. The heatmaps represent the pairwise squared L2
+
+distances between teacher-generated images {ΦK (zi)}100  
+
+> i=1
+
+and student-generated images {G(zj )}100  
+
+> j=1
+
+for the 2D chessboard dataset (left) and the unconditional MNIST dataset (right). The horizontal and vertical axes denote the teacher and student image indices, i and j, respectively. The Optimal Transport (OT) pairing is highlighted with red boxes, while the Distillation Transport (DT) pairing corresponds to the diagonal. In the chessboard experiment, students mainly remaps the teacher’s pairings, resulting in high pairing inefficiency ( ∆E ≈ 8.55 ). Conversely, in the uncondi-tional MNIST experiment, the student mainly copies the pairings, exhibiting very low pairing inefficiency ( ∆E ≈ 0.0367 ). 
+
+non-copying student attains a global minimum of Objective 2, is provided in Appendix C. 
+
+3.3. Copying Rarely Occurs in Low Dimensions 
+
+We have theoretically established that in principle a dis-tilled student is not required to copy the teacher’s noise-data pairings and to exhibit low pairing inefficiency. Indeed, we empirically observe that on low-dimensional datasets, copying is rarely present and pairing inefficiency is high. For example, we define pdata as a two-dimensional 
+
+4 × 4 chessboard distribution embedded within the first two coordinates of R4. We first train a teacher diffusion model, parameterized by an MLP with five hidden layers of width 384, and subsequently distill a single-step student generator until convergence. As shown in Figure 2 and Figure 3, while the student successfully recovers the target distribution pdata , it exhibits significant remapping behavior with high pairing inefficiency ∆E ≈ 8.55 , confirming that the student has found a valid distributional fit that deviates from the teacher’s original trajectories. Similarly significant remapping is consistently observed across other standard low-dimensional synthetic datasets (see Appendix A). 
+
+3.4. Copying Frequently Occurs in High Dimensions 
+
+In stark contrast to low-dimensional settings, copying be-havior emerges consistently in high-dimensional tasks. We train a clean-prediction teacher diffusion model using a stan-dard UNet architecture on the unconditional MNIST dataset consisting of 70 , 000 digit images. The teacher is trained from scratch for 8192 iterations, after which we distill a single-step student generator until convergence. Compared to the toy settings, the distilled student on condi-tional MNIST is now visually substantially more prone to copying (see Figure 1 and Figure 3), achieving an extremely low pairing inefficiency ∆E ≈ 0.0367 .We also observe that such strong copying in high dimen-sional settings is not exclusive to natural images; it is equally prevalent in artificial high-dimensional datasets lacking nat-ural image structures, as well as in conditional generation settings. For a comprehensive overview of these cases, see Appendix A. The consistent selection of copying solutions with ∆E ≈ 0
+
+over other valid remappings is thus an emergent property that warrants further investigation. 4Understanding the Copying Behavior of DMD Students   
+
+> Figure 4. Two stages of Distribution Matching Distillation. We plot the distribution matching loss of all students (initiated at different teacher snapshots) on the unconditional MNIST dataset, throughout distillation. In all cases, the DM loss exhibits a characteristic two-stage increase-decrease evolution. Students are initialized from teacher checkpoints trained for 1024, 2048, 3072, 4096, 6144, and 8192 iterations. All students are distilled for 50K iterations. The left panel shows the loss evolution up to 6K distillation iterations, and the right panel zooms into the first 900 iterations.
+
+# 4. Analyzing the Mechanisms Behind Copying 
+
+In this section, we analyze the mechanisms behind the copy-ing behavior. For simplicity of discussion, we focus on the unconditional MNIST setting. 
+
+4.1. Removal of Intuitive Explanations 
+
+4.1.1. C OPYING OCCURS WITHOUT ADVERSARIAL 
+
+OBJECTIVE 
+
+The models in Yin et al. (2024a) on which significant copy-ing is observed were trained with an additional adversarial loss, 
+
+LGAN (γ) := Ex∼pdata  
+
+> ε,z,t
+
+[− log Dγ (x′
+
+> t
+
+) + log Dγ (xt)] ,
+
+where x′ 
+
+> t
+
+= Gθ (z) + tε, x t = x + tε. This adversarial loss may implicitly contribute to the copying. However, our experiments use neither regression loss nor the adversarial objective, the copying phenomenon nevertheless still emerges consistently. This demonstrates that neither target regression nor adversarial training is necessary for copying to occur. 4.1.2. C OPYING OCCURS WITHOUT MEMORIZATION 
+
+One may suspect that the teacher model memorizes the training dataset, thereby encouraging the student to simply reproduce its outputs. For a generated datapoint y, we define its memorization distance ratio 
+
+r(y) := ∥y − x1(y)∥∥y − x2(y)∥ ,
+
+where x1(y) and x2(y) denote respectively the nearest and second-nearest neighbours of y in the training dataset. A datapoint y is considered memorized if r(y) < r thres for some prescribed threshold rthres (Bonnaire et al., 2025). We evaluated the trained teacher models by computing mem-orization distance ratios for randomly generated samples. As illustrated in Figure 12, none of the generated samples exhibit signs of memorization. 
+
+4.2. Copying Follows Geometric Complexity 
+
+In this subsection, we present additional experiments and a more detailed analysis of when copying occurs and under what circumstances it becomes more significant. We divide the distribution-matching distillation dynam-ics into two stages, as shown in Figure 4. In the first stage, the distribution-matching (DM) loss increases. This occurs because the initialized surrogate student score model sψ (·, t ) gradually deviates from the teacher score s(·, t ) and more accurately approximates and tracks the score ∇x log    Gθ (z) ∗ N (0 , t 2I) (x) of the current student probability path. Once sψ begins consistently track-ing the actual student score, distillation enters the second stage. At this point, the gradient in Equation 3 begins pro-viding meaningful optimization signal for updating Gθ , so that sψ gradually matches s, progressively deforming stu-dent’s one-step distribution toward the teacher’s learned target distribution, decreasing the DM loss. We conjecture that a higher degree of copying arises when, in the second stage of distillation, the student has limited freedom to deform its distribution while still preserving the target distribution implied by the teacher score. To illustrate this intuition, consider a target uniform distribu-tion U with density ρ = 1 /4 supported on the square with vertices (±1, ±1) . Within the interior of the square, the stu-dent may continuously perturb or remap noise–data pairings while still approximately preserving the target density. In this regime, there exists substantial geometric flexibility for 5Understanding the Copying Behavior of DMD Students 
+
+Figure 5. Boundary Points are more likely copied. For the student distilled from teacher trained on unconditional MNIST dataset for 8192 iterations, we plot with horizontal axis D(z) = 
+
+Avg x∈train (∥ΦK (z) − x∥) the average distance to training set, and vertical axis δ(z) = ∥G(z) − ΦK (z)∥ − ∥ Φ1(z) − ΦK (z)∥ the student relative displacement towards the teacher target. Points below the red dashed line indicate aligned pairs. A larger negative displacement indicates stronger alignment. 
+
+transport. In contrast, near the boundary of the support, remapping becomes significantly more constrained. To preserve the uniform distribution while continuously deforming trans-port pairings near the edges, the student must satisfy ad-ditional geometric and continuity constraints induced by the boundary structure. Under limited expressiveness of a single-step generator 2, such constrained deformations may be substantially harder to realize during optimization. Con-sequently, the optimization dynamics may favour preserving the teacher’s original noise–data pairings in these regions, leading to stronger copying behavior. We provide one microscopic and one macroscopic piece of evidence in support of this conjecture. 4.2.1. M ICRO LEVEL : B OUNDARY POINTS ARE MORE 
+
+LIKELY COPIED 
+
+We observe that teacher samples further away from the bulk of training dataset are more likely to be copied by the student. In particular, Figure 5 shows that the stu-dent’s relative displacement towards the teacher target, 
+
+∥G(z) − ΦK (z)∥ − ∥ Φ1(z) − ΦK (z)∥, is moderately neg-atively correlated with the average distance between the teacher target and the training dataset, 
+
+D(z) := Avg x∈train (∥ΦK (z) − x∥) .
+
+Intuitively, teacher samples ΦK (z) with high D(z) typically lie near sparse or extremal parts of the learned data manifold, 
+
+> 2
+
+The student model in the chessboard experiment in contrast, is highly expressive, and could easily learn a remapped distribution. See Figure 2 and Section 3.3. 
+
+(a) Teacher 1k Iterations (b) Teacher 8k Iterations 
+
+Figure 6. Longer trained teachers are more likely copied. Top two panels: Thirty image quintuples generated from random ini-tial noise z. Within each panel, from top to bottom, the rows show the teacher 1-step samples Φ1(z), teacher 8-step samples Φ8(z),student one-step samples G(z), the nearest training datapoints 
+
+x1(Φ 8(z)) , and the second-nearest training datapoints x2(Φ 8(z)) .The upper panel corresponds to a teacher trained for 1024 iter-ations, and the lower panel corresponds to a teacher trained for 8192 iterations. Bottom panels : Visualization of pairing inef-ficiency via distance heatmaps. Heatmaps display pairwise L2
+
+distances between teacher {ΦK (zi)}100  
+
+> i=1
+
+and student {G(zj )}100 
+
+> j=1
+
+outputs for students distilled from 1024-step (left) and 8192-step (right) teachers. Red boxes denote the Optimal Transport (OT) pairing, while the diagonal represents the Distillation Transport (DT) pairing. At 1024 teacher iterations, the student remaps the pairings with inefficiency ∆E ≈ 1.05 , whereas at 8192 iterations, the student exhibits strong copying behavior with ∆E ≈ 0.0367 .
+
+where remapping while preserving the induced distribution may require satisfying stronger geometric or continuity con-straints. Consequently, optimization dynamics appear to favour copying in these regions. We note that this more pronounced copying phenomenon at extremeties of data manifold may be closely intertwined with recent insights from Zhang et al. (2026), who demon-strated that trained generative models effectively capture local geometry over abundant data clusters while reverting to memorization on scarce, isolated points. We leave a for-mal characterization of this mechanistic correspondence and causality for future work. 4.2.2. M ACRO LEVEL : L ONGER TRAINED TEACHERS 
+
+ARE MORE LIKELY COPIED 
+
+We observe that, although the teacher models do not memo-rize, at a macroscopic level the degree of student copying increases with the number of iterations used to train the teacher model. 6Understanding the Copying Behavior of DMD Students 
+
+We train teacher diffusion models on the unconditional MNIST dataset for varying numbers of iterations, and ini-tialize student generators from these teacher snapshots for subsequent distillation. We observe that students distilled from later-stage teacher checkpoints preserve a substantially higher proportion of the teacher’s original noise–data pair-ings (see Figure 6, 11). This observation is also consistent with our hypothesis. As training progresses, the teacher more accurately resolves the underlying target distribution, reducing excess diffusion-induced variability and progressively capturing finer geo-metric structure of the data manifold. These increasingly refined structures impose stronger constraints on the student during distillation, thereby reducing the flexibility available for large-scale remapping of noise–data pairings. Conse-quently, optimization dynamics become more favourable toward the copying behavior. 
+
+4.3. Related Work Memorization and reproducibility in diffusion models. 
+
+Prior works studied memorization, generalization, and repro-ducibility in diffusion models, showing that memorization occurs on excessively small datasets (Zhang et al., 2024; Bamberger et al., 2026; Bonnaire et al., 2025), while repro-ducibility persists even in strongly generalizing regimes (Li et al., 2024; Kadkhodaie et al., 2024; Zhang et al., 2024). These works focus on similarities between independently trained diffusion models, whereas our work studies copying behavior arising during student distillation. 
+
+Distillation of diffusion and flow-based models. Exist-ing distillation methods for diffusion models include DMD, VSD, Diff-Instruct (Yin et al., 2024b;a; Wang et al., 2023; Luo et al., 2023), while approaches to distill flow-based models include progressive distillation, consistency mod-els, MeanFlow, and SplitMeanFlow (Salimans & Ho, 2022; Song et al., 2023; Geng et al., 2025; Guo et al., 2025). Unlike flow-based distillation, where trajectory-level super-vision is directly available, distribution-matching distillation only provides distribution-level supervision, theoretically allowing freedom for remapping noise–data pairings. 
+
+Manifold structure of data distributions. The mani-fold hypothesis suggests that natural image distributions are concentrated near low-dimensional manifolds (Pidstri-gach, 2022). Prior works studied geometric and topological challenges arising in score-based generative models under this setting, including numerical stability, convergence, and manifold-related artifacts (Pidstrigach, 2022; Bortoli, 2022; Potaptchik et al., 2025; Loaiza-Ganem et al., 2024). Our observations confirm that such geometric constraints may also influence copying behavior during distillation. 
+
+# 5. Conclusion 
+
+In this work, we investigate the unexpected copying be-havior exhibited by distribution-matching distilled student models, where the student reproduces the teacher’s noise– data pairings despite having access only to distribution-level supervision. Through extensive experiments, we show that copying is not caused by regression or adversarial objectives or by memo-rization of the training dataset by the teacher model. Empir-ical evidence instead supports the hypothesis that copying emerges when the student has limited freedom during dis-tillation to deform its distribution while remaining aligned with the data distribution induced by teacher’s learned score. 
+
+# 6. Limitations and Future Work 
+
+While our experiments rule out several intuitive explanations and suggest a geometric driver for copying, our current in-sights remain primarily correlational and bounded in scope. First, although empirical evidence supports that boundary constraints limit the student’s deformation freedom, our framework lacks a formal analytical or topological proof. A more rigorous theoretical treatment is required. Future work could leverage high-dimensional geometric descriptors to dynamically track the student’s score function during training (Jones, 2024), bypassing linear low-dimensional projections. Second, our evaluation is restricted to compact datasets (MNIST, ImageNet-64). Validation on modern high-resolution text-to-image pipelines remains unproven, and scaling up these findings is a crucial next step. Finally, un-derstanding which structural properties of high-dimensional data encourage copying, such as whether it relates to the teacher learning an approximate optimal transport map, of-fers a promising avenue for future investigation. 
+
+# Acknowledgements 
+
+S.L. is supported by a China Scholarship Council (CSC) -PAG Oxford Scholarship. M.B. is partially supported by the EPSRC Turing AI World-Leading Research Fellowship No. EP/X040062/1 and EPSRC AI Hub No. EP/Y028872/1. 
+
+# References 
+
+Bamberger, J., Jones, I., Duncan, D., Bronstein, M. M., Van-dergheynst, P., and Gosztolai, A. Carr ´e du champ flow matching: better quality-generalisation tradeoff in gener-ative models. In International Conference on Learning Representations , 2026. Bonnaire, T., Urfin, R., Biroli, G., and Mezard, M. Why 7Understanding the Copying Behavior of DMD Students 
+
+diffusion models don’t memorize: The role of implicit dynamical regularization in training. In Advances in Neural Information Processing Systems , 2025. Bortoli, V. D. Convergence of denoising diffusion models under the manifold hypothesis. Transactions on Machine Learning Research , 2022. ISSN 2835-8856. Dhariwal, P. and Nichol, A. Q. Diffusion models beat GANs on image synthesis. In Advances in Neural Information Processing Systems , 2021. Geng, Z., Deng, M., Bai, X., Kolter, J. Z., and He, K. Mean flows for one-step generative modeling. In Advances in Neural Information Processing Systems , 2025. Guo, Y., Wang, W., Yuan, Z., Cao, R., Chen, K., Chen, Z., Huo, Y., Zhang, Y., Wang, Y., Liu, S., et al. Splitmean-flow: Interval splitting consistency in few-step generative modeling. arXiv preprint arXiv:2507.16884 , 2025. Ho, J., Jain, A., and Abbeel, P. Denoising diffusion prob-abilistic models. In Advances in Neural Information Processing Systems , 2020. Ho, J., Chan, W., Saharia, C., Whang, J., Gao, R., Gritsenko, A., Kingma, D. P., Poole, B., Norouzi, M., Fleet, D. J., et al. Imagen video: High definition video generation with diffusion models. arXiv preprint arXiv:2210.02303 ,2022. Jones, I. Manifold diffusion geometry: Curvature, tangent spaces, and dimension. arXiv preprint arXiv:2411.04100 ,2024. Kadkhodaie, Z., Guth, F., Simoncelli, E. P., and Mallat, S. Generalization in diffusion models arises from geometry-adaptive harmonic representations. In International Con-ference on Learning Representations , 2024. Karras, T., Aittala, M., Aila, T., and Laine, S. Elucidating the design space of diffusion-based generative models. In Oh, A. H., Agarwal, A., Belgrave, D., and Cho, K. (eds.), Advances in Neural Information Processing Sys-tems , 2022. Lai, C.-H., Song, Y., Kim, D., Mitsufuji, Y., and Ermon, S. The principles of diffusion models. arXiv preprint arXiv:2510.21890 , 2025. Li, X., Dai, Y., and Qu, Q. Understanding generalizability of diffusion models requires rethinking the hidden gaussian structure. In Advances in Neural Information Processing Systems , 2024. Lipman, Y., Chen, R. T. Q., Ben-Hamu, H., Nickel, M., and Le, M. Flow matching for generative modeling. In 
+
+International Conference on Learning Representations ,2023. Loaiza-Ganem, G., Ross, B. L., Hosseinzadeh, R., Caterini, A. L., and Cresswell, J. C. Deep generative models through the lens of the manifold hypothesis: A survey and new connections. Transactions on Machine Learning Research , 2024. ISSN 2835-8856. Luo, W., Hu, T., Zhang, S., Sun, J., Li, Z., and Zhang, Z. Diff-instruct: A universal approach for transferring knowledge from pre-trained diffusion models. In Thirty-seventh Conference on Neural Information Processing Systems , 2023. Pidstrigach, J. Score-based generative models detect man-ifolds. In Advances in Neural Information Processing Systems , 2022. Potaptchik, P., Azangulov, I., and Deligiannidis, G. Lin-ear convergence of diffusion models under the manifold hypothesis. In Haghtalab, N. and Moitra, A. (eds.), Pro-ceedings of Thirty Eighth Conference on Learning The-ory , volume 291 of Proceedings of Machine Learning Research , pp. 4668–4685. PMLR, 30 Jun–04 Jul 2025. Rombach, R., Blattmann, A., Lorenz, D., Esser, P., and Ommer, B. High-resolution image synthesis with latent diffusion models. In Proceedings of the IEEE/CVF Con-ference on Computer Vision and Pattern Recognition , pp. 10684–10695, 2022. Salimans, T. and Ho, J. Progressive distillation for fast sam-pling of diffusion models. In International Conference on Learning Representations , 2022. Song, J., Meng, C., and Ermon, S. Denoising diffusion implicit models. In International Conference on Learning Representations , 2021a. Song, Y., Sohl-Dickstein, J., Kingma, D. P., Kumar, A., Er-mon, S., and Poole, B. Score-based generative modeling through stochastic differential equations. In International Conference on Learning Representations , 2021b. Song, Y., Dhariwal, P., Chen, M., and Sutskever, I. Consis-tency models. In Proceedings of the 40th International Conference on Machine Learning , ICML’23. JMLR.org, 2023. Wang, Z., Lu, C., Wang, Y., Bao, F., Li, C., Su, H., and Zhu, J. Prolificdreamer: High-fidelity and diverse text-to-3d generation with variational score distillation. In Advances in Neural Information Processing Systems , 2023. Yin, T., Gharbi, M., Park, T., Zhang, R., Shechtman, E., Durand, F., and Freeman, W. T. Improved distribution matching distillation for fast image synthesis. In Ad-vances in Neural Information Processing Systems , 2024a. 8Understanding the Copying Behavior of DMD Students 
+
+Yin, T., Gharbi, M., Zhang, R., Shechtman, E., Durand, F., Freeman, W. T., and Park, T. One-step diffusion with distribution matching distillation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 6613–6623, 2024b. Zhang, H., Zhou, J., Lu, Y., Guo, M., Wang, P., Shen, L., and Qu, Q. The emergence of reproducibility and consis-tency in diffusion models. In Salakhutdinov, R., Kolter, Z., Heller, K., Weller, A., Oliver, N., Scarlett, J., and Berkenkamp, F. (eds.), Proceedings of the 41st Interna-tional Conference on Machine Learning , volume 235 of 
+
+Proceedings of Machine Learning Research , pp. 60558– 60590. PMLR, 21–27 Jul 2024. Zhang, Z., Li, X., Li, X., Shi, L., Wu, M., Tao, M., and Qu, Q. Generalization of diffusion models arises with a bal-anced representation space. In International Conference on Learning Representations , 2026. 9Understanding the Copying Behavior of DMD Students 
+
+# A. Copying and Remapping Behaviors of DMD Students on Other Datasets 
+
+Similar to the toy chessboard experiment, on other low-dimensional synthetic datasets, the distribution-matching distilled student also exhibits substantial remapping behavior, even with ∥G(z) − Φ8(z)∥ ≫ ∥ Φ1(z) − Φ8(z)∥ for some z.
+
+Figure 7. Noise–data pairing results on low-dim additional artificial datasets. In each row, panels from left to right show the initial Gaussian noise z, the teacher 8-step Euler samples Φ8(z), the teacher 1-step Euler samples Φ1(z), and the student one-step samples 
+
+G(z). Points generated from the same initial noise seed z are assigned the same color across panels. Top row: Distillation results on the 2D double-moons dataset embedded in the first two coordinates of a four-dimensional ambient space. Bottom row: Distillation results on a Gaussian mixture dataset consisting of 32 isotropic four-dimensional Gaussian components with shared standard deviation 0.2. The component means are arranged on a circle of radius 2 in the first two coordinates of the ambient space. 
+
+In contrast, high-dimensional datasets typically exhibit significantly stronger copying behavior , which becomes even more pronounced in conditional generation settings (Figure 8, 9, and 10). We conjecture that conditioning enables the teacher to resolve finer geometric structures within each class separately, thereby imposing stronger constraints on the student during distillation and reducing its freedom to remap noise–data pairings while preserving the target distribution. 
+
+Figure 8. Distillation results on conditional high-dimensional datasets. Panels from top to bottom: conditional MNIST, conditional ImageNet64, and the conditional synthetic MLP-manifold dataset. Each panel contains thirty image quadruples generated from random initial noise seeds z and randomly assigned classes. From top to bottom within each panel are the teacher 1-step samples Φ1(z), teacher 8-step samples Φ8(z), teacher 32-step samples Φ32 (z), and student one-step samples G(z). We use the teacher model provided by (Yin et al., 2024a) for the conditional ImageNet64 experiment, for deterministic teacher sampling we set Schurn = 0. 
+
+10 Understanding the Copying Behavior of DMD Students 
+
+We also remark that the copying behavior is not restricted to natural image datasets. We construct a synthetic high-dimensional dataset by applying a randomly initialized two-layer MLP to 16-dimensional Gaussian noise, followed by superimposing whitened stripes at different spatial locations according to randomly assigned class labels i = 0 , . . . , 9. This produces a distribution in R32 ×32 ×1 supported on a 16-dimensional manifold with 10 conditional classes. We observe similarly strong copying behavior by the student on this dataset (Figure 8, 9, and 10). 
+
+Figure 9. Visualization of noise–data pairing relationships on conditional high-dimensional datasets. Rows from top to bottom: conditional MNIST, conditional ImageNet64, and the conditional synthetic MLP-manifold dataset. Each row visualizes 2000 triplets 
+
+(Φ 8(z), Φ1(z), G (z)) projected onto the two leading principal components computed from the teacher 8-step samples Φ8(z).
+
+Figure 10. Comparison of student copying behavior on conditional high-dimensional datasets. Left: conditional MNIST. Middle: 
+
+conditional ImageNet64. Right: conditional synthetic MLP-manifold dataset. In all plots, the horizontal axis shows ∥Φ1(z) − Φ8(z)∥,while the vertical axis shows ∥G(z) − Φ8(z)∥. Axes are proportionally rescaled where appropriate to reflect pixel-level or channel-wise discrepancy magnitudes. Across all three datasets, students distilled from sufficiently trained teachers exhibit strong copying behavior. 
+
+11 Understanding the Copying Behavior of DMD Students 
+
+# B. Copying on Teachers Trained for Various Lengths on Unconditional MNIST 
+
+We train teacher diffusion models on the unconditional MNIST dataset for 1024, 2048, 4096, and 8192 iterations, and distill corresponding student models initialized from these checkpoints. Each student is subsequently distilled for 50K iterations. We observe that students initialized from later-stage teacher checkpoints generally preserve a higher proportion of the teacher’s original noise–data pairings. 
+
+Figure 11. Copying is more pronounced on longer-trained teachers. Distillation results of teachers trained for various lengths on the unconditional MNIST dataset. Top: The four panels correspond to teachers trained for 1024, 2048, 4096, and 8192 iterations. For each panel, thirty image quintuples are generated from random initial noise seeds z. From top to bottom the five rows show the teacher 1-step samples Φ1(z), teacher 8-step samples Φ8(z), student one-step samples G(z), closest training point x1(Φ 8(z)) and second closest training point x2(Φ 8(z)) . Bottom: Comparison of copying behaviors for students distilled from teacher checkpoints trained for 1024, 2048, 4096, and 8192 iterations. In each plot the horizontal axis shows ∥Φ1(z) − Φ8(z)∥ and the vertical axis shows ∥G(z) − Φ8(z)∥,both axes rescaled by 1/32 . The pairing inefficiencies of students distilled at these snapshots are ∆E = 1 .05 , 0.389 , 0.237 and 0.0367 
+
+respectively, showing stronger copying on teachers trained for larger number of iterations. 
+
+12 Understanding the Copying Behavior of DMD Students 
+
+# C. Derivations 
+
+Lemma C.1. Let Gθ and Gθ′ be two single-step student generators, potentially with different architectures (or with the same architecture but different parameters). Whenever Gθ (z) d
+
+= Gθ′ (z), it follows that LDM (θ) = LDM (θ′), even though in general ∇θ LDM (θ)̸ = ∇θ LDM (θ′). Consequently, the stochastic optimization dynamics can drive students to converge toward different pairings with vastly different pairing inefficiencies ∆E , despite achieving similar distributional fidelity. Proof. Given Gθ (z) d
+
+= Gθ′ (z) equal in distribution, since ε ∼ N (0 , I) is independent of z ∼ N (0 , σ 2(T )I), we have that 
+
+Gθ (z) + σ(t)ε d
+
+= Gθ′ (z) + σ(t)ε. 
+
+But by definition of the student probability path, this is just pθ,t = pθ′,t equal in distribution for all t ∈ T . Noting that KL-divergence is only dependent on the distribution supplied, it follows that 
+
+LDM (θ) := 
+
+Z
+
+w(t)KL (pθ,t ∥pt) d t. 
+
+=
+
+Z
+
+w(t)KL (pθ′,t ∥pt) d t. 
+
+= LDM (θ′).
+
+Finally, ∇θ LDM (θ)̸ = ∇θ LDM (θ′) in general because ∂G θ (z)/∂θ generally takes different values at different θ and θ′.To illustrate how two student models can achieve similar (identical) distributional fits while learning pairings with vastly different efficiencies, consider the following geometric construction. Let the target distribution pdata be a singular measure in R2 supported on a slightly deformed circle (1 + δ)x2 + y2 = 1 , where δ ≪ 1. This distribution is defined by pushing forward the isotropic Gaussian noise (x, y ) ∼ N (0 , σ 2I) via the mapping T :
+
+T (x, y ) = (x, y )
+
+p(1 + δ)x2 + y2 .
+
+Assume the teacher model has learned the distribution perfectly, such that ΦK (x, y ) := T (x, y ). Now, consider a restricted class of student models Gθ which first applies a rotation θ to the noise space prior N (0 , σ 2(T )I) then projects it onto the unit circle: 
+
+Gθ (x, y ) = (x cos θ − y sin θ, x sin θ + y cos θ)
+
+px2 + y2 .
+
+Because the Gaussian noise source is rotationally invariant, Gθ generates the same output distribution pdata for any θ.Consequently, both θ = 0 and θ = π are global optimizers of the distribution matching loss: 
+
+LDM (θ = 0) = LDM (θ = π) ≈ 0.
+
+However, these two solutions exhibit fundamentally different pairing efficiencies: • At θ = 0 , the student’s orientation aligns perfectly with the teacher’s, resulting in ∆E (Φ K , G 0) ≈ 0, manifesting clear copying behavior. • At θ = π, while the generated distribution is identical, the student reverses the orientation of the mapping relative to the teacher, resulting in a significantly larger ∆E (Φ K , G π ) ≫ 0.We note this example also works to show that in general ∇θ LDM (θ)̸ = ∇θ LDM (θ′) for θ′ = θ + π for θ / ∈ { 0, π }.
+
+13 Understanding the Copying Behavior of DMD Students 
+
+Lemma C.2 (Properties of Pairing Inefficiency) . The pairing inefficiency ∆E is non-negative ( ∆E ⩾ 0) and invariant under uniform scaling of all measures, i.e., ∆E (cΦK , cG ) = ∆ E (Φ K , G ) for all c > 0, providing a robust measure for comparing copying behaviors across scales. Furthermore, the empirical estimator ∆(N ) 
+
+> E
+
+is consistent, such that ∆(N ) 
+
+> E
+
+→ ∆E almost surely as N → ∞ .Proof. Let πDT denote the joint distribution of pairs (Φ K (z), G (z)) induced by the shared noise source z ∼ pz . By construction, πDT is a valid coupling in the set of all couplings Γ( pΦ, p G). Since the optimal transport cost EOT is defined as the infimum over this set, it follows that: 
+
+EDT (Φ K , G ) = 
+
+Z
+
+∥x − y∥22 dπ DT (x, y ) ⩾ inf 
+
+> π∈Γ
+
+Z
+
+∥x − y∥22 dπ (x, y ) = EOT (Φ K , G ).
+
+Therefore, 
+
+∆E = EDT /E OT − 1 ⩾ 0.
+
+To show scale invariance, consider a constant c > 0. For any coupling π ∈ Γ( pΦ, p G), the scaled coupling πc = ( c, c )#π
+
+belongs to Γ( pcΦ, p cG ). The scaled optimal transport cost is: 
+
+EOT (cΦK , cG ) = min 
+
+> πc∈Γ( pcΦ,p cG )
+
+Z
+
+∥x − y∥22 dπ c(x, y )= min 
+
+> π∈Γ( pΦ,p G)
+
+Z
+
+∥cx − cy ∥22 dπ (x, y )= c2 min 
+
+> π∈Γ( pΦ,p G)
+
+Z
+
+∥x − y∥22 dπ (x, y )= c2EOT (Φ K , G )
+
+Similarly, EDT (cΦK , cG ) = R ∥cx − cy ∥22 dπ DT (x, y ) = c2EDT (Φ K , G ). Because ∆E is defined as a relative ratio, the factor c2 cancels, yielding scale invariance 
+
+∆E (cΦK , cG ) = ∆ E (Φ K , G ).
+
+Finally, by Varadarajan’s Theorem, the empirical measures p(N )Φ and p(N ) 
+
+> G
+
+converge weakly to pΦ and pG almost surely. Given that the images of ΦK and G are bounded within a subset of compact support (due to the bounded non-linearities of the generators), the L2 Wasserstein distance is continuous with respect to weak convergence. Consequently, the empirical estimator ∆(N ) 
+
+> E
+
+converges almost surely to the population value ∆E .14 Understanding the Copying Behavior of DMD Students 
+
+# D. Implementation Details 
+
+Network Architectures and Preconditioning. For our primary high-dimensional benchmarks, we utilize the conditional ImageNet-64 teacher model provided by Yin et al. (2024a), which employs the ADM architecture (Dhariwal & Nichol, 2021) with a base width of Cbase = 192 and label dim = 1000 . The student model is an architectural copy of this teacher, initialized directly from its pre-trained weights to observe the distillation phenomena. For the unconditional MNIST experiments ( 32 × 32 , 1-channel), we adapt the same ADM architecture but reduce the capacity to Cbase = 64 and set 
+
+label dim = 0 to ensure strictly unconditional distillation. Both image-based models share a consistent UNet configuration, featuring a channel multiplier of [1 , 2, 3, 4] , three residual blocks per resolution, and self-attention layers at resolutions of 32 , 16 , and 8. EDM preconditioning (Karras et al., 2022) is applied to scale inputs, outputs, and skip connections by 
+
+σ-dependent factors, maintaining unit variance throughout the distillation process. Finally, for the synthetic experiments on the 2D checkerboard manifold embedded in 4D space, we utilize a MLP architecture with 5 hidden layers of 384 hidden units, with 32-dimensional Fourier time embedding. 
+
+Distillation Dynamics and Optimization. Student models are initialized from their respective pre-trained teacher weights. A central feature of our distillation is the 1 : 5 update ratio between the generator ( Gθ ) and the fake score model ( sψ ). The fake score model is optimized at every iteration to provide a high-quality surrogate of the evolving student’s actual score 
+
+∇x log(( Gθ (z) ∗ N (0 , t ))( x)) while the generator is updated via the distribution matching loss every five iterations. We utilize the Karras noise schedule (Karras et al., 2022) with parameters σmin = 0 .002 , σ max = 80 , and ρ = 7 . To ensure numerical stability and avoid training on uninformative noise levels at the extreme ends of the SDE trajectory, timesteps are sampled from a restricted interval of [2% , 98%] . All models are trained using the AdamW optimizer with a learning rate of 2 × 10 −6, weight decay of 0.01 , and a 500 -step linear warmup. Distillation for ImageNet-64 is conducted on a single NVIDIA H100 GPU for 50 , 000 iterations using batch size of 32. MNIST and synthetic toy experiments are performed on the same GPU with batch sizes of 32 and 512 respectively. 
+
+# E. Additional Figures         
+
+> Figure 12. Distribution of memorization distance ratios r(Φ 8(z)) := ∥x2(Φ 8(z)) −Φ8(z)∥/∥x1(Φ 8(z)) −Φ8(z)∥for the teacher model trained for 8192 iterations on unconditional MNIST.
+
+This shows that the teacher model is not memorizing any of the training datapoints. 15
