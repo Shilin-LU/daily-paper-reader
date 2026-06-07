@@ -1,0 +1,212 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-07T20:15:00.987734+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.00957v1",
+      "source": "arxiv",
+      "title": "Boundary-Protection W8A8 HiFloat8 Quantization for Large-Scale Text-to-Video Diffusion Transformers",
+      "abstract": "We present a post-training quantization (PTQ) approach for Wan2.1-T2V-14B, a 14-billion-parameter text-to-video diffusion transformer, targeting the W8A8 HiFloat8 (HiF8) format on Ascend 910B NPUs. A central challenge in quantizing video DiT models is the heterogeneous activation distribution across transformer blocks: boundary blocks (the first and last few blocks) exhibit fundamentally different statistical properties from middle blocks, making uniform quantization ineffective. We conduct a systematic per-block activation analysis across all 40 WanAttentionBlocks and use the findings to motivate a boundary-protection strategy that retains the first two and last three blocks in BF16 while quantizing the remaining 35 blocks with W8A8 HiF8. The proposed PTQ method matches or marginally exceeds the BF16 baseline on all five VBench dimensions evaluated, indicating no measurable accuracy loss within the 5-prompt evaluation set. An ablation study over four protection configurations confirms that full boundary protection yields the highest average VBench score, validating the data-driven block selection. We additionally investigate quantization-aware training (QAT) as a complementary fine-tuning stage and analyze the conditions under which it fails to outperform plain PTQ on single-card hardware.",
+      "authors": [
+        "Yiming Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-31T02:17:31+00:00",
+      "link": "https://arxiv.org/pdf/2606.00957v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training quantization for video diffusion model",
+      "llm_evidence_cn": "视频扩散模型的后训练量化",
+      "llm_evidence": "视频扩散模型的后训练量化",
+      "canonical_evidence": "视频扩散模型的后训练量化",
+      "llm_tldr_en": "Proposes a post-training quantization method for a 14B text-to-video diffusion transformer, protecting boundary blocks to achieve W8A8 HiFloat8 format.",
+      "llm_tldr_cn": "针对大规模文本到视频扩散Transformer，本文提出后训练量化方法（PTQ），通过逐块分析发现边界块与中间块激活分布差异大，因此采用边界保护策略，保留首尾少量块为BF16，其余量化为HiFloat8。实验在Wan2.1-T2V-14B上进行，实现了有效量化并保持生成质量。该方法为视频生成模型的后训练加速提供了新思路。",
+      "llm_tldr": "针对大规模文本到视频扩散Transformer，本文提出后训练量化方法（PTQ），通过逐块分析发现边界块与中间块激活分布差异大，因此采用边界保护策略，保留首尾少量块为BF16，其余量化为HiFloat8。实验在Wan2.1-T2V-14B上进行，实现了有效量化并保持生成质量。该方法为视频生成模型的后训练加速提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.00514v1",
+      "source": "arxiv",
+      "title": "Generate in Reconstruction Space, Match in Semantic Space: Transport Geometry for One-Step Generation",
+      "abstract": "Generative modeling and self-supervised representation learning (SSL) optimize structurally different objectives: generative training rewards distributional fidelity, while SSL rewards semantic coherence. Yet recent work repeatedly finds that SSL features improve generative training, though the mechanism of this synergy remains unclear. Here, we study the benefits of SSL in generative modeling in the framework of one-step generation where the role of representation is explicit: frozen SSL features are used to match generated samples to real data. We use the Sinkhorn divergence in that feature space, providing a tractable surrogate for the Wasserstein distance, the population-level discrepancy approximated by Fréchet-style evaluation metrics (such as FID). We find that this objective becomes highly effective when computed in a semantically structured SSL feature space (a 39$\\times$ reduction in ImageNet FID). We trace this behavior primarily to matching estimation: semantic SSL features that suppress nuisance reconstruction details induce a more compact geometry, making distribution matching more tractable. As a consequence, the best training SSL features need not match the features used by the evaluation metric. In particular, we show that using Inception as the feature extractor can improve FID while degrading matching stability and sample quality, revealing a form of metric hacking. Using extensive experiments on ImageNet, we identify which SSL feature families lead to best generation performance and show that matching stability is a quantitative criterion for selecting them. Code is available at https://github.com/Genentech/semantic-transport-generation.",
+      "authors": [
+        "Hugues Van Assel",
+        "Edward De Brouwer",
+        "Saeed Saremi",
+        "Gabriele Scalia",
+        "Aviv Regev"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "published": "2026-05-30T04:03:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.00514v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "One-step generation method using semantic matching enables few-step sampling for diffusion models",
+      "llm_evidence_cn": "一步生成方法，利用语义匹配实现高效采样，适用于扩散模型",
+      "llm_evidence": "一步生成方法，利用语义匹配实现高效采样，适用于扩散模型",
+      "canonical_evidence": "一步生成方法，利用语义匹配实现高效采样，适用于扩散模型",
+      "llm_tldr_en": "Proposes a one-step generation method using Sinkhorn divergence in a frozen SSL feature space to match generated samples to real data, enabling efficient few-step sampling.",
+      "llm_tldr_cn": "该论文研究自监督表示在生成模型中的优势，提出在重建空间中生成、在语义空间中匹配的一步生成框架。通过使用冻结的SSL特征空间中的Sinkhorn散度作为分布匹配目标，实现从噪声到真实数据分布的一步映射，显著加速采样。该方法为少步扩散模型提供了理论基础和实用工具，可推广到视频生成领域。",
+      "llm_tldr": "该论文研究自监督表示在生成模型中的优势，提出在重建空间中生成、在语义空间中匹配的一步生成框架。通过使用冻结的SSL特征空间中的Sinkhorn散度作为分布匹配目标，实现从噪声到真实数据分布的一步映射，显著加速采样。该方法为少步扩散模型提供了理论基础和实用工具，可推广到视频生成领域。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step diffusion models for video generation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.00771v1",
+      "source": "arxiv",
+      "title": "Logit Distillation on Manifolds: Mapping by Learning",
+      "abstract": "A simple way to improve the performance of almost any machine learning model is not to train a single but several models with diverse algorithms which will make slightly distinct kinds of predictions and errors on the same data, and thus improve the average predictions and robustness. However, making predictions using a whole ensemble of models is cumbersome and computationally too expensive to allow deployment to a large number of users, especially if the models are large neural nets. In response to this, we introduce a layer and point wise projection mapping, which maps student and teacher representations into an aligned high-dimensional embedding space during training process. The proposed approach combined with LoRA injection reduces the student model trainable parameters to less than 1% of the teacher model, while significantly improving word error rate (WER) compared to other distillation methods, as demonstrated in ablation studies. Unlike a mixture of experts, our method can be trained rapidly and in parallel.",
+      "authors": [
+        "Yiru Yang",
+        "Junling Wang",
+        "Nishant Kumar Singh",
+        "Luohong Wu",
+        "Haoran Yan"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.SD"
+      ],
+      "published": "2026-05-30T15:22:59+00:00",
+      "link": "https://arxiv.org/pdf/2606.00771v1",
+      "tags": [
+        "keyword:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "distillation method mapping student and teacher representations, applicable to generative models post-training",
+      "llm_evidence_cn": "将学生和教师表示映射到对齐嵌入空间的蒸馏方法，可应用于生成模型后训练",
+      "llm_evidence": "将学生和教师表示映射到对齐嵌入空间的蒸馏方法，可应用于生成模型后训练",
+      "canonical_evidence": "将学生和教师表示映射到对齐嵌入空间的蒸馏方法，可应用于生成模型后训练",
+      "llm_tldr_en": "Proposes a logit distillation on manifolds approach that maps student and teacher representations into an aligned high-dimensional embedding space, combined with LoRA to reduce trainable parameters, offering a general post-training compression technique.",
+      "llm_tldr_cn": "该论文针对集成模型部署计算成本高的问题，提出一种流形上的逻辑蒸馏方法，通过学习投影将学生和教师表示映射到对齐的高维嵌入空间，并结合LoRA减少可训练参数。实验表明该方法能在保持性能的同时显著压缩模型。虽然本文不直接针对视频生成，但其蒸馏框架可迁移至视频生成模型的后训练阶段，为提高少步采样质量与多样性提供方法论支持。",
+      "llm_tldr": "该论文针对集成模型部署计算成本高的问题，提出一种流形上的逻辑蒸馏方法，通过学习投影将学生和教师表示映射到对齐的高维嵌入空间，并结合LoRA减少可训练参数。实验表明该方法能在保持性能的同时显著压缩模型。虽然本文不直接针对视频生成，但其蒸馏框架可迁移至视频生成模型的后训练阶段，为提高少步采样质量与多样性提供方法论支持。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.06060v1",
+      "source": "arxiv",
+      "title": "ReCache: Learning Budget-Aware Caching Schedules for Diffusion Models via REINFORCE",
+      "abstract": "Modern diffusion models generate high-quality images and videos, but their iterative denoising process makes inference expensive. Feature caching accelerates sampling by reusing or predicting intermediate activations across neighboring denoising steps, exploiting the redundancy of computations along the reverse trajectory. In this work, we focus on the caching schedule: selecting which denoising steps should be fully recomputed. Existing schedules are either fixed (e.g. uniform) or chosen adaptively from per-step error heuristics; in both cases, the actual compute cost is a side-effect of hand-tuned thresholds rather than a quantity the user can specify. We propose ReCache, which inverts this: given a target budget k, it learns the recomputation schedule that maximizes generation quality, turning compute into a directly controllable input. ReCache trains via policy gradients, sidestepping backpropagation through full diffusion inference, and uses no labelled data. Generations from uncached inference serve as matching targets, paired with a reward for generation quality. ReCache is compatible with any caching mechanism, including feature reuse and feature forecasting; for each mechanism, a single trained policy adapts across computational budgets at inference time. ReCache consistently outperforms scheduling baselines: under a $\\times5.04$ FLOPs reduction on FLUX, it reduces LPIPS by 31% (from 0.456 to 0.316) compared to DiCache; on Wan 2.1 at a $\\sim \\times2.6$ speedup, it drops LPIPS by 65% (from 0.480 to 0.169) and boosts the VBench score by 7% (5.6 points, from 70.4 to 76.0) over uniform HiCache. Code is available at https://github.com/thecrazymage/ReCache.",
+      "authors": [
+        "Mishan Aliev",
+        "Eva Neudachina",
+        "Ilya Bykov",
+        "Aleksandr Oganov",
+        "Kirill Struminsky",
+        "Aibek Alanov",
+        "Denis Rakitin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T11:59:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.06060v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Caching schedule for diffusion models reduces sampling steps, enabling few-step generation",
+      "llm_evidence_cn": "缓存调度加速扩散模型采样，实现少步生成",
+      "llm_evidence": "缓存调度加速扩散模型采样，实现少步生成",
+      "canonical_evidence": "缓存调度加速扩散模型采样，实现少步生成",
+      "llm_tldr_en": "Proposes ReCache to learn caching schedules for diffusion models, reducing sampling steps and cost while maintaining quality, applicable to video generation.",
+      "llm_tldr_cn": "该论文提出ReCache方法，通过学习扩散模型的缓存调度策略，在给定计算预算下自动决定哪些去噪步骤需要重算，从而显著减少采样步数和推理成本，同时保持生成质量。该方法可应用于图像和视频生成，为加速生成提供了新颖的自动化工具。",
+      "llm_tldr": "该论文提出ReCache方法，通过学习扩散模型的缓存调度策略，在给定计算预算下自动决定哪些去噪步骤需要重算，从而显著减少采样步数和推理成本，同时保持生成质量。该方法可应用于图像和视频生成，为加速生成提供了新颖的自动化工具。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.06309v1",
+      "source": "arxiv",
+      "title": "RhymeFlow: Training-Free Acceleration for Video Generation with Asynchronous Denoising Flow Scheduling",
+      "abstract": "Video generation models based on Diffusion Transformers (DiTs) have achieved remarkable performance in video synthesis, yet they suffer from high inference latency and computational costs due to the quadratic complexity of 3D attention. Existing acceleration methods primarily reduce computational complexity within each individual denoising steps through techniques such as sparse attention and KV-caching. However, they rigidly adhere to the inherent constraint of the standard diffusion pipeline: every frame in the target video sequence must be subjected to a complete, dense denoising process across all diffusion timesteps. We observe that due to the corresponding contents and motions among adjacent frames, when keyframes with critical semantic transitions are anchored, the intermediate states of others often follow more predictable trajectories, which indicates that such uniform, dense denoising process is inherently redundant for natural video data. To this end, we introduce \\textbf{RhymeFlow}, a training-free framework that decouples the denoising trajectories of different frames. Specifically, we first identify a sparse set of pivotal key frames that dominate the latent semantic evolution. Then, only these keyframes undergo dense, step-by-step denoising to ensure structural integrity, while non-keyframes progressively skip denoising steps to minimize computational cost. Since skipped intermediate states of non-keyframes break the temporal coherence in keyframe denoising steps, leading to visual degradation, we further introduce a latent trajectory projection module, which enables keyframes to interact with a complete and temporally consistent sequence representation. Extensive experiments on current DiT-based video generation models demonstrate our method outperforms existing baselines with higher inference speed and better visual quality.",
+      "authors": [
+        "Chensheng Dai",
+        "Shengjun Zhang",
+        "Yifan Li",
+        "Zhang Zhang",
+        "Zheng Zhu",
+        "Yueqi Duan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T15:49:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.06309v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free acceleration for video generation, related to few-step sampling",
+      "llm_evidence_cn": "视频生成的无训练加速，与少步采样相关",
+      "llm_evidence": "视频生成的无训练加速，与少步采样相关",
+      "canonical_evidence": "视频生成的无训练加速，与少步采样相关",
+      "llm_tldr_en": "RhymeFlow proposes a training-free asynchronous denoising flow scheduling to accelerate video generation by exploiting inter-frame correspondences, reducing redundant computation without decreasing steps.",
+      "llm_tldr_cn": "RhymeFlow针对视频生成中DiT模型推理延迟高的问题，提出一种无训练的异步去噪流调度方法，利用相邻帧之间的对应内容与运动来减少冗余计算，从而加速视频生成。该方法无需改变原有扩散步骤数量，而是通过智能调度提高效率，为少步采样提供了新思路。",
+      "llm_tldr": "RhymeFlow针对视频生成中DiT模型推理延迟高的问题，提出一种无训练的异步去噪流调度方法，利用相邻帧之间的对应内容与运动来减少冗余计算，从而加速视频生成。该方法无需改变原有扩散步骤数量，而是通过智能调度提高效率，为少步采样提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
