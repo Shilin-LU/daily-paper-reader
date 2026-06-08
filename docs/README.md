@@ -6,35 +6,28 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-07
-- 运行时间：2026-06-07 20:19:08 UTC
+- 最新运行日期：2026-06-08
+- 运行时间：2026-06-08 21:07:36 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：2
-- 速读区：3
+- 本次总论文数：2
+- 精读区：1
+- 速读区：1
 
 ### 今日简报（AI）
-今日推荐聚焦扩散模型优化，精读一篇8位浮点量化保护边界和一篇一步生成的新几何方法。最值得关注的分数量化与传输几何生成范式，分别为9.0和8.0分。建议优先精读这2篇，掌握视频生成效率与质量平衡的最新思路。
-- 详情：[/202606/07/README](/202606/07/README)
+1) 今日精选两篇论文，聚焦流式视频生成控制与超越传统目标设计的图像模型。  
+2) 最值得关注流式视频生成中的力控制方法（8.0分），可望提升视频生成的稳定性与交互性；速读的Qwen-Image-Flash（6.0分）则尝试突破目标设计局限。  
+3) 建议普通读者可深入学习流式视频生成的核心控制机制，探索其在实时内容创作中的潜力。
+- 详情：[/202606/08/README](/202606/08/README)
 
 ### 精读区论文标签
-1. [Boundary-Protection W8A8 HiFloat8 Quantization for Large-Scale Text-to-Video Diffusion Transformers](/202606/07/2606.00957v1-boundary-protection-w8a8-hifloat8-quantization-for-large-scale-text-to-video-diffusion-transformers)  
-   标签：评分：9.0/10、query:vd
-   evidence：视频扩散模型的后训练量化
-2. [Generate in Reconstruction Space, Match in Semantic Space: Transport Geometry for One-Step Generation](/202606/07/2606.00514v1-generate-in-reconstruction-space-match-in-semantic-space-transport-geometry-for-one-step-generation)  
+1. [Streaming Video Generation with Streaming Force Control](/202606/08/2606.07508v1-streaming-video-generation-with-streaming-force-control)  
    标签：评分：8.0/10、query:vd
-   evidence：一步生成方法，利用语义匹配实现高效采样，适用于扩散模型
+   evidence：用于力可控视频生成的蒸馏管道，实现实时性能
 
 ### 速读区论文标签
-1. [Logit Distillation on Manifolds: Mapping by Learning](/202606/07/2606.00771v1-logit-distillation-on-manifolds-mapping-by-learning)  
+1. [Qwen-Image-Flash: Beyond Objective Design](/202606/08/2606.03746v2-qwen-image-flash-beyond-objective-design)  
    标签：评分：6.0/10、query:vd
-   evidence：将学生和教师表示映射到对齐嵌入空间的蒸馏方法，可应用于生成模型后训练
-2. [ReCache: Learning Budget-Aware Caching Schedules for Diffusion Models via REINFORCE](/202606/07/2606.06060v1-recache-learning-budget-aware-caching-schedules-for-diffusion-models-via-reinforce)  
-   标签：评分：6.0/10、query:vd
-   evidence：缓存调度加速扩散模型采样，实现少步生成
-3. [RhymeFlow: Training-Free Acceleration for Video Generation with Asynchronous Denoising Flow Scheduling](/202606/07/2606.06309v1-rhymeflow-training-free-acceleration-for-video-generation-with-asynchronous-denoising-flow-scheduling)  
-   标签：评分：6.0/10、query:vd
-   evidence：视频生成的无训练加速，与少步采样相关
+   evidence：面向图像生成的少步蒸馏，训练策略分析
 
 
 <div class="dpr-home-promo-card">

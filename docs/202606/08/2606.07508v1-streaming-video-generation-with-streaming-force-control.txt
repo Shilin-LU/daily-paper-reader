@@ -1,0 +1,449 @@
+Title: Streaming Video Generation with Streaming Force Control
+
+URL Source: https://arxiv.org/pdf/2606.07508v1
+
+Published Time: Mon, 08 Jun 2026 01:15:15 GMT
+
+Number of Pages: 20
+
+Markdown Content:
+# Streaming Video Generation with Streaming Force Control 
+
+# Hanhui Wang 1∗, Yiming Xie 1,2∗, Haiwen Feng 2,3, Zhaoyang Lv 2,Shenlong Wang 4†, Huaizu Jiang 1†
+
+1Northeastern University 2Impossible Research 3University of California, Berkeley 
+
+4University of Illinois Urbana-Champaign  
+
+> ∗
+
+Equal contribution † Equal advising Now—the alarm, trigger it must   
+
+> Causal Model
+> StreamForce: Causal Model, 16.6 FPS, Latency 0.6s
+> Local F
+> Change
+> Changed Wind Force
+> Time
+> Feel the Force… gently Too weak… stronger, it must be
+> Global Force
+> Local Force
+
+Stream 
+
+Force 
+
+> Force-Prompting: Bidirectional Model
+> Kling Motion Brush: Detailed Human Input Needed (object mask & motion trajectory)
+> May the Force be with me… trigger the smoke alarm!
+
+Figure 1. STREAM FORCE enables users to generate streaming force-conditioned videos from a single image by predicting future scene dynamics. Motion is generated online as streaming forces are applied, and users can modify forces at any time to steer the evolving video. We show the Global Force (affecting the entire scene like wind) and Local Force (acting on specific regions like a push) examples in the bottom part. 
+
+# Abstract 
+
+We introduce STREAM FORCE , a streaming video generation framework that enables physically grounded control through continuous force inputs. Unlike prior video models that train separate models for different force types, assume fixed forces, or rely on non-causal processing, STREAM FORCE is a causal and unified model that responds instantly and co-herently to both local and global, time-varying forces. To achieve this, we design a unified force representation as a control signal and develop a distillation pipeline for force-controllable video generation. Our model combines autore-gressive efficiency with force responsiveness, sustaining sta-ble photometric and dynamic realism. STREAM FORCE runs 
+
+1
+
+> arXiv:2606.07508v1 [cs.CV] 5 Jun 2026
+
+at up to 16.6 FPS on a single GPU, achieving state-of-the-art performance in both force adherence and motion realism. Project website: https://neu-vi.github.io/StreamForce/ 
+
+# 1. Introduction 
+
+Images capture moments, and videos replay fixed dynamics. Yet the world contains infinitely many possibilities. Recent progress in diffusion-based video generation [ 7 , 8, 16 , 21 , 22 ,30 , 44 , 47 , 49 , 52 , 54 , 75 ] has begun to push these models toward a new role: acting as interactive world models [ 4,5, 20 , 31 , 46 , 48 , 76 , 84 ]. Given an input image, one may wish to ask: what would happen if we apply an action to the scene? Imagine sliding a ball across a table to a marked spot: you push it, see it drifting left, and apply a corrective nudge to guide it back on course. To enable such capabilities, two key desiderata arise: force interaction , where a model can respond to natural and physically meaningful force control inputs; and streaming generation , where video unfolds sequentially, allowing users to observe results and adjust forces at any point during generation. Existing approaches fail to satisfy both requirements simultaneously. Various control signals have been ex-plored for diffusion-based video generation. Text con-trol [ 7, 18 , 30 , 44 , 54 , 75 ] is intuitive but coarse; camera or actor control [ 2, 19 , 58 , 67 , 72 , 81 ] enables viewpoint manipulation but lacks fine-grained interaction; motion con-trol [ 43 , 51 ] is expressive but difficult for users to specify naturally, e.g., for a fluid dynamics as shown in Fig. 1 (Kling Motion Brush results). More fundamentally, trajectory-based control specifies the effect (where objects move), requiring users to predetermine the motion. It cannot express that the same action should produce different outcomes depending on the object: a push moves a heavy object slowly and a light one quickly. Force-based control instead specifies the cause, delegating the physical response to the model, so that object-dependent dynamics emerge naturally without explicit material or mass specification. Recent causal au-toregressive models [ 26 , 36 , 48 , 51 , 79 ], which distill from bidirectional teacher models, have brought trajectory-based control to real-time streaming speeds, but remain limited to kinematic inputs, lacking mechanisms for modeling physi-cally plausible interactions such as force inputs. Force-Prompting [ 15 ] is the first work to explore force-conditioned video generation, but several limitations remain. First, it treats global forces (such as wind acting on an entire scene) and local forces (such as pushing a specific object) as fundamentally different problems, using separate repre-sentations and training separate models for each. This not only doubles the modeling cost but also precludes learning shared dynamics across force types. Second, its training data contains only fixed forces that remain constant throughout each video, providing no supervision for temporally varying inputs. As a result, the model cannot respond coherently when a user changes force direction or magnitude during generation. Third, it relies on bidirectional diffusion that generates the entire sequence offline, requiring all forces to be specified upfront before generation begins. This prevents users from adjusting forces based on observed motion, elimi-nating the interactive feedback loop that makes force control compelling, as shown in Fig. 1 (Force-Prompting results). In this paper, we present STREAM FORCE , a streaming video generation framework that enables force-driven inter-action through continuous force inputs. We introduce a uni-fied force representation that encodes both local and global forces within a single formulation. Rather than treating dif-ferent force types as separate problems, our representation uses a shared pixel-aligned masked force map, enabling a sin-gle model to handle diverse physical interactions and learn shared dynamics across force types. We further construct a force-conditioned dataset with temporally varying forces, exposing the model to dynamic force transitions during train-ing. More importantly, to enable streaming generation, we distill a force-conditioned bidirectional teacher into a causal autoregressive student. We find that naively introducing force conditioning into existing distillation pipelines leads to unrealistic dynamics and weak responsiveness, as standard distillation does not preserve the force-motion correspon-dence learned by the teacher (see Sec. 4). To overcome this, we develop a force-aware distillation paradigm that enforces force conditioning throughout the entire process, using diverse image-force data to preserve both controllabil-ity and open-domain visual generalization. Together, these enable S TREAM FORCE to generate videos causally while responding coherently to spatially and temporally varying forces. STREAM FORCE runs at 16.6 FPS at a resolution of 832 ×480 with 0.6-second latency on a single H200 GPU. It achieves state-of-the-art performance in both force ad-herence and motion realism. These results enable online, physically plausible interaction with generated videos, where users can apply forces and immediately observe the resulting motion. More broadly, S TREAM FORCE moves generative video models closer to interactive world models capable of predicting and manipulating dynamic physical environments. Our contributions are threefold: (1) We introduce 
+
+STREAM FORCE , an autoregressive video generation frame-work that enables interaction through continuous force in-puts. (2) We propose a unified force representation that models both local contact forces and global environmen-tal forces within a single formulation. (3) We develop a 
+
+force-aware distillation pipeline and dataset that enable autoregressive video models to learn and respond to dynamic force changes. 22. Related Work 
+
+Bidirectional Video Generation. Most state-of-the-art video generators today are built upon bidirectional diffu-sion models, which jointly denoise all frames conditioned on both past and future temporal context. Recent architec-tures have evolved from early space-time U-Nets [ 7, 22 ] to DiT-style transformers [ 16 , 47 ], enabling large-scale train-ing and improved temporal coherence. Representative ex-amples include closed-source systems such as Sora [ 44 ]and MovieGen [ 49 ], and open-source counterparts such as CogVideoX [ 75 ], LTXVideo [ 17 ], Hunyuan [ 30 ], and Wan [ 54 ]. While these bidirectional diffusion models achieve exceptional visual fidelity and realistic motion, their joint denoising process implicitly accesses future frames, violating causal ordering and precluding real-time streaming generation. 
+
+Autoregressive Video Generation. To introduce temporal causality absent in bidirectional diffusion, earlier autoregres-sive approaches [ 9, 29 , 57 , 59 , 71 ] model video synthesis as sequential prediction, producing spatiotemporal tokens conditioned on previously generated content. More recently, a complementary line combines autoregressive generation with diffusion by distilling a pretrained bidirectional teacher into a fast, causal autoregressive student. CausVid [ 79 ]first established this paradigm via ODE initialization and a DMD [ 77 , 78 ] pipeline that converts the teacher into a few-step causal student. Self-Forcing [ 26 ] addresses exposure bias by explicitly unrolling autoregressive generation during training. Subsequent works [ 36 , 73 ] further address error accumulation in long video generation, and LongLive [ 73 ]introduces a KV re-cache mechanism for prompt switching during streaming inference. Despite these advances, existing methods remain limited to text- and image-to-video gen-eration, lacking fine-grained interactive control over scene dynamics. 
+
+Controllable Video Generation. Enabling generation controllability is essential for learning world models that can respond to external interventions and evolve under user actions. To this end, a wide range of work has explored various types of control representations, includ-ing structure control [ 28 , 45 , 69 , 70 , 74 ], camera con-trol [ 1, 2 , 13 , 19 , 62 , 72 , 80 , 81 , 85 , 86 ], and subject con-trol [ 12 , 24 , 37 , 40 ]. Recently, Force-Prompting [ 15 ] in-troduced physical force as conditioning signals, enabling control over object motion through applied forces. Although these approaches significantly enhance the semantic and ge-ometric controllability of video diffusion models, most oper-ate within the bidirectional diffusion framework, which lim-its causal consistency and hinders real-time interaction. Re-cent interactive systems, such as Hunyuan-GameCraft [ 31 ]and Yan [ 76 ] allow user-driven camera control during autore-gressive rollout. MotionStream [ 51 ] further extends this direction by introducing an efficient motion-conditioned autoregressive framework that supports trajectory control through track-based conditioning. While force-based con-trol superficially resembles trajectory-based control, there are several fundamental differences, which are elaborated in Sec. 5. These works mostly remain at the viewpoint or motion level, focusing on user-drawn camera movements or trajectories rather than the underlying physical dynamics that govern object behavior. In contrast, our work targets force-conditioned autoregressive generation, introducing physi-cally grounded controllability that directly governs object interactions and scene evolution. 
+
+Simulation-in-the-loop Video Generation. Another line of research [ 10 , 11 , 23 , 25 , 27 , 33 , 35 , 38 , 41 , 50 , 53 , 56 , 63 –66 , 68 , 83 ] uses simulators to produce physically consistent motion and leverages video diffusion models mainly for vi-sual synthesis or refinement. WonderPlay [ 32 ] tightens this coupling by iterating between a physics solver and a video generator, using the generated video to update the simulated scene state to form a hybrid generative simulator. PhysC-trl [ 55 ] learns a generative dynamics prior from large-scale simulator data and predicts 3D point trajectories as control signals for downstream video generation, reducing the need to directly run a simulator at inference time. While these simulation-connected approaches improve physical fidelity via explicit solvers or simulation-trained dynamic priors, they typically introduce additional simulation components and/or intermediate 3D trajectory representations. Our work instead focuses on force-conditioned causal autoregressive video generation directly, enabling interactive rollout with-out explicit simulators. 
+
+# 3. Method 
+
+3.1. Overview and Motivation 
+
+To jointly satisfy force interaction and streaming genera-tion , we adopt a control-before-causality paradigm that first establishes strong force-conditioned motion dynamics in a high-capacity bidirectional teacher model, and then distills this controllable behavior into a causal streaming student generator. As illustrated in Fig. 2 , S TREAM FORCE consists of two stages: bidirectional teacher training with unified force representation (Sec. 3.2), and causal distillation with diverse image-force trajectories (Sec. 3.3). 
+
+3.2. Bidirectional Teacher Training 
+
+Architecture Design. The goal of this stage is to enable a pretrained bidirectional video generation model to respond coherently to external force inputs. Rather than learning motion dynamics from scratch, we leverage the strong spa-tiotemporal priors already embedded in large-scale video pretraining and align them with explicit force-conditioning signals. To preserve the pretrained model’s general motion understanding, we follow Force-Prompting [ 15 ] to adopt a 3ours 
+
+Stage 1: Bidirectional Teacher Training 
+
+Stage 2: Causal Distillation with Diverse Images   
+
+> Global Force Signal
+> Base Model
+> ControlNet
+> Bidirectional Teacher
+> Base Model
+> ControlNet
+> Bidirectional Teacher
+> temporal
+> noise level noise level  Base Model
+> ControlNet
+> Causal Student
+> Diverse Images
+> Synthetic Training Images
+> Initialize
+> Self Forcing Distillation
+> Generate ODE Solution Pairs
+> Local Force Signal Training Data
+> Force Signal Diffusion Loss
+> Full Attention
+> Causal Attention
+
+Figure 2. STREAM FORCE model architecture and training pipeline. Stage 1 : a bidirectional teacher is trained on synthetic force-conditioned videos using a unified force representation that supports both global and local force control with temporally changing forces (shown as color variations). Stage 2 : the teacher generates ODE solution pairs from diverse and synthetic image–force inputs. These solution pairs are then used to initialize a causal student, where different noise levels are applied to the latent chunks during initialization (illustrated by the red dashed boxes), followed by Self-Forcing DMD distillation. The resulting model supports autoregressive video generation with dynamically changing force control. 
+
+separate conditioning branch [ 82 ] that injects force infor-mation, instead of modifying the base model parameters directly. This design allows the pretrained model to preserve its general motion understanding, while the control branch steers generation according to external force inputs. 
+
+Unified Force Representation Design. Given this architec-ture, we next consider how to encode external forces for the conditioning branch. Prior work [ 15 ] adopts separate mod-els and disjoint representations for global and local forces. In contrast, we propose a unified representation that jointly models both. A physical force at time t is parameterized by its mag-nitude Ft ∈ [0 , 1] and direction θt ∈ [0 , 2π). To distin-guish global and local forces, we define a spatial mask 
+
+Mt(u, v ) ∈ { 0, 1} over spatial coordinates (u, v ):
+
+Mt(u, v ) = 
+
+(
+
+1, global force ,
+
+I[( u − x)2 + ( v − y)2 ≤ r2], local force .
+
+(1) 
+
+where (x, y ) is the initial location of the local force, and r is its radius of influence. The full force tensor is then defined as 
+
+ft(u, v ) = ( −1 + 2 Mt(u, v ), −1 + 2 Ft, cos θt, sin θt) , (2) 
+
+and stacked over time as f ∈ RT ×4×H×W . As illustrated in 
+
+Fig. 2 , this representation encodes both forces in a shared pixel-aligned masked force map. 
+
+Force-Conditioned Dataset with Changing Force. Fol-lowing the insights of Force-Prompting [ 15 ], we construct a synthetic training dataset rendered in Blender in which objects of different shapes and materials are subjected to physically simulated forces such as wind fields and point in-teractions. These synthetic clips provide physically faithful supervision, establishing explicit correspondence between external force signals and the resulting object motion under controlled settings. Different from Force-Prompting [ 15 ], which trains separate models for each force type, we com-bine global and local force examples within a unified train-ing set. Moreover, we introduce force-changing settings in which the applied force varies over time in magnitude and/or direction within a single sequence. This exposes the model to temporally changing control signals, allowing it to learn consistent motion responses under dynamic force tran-sitions. Together, this mixed training paradigm enables the bidirectional teacher to interpret spatial masks, directional and magnitude components, and time-varying forces within a single framework, forming a unified controllable model capable of handling diverse physical interventions. We show the dataset examples in the supplementary. 
+
+3.3. Causal Distillation with Diverse Image-Force Data 
+
+Although the bidirectional teacher learns force-motion cor-respondence, its joint denoising formulation relies on full-sequence conditioning and therefore cannot support causal, real-time streaming generation. To enable sequential synthe-sis where future frames depend only on previously generated 4content, we distill the controllable bidirectional teacher into a causal autoregressive student. 
+
+ODE Initialization. Directly training a causal student model using the DMD [ 77 , 78 ] loss is often unstable due to the ar-chitectural gap between the bidirectional teacher and the causal autoregressive student. To mitigate this issue, we follow CausVid [79] and adapt an ODE-based initialization strategy to stabilize training. Specifically, we use the pre-trained bidirectional teacher to simulate reverse diffusion trajectories via an ODE solver. Starting from Gaussian noise samples {xiT }Ni=1 , where N denotes the number of latent frames, the teacher integrates the ODE solver to produce a set of latent trajectories {xit}Ni=1 over denoising timesteps 
+
+t ∈ [T, 0] . We then sample several intermediate timesteps from the timestep set used in the few-step causal generator and distillation process. The timestep is sampled indepen-dently for each latent chunk, allowing different chunks to start from different noise levels during initialization (illus-trated by the red dashed boxes in Fig. 2 ), and train the student with a simple regression objective:          
+
+> Linit =Ex,t i∥Gϕ({xiti}Ni=1 ,{ti}Ni=1 ,fi)− { xi
+> 0}Ni=1 ∥22,(3)
+
+where Gϕ denotes the causal generator initialized from the teacher’s parameters, and {xi
+
+> 0
+
+}Ni=1 are the teacher’s denoised latents. Unlike prior works that rely solely on text-conditioned data for initialization, we generate two complementary types of ODE trajectories: ❶ synthetic force-conditioned 
+
+and ❷ diverse image-force trajectories. Synthetic force-conditioned trajectories can preserve controllability learned from the teacher. However, relying on them alone may limit visual diversity and bias the student toward synthetic scenes. To address this, we introduce diverse image-force trajectories, which expose the model to broader visual con-tent. Specifically, we collect diverse images from Pexels and annotate each image with the corresponding force. This dual-source initialization transfers controllable dynamics while preventing the student from overfitting to the limited synthetic scenarios, providing a stable and well-balanced starting point for subsequent Self-Forcing [26] distillation. 
+
+Self-Forcing Distillation. To enable streaming generation with external force conditioning, we distill our finetuned bidirectional teacher into a causal few-step autoregressive student model following the Self-Forcing [ 26 ] paradigm, which performs temporal autoregressive roll-out with dis-tribution matching distillation (DMD [ 77 , 78 ]). Following the chunk-wise strategy, we divide a video latent xt into L
+
+chunks as {xit}Li=1 , where t is the denoising timestep. The sampling process of the i-th chunk can attend to its own noisy tokens xit and previously clean key and value tokens stored in the KV cache KV i: Ci = {xit} S {KV i}. Formally, the denoising process is defined as:        
+
+> xitj−1= Ψ( Gϕ(xitj, t j,Ci,fi), ϵ, t j−1),(4)
+
+where Ψ denotes the forward diffusion process, and ϵ is random Gaussian noise. After generating all L chunks through self-rollout, we obtain the video latent ˆx0 =
+
+{xi
+
+> 0
+
+}Li=1 , and apply the DMD objective to this sequence, minimizing the reverse KL divergence between our stu-dent’s output distribution and the data distribution: LDMD =
+
+Et(DKL (pgen t || pdata t )) . The gradient of the reverse KL can be approximated as:       
+
+> ∇ϕLDMD ≈ − Et, ˆx0
+> 
+> (sreal (Ψ(ˆ x0, t ), t )−sfake (Ψ(ˆ x0, t ), t )) ·∂ˆx0
+> ∂ϕ
+> 
+> ,
+> (5)
+
+where sreal is the real-data score function given by the frozen teacher, and sfake is the critic trained on the generator’s out-puts with the standard denoising loss:       
+
+> Lcritic =Et, ˆx0,ϵ ∥ϵθ(xt, t )−ϵ∥22,(6)
+
+where θ is the critic’s parameter and ϵθ is the predicted noise. Following [ 26 , 79 ], we update the critic more frequently than the generator with a 5:1 ratio for better distribution approximation. As in ODE initialization, we perform dis-tillation jointly on synthetic force-conditioned data and 
+
+diverse image-force data , allowing the student to inherit controllable physical behavior while retaining open-domain visual generalization. 
+
+# 4. Experiments 
+
+4.1. Implementation Details 
+
+Our framework is built upon the text-image to video (TI2V) variants of Wan2.2 (5B), which serves as the backbone base model for bidirectional teacher training and causal distilla-tion. Unless otherwise specified, all experiments are con-ducted using this base model. We train the ControlNet branch using the rectified flow matching objective [34, 39]. For bidirectional teacher training, we generate 30K syn-thetic force-conditioned videos using the publicly available Force-Prompting [ 15 ] codebase and simulation pipeline. In addition, we render another 30K synthetic videos in Blender that include force-changing scenarios with temporally vary-ing force inputs. For causal distillation, we further collect a diverse image dataset by downloading images from Pexels and annotating approximately 90K image-force pairs. These annotations specify force magnitude, direction, and (for local forces) spatial location, enabling supervision under broader visual contexts beyond the synthetic domain. Additional training hyperparameters, data processing, and implementation specifics are provided in the supplementary. 
+
+4.2. Evaluation Setup 
+
+Baselines. We compare S TREAM FORCE against three repre-sentative baselines. ❶ Wan2.2 5B TI2V [54 ], used directly as a text-to-video inference baseline by providing the initial image together with rule-based force-related textual prompts. 
+
+❷ Force-Prompting [15 ], which we retrain on the Wan2.2 5Table 1. Perceptual Evaluation . FT : Force Type. We report the preserving force in the top block and the changing force in the bottom block. The best and second-best results are marked in bold and underline, respectively.                                                                  
+
+> Global Force Local Force FT Method Streaming Force Adh. Real. Phys. Vis. Qual. Force Adh. Real. Phys. Vis. Qual.
+> Preserve  ForcePrompt ✗74.2% 47.3% 38.8% 48.8% 32.3% 30.8% Kling Brush ✗---44.2% 45.8% 52.3% Wan 2.2 TI2V ✗20.8% 31.2% 40.4% 15.0% 17.7% 17.7%
+> Ours ✓64.2% 65.8% 68.5% 81.9% 71.9% 69.2%
+> Change  ForcePrompt ✗32.7% 38.5% 33.1% 6.2% 25.0% 19.2% KlingBrush ✗---34.2% 35.8% 43.1% Wan 2.2 TI2V ✗7.3% 28.1% 35.4% 4.2% 12.3% 13.1%
+> Ours ✓86.5% 77.3% 76.9% 80.4% 64.6% 62.7%
+
+5B backbone for fair comparison, as the original implemen-tation is built upon CogVideoX [ 22 ]. ❸ Kling 1.5 with Motion Brush , which supports localized trajectory-based interaction, and is evaluated primarily on local force scenar-ios. 
+
+Perceptual Evaluation Protocols. For perceptual evalu-ation, we construct an image–force test set consisting of 40 cases using images downloaded from Pexels. The cases cover four scenarios: local force preservation, local force change, global force preservation, and global force change. For each case, all compared methods receive the same initial image and force condition to generate video outputs. We conduct a human user study in which participants evaluate the generated videos according to three criteria: ❶ force adherence (how well the motion aligns with the specified force), ❷ physical plausibility (whether the motion follows realistic physical behavior), and ❸ visual quality .
+
+Physics-IQ Evaluation Protocols. To quantitatively eval-uate physical consistency, we follow the Physics-IQ bench-mark [ 42 ] and compute its metrics on a real-world test set collected by ourselves. Specifically, we record 40 video cases under controlled force conditions, which serve as ground truth for comparison. Since the Physics-IQ eval-uation requires precise alignment between generated motion and real-world trajectories, we restrict the setting to force preservation cases where the applied force direction remains fixed throughout the sequence. For each case, we provide all compared methods with the same initial frame and corre-sponding force input. To ensure fair comparison, all evalu-ated models are configured to produce outputs with identical resolution and frame-rate settings required for Physics-IQ metric computation. 
+
+4.3. Main Results 
+
+Perceptual Evaluation. We evaluate perceptual controllabil-ity and video realism under both force preservation and force change settings. The quantitative results are summarized in 
+
+Tab. 1 .Across both global and local force scenarios, S TREAM -FORCE predominantly achieves the highest scores in all three criteria under both preservation and changing force settings. The improvements are particularly pronounced in the force-changing cases (bottom half of Tab. 1 ), where the models must respond to changed force control signals. Notably, STREAM FORCE also surpasses Kling 1.5 Motion Brush in several local force scenarios, despite being a fully streaming autoregressive model. The results suggest that our design effectively transfers fine-grained controllability into a causal generation framework without sacrificing perceptual realism. Qualitative comparisons are shown in Fig. 3 (top). While baselines often exhibit weak or mismatched motion, STREAM FORCE produces dynamics that more faithfully fol-low the input force with stable appearance and plausible physicality. 
+
+Physics-IQ Evaluation. Quantitative Physics-IQ results are summarized in Tab. 2 . Across both global and local force scenarios, S TREAM FORCE achieves the highest aggregated Physics-IQ score and leads on the spatiotemporal IoU and motion-error (MSE) metrics. While Force-Prompting attains higher pixel-level Spatial IoU and Weighted Spatial IoU, STREAM FORCE produces motion that more closely matches the ground-truth dynamics over time, reflecting more physi-cally consistent behavior. Qualitative comparisons are shown in Fig. 3 (bottom). In both local and global cases, baseline methods exhibit notice-able deviations from the ground truth trajectories, whereas STREAM FORCE produces motion patterns that more closely follow the recorded physical behavior. The accompanying x-t visualizations further highlight that our model gener-ates spatiotemporal motion structures more consistent with ground truth, reflecting more accurate force-driven dynam-ics. 
+
+4.4. Ablation Studies 
+
+We conduct ablation studies on force representation, uni-fied training, diverse-data distillation, and force-changing supervision. 
+
+Different Force Representations. We first compare our uni-fied force representation with the Force-Prompting formula-tion (denoted as F-Prompt Rep.), which encodes global and 6Global               
+
+> Wan2.2 5B TI2V Force-Prompting Kling Motion Brush Ours Wan2.2 5B TI2V Force-Prompting Kling Motion Brush Ours
+> Global Change
+> Local Change  Local
+> Wan2.2 5B TI2V Force-Prompting Ours GT Wan2.2 5B TI2V Force-Prompting Ours GT
+
+x
+
+t
+
+x
+
+t Global 
+
+> Local
+
+Figure 3. Visual Comparison . Baseline methods often exhibit weak or mismatched motion responses, S TREAM FORCE produces motion dynamics that more faithfully follow the intended force input with stable visual appearance and plausible physicality. We visualize x-t (space-time) slices on our recorded force-conditioned video in the last row to demonstrate the motion. Zoom in for details. 
+
+Table 2. Physics-IQ Benchmark [ 42 ]. We record 40 video cases under controlled force conditions, which serve as ground truth for comparison. S.T. IoU : SpatialTemporal IoU. W.S. IoU : Weighted Spatial IoU. Arrows ( ↑ or ↓) indicate whether a higher or lower value is preferred. The best results are marked in bold .
+
+Global Force Local Force Method Spatial S.T. W.S. MSE Total Spatial S.T. W.S. MSE Total IoU ↑ IoU ↑ IoU ↑ ↓ Score ↑ IoU ↑ IoU ↑ IoU ↑ ↓ Score ↑
+
+ForcePrompt 0.118 0.496 0.033 0.012 40.87 0.217 0.373 0.188 0.006 44.29 Wan 2.2 TI2V 0.061 0.450 0.021 0.015 37.92 0.077 0.300 0.048 0.017 35.21 
+
+Ours 0.091 0.532 0.028 0.011 40.99 0.168 0.542 0.147 0.005 46.31 
+
+local forces using separate designs. As shown in Tab. 3 (left block), our representation achieves improved performance on both global and local force scenarios. These results indi-cate that our pixel-aligned masked force map representation 7Table 3. Ablations with PhysicsIQ Score . F-Prompt Rep. : use Force Prompting [ 15 ] representation. Separate : train separate models for global and local force. w/o Diverse : remove diverse data during distillation. Arrows (↑ or ↓) indicate whether a higher or lower value is preferred.                    
+
+> Method Global ↑Local ↑Method Global ↑Local ↑
+> F-Prompt Rep. 40.87 44.29 w/o Diverse 27.82 20.50 Separate 41.79 47.38 Data
+> Ours (teacher) 42.13 49.99 Ours 40.99 46.31
+
+Table 4. Ablations with Perceptual Study . w/o Change Data : remove force-changing data during teacher model training. 
+
+Method Global Local 
+
+w/o Change 15.2% 0% Data 
+
+Ours 71.7% 88.6% F-Prompt Rep. Separate Model Ours (teacher) Ours    
+
+> Global
+> Local
+> F-Prompt Rep. Separate Model Ours (teacher) Ours
+
+Figure 4. Ablation Studies . F-Prompt Rep. : use Force-Prompting [ 15 ] representation. Separate : train separate models for global and local force. Using a unified force representation with joint training (Ours-teacher) maintains generation quality while enabling cross-force generalization. This capability also carries over to the autoregressive model (Ours). indicates unified model for local and global force while indicates a separate model. 
+
+can effectively model both global and local force conditions within a single framework. Importantly, this unified design enables shared training across force types, laying the foun-dation for the joint training strategy. 
+
+Unified vs. Separate Training. Building upon the unified representation, we next investigate whether training separate models for global and local forces is preferable to joint train-ing within a single model. As shown in Tab. 3 (left block), unified training achieves stronger overall performance across both force types compared to training separate models. This suggests that a shared representation encourages cross-force generalization and leads to more consistent motion modeling by promoting shared motion dynamic priors between global and local settings. Qualitative comparisons are shown in 
+
+Fig. 4 . The unified model produces more coherent and spa-tially aligned motion patterns than both the Force-Prompting representation and separate models. 
+
+Diverse Image-Force Data in Distillation. We next analyze the role of diverse image-force data during causal distilla-tion. As shown in Tab. 3 (right block), removing diverse data leads to clear performance degradation across both global and local force scenarios. When distilled using only syn-thetic data, the model tends to overfit to limited training distributions and struggles to generalize to broader visual content. Incorporating diverse image–force pairs during distillation alleviates this issue and consistently improves overall performance, highlighting the importance of diverse visual supervision for streaming controllable generation. Interestingly, we observe that the bidirectional teacher trained solely on synthetic data maintains reasonable gener-alization, whereas the causal student distilled without diverse supervision exhibits a more pronounced performance drop. This suggests that autoregressive distillation imposes ad-ditional modeling constraints, making diverse supervision particularly important for maintaining generalization in the streaming setting. Qualitative comparisons between our full model and the variant without diverse data distillation are shown in Fig. 5 . Without diverse data, the model exhibits fewer motion patterns and reduced adaptability to complex visual content. 
+
+Force-Conditioned Dataset with Changing Force. Finally, we evaluate the necessity of force-changing supervision dur-ing training. As shown in Tab. 4 , removing force-changing data leads to a dramatic performance drop under change-force scenarios. Although force inputs can still be modified at inference time, models trained only on force-preservation cases fail to respond consistently to dynamic force updates. As illustrated in Fig. 5 , removing force-changing supervision 8w/o Diverse Ours w/o Change Ours w/o Diverse Ours w/o Change Ours 
+
+> Global
+> Local
+
+Figure 5. Ablation Studies . Removing diverse data during distillation ( w/o Diverse ) leads to fewer motion patterns and reduced adaptability to complex scenes. Removing force-changing data ( w/o Change ) causes the model to largely ignore force updates and produce little response after the force changes. 
+
+Figure 6. Mass-aware motion behavior. Under the same horizontal force, the glass containing milk moves more slowly than the empty glass, reflecting the expected relationship between object mass and acceleration. Zoom in for details. 
+
+Figure 7. Friction-aware motion behavior. Under the same hori-zontal force applied to the same T-shaped object, the object travels a shorter distance on a higher-friction surface than on a smoother one, reflecting how friction opposes motion and dissipates energy. Zoom in for details. 
+
+causes the model to largely ignore force updates, exhibiting little to no response after the force is changed. 
+
+# 5. Discussion 
+
+Emergent Intuitive Physics. We observe behaviors broadly consistent with intuitive physics [ 6, 60 , 61 ]: qualitative rea-soning about everyday physical interactions. As shown in Fig. 6 , under the same horizontal force a milk-filled glass tends to move more slowly than an empty one, in line with heavier objects accelerating less. As shown in 
+
+Fig. 7 , the same force applied to the same T-shape pro-duces a shorter displacement on a rougher-looking surface than on a smoother one. These observations suggest that STREAM FORCE captures coarse visual cues rather than a quantitatively faithful physics model. 
+
+Object Falling. STREAM FORCE also captures basic gravi-tational dynamics. As illustrated in Fig. 8 , an applied force pushes an object across a table toward its edge; once it passes the edge, the generated motion follows a downward trajec-tory consistent with gravity. This behavior is not explicitly conditioned on, but rather emerges from the spatiotemporal priors inherited from the pretrained video model, suggest-ing that S TREAM FORCE retains a coarse intuitive physics beyond direct force-driven interaction. 
+
+Multi-Force and Part-Level Interaction. Our unified force representation naturally supports multiple forces applied at different parts of the same object. As a special case, we consider T-pushing, a canonical robotics manipulation task in which a T-shaped object must be pushed to a target position. As shown in Fig. 9 , S TREAM FORCE handles this scenario by applying two local forces simultaneously to different parts of the T-shape, producing coherent motion that drives the object toward the target position. This demonstrates that our streaming force control supports multi-force, part-level manipulation, opening potential applications in interactive robotics scenarios. 
+
+Differences from trajectory-control based works [ 14 , 51 ]. 
+
+While force-based control superficially resembles trajectory-based control, there are several fundamental differences. First, global forces such as fluid dynamics are naturally de-scribed as forces, yet are difficult or impossible to represent using trajectories alone. Second, the effect of an applied 9Figure 8. Object Falling. A force pushes the object across a table; once it passes the edge, it falls under gravity. Zoom in for details. 
+
+Figure 9. T-Pushing Manipulation. Applying two local forces simultaneously to different parts of a T-shaped object produces coordinated translation and rotation that drive the object toward a target position. 
+
+force inherently depends on an object’s physical properties, such as mass or material composition, a dependency that is absent when specifying motion or location (e.g., the same force produces a larger displacement in lighter objects, as shown in Fig. 6). 
+
+# 6. Conclusion 
+
+In this work, we introduce S TREAM FORCE , a streaming video generation framework that enables interaction through continuous force inputs. By combining a unified force representation with a force-aware distillation pipeline, our approach bridges force-controllable video generation and causal autoregressive synthesis within a single model that supports both global and local, time-varying forces. Exten-sive experiments demonstrate that S TREAM FORCE achieves state-of-the-art performance in force-conditioned video gen-eration, moving generative video models closer to interactive world models. 
+
+# References 
+
+[1] Sherwin Bahmani, Ivan Skorokhodov, Aliaksandr Siarohin, Willi Menapace, Guocheng Qian, Michael Vasilkovsky, Hsin-Ying Lee, Chaoyang Wang, Jiaxu Zou, Andrea Tagliasacchi, et al. Vd3d: Taming large video diffusion transformers for 3d camera control. arXiv preprint arXiv:2407.12781 , 2024. 3 [2] Jianhong Bai, Menghan Xia, Xiao Fu, Xintao Wang, Lianrui Mu, Jinwen Cao, Zuozhu Liu, Haoji Hu, Xiang Bai, Pengfei Wan, et al. Recammaster: Camera-controlled generative ren-dering from a single video. arXiv preprint arXiv:2503.11647 ,2025. 2, 3 [3] Shuai Bai, Yuxuan Cai, Ruizhe Chen, Keqin Chen, Xionghui Chen, Zesen Cheng, Lianghao Deng, Wei Ding, Chang Gao, Chunjiang Ge, et al. Qwen3-vl technical report. arXiv preprint arXiv:2511.21631 , 2025. 18 [4] Philip J Ball, J Bauer, F Belletti, et al. Genie 3: A new frontier for world models, 2025. 2 [5] Amir Bar, Gaoyue Zhou, Danny Tran, Trevor Darrell, and Yann LeCun. Navigation world models. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 15791–15801, 2025. 2 [6] Peter W Battaglia, Jessica B Hamrick, and Joshua B Tenen-baum. Simulation as an engine of physical scene understand-ing. Proceedings of the National Academy of Sciences , 110 (45):18327–18332, 2013. 9 [7] Andreas Blattmann, Tim Dockhorn, Sumith Kulal, Daniel Mendelevitch, Maciej Kilian, Dominik Lorenz, Yam Levi, Zion English, Vikram Voleti, Adam Letts, et al. Stable video diffusion: Scaling latent video diffusion models to large datasets. arXiv preprint arXiv:2311.15127 , 2023. 2, 3 [8] Andreas Blattmann, Robin Rombach, Huan Ling, Tim Dock-horn, Seung Wook Kim, Sanja Fidler, and Karsten Kreis. Align your latents: High-resolution video synthesis with la-tent diffusion models. In Proceedings of the IEEE/CVF con-ference on computer vision and pattern recognition , pages 22563–22575, 2023. 2 [9] Jake Bruce, Michael D Dennis, Ashley Edwards, Jack Parker-Holder, Yuge Shi, Edward Hughes, Matthew Lai, Aditi Mavalankar, Richie Steigerwald, Chris Apps, et al. Genie: Generative interactive environments. In Forty-first Interna-tional Conference on Machine Learning , 2024. 3 [10] Junyi Cao, Shanyan Guan, Yanhao Ge, Wei Li, Xiaokang Yang, and Chao Ma. NeuMA: Neural material adaptor for visual grounding of intrinsic dynamics. In The Thirty-eighth Annual Conference on Neural Information Processing Sys-tems (NeurIPS) , 2024. 3 [11] Boyuan Chen, Hanxiao Jiang, Shaowei Liu, Saurabh Gupta, Yunzhu Li, Hao Zhao, and Shenlong Wang. Physgen3d: Crafting a miniature interactive world from a single image. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 6178–6189, 2025. 3 [12] Zhengcong Fei, Debang Li, Di Qiu, Jiahua Wang, Yikun Dou, Rui Wang, Jingtao Xu, Mingyuan Fan, Guibin Chen, Yang Li, et al. Skyreels-a2: Compose anything in video diffusion transformers. arXiv preprint arXiv:2504.02436 , 2025. 3 
+
+10 [13] Ruiqi Gao, Aleksander Holynski, Philipp Henzler, Arthur Brussee, Ricardo Martin-Brualla, Pratul Srinivasan, Jonathan T Barron, and Ben Poole. Cat3d: Create anything in 3d with multi-view diffusion models. arXiv preprint arXiv:2405.10314 , 2024. 3 [14] Daniel Geng, Charles Herrmann, Junhwa Hur, Forrester Cole, Serena Zhang, Tobias Pfaff, Tatiana Lopez-Guevara, Carl Doersch, Yusuf Aytar, Michael Rubinstein, Chen Sun, Oliver Wang, Andrew Owens, and Deqing Sun. Motion prompting: Controlling video generation with motion trajectories. arXiv preprint arXiv:2412.02700 , 2024. 9 [15] Nate Gillman, Charles Herrmann, Michael Freeman, Daksh Aggarwal, Evan Luo, Deqing Sun, and Chen Sun. Force prompting: Video generation models can learn and gen-eralize physics-based control signals. arXiv preprint arXiv:2505.19386 , 2025. 2, 3, 4, 5, 8, 16 [16] Agrim Gupta, Lijun Yu, Kihyuk Sohn, Xiuye Gu, Meera Hahn, Fei-Fei Li, Irfan Essa, Lu Jiang, and José Lezama. Photorealistic video generation with diffusion models. In 
+
+European Conference on Computer Vision , pages 393–411. Springer, 2024. 2, 3 [17] Yoav HaCohen, Nisan Chiprut, Benny Brazowski, Daniel Shalem, Dudu Moshe, Eitan Richardson, Eran Levin, Guy Shiran, Nir Zabari, Ori Gordon, Poriya Panet, Sapir Weiss-buch, Victor Kulikov, Yaki Bitterman, Zeev Melumian, and Ofir Bibi. Ltx-video: Realtime video latent diffusion. arXiv preprint arXiv:2501.00103 , 2024. 3 [18] Yoav HaCohen, Benny Brazowski, Nisan Chiprut, Yaki Bitter-man, Andrew Kvochko, Avishai Berkowitz, Daniel Shalem, Daphna Lifschitz, Dudu Moshe, Eitan Porat, Eitan Richard-son, Guy Shiran, Itay Chachy, Jonathan Chetboun, Michael Finkelson, Michael Kupchick, Nir Zabari, Nitzan Guetta, Noa Kotler, Ofir Bibi, Ori Gordon, Poriya Panet, Roi Benita, Sha-har Armon, Victor Kulikov, Yaron Inger, Yonatan Shiftan, Zeev Melumian, and Zeev Farbman. LTX-2: Efficient Joint Audio-Visual Foundation Model, 2026. arXiv:2601.03233 [cs]. 2 [19] Hao He, Yinghao Xu, Yuwei Guo, Gordon Wetzstein, Bo Dai, Hongsheng Li, and Ceyuan Yang. Cameractrl: Enabling camera control for text-to-video generation. arXiv preprint arXiv:2404.02101 , 2024. 2, 3 [20] Xianglong He, Chunli Peng, Zexiang Liu, Boyang Wang, Yifan Zhang, Qi Cui, Fei Kang, Biao Jiang, Mengyin An, Yangyang Ren, et al. Matrix-game 2.0: An open-source, real-time, and streaming interactive world model. arXiv preprint arXiv:2508.13009 , 2025. 2 [21] Jonathan Ho, William Chan, Chitwan Saharia, Jay Whang, Ruiqi Gao, Alexey Gritsenko, Diederik P Kingma, Ben Poole, Mohammad Norouzi, David J Fleet, et al. Imagen video: High definition video generation with diffusion models. arXiv preprint arXiv:2210.02303 , 2022. 2 [22] Wenyi Hong, Ming Ding, Wendi Zheng, Xinghan Liu, and Jie Tang. Cogvideo: Large-scale pretraining for text-to-video gen-eration via transformers. arXiv preprint arXiv:2205.15868 ,2022. 2, 3, 6 [23] Hao-Yu Hsu, Zhi-Hao Lin, Albert Zhai, Hongchi Xia, and Shenlong Wang. Autovfx: Physically realistic video edit-ing from natural language instructions. arXiv preprint arXiv:2411.02394 , 2024. 3 [24] Chi-Pin Huang, Yen-Siang Wu, Hung-Kai Chung, Kai-Po Chang, Fu-En Yang, and Yu-Chiang Frank Wang. Videomage: Multi-subject and motion customization of text-to-video dif-fusion models. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 17603–17612, 2025. 3[25] Tianyu Huang, Yihan Zeng, Hui Li, Wangmeng Zuo, and Rynson WH Lau. Dreamphysics: Learning physical prop-erties of dynamic 3d gaussians with video diffusion priors. 
+
+arXiv preprint arXiv:2406.01476 , 2024. 3 [26] Xun Huang, Zhengqi Li, Guande He, Mingyuan Zhou, and Eli Shechtman. Self forcing: Bridging the train-test gap in autore-gressive video diffusion. arXiv preprint arXiv:2506.08009 ,2025. 2, 3, 5, 18, 19, 20 [27] Hanxiao Jiang, Hao-Yu Hsu, Kaifeng Zhang, Hsin-Ni Yu, Shenlong Wang, and Yunzhu Li. Phystwin: Physics-informed reconstruction and simulation of deformable objects from videos. ICCV , 2025. 3 [28] Lifan Jiang, Shuang Chen, Boxi Wu, Xiaotong Guan, and Jiahui Zhang. Vidsketch: Hand-drawn sketch-driven video generation with diffusion control. arXiv preprint arXiv:2502.01101 , 2025. 3 [29] Dan Kondratyuk, Lijun Yu, Xiuye Gu, José Lezama, Jonathan Huang, Grant Schindler, Rachel Hornung, Vighnesh Birodkar, Jimmy Yan, Ming-Chang Chiu, et al. Videopoet: A large language model for zero-shot video generation. arXiv preprint arXiv:2312.14125 , 2023. 3 [30] Weijie Kong, Qi Tian, Zijian Zhang, Rox Min, Zuozhuo Dai, Jin Zhou, Jiangfeng Xiong, Xin Li, Bo Wu, Jianwei Zhang, et al. Hunyuanvideo: A systematic framework for large video generative models. arXiv preprint arXiv:2412.03603 , 2024. 2, 3 [31] Jiaqi Li, Junshu Tang, Zhiyong Xu, Longhuang Wu, Yuan Zhou, Shuai Shao, Tianbao Yu, Zhiguo Cao, and Qinglin Lu. Hunyuan-gamecraft: High-dynamic interactive game video generation with hybrid history condition. arXiv preprint arXiv:2506.17201 , 2025. 2, 3 [32] Zizhang Li, Hong-Xing Yu, Wei Liu, Yin Yang, Charles Herrmann, Gordon Wetzstein, and Jiajun Wu. Wonderplay: Dynamic 3d scene generation from a single image and actions. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 9080–9090, 2025. 3 [33] Yuchen Lin, Chenguo Lin, Jianjin Xu, and Yadong MU. Om-niphysGS: 3d constitutive gaussians for general physics-based dynamics generation. In The Thirteenth International Confer-ence on Learning Representations , 2025. 3 [34] Yaron Lipman, Ricky TQ Chen, Heli Ben-Hamu, Maximilian Nickel, and Matt Le. Flow matching for generative modeling. 
+
+arXiv preprint arXiv:2210.02747 , 2022. 5 [35] Fangfu Liu, Hanyang Wang, Shunyu Yao, Shengjun Zhang, Jie Zhou, and Yueqi Duan. Physics3d: Learning physical properties of 3d gaussians via video diffusion. arXiv preprint arXiv:2406.04338 , 2024. 3 [36] Kunhao Liu, Wenbo Hu, Jiale Xu, Ying Shan, and Shijian Lu. Rolling forcing: Autoregressive long video diffusion in real time. arXiv preprint arXiv:2509.25161 , 2025. 2, 3, 20 
+
+11 [37] Lijie Liu, Tianxiang Ma, Bingchuan Li, Zhuowei Chen, Jiawei Liu, Gen Li, Siyu Zhou, Qian He, and Xinglong Wu. Phantom: Subject-consistent video generation via cross-modal alignment. arXiv preprint arXiv:2502.11079 , 2025. 3[38] Shaowei Liu, Zhongzheng Ren, Saurabh Gupta, and Shenlong Wang. Physgen: Rigid-body physics-grounded image-to-video generation. In European Conference on Computer Vision , pages 360–378. Springer, 2024. 3 [39] Xingchao Liu, Chengyue Gong, and Qiang Liu. Flow straight and fast: Learning to generate and transfer data with rectified flow. arXiv preprint arXiv:2209.03003 , 2022. 5 [40] Xiaoyu Liu, Mingshuai Yao, Yabo Zhang, Xianhui Lin, Peiran Ren, Xiaoming Li, Ming Liu, and Wangmeng Zuo. Ani-mateanywhere: Rouse the background in human image ani-mation. arXiv preprint arXiv:2504.19834 , 2025. 3 [41] Zhuoman Liu, Weicai Ye, Yan Luximon, Pengfei Wan, and Di Zhang. Unleashing the potential of multi-modal foundation models and video diffusion for 4d dynamic physical scene simulation. CVPR , 2025. 3 [42] Saman Motamed, Laura Culp, Kevin Swersky, Priyank Jaini, and Robert Geirhos. Do generative video models understand physical principles? arXiv preprint arXiv:2501.09038 , 2025. 6, 7, 15 [43] Hyelin Nam, Jaemin Kim, Dohun Lee, and Jong Chul Ye. Optical-flow guided prompt optimization for coherent video generation. In Proceedings of the Computer Vision and Pat-tern Recognition Conference , pages 7837–7846, 2025. 2 [44] OpenAI. Sora., 2024. 2, 3 [45] Yatian Pang, Bin Zhu, Bin Lin, Mingzhe Zheng, Francis EH Tay, Ser-Nam Lim, Harry Yang, and Li Yuan. Dreamdance: Animating human images by enriching 3d geometry cues from 2d poses. arXiv preprint arXiv:2412.00397 , 2024. 3 [46] Jack Parker-Holder, Philip Ball, Jake Bruce, Vibhavari Dasagi, Kristian Holsheimer, Christos Kaplanis, Alexandre Moufarek, Guy Scully, Jeremy Shar, Jimmy Shi, Stephen Spencer, Jes-sica Yung, Michael Dennis, Sultan Kenjeyev, Shangbang Long, Vlad Mnih, Harris Chan, Maxime Gazeau, Bonnie Li, Fabio Pardo, Luyu Wang, Lei Zhang, Frederic Besse, Tim Harley, Anna Mitenkova, Jane Wang, Jeff Clune, Demis Has-sabis, Raia Hadsell, Adrian Bolton, Satinder Singh, and Tim Rocktäschel. Genie 2: A large-scale foundation world model, 2024. 2 [47] William Peebles and Saining Xie. Scalable diffusion models with transformers. In Proceedings of the IEEE/CVF inter-national conference on computer vision , pages 4195–4205, 2023. 2, 3 [48] Ryan Po, Yotam Nitzan, Richard Zhang, Berlin Chen, Tri Dao, Eli Shechtman, Gordon Wetzstein, and Xun Huang. Long-context state-space video world models. ICCV , 2025. 2 [49] Adam Polyak, Amit Zohar, Andrew Brown, Andros Tjandra, Animesh Sinha, Ann Lee, Apoorv Vyas, Bowen Shi, Chih-Yao Ma, Ching-Yao Chuang, et al. Movie gen: A cast of media foundation models. arXiv preprint arXiv:2410.13720 ,2024. 2, 3 [50] Ri-Zhao Qiu, Ge Yang, Weijia Zeng, and Xiaolong Wang. Language-driven physics-based scene synthesis and editing via feature splatting. In European Conference on Computer Vision (ECCV) , 2024. 3 [51] Joonghyuk Shin, Zhengqi Li, Richard Zhang, Jun-Yan Zhu, Jaesik Park, Eli Schechtman, and Xun Huang. Motionstream: Real-time video generation with interactive motion controls. 
+
+arXiv preprint arXiv:2511.01266 , 2025. 2, 3, 9 [52] Uriel Singer, Adam Polyak, Thomas Hayes, Xi Yin, Jie An, Songyang Zhang, Qiyuan Hu, Harry Yang, Oron Ashual, Oran Gafni, et al. Make-a-video: Text-to-video generation without text-video data. arXiv preprint arXiv:2209.14792 ,2022. 2 [53] Xiyang Tan, Ying Jiang, Xuan Li, Zeshun Zong, Tianyi Xie, Yin Yang, and Chenfanfu Jiang. Physmotion: Physics-grounded dynamics from a single image. arXiv preprint arXiv:2411.17189 , 2024. 3 [54] Team Wan, Ang Wang, Baole Ai, Bin Wen, Chaojie Mao, Chen-Wei Xie, Di Chen, Feiwu Yu, Haiming Zhao, Jianxiao Yang, et al. Wan: Open and advanced large-scale video generative models. arXiv preprint arXiv:2503.20314 , 2025. 2, 3, 5, 19 [55] Chen Wang, Chuhao Chen, Yiming Huang, Zhiyang Dou, Yuan Liu, Jiatao Gu, and Lingjie Liu. Physctrl: Generative physics for controllable and physics-grounded video genera-tion. arXiv preprint arXiv:2509.20358 , 2025. 3 [56] Miaowei Wang, Yibo Zhang, Rui Ma, Weiwei Xu, Changqing Zou, and Daniel Morris. Decoupledgaussian: Object-scene decoupling for physics-based interaction. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2025. 3 [57] Yuqing Wang, Tianwei Xiong, Daquan Zhou, Zhijie Lin, Yang Zhao, Bingyi Kang, Jiashi Feng, and Xihui Liu. Loong: Gen-erating minute-level long videos with autoregressive language models. arXiv preprint arXiv:2410.02757 , 2024. 3 [58] Zhouxia Wang, Ziyang Yuan, Xintao Wang, Tianshui Chen, Menghan Xia, Ping Luo, and Ying Shan. MotionCtrl: A Unified and Flexible Motion Controller for Video Generation, 2023. arXiv:2312.03641 null. 2 [59] Dirk Weissenborn, Oscar Täckström, and Jakob Uszkor-eit. Scaling autoregressive video models. arXiv preprint arXiv:1906.02634 , 2019. 3 [60] Jiajun Wu, Ilker Yildirim, Joseph J Lim, Bill Freeman, and Josh Tenenbaum. Galileo: Perceiving physical object proper-ties by integrating a physics engine with deep learning. In Ad-vances in Neural Information Processing Systems (NeurIPS) ,2015. 9 [61] Jiajun Wu, Joseph J Lim, Hongyi Zhang, Joshua B Tenen-baum, and William T Freeman. Physics 101: Learning physi-cal object properties from unlabeled videos. In British Ma-chine Vision Conference (BMVC) , 2016. 9 [62] Rundi Wu, Ruiqi Gao, Ben Poole, Alex Trevithick, Changxi Zheng, Jonathan T Barron, and Aleksander Holynski. Cat4d: Create anything in 4d with multi-view video diffusion models. In Proceedings of the Computer Vision and Pattern Recogni-tion Conference , pages 26057–26068, 2025. 3 [63] Hongchi Xia, Zhi-Hao Lin, Wei-Chiu Ma, and Shenlong Wang. Video2game: Real-time, interactive, realistic and browser-compatible environment from a single video, 2024. 3
+
+12 [64] Hongchi Xia, Entong Su, Marius Memmel, Arhan Jain, Ray-mond Yu, Numfor Mbiziwo-Tiapo, Ali Farhadi, Abhishek Gupta, Shenlong Wang, and Wei-Chiu Ma. Drawer: Digi-tal reconstruction and articulation with environment realism, 2025. [65] Tianyi Xie, Zeshun Zong, Yuxing Qiu, Xuan Li, Yutao Feng, Yin Yang, and Chenfanfu Jiang. Physgaussian: Physics-integrated 3d gaussians for generative dynamics. arXiv preprint arXiv:2311.12198 , 2023. [66] Tianyi Xie, Yiwei Zhao, Ying Jiang, and Chenfanfu Jiang. Physanimator: Physics-guided generative cartoon animation. In Proceedings of the Computer Vision and Pattern Recogni-tion Conference , pages 10793–10804, 2025. 3 [67] Yiming Xie, Chun-Han Yao, Vikram Voleti, Huaizu Jiang, and Varun Jampani. Sv4d: Dynamic 3d content generation with multi-frame and multi-view consistency. arXiv preprint arXiv:2407.17470 , 2024. 2 [68] Ziyang Xie, Zhizheng Liu, Zhenghao Peng, Wayne Wu, and Bolei Zhou. Vid2sim: Realistic and interactive simulation from video for urban navigation. Preprint , 2024. 3 [69] Jinbo Xing, Hanyuan Liu, Menghan Xia, Yong Zhang, Xintao Wang, Ying Shan, and Tien-Tsin Wong. Tooncrafter: Gener-ative cartoon interpolation. ACM Transactions on Graphics (TOG) , 43(6):1–11, 2024. 3 [70] Jinbo Xing, Long Mai, Cusuh Ham, Jiahui Huang, Anirud-dha Mahapatra, Chi-Wing Fu, Tien-Tsin Wong, and Feng Liu. Motioncanvas: Cinematic shot design with controllable image-to-video generation. In Proceedings of the Special Interest Group on Computer Graphics and Interactive Tech-niques Conference Conference Papers , pages 1–11, 2025. 3 [71] Wilson Yan, Yunzhi Zhang, Pieter Abbeel, and Aravind Srini-vas. Videogpt: Video generation using vq-vae and transform-ers. arXiv preprint arXiv:2104.10157 , 2021. 3 [72] Shiyuan Yang, Liang Hou, Haibin Huang, Chongyang Ma, Pengfei Wan, Di Zhang, Xiaodong Chen, and Jing Liao. Direct-a-video: Customized video generation with user-directed camera movement and object motion. In ACM SIG-GRAPH 2024 Conference Papers , pages 1–12, 2024. 2, 3 [73] Shuai Yang, Wei Huang, Ruihang Chu, Yicheng Xiao, Yuyang Zhao, Xianbang Wang, Muyang Li, Enze Xie, Yingcong Chen, Yao Lu, et al. Longlive: Real-time interactive long video generation. arXiv preprint arXiv:2509.22622 , 2025. 3 [74] Yuxue Yang, Lue Fan, Zuzeng Lin, Feng Wang, and Zhaoxi-ang Zhang. Layeranimate: Layer-level control for animation. 
+
+arXiv preprint arXiv:2501.08295 , 2025. 3 [75] Zhuoyi Yang, Jiayan Teng, Wendi Zheng, Ming Ding, Shiyu Huang, Jiazheng Xu, Yuanming Yang, Wenyi Hong, Xiao-han Zhang, Guanyu Feng, et al. Cogvideox: Text-to-video diffusion models with an expert transformer. arXiv preprint arXiv:2408.06072 , 2024. 2, 3 [76] Deheng Ye, Fangyun Zhou, Jiacheng Lv, Jianqi Ma, Jun Zhang, Junyan Lv, Junyou Li, Minwen Deng, Mingyu Yang, Qiang Fu, et al. Yan: Foundational interactive video genera-tion. arXiv preprint arXiv:2508.08601 , 2025. 2, 3 [77] Tianwei Yin, Michaël Gharbi, Taesung Park, Richard Zhang, Eli Shechtman, Fredo Durand, and Bill Freeman. Improved distribution matching distillation for fast image synthesis. 
+
+Advances in neural information processing systems , 37:47455– 47487, 2024. 3, 5, 20 [78] Tianwei Yin, Michaël Gharbi, Richard Zhang, Eli Shecht-man, Fredo Durand, William T Freeman, and Taesung Park. One-step diffusion with distribution matching distillation. In 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 6613–6623, 2024. 3, 5, 20 [79] Tianwei Yin, Qiang Zhang, Richard Zhang, William T Free-man, Fredo Durand, Eli Shechtman, and Xun Huang. From slow bidirectional to fast autoregressive video diffusion mod-els. In Proceedings of the Computer Vision and Pattern Recog-nition Conference , pages 22963–22974, 2025. 2, 3, 5, 19 [80] Hong-Xing Yu, Haoyi Duan, Charles Herrmann, William T. Freeman, and Jiajun Wu. Wonderworld: Interactive 3d scene generation from a single image. arXiv:2406.09394 , 2024. 3 [81] Mark YU, Wenbo Hu, Jinbo Xing, and Ying Shan. Trajecto-rycrafter: Redirecting camera trajectory for monocular videos via diffusion models. arXiv preprint arXiv:2503.05638 , 2025. 2, 3 [82] Lvmin Zhang, Anyi Rao, and Maneesh Agrawala. Adding conditional control to text-to-image diffusion models. In 
+
+Proceedings of the IEEE/CVF international conference on computer vision , pages 3836–3847, 2023. 4, 19 [83] Tianyuan Zhang, Hong-Xing Yu, Rundi Wu, Brandon Y. Feng, Changxi Zheng, Noah Snavely, Jiajun Wu, and William T. Freeman. PhysDreamer: Physics-Based Interaction with 3D Objects via Video Generation, 2024. arXiv:2404.13026 [cs]. 3[84] Yifan Zhang, Chunli Peng, Boyang Wang, Puyi Wang, Qingcheng Zhu, Fei Kang, Biao Jiang, Zedong Gao, Eric Li, Yang Liu, et al. Matrix-game: Interactive world founda-tion model. arXiv preprint arXiv:2506.18701 , 2025. 2 [85] Guangcong Zheng, Teng Li, Rui Jiang, Yehao Lu, Tao Wu, and Xi Li. Cami2v: Camera-controlled image-to-video diffu-sion model. arXiv preprint arXiv:2410.15957 , 2024. 3 [86] Sixiao Zheng, Zimian Peng, Yanpeng Zhou, Yi Zhu, Hang Xu, Xiangru Huang, and Yanwei Fu. Vidcraft3: Camera, object, and lighting control for image-to-video generation. 
+
+arXiv preprint arXiv:2502.07531 , 2025. 3 
+
+13 Appendix 
+
+# A. Perceptual Study Details 
+
+We conduct three perceptual user studies to evaluate dif-ferent aspects of S TREAM FORCE : ❶ overall comparisons with baselines, ❷ sensitivity to force magnitude, and ❸ re-sponsiveness to changing forces. All studies are conducted through an online survey interface where participants com-pare videos generated under indentical input conditions. Par-ticipants may select one or multiple video results that best satisfy the evaluation criterion or choose None if none of the results are satisfactory. To reduce potential bias, the or-der of the compared methods is randomly shuffled for each question and for each participant. 
+
+A.1. Overall Comparisons with Baselines 
+
+This study evaluates the overall controllability and percep-tual quality of S TREAM FORCE generated videos compared with baseline methods. We construct a test set consisting of four types of force control scenarios: global force , local force , changing global force , and changing local force . Each category contains 10 evaluation cases, resulting in 40 cases in total. A total of 26 participants completed the study. The aggregated results are reported in Tab. 1 in the main paper. Participants evaluate the generated videos according to three criteria: force adherence , physics awareness , and visual quality . Force adherence measures how well the motion follows the specified force direction and location; physics awareness evaluates whether the motion appears consistent with intuitive real-world physical behavior; and visual qual-ity reflects the overall perceptual realism of the generated video. An example interface of the perceptual study is shown in Fig. A1 . For each evaluation case, participants are first shown the initial image used for video generation as a ref-erence. Videos generated by different methods are then presented for comparison. To clearly communicate the input force conditions, arrows are overlaid on the generated videos, where the arrow direction indicates the force direction and the arrow length represents the force magnitude. Participants select one or more videos that satisfy each evaluation crite-rion or choose None if none of the results are satisfactory. 
+
+A.2. Sensitivity to Force Magnitude 
+
+While motion direction can be directly evaluated from the tra-jectory of moving objects, assessing whether motion strength reflects the magnitude of the applied force is more challeng-ing. To specifically examine this capability, we conduct an additional perceptual study focusing on the model’s sensi-tivity to force magnitude differences . In this study, partici-pants compare videos generated under two force magnitudes applied to the same initial image: a smaller force input and a 
+
+larger force input . For each method, two videos correspond-  
+
+> Table A1. Magnitude Response Perceptual Study. Ours more accurately reflects the intended motion differences between smaller and larger forces compared to the baselines.
+
+Method Global Local 
+
+Wan2.2 TI2V 0% 0% ForcePrompt 16.7% 20.0% 
+
+Ours 88.9% 78.0% 
+
+ing to these two force magnitudes are presented. Participants are asked to determine which method(s) can clearly demon-strate adaptation to the magnitude difference, i.e., whether the generated motion becomes stronger when the force mag-nitude increases. An example interface of this study is shown in Fig. A3 . Each method is presented as a column containing two videos: the top row corresponds to the smaller force input, and the bottom row corresponds to the larger force input. Arrows overlaid on the videos indicate the input force direction and magnitude. Participants select the method(s) whose generated motions best reflect the expected difference between smaller and larger forces, or choose None if none of the methods exhibit clear magnitude adaptation. As summa-rized in Tab. A1 , S TREAM FORCE substantially outperforms baseline methods in reflecting the intended magnitude varia-tions. A representative example is shown in Fig. A2 : when a horse is subjected to weaker versus stronger wind forces, STREAM FORCE produces visibly different motion ampli-tudes in the mane and tail (highlighted by the red boxes), whereas Force-Prompting generates nearly identical motion under both conditions. This demonstrates that our model responds more consistently to changes in force magnitude. 
+
+A.3. Responsiveness to Changing Forces 
+
+We further evaluate whether the model can correctly respond to changes in the applied force during video generation. In this study, we compare two variants of S TREAM FORCE : the final model trained with force-changing supervision and an ablated version trained without force-changing data, where force changes are only applied during inference. An example of the interface is shown in Fig. A4 . Two videos generated by the compared variants are displayed for each case. The applied force changes during the sequence, which is indi-cated by the updated arrow. To illustrate this setup, we show frames from both videos at two time steps corresponding to 
+
+before change and after change . Participants are asked to determine which method better follows the updated force in-put after the change occurs, or select None if neither method responds appropriately. The aggregated results of this study are reported in Tab. 4 in the main paper. 14 (a) Video comparison panel (b) Evaluation questions 
+
+Figure A1. Perceptual study interface for overall comparisons with baselines. Left: generated videos from different methods shown to participants for comparison. Right: evaluation questions for force adherence, physics awareness, and visual quality. Arrows are overlaid on the videos to indicate the input force direction and magnitude. Force Prompting Ours 
+
+## F=0.4 F=0.8 F=0.4 F=0.8 
+
+Figure A2. Magnitude Response Comparisons . Ours responds more clearly to force magnitude differences than the baseline. Zoom in for details. 
+
+# B. Physics-IQ Benchmark Details 
+
+To evaluate physical consistency, we adopt the metrics from the Physics-IQ benchmark [ 42 ]. The evaluation cases pro-vided by Physics-IQ are primarily designed for text-to-video scenarios that test general physical reasoning. Since our task focuses on force-conditioned video generation, we instead construct our own evaluation set tailored to explicit force inputs while keeping the Physics-IQ metric computation unchanged. We record 40 real-world video sequences under con-trolled force conditions, covering both global- and local-force scenarios. Global forces are generated using a fan to simulate wind, while local forces are applied by dragging objects with a line or poking movable objects to induce mo-tion. Each sequence lasts 5 seconds and is recorded using an iPhone at 60 FPS. Following the protocol used in Physics-IQ, we uniformly subsample the recorded videos to obtain 80 frames per sequence. All generated videos are produced at a 15 Figure A3. Perceptual study interface for force magnitude sensitivity. Each method produces two videos with different force magnitudes applied to the same initial image. The top row corresponds to a smaller force input, and the bottom row corresponds to a larger force input.       
+
+> (a) Before change (b) After change
+> Figure A4. Perceptual study interface for force change responsiveness. Two variants each generate a video under a force-changing condition. To illustrate the task setup, we show frames from both videos at two different time steps: before change and after change . The force change can be inferred from the updated arrow.
+
+resolution of 832 ×480 and evaluated over the same 80-frame duration (corresponding to 5 seconds at 16 FPS). Example sequences from our recorded evaluation set are shown in 
+
+Fig. A5 .To ensure fair comparison across methods, for each initial image and force input we generate 5 videos using different random seeds and report the mean Physics-IQ score across these runs. Results are reported separately for global-force and local-force scenarios in Tabs. 2 and 3 in the main paper. We follow the Physics-IQ evaluation protocol and use their released code to compute all metrics. The evaluation pipeline is minimally adapted to load our ground-truth and generated videos, while the metric definitions and computa-tion procedures remain unchanged. 
+
+# C. Dataset Details 
+
+C.1. Synthetic Data for Bidirectional Teacher Training 
+
+To train the bidirectional teacher model, we generate syn-thetic force-conditioned videos using the data generation pipeline from Force-Prompting [ 15 ]. The pipeline uses Blender to simulate object motion under controlled phys-16 Figure A5. Examples of recorded sequences used for Physics-IQ evaluation.  
+
+> Figure A6. Examples of synthetic data for bidirectional teacher training.
+
+ical forces. Following their setup, we generate two types of force interactions. For global forces , wind fields are applied to cloth flags to simulate wind-driven motion. For local forces , a ball placed on a plane is poked to produce localized force interactions that induce motion. To support the force-changing scenarios studied in this work, we extend the Force-Prompting data generation scripts to include a force change setting. For global forces, the wind direction and magnitude are updated at a specified time step to a new set of randomly sampled values. For local forces, the ball is poked again after the change, with a different direc-tion and magnitude applied to the same object. This allows the generated sequences to reflect dynamic force conditions where the applied force changes during the motion. The resulting synthetic dataset provides paired supervi-sion consisting of the initial image, force inputs, and the corresponding motion trajectories, which are used to train the bidirectional teacher to learn force-consistent motion dynamics. We show example synthetic data in Fig. A6 .
+
+C.2. Diverse Data for Causal Distillation 
+
+To preserve the visual diversity of the pretrained video gen-erator during causal distillation, we construct a diverse im-age–force dataset using real-world images. Relying solely on synthetic Blender data may bias the model toward limited object categories and scene layouts, while diverse images help maintain broader visual priors. We collect images using the Pexels API by querying a wide range of scene and object categories. For each image, we construct corresponding force inputs to form image-force 17 Figure A7. Local force annotation interface. Annotators select the target object and drag an arrow to indicate the intended motion direction. The object name, the pixel location of the click, and the arrow direction are recorded to define the local force input. 
+
+pairs. For global forces, the force direction and magnitude are randomly sampled and applied to the entire scene. For lo-cal forces, we annotate movable objects using a lightweight annotation interface, as shown in Fig. A7 . Annotators first click on the target object and then drag an arrow to indicate the intended motion direction. The selected object name, the pixel location of the click, and the arrow direction are recorded to define the local force input. For both global and local force settings, we generate a text caption using Qwen3-VL [ 3] to ensure that the textual prompt is consistent with the image content and the intended force interaction. Importantly, the captions do not revewal the force direction or magnitude to avoid leaking supervision signals into the text input. For local force cases, the caption only includes the name of the manipulated object while omitting any infor-mation about the location. Given the constructed image-force data pairs, we use the bidirectional teacher model to generate corresponding ODE solution pairs that serve as the training data for ODE ini-tialization to achieve a stable starting point for Self-Forcing distillation [ 26 ]. Since randomly generated image-force com-binations may occasionally produce static or implausible mo-tion, we further employ Qwen3-VL to filter out cases where the generated videos remain largely static. The remaining samples are used to train the causal student model. 
+
+Global force caption generation. We prompt Qwen3-VL with the following prompt to use it to generate the captions for diverse global force samples: 
+
+Objective : Give a highly descriptive video cap-tion based on input image and user input . As an expert, delve deep into the image with a discerning eye, leveraging rich creativity, meticulous thought. When describing the details of an image, include appropriate dynamic information to ensure that the video caption contains reasonable actions and plots. If user input is not empty, then the caption should be expanded according to the user’s input. 
+
+Note : The input image is the first frame of the video, and the output video caption should describe the mo-tion starting from the current image. Don’t contain camera transitions, screen switching, or perspective shifts. 
+
+Wind Constraint (Important) : The scene involves wind blowing. You MUST acknowledge the presence of wind in the description. However, you MUST NOT specify or imply: - wind direction (e.g., left, right, upward, sideways, from any compass direction), - wind strength or intensity (e.g., strong, weak, gentle, violent), 18 - wind speed or magnitude, - any quantitative or comparative description of the wind. Only mention the existence of wind in a neutral, non-specific way, such as “a breeze is present” or “the wind affects the scene”, without giving any details that could determine direction or strength. 
+
+Answering Style : Answers should be comprehen-sive, conversational, and use complete sentences. The answer should be in English no matter what the user’s input is. Provide context where necessary and maintain a certain tone. Begin directly without intro-ductory phrases like “The image/video showcases” “The photo captures” and more. 
+
+Output Format : “[highly descriptive image caption here]” 
+
+Local force caption generation. We prompt Qwen3-VL with the following prompt to use it to generate the captions for diverse local force samples: 
+
+Objective : Give a highly descriptive video cap-tion based on input image and user input . As an expert, delve deep into the image with a discerning eye, leveraging rich creativity, meticulous thought. When describing the details of an image, include appropriate dynamic information to ensure that the video caption contains reasonable actions and plots. If user input is not empty, then the caption should be expanded according to the user’s input. 
+
+Note : The input image is the first frame of the video, and the output video caption should describe the mo-tion starting from the current image. Don’t contain camera transitions, screen switching, or perspective shifts. **Force Constraint (Important)**: The scene in-volves an external force causing an object to move. You MUST acknowledge this in the description. However, you MUST NOT specify or imply: - object location in the frame (e.g., left, right, center, foreground, background), - force direction, - force strength or intensity, - force magnitude or speed, - angle, coordinates, or any numeric/quantitative de-tails. Only describe that the object is being moved by an external push/pull in a neutral, non-quantitative way. 
+
+Answering Style : Answers should be comprehen-sive, conversational, and use complete sentences. The answer should be in English no matter what the user’s input is. Provide context where necessary and maintain a certain tone. Begin directly without intro-ductory phrases like “The image/video showcases” “The photo captures” and more. 
+
+Output Format : “[highly descriptive image caption here]” 
+
+# D. Training Details 
+
+D.1. Bidirectional Teacher Training 
+
+We initialize our bidirectional teacher model from the pre-trained Wan2.2 TI2V model [ 54 ]. The ControlNet [ 82 ]branch is initialized by copying the first half of the trans-former layers from the pretrained backbone. During teacher training, we optimize only the ControlNet parameters while keeping the backbone weights frozen in order to preserve the pretrained model’s visual generation capabilities. We train our teacher model on the synthetic force-conditioned dataset using 8 H200 GPUs for 10K optimization steps. We use AdamW optimizer with learning rate 1 × 10 −6, β1 = 0 ,
+
+β2 = 0 .999 , and weight decay 0.01 . Training is performed with a per-GPU batch size of 1 (global batch size of 8) using bfloat 16 mixed precision. To improve training efficiency, videos are processed at a spatial resolution of 416 × 240 ,which is half of the final generation resolution in both di-mensions. Each training sample contains 21 latent frames, corresponding to 81 decoded video frames. 
+
+D.2. Causal Distillation 
+
+ODE initialization. Before the final distillation training, we perform an ODE initialization stage to initialize (pretrain) a causal student model using trajectories generated by the bidirectional teacher. The student model is initialized from the bidirectional teacher weights, but is trained with causal temporal attention masks following prior causal video gener-ation approaches [ 26 , 79 ]. Unlike the teacher training stage, during ODE initialization we optimize both the backbone and ControlNet parameters so that the model can adapt to the causal attention masking used by the student architec-ture. Training data consists of ODE solution pairs generated by the bidirectional teacher from both the synthetic dataset and diverse image-force dataset described in Sec. C. During training, samples are drawn with a synthetic-to-diverse ratio of 1 : 2 . Training is performed on 16 H200 GPUs with a per-GPU batch size of 2 and graident accumulation of 4, resulting in a global batch size of 128 for 10K steps. We use the AdamW optimizer with learning rate 2 × 10 −6, β1 = 0 ,
+
+β2 = 0 .999 , and weight decay 0.01. ODE latents are pro-cessed at the target generation resolution of 832 × 480 with 21 latent frames. We used a fixed diffusion timestep index schedule of [1000 , 750 , 500 , 250 , 0] to construct the ODE trajectories sued for training. 19 Self-Forcing style distillation. After ODE initialization, we further train the causal student model using the Self-Forcing distillation framework [ 26 ]. In this stage, the student model serves as the generator, and is jointly optimized with a critic model (fake score function, initialized using the teacher) following the DMD-style objective [ 77 , 78 ]. We use the AdamW optimizer for both models, with a learning rate of 2 × 10 −6 for the generator and 4 × 10 −7 for the critic. The generator and critic are updated with a 1 : 5 ratio, following prior distillation practice. Training is performed on 8 H200 GPUs with a per-GPU batch size of 1 at a spatial resolution of 832 × 480 . We train for 3000 steps in total. We additionally maintain an exponential moving average (EMA) of the generator parameters during this stage, starting after the first 200 training steps. 
+
+# E. Long Video Generation 
+
+To support long-horizon video generation, we adopt the in-ference strategy introduced in Rolling-Forcing [ 36 ]. During inference, instead of strictly denoising frames one-by-one, we employ a rolling diffusion window that jointly denoises multiple consecutive frames with local bidirectional atten-tion. At the same time, we maintain a KV cache that consists of two parts: ❶ a temporal context cache that stores recent frames to preserve short-term consistency, and ❷ a global context cache that retains key-value states of initial frames as long-range anchors. This inference design effectively sup-presses error accumulation and maintains global coherence during long video generation. 
+
+# F. Limitations 
+
+2D only force representation. Our current formulation represents forces within the image plane and does not ex-plicitly model forces acting along the depth direction (i.e., toward or away from the camera). While many common scenarios such as wind or lateral pushes can be reasonably captured with this formulation, out-of-plane forces and fully three-dimensional physical interactions are not explicitly represented. 
+
+Limited diversity of force types. The force interactions considered in this work focus on mechanical contact forces (e.g., pushes and pulls) and bulk wind, both of which can be described directly by Newtonian mechanics. Other physical force types, such as magnetic forces, electrostatic forces, buoyancy, or other non-contact / field-based interactions, are not covered by our current force representation or train-ing data. While our model can also support multi-force, part-level interactions in special cases (e.g., the T-pushing example in the discussion), this capability does not yet gen-eralize to arbitrary objects or to arbitrary numbers of contact points; the local-force setup primarily targets single-point in-teractions during training. A more comprehensive physically grounded generation system should reliably reason about forces applied at different locations of an object. Expanding the range of supported force types (including non-contact forces such as magnetic and electrostatic) and multi-contact configurations would further improve the realism and gener-ality of the framework. 
+
+Limited object materials under local force. The objects targeted by local forces in our current training data are pre-dominantly rigid or articulated (e.g., a glass being pushed, a drawer being pulled). Non-rigid materials such as fluids (water splashing, smoke being stirred), elastic or deformable objects (cloth, rubber, dough), and granular media (sand, pebbles) are not explicitly covered by the local-force setup. As a result, applying a local force to such objects may yield motion that is plausible only as rigid-body translation, rather than the richer deformable or fluid response that the underly-ing physics would dictate. Broader coverage would require local-force training data spanning a wider range of material categories and the corresponding deformable/fluid dynamics. 
+
+Limited modeling of object-object interactions. Our ap-proach primarily focuses on modeling how individual ob-jects respond to externally applied forces. Complex physical interactions involving multiple objects, such as collisions, stacking, or chained motion between objects, are not explic-itly modeled in the current system. Handling richer multi-object dynamics would likely require incorporating stronger physical priors or simulation-aware training signals. 20

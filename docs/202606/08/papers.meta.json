@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-08",
+  "date": "2026-06-08",
+  "generated_at": "2026-06-08T21:07:44",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/08/2606.07508v1-streaming-video-generation-with-streaming-force-control",
+      "section": "deep",
+      "title_en": "Streaming Video Generation with Streaming Force Control",
+      "authors": "Hanhui Wang, Yiming Xie, Haiwen Feng, Zhaoyang Lv, Shenlong Wang, Huaizu Jiang",
+      "date": "2026-06-05",
+      "pdf": "https://arxiv.org/pdf/2606.07508v1",
+      "score": "8.0",
+      "evidence": "用于力可控视频生成的蒸馏管道，实现实时性能",
+      "tldr": "现有视频生成模型难以处理时变力控制，常依赖非因果处理或固定力假设。StreamForce提出因果统一框架，通过设计统一力表征和蒸馏管线，实现连续力输入的流式视频生成。单GPU达16.6 FPS，力遵循和运动真实性均达SOTA。为物理可控视频生成提供高效实时方案。",
+      "tags": "query:vd",
+      "abstract_en": "We introduce StreamForce, a streaming video generation framework that enables physically grounded control through continuous force inputs. Unlike prior video models that train separate models for different force types, assume fixed forces, or rely on non-causal processing, StreamForce is a causal and unified model that responds instantly and coherently to both local and global, time-varying forces. To achieve this, we design a unified force representation as a control signal and develop a distillation pipeline for force-controllable video generation. Our model combines autoregressive efficiency with force responsiveness, sustaining stable photometric and dynamic realism. StreamForce runs at up to 16.6 FPS on a single GPU, achieving state-of-the-art performance in both force adherence and motion realism. Project website: https://neu-vi.github.io/StreamForce/",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/08/2606.03746v2-qwen-image-flash-beyond-objective-design",
+      "section": "quick",
+      "title_en": "Qwen-Image-Flash: Beyond Objective Design",
+      "authors": "Tianhe Wu, Kun Yan, Zikai Zhou, Lihan Jiang, Jiahao Li, Jie Zhang, Kaiyuan Gao, Ningyuan Tang, Shengming Yin, Xiaoyue Chen, Xiao Xu, Yilei Chen, Yuxiang Chen, Yan Shu, Yixian Xu, Yanran Zhang, Zihao Liu, Zhendong Wang, Zekai Zhang, Deqing Li, Liang Peng, Yi Wang, Jingren Zhou, Chenfei Wu",
+      "date": "2026-06-02",
+      "pdf": "https://arxiv.org/pdf/2606.03746v2",
+      "score": "6.0",
+      "evidence": "面向图像生成的少步蒸馏，训练策略分析",
+      "tldr": "少步蒸馏常聚焦于蒸馏目标，但训练配方同样关键。本文基于Qwen-Image-2.0系统研究数据组成、教师指导和任务混合三个因素，揭示非直观行为，并开发Qwen-Image-Flash。在文本到图像生成和指令编辑任务上表现优异，表明有效蒸馏需兼顾目标设计与训练流程整体组织。",
+      "tags": "query:vd",
+      "abstract_en": "Few-step distillation has become an effective strategy for accelerating advanced visual generative models, yet prior work has largely focused on distillation objectives. In this work, we revisit few-step distillation from a complementary perspective, focusing on the training recipe that critically shapes student performance. Using Qwen-Image-2.0 as a representative case, we systematically investigate three factors in unified text-to-image generation and instruction-guided image editing distillation: data composition, teacher guidance, and task mixture. Our empirical analysis reveals several non-obvious behaviors, which motivate the development of Qwen-Image-Flash. Overall, our results suggest that effective few-step distillation requires not only carefully designed objectives, but also principled organization of the broader training pipeline.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

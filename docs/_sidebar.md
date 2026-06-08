@@ -1,6 +1,11 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-06-08 <!--dpr-date:20260608-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/08/2606.07508v1-streaming-video-generation-with-streaming-force-control" data-sidebar-item="{&quot;title&quot;: &quot;Streaming Video Generation with Streaming Force Control&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.07508v1-streaming-video-generation-with-streaming-force-control&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vd&quot;}], &quot;evidence&quot;: &quot;用于力可控视频生成的蒸馏管道，实现实时性能&quot;}">Streaming Video Generation with Streaming Force Control</a>
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/08/2606.03746v2-qwen-image-flash-beyond-objective-design" data-sidebar-item="{&quot;title&quot;: &quot;Qwen-Image-Flash: Beyond Objective Design&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.03746v2-qwen-image-flash-beyond-objective-design&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vd&quot;}], &quot;evidence&quot;: &quot;面向图像生成的少步蒸馏，训练策略分析&quot;}">Qwen-Image-Flash: Beyond Objective Design</a>
   * 2026-06-07 <!--dpr-date:20260607-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/07/2606.00957v1-boundary-protection-w8a8-hifloat8-quantization-for-large-scale-text-to-video-diffusion-transformers" data-sidebar-item="{&quot;title&quot;: &quot;Boundary-Protection W8A8 HiFloat8 Quantization for Large-Scale Text-to-Video Diffusion Transformers&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.00957v1-boundary-protection-w8a8-hifloat8-quantization-for-large-scale-text-to-video-diffusion-transformers&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vd&quot;}], &quot;evidence&quot;: &quot;视频扩散模型的后训练量化&quot;}">Boundary-Protection W8A8 HiFloat8 Quantization for Large-Scale Text-to-Video Diffusion Transformers</a>
