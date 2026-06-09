@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-06-09 <!--dpr-date:20260609-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/09/2606.08672v1-learning-to-solve-generative-odes-beyond-the-linear-span" data-sidebar-item="{&quot;title&quot;: &quot;Learning to Solve Generative ODEs Beyond the Linear Span&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.08672v1-learning-to-solve-generative-odes-beyond-the-linear-span&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vd&quot;}], &quot;evidence&quot;: &quot;提出SpanLift神经求解器改进扩散/流模型的少步生成，直接相关少步采样。&quot;}">Learning to Solve Generative ODEs Beyond the Linear Span</a>
   * 2026-06-08 <!--dpr-date:20260608-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/08/2606.07508v1-streaming-video-generation-with-streaming-force-control" data-sidebar-item="{&quot;title&quot;: &quot;Streaming Video Generation with Streaming Force Control&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.07508v1-streaming-video-generation-with-streaming-force-control&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vd&quot;}], &quot;evidence&quot;: &quot;用于力可控视频生成的蒸馏管道，实现实时性能&quot;}">Streaming Video Generation with Streaming Force Control</a>

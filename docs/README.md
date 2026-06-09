@@ -6,28 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-08
-- 运行时间：2026-06-08 21:07:36 UTC
+- 最新运行日期：2026-06-09
+- 运行时间：2026-06-09 21:54:35 UTC
 - 运行状态：成功
-- 本次总论文数：2
+- 本次总论文数：1
 - 精读区：1
-- 速读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-1) 今日精选两篇论文，聚焦流式视频生成控制与超越传统目标设计的图像模型。  
-2) 最值得关注流式视频生成中的力控制方法（8.0分），可望提升视频生成的稳定性与交互性；速读的Qwen-Image-Flash（6.0分）则尝试突破目标设计局限。  
-3) 建议普通读者可深入学习流式视频生成的核心控制机制，探索其在实时内容创作中的潜力。
-- 详情：[/202606/08/README](/202606/08/README)
+今日精读一篇高分论文，聚焦生成式常微分方程（ODE）超越线性跨度求解的新方法。  
+该论文（8.0/10）提出突破线性假设的生成ODE学习框架，是当前生成模型领域值得关注的方向。  
+建议读者重点关注该方法的理论创新点及其在连续生成模型中的应用潜力。
+- 详情：[/202606/09/README](/202606/09/README)
 
 ### 精读区论文标签
-1. [Streaming Video Generation with Streaming Force Control](/202606/08/2606.07508v1-streaming-video-generation-with-streaming-force-control)  
+1. [Learning to Solve Generative ODEs Beyond the Linear Span](/202606/09/2606.08672v1-learning-to-solve-generative-odes-beyond-the-linear-span)  
    标签：评分：8.0/10、query:vd
-   evidence：用于力可控视频生成的蒸馏管道，实现实时性能
+   evidence：提出SpanLift神经求解器改进扩散/流模型的少步生成，直接相关少步采样。
 
 ### 速读区论文标签
-1. [Qwen-Image-Flash: Beyond Objective Design](/202606/08/2606.03746v2-qwen-image-flash-beyond-objective-design)  
-   标签：评分：6.0/10、query:vd
-   evidence：面向图像生成的少步蒸馏，训练策略分析
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">
