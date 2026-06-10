@@ -1,0 +1,54 @@
+{
+  "label": "2026-06-10",
+  "date": "2026-06-10",
+  "generated_at": "2026-06-10T21:47:49",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202606/10/2606.11180v1-lip-forcing-few-step-autoregressive-diffusion-for-real-time-lip-synchronization",
+      "section": "deep",
+      "title_en": "Lip Forcing: Few-Step Autoregressive Diffusion for Real-time Lip Synchronization",
+      "authors": "Paul Hyunbin Cho, Jinhyuk Jang, SeokYoung Lee, Joungbin Lee, Siyoon Jin, Heeseong Shin, Jung Yi, Yunjin Park, Chulmin Park, Seungryong Kim",
+      "date": "2026-06-09",
+      "pdf": "https://arxiv.org/pdf/2606.11180v1",
+      "score": "9.0",
+      "evidence": "将14B视频扩散教师蒸馏为因果学生模型，实现少步自回归唇同步",
+      "tldr": "扩散唇同步模型因双向注意力和多步去噪难以实时。本文提出Lip Forcing，首个自回归扩散V2V方法，从14B双向扩散教师蒸馏因果学生，仅需两次去噪步骤且无需CFG，实现实时唇同步。1.3B学生达31 FPS实时流，比同规模双向模型快17.6倍；14B学生比教师快39.8倍，保真度相当。首帧时间亚毫秒，为实时扩散唇同步奠定基础。",
+      "tags": "query:vd",
+      "abstract_en": "Diffusion-based lip synchronization models achieve strong visual quality and audio-visual alignment, but full-sequence bidirectional attention and many denoising steps make them impractical for real-time inference. We present Lip Forcing, to our knowledge the first autoregressive diffusion method for video-to-video (V2V) lip synchronization, which distills a 14B audio-conditioned bidirectional video diffusion teacher into causal students. At inference, the students generate each chunk in only two denoising steps without inference-time CFG, enabling real-time lip synchronization. A lip-sync-specific teacher-trajectory analysis reveals a CFG fidelity-sync tradeoff: no-CFG predictions favor reference fidelity, whereas CFG-guided predictions favor synchronization within a mid-trajectory band. Lip Forcing translates this finding into three analysis-derived components: Sync-Window DMD, a two-step inference schedule, and a SyncNet-based reward. We validate Lip Forcing at two student scales, both distilled from the 14B teacher. The 1.3B student crosses into real-time streaming at 31 FPS, $17.6\\times$ faster than its same-scale bidirectional model. The 14B student, the largest diffusion model reported for V2V lip synchronization, runs $39.8\\times$ faster than its teacher at comparable reference fidelity. Time-to-first-frame is sub-millisecond at both scales, far below every diffusion baseline.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/10/2606.11155v1-mean-flow-distillation-robust-and-stable-distillation-for-flow-matching-models",
+      "section": "deep",
+      "title_en": "Mean Flow Distillation: Robust and Stable Distillation for Flow Matching Models",
+      "authors": "An Zhao, Shengyuan Zhang, Zhongjian Sun, Yixiang Zhou, Zejian Li, Ling Yang, Tianrun Chen, Lingyun Sun",
+      "date": "2026-06-09",
+      "pdf": "https://arxiv.org/pdf/2606.11155v1",
+      "score": "8.0",
+      "evidence": "针对流匹配模型的蒸馏方法，可迁移至视频生成加速",
+      "tldr": "流匹配模型在生成任务中表现优异，但ODE迭代采样导致高计算成本。现有蒸馏方法忽略流几何结构，训练不稳定。本文提出均值流蒸馏（MFD），理论证明其作为时间低通滤波器抑制高频噪声，并证明均值流匹配定理确保分布对齐。在4D占用预测和文生图任务中，MFD实现单步生成，性能最优。",
+      "tags": "query:vd",
+      "abstract_en": "Flow Matching models have demonstrated strong performance across a wide range of generative tasks. However, their reliance on ODE-based iterative sampling incurs substantial computational overhead in inference, which limits their applicability in real-time scenes. While distillation is a promising solution, existing approaches largely borrow from diffusion-based score matching, often failing to exploit the intrinsic geometric structure of flows and suffering from training instability, high variance, and degraded generation quality. In this paper, we propose Mean Flow Distillation (MFD), a novel distillation framework tailored for flow matching models. We theoretically demonstrate that MFD acts as a temporal low-pass filter, effectively suppressing the high-frequency optimization noise inherent in variational score distillation (VSD) while ensuring global trajectory consistency. We further prove the Mean Flow Matching Theorem, establishing that matching expected average velocities is sufficient for strict distribution alignment. Empirically, on challenging tasks of high-dimensional manifolds including 4D occupancy forecasting and text-to-image generation, MFD achieves state-of-the-art performance, enabling high-fidelity single-step generation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/10/2606.05703v1-parallel-jacobi-decoding-for-fast-autoregressive-image-generation",
+      "section": "quick",
+      "title_en": "Parallel Jacobi Decoding for Fast Autoregressive Image Generation",
+      "authors": "Boya Liao, Ying Li, Siyong Jian, Huan Wang",
+      "date": "2026-06-04",
+      "pdf": "https://arxiv.org/pdf/2606.05703v1",
+      "score": "6.0",
+      "evidence": "并行雅可比解码通过空间并行细化加速自回归图像生成，减少顺序步骤",
+      "tldr": "自回归图像生成模型推理速度慢，现有Jacobi解码加速受一维序列误差传播限制。本文提出Parallel Jacobi Decoding (PJD)，在二维空间并行扩展草稿令牌，并调整注意力掩码抑制误差累积。实验表明，PJD在多种自回归图像生成模型上实现4.8-6.4倍加速，同时保持生成质量。",
+      "tags": "query:vd",
+      "abstract_en": "Autoregressive (AR) models have demonstrated remarkable performance in generating high-fidelity images. However, their inherently sequential next-token prediction leads to significantly slower inference. Recent studies have introduced Jacobi-style decoding to accelerate autoregressive image generation. Extending the draft sequence initially improves efficiency, yet the acceleration quickly saturates as error propagation in the one-dimensional sequence hinders convergence. Observing that images exhibit strong local spatial correlations, we propose Parallel Jacobi Decoding (PJD), a training-free decoding approach that expands draft tokens in the two-dimensional spatial domain to enable efficient spatially parallel refinement. PJD adjusts the attention mask to mitigate error accumulation and improve convergence stability. Extensive experiments on diverse datasets show that PJD achieves 4.8x-6.4x acceleration across multiple autoregressive image generation models while maintaining competitive generation quality.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
