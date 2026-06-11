@@ -1,0 +1,301 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-11T21:55:34.693756+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.11838v1",
+      "source": "arxiv",
+      "title": "Plan-and-Verify Video Reward Reasoning with Spatio-Temporal Scene Graph Grounding",
+      "abstract": "Reward models for text-to-video (T2V) generation guide post-training but often fail at fine-grained semantic alignment. We trace this to two structural weaknesses in existing reasoning-based reward models: they do not systematically verify every condition described in the prompt, and the visual evidence supporting each judgment remains implicit in their free-form reasoning. We propose SG-PVR, a video reward model that addresses these limitations through plan-and-verify reasoning grounded in spatio-temporal scene graphs. The verification plan decomposes the prompt into atomic claims, ensuring every requirement is checked. The spatio-temporal scene graph, encoding entities, attributes, and temporally-grounded relations, is extracted from the video and maintained as a persistent structured visual reference throughout reasoning. Each claim is verified against both the video and the scene graph, anchoring judgments in explicit visual evidence. SG-PVR achieves strong performance on semantic alignment, including fine-grained temporal semantics. As a test-time reranker, it further enhances compositional alignment in T2V generation.",
+      "authors": [
+        "Hyomin Kim",
+        "Junghye Kim",
+        "Joanie Hayoun Chung",
+        "Yoonjin Oh",
+        "Kyungjae Lee",
+        "Sungbin Lim",
+        "Sungwoong Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T09:18:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.11838v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training video reward model with plan-and-verify reasoning",
+      "llm_evidence_cn": "面向视频生成后训练的奖励模型，具备规划与验证推理",
+      "llm_evidence": "面向视频生成后训练的奖励模型，具备规划与验证推理",
+      "canonical_evidence": "面向视频生成后训练的奖励模型，具备规划与验证推理",
+      "llm_tldr_en": "SG-PVR proposes a video reward model for post-training that decomposes prompts into atomic claims and grounds them in spatio-temporal scene graphs, improving fine-grained alignment in text-to-video generation.",
+      "llm_tldr_cn": "SG-PVR提出一种视频奖励模型，用于文本到视频生成的后训练阶段。该模型将提示分解为原子声明，并提取时空场景图作为证据支持，通过规划与验证机制确保每个条件都被检查。解决了现有奖励模型语义对齐不细粒度的问题，可直接提升视频生成的后训练效果。",
+      "llm_tldr": "SG-PVR提出一种视频奖励模型，用于文本到视频生成的后训练阶段。该模型将提示分解为原子声明，并提取时空场景图作为证据支持，通过规划与验证机制确保每个条件都被检查。解决了现有奖励模型语义对齐不细粒度的问题，可直接提升视频生成的后训练效果。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.04737v1",
+      "source": "arxiv",
+      "title": "Physics-Informed Video Generation via Mixture-of-Experts Latent Alignment",
+      "abstract": "Large-scale video generation models have made remarkable progress in semantic consistency and visual quality, producing videos that are increasingly coherent and visually convincing. Nevertheless, the dynamics induced by pixel-level fitting do not naturally accommodate the regularities that govern real-world motion and interaction, resulting in persistent shortcomings in physical plausibility. To address this limitation, we propose \\textbf{PILA} (Physics-Informed Latent Alignment), a framework that injects physics-structured latent guidance into the frozen flow-matching dynamics of pretrained video models. Specifically, PILA first employs anchored field estimation to map frozen-generator latents into an operational physical attribute bank organized by field-proxy slots, using observable motion as a kinematic anchor for constructing less directly observed proxies. To handle the heterogeneity of real-world dynamics, PILA adopts a mixture-of-experts design over physical categories. Label-prior masked expert routing selects category-specific operator experts, whose refinements are regularized by operational residuals abstracted from physical relations. Finally, the refined proxies are fused into the physical attribute bank and decoded into a correction to the flow-matching vector field, injecting physics-aware guidance while preserving the visual prior of the pretrained backbone. With staged adapter training on Wan 2.1-1.3B and direct transfer of the learned adapter to Wan 2.2-14B, PILA achieves state-of-the-art results on VBench-2.0, VideoPhy-2, and PhyGenBench in both visual quality and benchmark-measured physical plausibility.",
+      "authors": [
+        "Cong Wang",
+        "Hanxin Zhu",
+        "Jiayi Luo",
+        "Yonglin Tian",
+        "Xiaoqian Cheng",
+        "Peiyan Tu",
+        "Xin Jin",
+        "Long Chen",
+        "Zhibo Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-03T11:20:00+00:00",
+      "link": "https://arxiv.org/pdf/2606.04737v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "improves motion dynamics in video generation via physics-informed latent alignment",
+      "llm_evidence_cn": "通过物理信息潜在对齐改进视频生成中的运动动态",
+      "llm_evidence": "通过物理信息潜在对齐改进视频生成中的运动动态",
+      "canonical_evidence": "通过物理信息潜在对齐改进视频生成中的运动动态",
+      "llm_tldr_en": "PILA injects physics-structured latent guidance into frozen video diffusion models, improving physical plausibility and motion dynamics without retraining.",
+      "llm_tldr_cn": "PILA提出物理信息潜在对齐框架，向冻结的视频生成模型注入结构化物理先验，显著提升运动动态的物理合理性。该方法通过锚定场估计将潜在表示映射为物理属性，无需重新训练即可改善生成视频中的真实感运动。",
+      "llm_tldr": "PILA提出物理信息潜在对齐框架，向冻结的视频生成模型注入结构化物理先验，显著提升运动动态的物理合理性。该方法通过锚定场估计将潜在表示映射为物理属性，无需重新训练即可改善生成视频中的真实感运动。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.05254v1",
+      "source": "arxiv",
+      "title": "Flash-WAM: Modality-Aware Distillation for World Action Models",
+      "abstract": "World-action models (WAMs) jointly generate future video and robot actions through iterative diffusion, achieving strong performance on manipulation benchmarks but requiring tens of denoising steps, a cost that precludes real-time control. Step distillation has emerged as the natural remedy, but off-the-shelf methods break down in the joint video-action setting because video and action streams use different SNR-shifted noise schedules and reach training with substantially different marginal noise distributions, an asymmetry that single-modality distillation methods cannot accommodate. We introduce \\textbf{Flash-WAM}, a modality-aware step-distillation framework inspired by consistency distillation that selects the consistency function for each modality to match its noise regime: a linear-gradient-scaling parametrization for the action stream's low-noise regime, paired with a variance-preserving parametrization for the video stream's high-noise regime, grounded in a structural analysis of the consistency-function family that characterizes the achievable gradient scaling under the consistency boundary condition. Instantiated on LingBot-VA, Flash-WAM compresses inference to a single step in each modality. On RoboTwin 2.0, this reduces per-chunk latency from $8.1$ seconds to $348$ ms on NVIDIA L40S, a $23{\\times}$ speedup that enables real-time inference. Flash-WAM preserves task success on simulation benchmarks ($85.5\\%$ RoboTwin 2.0, $95.7\\%$ LIBERO) and substantially recovers real-world performance ($60\\%$ average on a Unitree G1 humanoid robot), while naive consistency distillation drops to $24\\%$ at the same step budget.",
+      "authors": [
+        "Arman Akbari",
+        "Ci Zhang",
+        "Arash Akbari",
+        "Lin Zhao",
+        "Yixiao Chen",
+        "Weiwei Chen",
+        "Xuan Zhang",
+        "Geng Yuan",
+        "Yanzhi Wang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-06-03T15:29:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.05254v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "modality-aware step distillation for joint video-action generation",
+      "llm_evidence_cn": "面向视频-动作联合生成的模态感知步骤蒸馏",
+      "llm_evidence": "面向视频-动作联合生成的模态感知步骤蒸馏",
+      "canonical_evidence": "面向视频-动作联合生成的模态感知步骤蒸馏",
+      "llm_tldr_en": "Flash-WAM introduces modality-aware step distillation for world-action models, enabling fast few-step video and action generation while maintaining quality, overcoming SNR mismatch between modalities.",
+      "llm_tldr_cn": "世界动作模型需要大量去噪步骤，难以实时控制。现有单模态蒸馏方法无法处理视频和动作流中不同的噪声分布。本文提出Flash-WAM，一个模态感知的步骤蒸馏框架，灵感来自一致性蒸馏，为每个模态选择匹配的一致性函数，以对齐噪声分布。实验表明，该方法显著减少推理步骤，同时保持视频和动作生成的质量，为机器人操控的实时控制提供了可能。",
+      "llm_tldr": "世界动作模型需要大量去噪步骤，难以实时控制。现有单模态蒸馏方法无法处理视频和动作流中不同的噪声分布。本文提出Flash-WAM，一个模态感知的步骤蒸馏框架，灵感来自一致性蒸馏，为每个模态选择匹配的一致性函数，以对齐噪声分布。实验表明，该方法显著减少推理步骤，同时保持视频和动作生成的质量，为机器人操控的实时控制提供了可能。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10450v1",
+      "source": "arxiv",
+      "title": "Few-step Generative Models as Lossy Compression",
+      "abstract": "DiffC provides a principled way to reuse pre-trained diffusion models for lossy compression, but its encoding and decoding procedures remain slow because they require many discretized forward and reverse steps. We study whether few-step generative models -- Rectified Flow, Consistency Trajectory Models (CTM), and MeanFlow -- can be cast as codecs within the same reverse channel coding (RCC) framework. The main challenge is that RCC requires posterior and shared distribution parameters, whereas these models do not explicitly parameterize intermediate conditional distributions. For Rectified Flow and MeanFlow, we use the equivalence between velocity parameterization and diffusion-style denoising parameterization to derive the quantities required by RCC. For CTM, which is distilled from EDM, we adopt the EDM noise parameterization together with local Gaussian approximations of the sender and shared distributions at intermediate states. This yields a proof-of-concept probabilistic formulation that enables compression with pre-trained few-step generative models without retraining. On low-resolution benchmarks, the resulting codecs reduce encoding and decoding time and improve realism in the low-bit-rate regime.",
+      "authors": [
+        "Fuma Kimishima",
+        "Jinjia Zhou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-06-09T05:56:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.10450v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "studies few-step generative models including distilled models (CTM) directly relevant to few-step generation",
+      "llm_evidence_cn": "研究包括蒸馏模型（CTM）在内的少步生成模型，直接相关于少步生成",
+      "llm_evidence": "研究包括蒸馏模型（CTM）在内的少步生成模型，直接相关于少步生成",
+      "canonical_evidence": "研究包括蒸馏模型（CTM）在内的少步生成模型，直接相关于少步生成",
+      "llm_tldr_en": "Examines whether few-step generative models (Rectified Flow, CTM, MeanFlow) can act as lossy compression codecs, showing feasibility and linking efficient generation with compression.",
+      "llm_tldr_cn": "本文研究少步生成模型（包括Rectified Flow、一致性轨迹模型CTM、MeanFlow）是否可以充当有损压缩编解码器。针对DiffC需要多步的缺点，作者证明这些模型在逆向信道编码框架下可以推导出所需参数，从而实现快速编解码。其中CTM作为蒸馏模型被特别处理。结果表明少步生成模型可用于有损压缩，为高效生成与压缩的融合提供新视角。",
+      "llm_tldr": "本文研究少步生成模型（包括Rectified Flow、一致性轨迹模型CTM、MeanFlow）是否可以充当有损压缩编解码器。针对DiffC需要多步的缺点，作者证明这些模型在逆向信道编码框架下可以推导出所需参数，从而实现快速编解码。其中CTM作为蒸馏模型被特别处理。结果表明少步生成模型可用于有损压缩，为高效生成与压缩的融合提供新视角。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.10183v1",
+      "source": "arxiv",
+      "title": "Making Time Editable in Video Diffusion Transformers",
+      "abstract": "Modern Diffusion Transformers for video generation provide limited control over the progression of time and the editing of temporal dynamics. We propose a temporal-control methodology that extends a pretrained DiT with explicit time editing, allowing control over motion speed and temporal structure without redesigning the backbone. Its core implementation augments the pretrained model with a lightweight temporal module, preserving the original generative prior while expanding its controllable dynamic range.",
+      "authors": [
+        "Konstantin Kuklev",
+        "Viacheslav Vasilev",
+        "Alexander Kunitsyn",
+        "Andrei Ivaniuta",
+        "Denis Dimitrov"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.MM"
+      ],
+      "published": "2026-06-08T21:21:01+00:00",
+      "link": "https://arxiv.org/pdf/2606.10183v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "allows control over motion speed and temporal structure in video diffusion transformers",
+      "llm_evidence_cn": "允许控制视频扩散变压器中的运动速度和时序结构",
+      "llm_evidence": "允许控制视频扩散变压器中的运动速度和时序结构",
+      "canonical_evidence": "允许控制视频扩散变压器中的运动速度和时序结构",
+      "llm_tldr_en": "Proposes a temporal-control methodology for video diffusion transformers that enables explicit editing of time progression and motion dynamics via a lightweight module, preserving the original generative prior.",
+      "llm_tldr_cn": "针对视频扩散变压器对时间控制有限的问题，提出一种时间控制方法，通过轻量模块扩展预训练DiT，实现对运动速度和时序结构的显式编辑。该方法保持原有生成先验，同时扩展可控动态范围。实验证明其有效控制时间编辑，为视频生成提供了新的可控维度。",
+      "llm_tldr": "针对视频扩散变压器对时间控制有限的问题，提出一种时间控制方法，通过轻量模块扩展预训练DiT，实现对运动速度和时序结构的显式编辑。该方法保持原有生成先验，同时扩展可控动态范围。实验证明其有效控制时间编辑，为视频生成提供了新的可控维度。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.11156v1",
+      "source": "arxiv",
+      "title": "Itô maps for any-step SDEs",
+      "abstract": "Recent one-step generative models accelerate sampling by learning deterministic flow maps of the underlying dynamics. These methods rely on learning from ordinary differential equations, leaving open how to define an exact distillation procedure for stochastic dynamics. We introduce the Itô map, an any-step stochastic flow map that takes an intermediate state and Brownian path and predicts future states in a single pass. The Itô map formulation yields novel estimators for inference-time control by providing cheap, differentiable access to posterior samples. Empirically, Itô maps produce diverse, conditionally valid endpoint samples from fixed intermediate states and support strong steering performance on synthetic and image-generation benchmarks. These results establish any-step SDE integration as a useful primitive for posterior sampling and stochastic control.",
+      "authors": [
+        "Zhengkai Pan",
+        "Peter Potaptchik",
+        "Wenxi Yao",
+        "Michael S. Albergo",
+        "Jakiw Pidstrigach"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG"
+      ],
+      "published": "2026-06-09T17:39:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.11156v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Ito maps enable any-step stochastic sampling, directly relevant to few-step sampling for video generation",
+      "llm_evidence_cn": "Ito映射实现任意步随机采样，与视频生成中的少步采样直接相关",
+      "llm_evidence": "Ito映射实现任意步随机采样，与视频生成中的少步采样直接相关",
+      "canonical_evidence": "Ito映射实现任意步随机采样，与视频生成中的少步采样直接相关",
+      "llm_tldr_en": "Introduces Ito maps for any-step SDE integration, enabling few-step sampling and diversity, applicable to generative models.",
+      "llm_tldr_cn": "少步生成模型通常基于确定性流映射，但如何对随机动力学进行精确蒸馏尚不明确。本文提出Ito映射，一种任意步随机流映射，能一步预测未来状态。在图像生成基准上，Ito映射能从固定中间状态生成多样且条件有效的样本，为少步随机采样提供新方法。",
+      "llm_tldr": "少步生成模型通常基于确定性流映射，但如何对随机动力学进行精确蒸馏尚不明确。本文提出Ito映射，一种任意步随机流映射，能一步预测未来状态。在图像生成基准上，Ito映射能从固定中间状态生成多样且条件有效的样本，为少步随机采样提供新方法。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.11969v1",
+      "source": "arxiv",
+      "title": "SpecLoR: Spectral Lookahead Rectification for Motion-Coherent Text-to-Video Generation",
+      "abstract": "Flow Matching has enabled robust text-to-video generation via latent ODE sampling. However, velocity approximation and numerical discretization errors inevitably accumulate, causing sampling trajectories to drift. Consequently, generated videos often suffer from severe spatiotemporal inconsistencies. Nevertheless, directly correcting these drifted, noisy latents is challenging: (i) timestep-dependent noise obscures reliable structural cues; (ii) spatial interventions risk disrupting intricate local geometry while incurring heavy computational costs. To address this, we propose Spectral Lookahead Rectification (SpecLoR), a plug-and-play inference method that bypasses noise via lookahead prediction, and circumvents spatiotemporal entanglement by shifting corrections to the frequency domain, where universal statistical priors of natural videos are readily available. First, during early sampling stages, SpecLoR looks ahead to estimate the clean latent $z_{t,0}$ and computes its 3D spatiotemporal spectrum. Next, SpecLoR rectifies the amplitude spectrum to match the prior, leaving the phase intact. Finally, the corrected state is re-noised to resume ODE integration. Experiments on Wan2.2 demonstrate that SpecLoR significantly reduces physical artifacts and enhances motion coherence across multiple benchmarks with minimal computational overhead (4 additional NFEs).",
+      "authors": [
+        "Xu Zhang",
+        "Yu Lu",
+        "Ruijie Quan",
+        "Zhaozheng Chen",
+        "Bohan Wang",
+        "Yi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T11:49:54+00:00",
+      "link": "https://arxiv.org/pdf/2606.11969v1",
+      "tags": [
+        "keyword:vd",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improving motion coherence in video generation via spectral lookahead",
+      "llm_evidence_cn": "通过频谱前向纠正改善视频生成的运动连贯性",
+      "llm_evidence": "通过频谱前向纠正改善视频生成的运动连贯性",
+      "canonical_evidence": "通过频谱前向纠正改善视频生成的运动连贯性",
+      "llm_tldr_en": "SpecLoR is a plug-and-play inference method that uses lookahead prediction and spectral decomposition to correct spatiotemporal drift in flow-matching text-to-video generation, enhancing motion consistency without retraining.",
+      "llm_tldr_cn": "流匹配文本到视频生成中因离散化误差导致运动不一致，现有方法难以直接纠正含噪潜变量。SpecLoR提出频谱前向纠正方法，通过前向预测绕过噪声，在频谱空间解耦时空纠缠，以即插即用方式提升生成视频的运动连贯性，无需重新训练模型。",
+      "llm_tldr": "流匹配文本到视频生成中因离散化误差导致运动不一致，现有方法难以直接纠正含噪潜变量。SpecLoR提出频谱前向纠正方法，通过前向预测绕过噪声，在频谱空间解耦时空纠缠，以即插即用方式提升生成视频的运动连贯性，无需重新训练模型。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
