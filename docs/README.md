@@ -6,134 +6,64 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-05-14 ~ 2026-06-12
-- 运行时间：2026-06-12 01:33:41 UTC
+- 最新运行日期：2026-06-12
+- 运行时间：2026-06-12 22:10:41 UTC
 - 运行状态：成功
-- 本次总论文数：37
-- 精读区：0
-- 速读区：37
+- 本次总论文数：14
+- 精读区：4
+- 速读区：10
 
 ### 今日简报（AI）
-本期速读37篇论文，聚焦视频编辑与生成前沿技术。
-最值得关注的是实时视频编辑方案SANA-Streaming和一步自回归视频生成方法AAD-1。
-建议进一步对比这两项技术的实际效果与应用门槛，如实时性与单步生成质量。
-- 详情：[/20260514-20260612/README](/20260514-20260612/README)
+今日焦点：两篇高分论文分别攻克实时高分辨率视频流生成与双向交互式世界模型，另有视频编辑、自适应分词及世界模型自蒸馏等速读亮点。  
+最值得关注方向：Ultra Flash实现高分辨率实时视频流生成（10分），BiWM以双向自回归开源交互式视频世界模型（9分）。  
+建议普通读者优先精读这两篇高分论文，把握视频生成与交互的最新范式；速读部分可辅助理解多模态输入编辑和模型自训练思路。
+- 详情：[/202606/12/README](/202606/12/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Ultra Flash: Scaling Real-Time Streaming Video Generation to High Resolutions](/202606/12/2606.09150v1-ultra-flash-scaling-real-time-streaming-video-generation-to-high-resolutions)  
+   标签：评分：10.0/10、query:fast-gen
+   evidence：单GPU实时高分辨率流式视频生成
+2. [BiWM: Advancing Open-Source Interactive Video World Models with Bidirectional Autoregression](/202606/12/2606.10135v2-biwm-advancing-open-source-interactive-video-world-models-with-bidirectional-autoregression)  
+   标签：评分：9.0/10、query:vd
+   evidence：为视频世界模型提出少步蒸馏
+3. [Complexity-Balanced Diffusion Splitting](/202606/12/2606.06477v1-complexity-balanced-diffusion-splitting)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：复杂度平衡的扩散分割加速生成
+4. [Q-Delta: Beyond Key-Value Associative State Evolution](/202606/12/2606.08804v1-q-delta-beyond-key-value-associative-state-evolution)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：线性注意力用于高效生成
 
 ### 速读区论文标签
-1. [SANA-Streaming: Real-time Streaming Video Editing with Hybrid Diffusion Transformer](/20260514-20260612/2605.30409v1-sana-streaming-real-time-streaming-video-editing-with-hybrid-diffusion-transformer)  
-   标签：评分：10.0/10、query:fast-gen
-   evidence：消费级GPU上实时流式视频编辑，采用混合注意力架构
-2. [AAD-1: Asymmetric Adversarial Distillation for One-Step Autoregressive Video Generation](/20260514-20260612/2606.03972v1-aad-1-asymmetric-adversarial-distillation-for-one-step-autoregressive-video-generation)  
-   标签：评分：10.0/10、query:fast-gen
-   evidence：通过非对称对抗蒸馏实现一步自回归视频生成
-3. [AAD-1: Asymmetric Adversarial Distillation for One-Step Autoregressive Video Generation](/20260514-20260612/2606.03972v2-aad-1-asymmetric-adversarial-distillation-for-one-step-autoregressive-video-generation)  
-   标签：评分：10.0/10、query:fast-gen
-   evidence：通过非对称对抗蒸馏实现一步自回归视频生成
-4. [Knowledge Distillation for Visual Autoregressive Models](/20260514-20260612/2606.06078v1-knowledge-distillation-for-visual-autoregressive-models)  
-   标签：评分：10.0/10、query:fast-gen
-   evidence：首次系统研究知识蒸馏在视觉自回归图像生成中的应用
-5. [Head Forcing: Long Autoregressive Video Generation via Head Heterogeneity](/20260514-20260612/2605.14487v1-head-forcing-long-autoregressive-video-generation-via-head-heterogeneity)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：训练无关的头级KV缓存策略实现实时自回归视频生成
-6. [HASTE: Training-Free Video Diffusion Acceleration via Head-Wise Adaptive Sparse Attention](/20260514-20260612/2605.14513v1-haste-training-free-video-diffusion-acceleration-via-head-wise-adaptive-sparse-attention)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：训练无关的头自适应稀疏注意力加速视频扩散
-7. [Attend Locally, Remember Linearly: Linear Attention as Cross-Frame Memory for Autoregressive Video Diffusion](/20260514-20260612/2605.16579v1-attend-locally-remember-linearly-linear-attention-as-cross-frame-memory-for-autoregressive-video-diffusion)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：线性注意力替代二次跨帧注意力，实现高效自回归视频扩散
-8. [Attend Locally, Remember Linearly: Linear Attention as Cross-Frame Memory for Autoregressive Video Diffusion](/20260514-20260612/2605.16579v2-attend-locally-remember-linearly-linear-attention-as-cross-frame-memory-for-autoregressive-video-diffusion)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：线性注意力作为自回归视频扩散的跨帧记忆
-9. [Temporal Aware Pruning for Efficient Diffusion-based Video Generation](/20260514-20260612/2605.17837v2-temporal-aware-pruning-for-efficient-diffusion-based-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：时间感知剪枝实现高效视频扩散生成
-10. [Spectral Progressive Diffusion for Efficient Image and Video Generation](/20260514-20260612/2605.18736v2-spectral-progressive-diffusion-for-efficient-image-and-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：直接通过频谱渐进分辨率增长实现快速图像和视频生成
-11. [LongLive-2.0: An NVFP4 Parallel Infrastructure for Long Video Generation](/20260514-20260612/2605.18739v2-longlive-20-an-nvfp4-parallel-infrastructure-for-long-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：基于NVFP4量化的并行基础设施，实现高效长视频生成
-12. [RoPeSLR: 3D RoPE-driven Sparse-LowRank Attention for Efficient Diffusion Transformers](/20260514-20260612/2605.20659v1-ropeslr-3d-rope-driven-sparse-lowrank-attention-for-efficient-diffusion-transformers)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：3D RoPE驱动的稀疏低秩注意力实现高效扩散Transformer
-13. [LT2: Linear-Time Looped Transformers](/20260514-20260612/2605.20670v2-lt2-linear-time-looped-transformers)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：提出线性时间和稀疏注意力架构，适用于高效生成模型
-14. [Q-ARVD: Quantizing Autoregressive Video Diffusion Models](/20260514-20260612/2605.21072v1-q-arvd-quantizing-autoregressive-video-diffusion-models)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：对自回归视频扩散模型进行量化以提升效率
-15. [DFSAttn: Dynamic Fine-grained Sparse Attention for Efficient Video Generation](/20260514-20260612/2605.23445v1-dfsattn-dynamic-fine-grained-sparse-attention-for-efficient-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：稀疏注意力视频生成
-16. [PixelWizard: Towards Efficient High-Fidelity Video Generation at Ultra-Large Spatial Resolution](/20260514-20260612/2605.25801v1-pixelwizard-towards-efficient-high-fidelity-video-generation-at-ultra-large-spatial-resolution)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：通过分层解耦实现超高清高保真高效视频生成
-17. [PARE: Pruning and Adaptive Routing for Efficient Video Generation](/20260514-20260612/2605.27336v1-pare-pruning-and-adaptive-routing-for-efficient-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：剪枝与自适应路由实现高效视频生成
-18. [OSP-Next: Efficient High-Quality Video Generation with Sparse Sequence Parallelism, HiF8 Quantization, and Reinforcement Learning](/20260514-20260612/2605.28691v1-osp-next-efficient-high-quality-video-generation-with-sparse-sequence-parallelism-hif8-quantization-and-reinforcement-learning)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：稀疏注意力量化加速视频生成
-19. [Veda: Scalable Video Diffusion via Distilled Sparse Attention](/20260514-20260612/2605.30325v1-veda-scalable-video-diffusion-via-distilled-sparse-attention)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：蒸馏稀疏注意力实现可扩展视频扩散
-20. [LVSA: Training-Free Sparse Attention for Long Video Diffusion](/20260514-20260612/2605.31057v1-lvsa-training-free-sparse-attention-for-long-video-diffusion)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：无训练稀疏注意力用于长视频扩散
-21. [DSA: Dynamic Step Allocation for Fast Autoregressive Video Generation](/20260514-20260612/2606.04432v1-dsa-dynamic-step-allocation-for-fast-autoregressive-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：分布匹配蒸馏加速视频生成
-22. [Echo-Infinity: Learning Evolving Memory for Real-Time Infinite Video Generation](/20260514-20260612/2606.04527v1-echo-infinity-learning-evolving-memory-for-real-time-infinite-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：可学习演进记忆实现实时无限视频生成
-23. [RhymeFlow: Training-Free Acceleration for Video Generation with Asynchronous Denoising Flow Scheduling](/20260514-20260612/2606.06309v1-rhymeflow-training-free-acceleration-for-video-generation-with-asynchronous-denoising-flow-scheduling)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：训练无关的视频生成加速
-24. [Holding the FP8 Quality Ceiling at 8-Bit Weights and Activations: INT8 and GGUF Post-Training Quantization of Ideogram 4.0 for Consumer GPUs](/20260514-20260612/2606.12280v1-holding-the-fp8-quality-ceiling-at-8-bit-weights-and-activations-int8-and-gguf-post-training-quantization-of-ideogram-40-for-consumer-gpus)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：针对消费级GPU的扩散Transformer INT8后训练量化
-25. [Representative Attention For Vision Transformers](/20260514-20260612/2605.14913v1-representative-attention-for-vision-transformers)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：通过代表性token实现视觉Transformer的线性注意力
-26. [Temporal Aware Pruning for Efficient Diffusion-based Video Generation](/20260514-20260612/2605.17837v1-temporal-aware-pruning-for-efficient-diffusion-based-video-generation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：无训练时序感知剪枝加速视频扩散
-27. [Spectral Progressive Diffusion for Efficient Image and Video Generation](/20260514-20260612/2605.18736v1-spectral-progressive-diffusion-for-efficient-image-and-video-generation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：通过频谱渐进扩散实现快速图像和视频生成
-28. [LongLive-2.0: An NVFP4 Parallel Infrastructure for Long Video Generation](/20260514-20260612/2605.18739v1-longlive-20-an-nvfp4-parallel-infrastructure-for-long-video-generation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：基于NVFP4的并行基础设施加速长视频生成
-29. [DashAttention: Differentiable and Adaptive Sparse Hierarchical Attention](/20260514-20260612/2605.18753v1-dashattention-differentiable-and-adaptive-sparse-hierarchical-attention)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：可微分自适应稀疏分层注意力，用于高效生成
-30. [From Sparsity to Simplicity: Enabling Simpler Sequential Replacements via Sparse Attention Distillation](/20260514-20260612/2605.18865v1-from-sparsity-to-simplicity-enabling-simpler-sequential-replacements-via-sparse-attention-distillation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：稀疏注意力蒸馏支持更简单的顺序替换，实现高效推理
-31. [Head-Aware Key-Value Compression for Efficient Autoregressive Image Generation](/20260514-20260612/2605.20600v1-head-aware-key-value-compression-for-efficient-autoregressive-image-generation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：头感知KV压缩实现高效自回归图像生成
-32. [LT2: Linear-Time Looped Transformers](/20260514-20260612/2605.20670v1-lt2-linear-time-looped-transformers)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：线性和稀疏注意力用于高效序列建模
-33. [Dynamic Video Generation: Shaping Video Generation Across Time and Space](/20260514-20260612/2605.21042v1-dynamic-video-generation-shaping-video-generation-across-time-and-space)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：动态时空计算分配加速视频扩散
-34. [Multi-Teacher Knowledge Distillation via Teacher-Informed Mixture Priors](/20260514-20260612/2605.27967v1-multi-teacher-knowledge-distillation-via-teacher-informed-mixture-priors)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：多教师知识蒸馏结合贝叶斯框架
-35. [OmniMem: Scalable and Adaptive Memory Retrieval for Long Video Generation](/20260514-20260612/2605.30519v1-omnimem-scalable-and-adaptive-memory-retrieval-for-long-video-generation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：稀疏键值检索框架实现高效长视频生成
-36. [Video-Rate Streaming Stylization on a Vision-Aware MLLM-Conditioned Edit Diffusion: Asymmetric Batched Inference on a Distilled UNet + MLLM Text Encoder](/20260514-20260612/2606.05981v1-video-rate-streaming-stylization-on-a-vision-aware-mllm-conditioned-edit-diffusion-asymmetric-batched-inference-on-a-distilled-unet--mllm-text-encoder)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：利用蒸馏UNet和批量推理实现实时视频流式风格化
-37. [SwiftVR: Real-Time One-Step Generative Video Restoration](/20260514-20260612/2606.09516v1-swiftvr-real-time-one-step-generative-video-restoration)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：消费级GPU上的实时一步视频恢复
+1. [LoomVideo: Unifying Multimodal Inputs into Video Generation and Editing](/202606/12/2606.06042v2-loomvideo-unifying-multimodal-inputs-into-video-generation-and-editing)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：高效视频生成架构，降低计算开销
+2. [Adaptive Tokenisation Via Temporal Redundancy Masking And Latent Inpainting](/202606/12/2606.06158v1-adaptive-tokenisation-via-temporal-redundancy-masking-and-latent-inpainting)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：通过利用时间冗余进行自适应token分配，减少token实现高效视频处理
+3. [World Model Self-Distillation: Training World Models to Solve General Tasks](/202606/12/2606.12072v1-world-model-self-distillation-training-world-models-to-solve-general-tasks)  
+   标签：评分：7.0/10、query:vd
+   evidence：利用视频扩散模型进行世界模型自蒸馏
+4. [LoomVideo: Unifying Multimodal Inputs into Video Generation and Editing](/202606/12/2606.06042v1-loomvideo-unifying-multimodal-inputs-into-video-generation-and-editing)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：高效的视频生成与编辑架构
+5. [FreeAnimate: Training-Free Human Image Animation with Preview-Guided Denoising](/202606/12/2606.06885v1-freeanimate-training-free-human-image-animation-with-preview-guided-denoising)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：无训练视频动画，实现快速推理
+6. [Gated Bidirectional Linear Attention for Generative Retrieval](/202606/12/2606.07317v1-gated-bidirectional-linear-attention-for-generative-retrieval)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：提出门控双向线性注意力，可迁移至高效图像生成
+7. [TIDE: Task-Isolated Diffusion for Unified Video Editing and Generation](/202606/12/2606.08260v1-tide-task-isolated-diffusion-for-unified-video-editing-and-generation)  
+   标签：评分：6.0/10、query:vd
+   evidence：统一的视频生成与编辑框架
+8. [Beyond Raw Signals: Undecoded Generative Latents as Privileged Synthetic Data](/202606/12/2606.08336v1-beyond-raw-signals-undecoded-generative-latents-as-privileged-synthetic-data)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：从生成潜变量到视觉学生的知识蒸馏
+9. [BiWM: Advancing Open-Source Interactive Video World Models with Bidirectional Autoregression](/202606/12/2606.10135v1-biwm-advancing-open-source-interactive-video-world-models-with-bidirectional-autoregression)  
+   标签：评分：6.0/10、query:vd
+   evidence：讨论了现有流水线中的少步蒸馏问题，并提出双向自回归视频世界模型框架
+10. [NSVQ: Mitigating Codebook Collapse by Stabilizing Encoder Drift in Vector Quantization](/202606/12/2606.11363v1-nsvq-mitigating-codebook-collapse-by-stabilizing-encoder-drift-in-vector-quantization)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：提出NSVQ缓解矢量量化中的码本坍塌，与模型量化高效生成相关
 
 
 <div class="dpr-home-promo-card">

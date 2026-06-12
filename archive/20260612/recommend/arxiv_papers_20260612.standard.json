@@ -1,0 +1,637 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-12T21:59:33.868667+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 4,
+    "deep_cap": 7,
+    "deep_selected": 4,
+    "quick_candidates": 10,
+    "quick_skim_target": 12,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2606.09150v1",
+      "source": "arxiv",
+      "title": "Ultra Flash: Scaling Real-Time Streaming Video Generation to High Resolutions",
+      "abstract": "While recent autoregressive video diffusion models achieve remarkable streaming quality, they remain confined to low resolutions (e.g., 480P), leaving efficient, scalable, real-time high-resolution video generation a fundamental open challenge. To bridge this gap, we present Ultra Flash, a cascaded streaming framework capable of real-time high-resolution video generation. Ultra Flash achieves ~30 FPS at 1K resolution and ~18 FPS at 2K resolution on a single GPU through three key contributions: (1) an architecture-preserving T2V-to-TV2V super-resolution training paradigm coupled with an AIGC-oriented data degradation pipeline that effectively preserves the generative capability of the base model, enabling enhanced high-resolution detail when cascaded after mainstream low-resolution generative models; (2) a causal streaming latent upsampler paired with a high-resolution decoder, which enhances spatiotemporal coherence while enabling efficient latent spatial scaling and precise high-resolution decoding with negligible computational overhead; and (3) a cascade high-resolution streaming video generation optimization scheme that first performs hybrid-reward-enhanced sparse causalization and single-step distillation of the super-resolution model, then introduces cascaded streaming self-forcing preference optimization with dynamic cache management, jointly enhancing overall coherence, improving quality, and enabling real-time high-resolution streaming video generation. Extensive experiments demonstrate that Ultra Flash reliably produces ultra-high-resolution streaming video while maintaining state-of-the-art visual quality and superior efficiency.",
+      "authors": [
+        "Luxury",
+        "Jie Huang",
+        "Zihao Fan",
+        "Xiaoxiao Ma",
+        "Yuming Li",
+        "Jun-hao Zhuang",
+        "Zeyue Xue",
+        "Siming Fu",
+        "Haoran Li",
+        "Mingchen Zhong",
+        "Guohui Zhang",
+        "Shichen Ma",
+        "Yijun Liu",
+        "Jiaqi Shi",
+        "Yanwen Ma",
+        "Yaofeng Su",
+        "Haoyu Wang",
+        "Yaowei Li",
+        "Songchun Zhang",
+        "Weiyang Jin",
+        "Yuxuan Bian",
+        "Shiyi Zhang",
+        "Haojun Xu",
+        "Shuai Lu",
+        "Xin Han",
+        "Wei Tang",
+        "Haoyang Huang",
+        "Nan Duan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T07:45:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.09150v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "real-time high-resolution streaming video generation on single GPU",
+      "llm_evidence_cn": "单GPU实时高分辨率流式视频生成",
+      "llm_evidence": "单GPU实时高分辨率流式视频生成",
+      "canonical_evidence": "单GPU实时高分辨率流式视频生成",
+      "llm_tldr_en": "Ultra Flash achieves ~30 FPS at 1K and ~18 FPS at 2K resolution on a single GPU via cascaded streaming framework with super-resolution training.",
+      "llm_tldr_cn": "针对现有流式视频生成分辨率低的问题，Ultra Flash提出级联流式框架，通过架构保留的T2V到TV2V超分辨率训练和数据退化管道，在单GPU上实现1K分辨率30 FPS、2K分辨率18 FPS的实时生成，显著提升了高分辨率视频生成的实时性，为消费级GPU上的快速视频生成提供了有效方案。",
+      "llm_tldr": "针对现有流式视频生成分辨率低的问题，Ultra Flash提出级联流式框架，通过架构保留的T2V到TV2V超分辨率训练和数据退化管道，在单GPU上实现1K分辨率30 FPS、2K分辨率18 FPS的实时生成，显著提升了高分辨率视频生成的实时性，为消费级GPU上的快速视频生成提供了有效方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10135v2",
+      "source": "arxiv",
+      "title": "BiWM: Advancing Open-Source Interactive Video World Models with Bidirectional Autoregression",
+      "abstract": "Transitioning bidirectional video diffusion models into an autoregressive paradigm improves the interactivity of video world models, but existing causal pipelines need many stages (control fine-tuning, autoregressive training, causal initialization, few-step distillation) and still trail bidirectional models in quality due to error accumulation. Recent world models such as Yume-1.5 and Matrix-Game-3.0 instead adopt a bidirectional autoregressive approach, gaining fidelity and stable long-horizon rollout from self-correcting error propagation, yet open-source frameworks (e.g., minWM) support only causal models. We present BiWM, the first full-stack framework for interactive video world models under the bidirectional autoregressive paradigm, jointly optimizing generation quality and inference speed. From a pretrained video backbone, BiWM injects camera control by fine-tuning, then runs a few-step Distribution Matching Distillation (DMD) stage that turns the backbone into an action/camera-controllable world model: just two training stages instead of four in minWM, converging in a few hundred steps on 8xH200 GPUs. A single recipe spans Wan2.1-1.3B, Wan2.2-5B, HunyuanVideo-1.5-8B, and LTX-2.3-22B, and also supports secondary fine-tuning of existing bidirectional models. BiWM enables real-world camera control where minWM loses controllability, integrates pluggable history compression (FramePack-style and PackForcing-style) for long rollouts, and offers an optional NVFP4 4-bit training/inference pipeline. To counter DMD's mode-seeking degradation, we add GAN and mass-covering forward-KL objectives that preserve scene dynamics. We open-source BiWM for resource-constrained research and high-fidelity environment simulation.",
+      "authors": [
+        "Shaohao Rui",
+        "Xiaofeng Mao",
+        "Zhanyu Zhang",
+        "Peijia Lin",
+        "Yansong Zhu",
+        "Yibo Zhang",
+        "Haibin Wan",
+        "Weijie Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-08T20:08:41+00:00",
+      "link": "https://arxiv.org/pdf/2606.10135v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "proposes few-step distillation for video world models",
+      "llm_evidence_cn": "为视频世界模型提出少步蒸馏",
+      "llm_evidence": "为视频世界模型提出少步蒸馏",
+      "canonical_evidence": "为视频世界模型提出少步蒸馏",
+      "llm_tldr_en": "Presents BiWM, an open-source framework for interactive video world models using bidirectional autoregression and few-step distillation to reduce error accumulation.",
+      "llm_tldr_cn": "本文提出BiWM，首个全面支持双向自回归交互式视频世界模型的开源框架。针对现有因果流水线需要多阶段训练（包括少步蒸馏）且质量不佳的问题，BiWM采用双向自回归方式，通过自我修正传播误差提升保真度。实验表明BiWM在长时程推演中保持稳定，且降低了训练复杂度，为视频世界模型的高效部署提供了新方案。",
+      "llm_tldr": "本文提出BiWM，首个全面支持双向自回归交互式视频世界模型的开源框架。针对现有因果流水线需要多阶段训练（包括少步蒸馏）且质量不佳的问题，BiWM采用双向自回归方式，通过自我修正传播误差提升保真度。实验表明BiWM在长时程推演中保持稳定，且降低了训练复杂度，为视频世界模型的高效部署提供了新方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.06477v1",
+      "source": "arxiv",
+      "title": "Complexity-Balanced Diffusion Splitting",
+      "abstract": "Standard continuous-time generative models rely on monolithic architectures that must navigate vastly different signal regimes, from isotropic noise to intricate data distributions. While scaling model capacity improves performance, deploying a massive network uniformly across the entire generative timeline is inherently inefficient. In this work, we propose Complexity-Balanced Splitting (CBS), a principled framework for temporal capacity allocation that distributes the generative workload across multiple specialized sub-networks. Grounded in function approximation theory and de Boor's equidistribution principle, CBS partitions the diffusion timeline into segments of equal approximation burden, allocating more representational capacity to regions where the generative dynamics are more difficult to model. To estimate this local complexity, we introduce two complementary and tractable monitor functions: a spatial measure based on the flow's Dirichlet energy, and a geometric measure based on the acceleration of the sampling trajectories. Using a lightweight auxiliary model to estimate these complexity profiles, our approach eliminates the need for heuristic temporal splits or computationally expensive search procedures. Extensive evaluation across multiple architectures (SiT, JiT, and UNet) and datasets demonstrates that CBS consistently improves synthesis quality without increasing per-step inference cost. In particular, CBS improves FID by ~35% on SiT-XL with CFG relative to naive temporal partitioning. Project page is available at https://noamissachar.github.io/CBS/.",
+      "authors": [
+        "Noam Issachar",
+        "Dani Lischinski",
+        "Raanan Fattal"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T17:57:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.06477v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "complexity-balanced diffusion splitting for accelerated generation",
+      "llm_evidence_cn": "复杂度平衡的扩散分割加速生成",
+      "llm_evidence": "复杂度平衡的扩散分割加速生成",
+      "canonical_evidence": "复杂度平衡的扩散分割加速生成",
+      "llm_tldr_en": "Complexity-Balanced Splitting partitions the diffusion timeline into segments with equal approximation burden, allocating specialized sub-networks per segment to improve efficiency and generation speed.",
+      "llm_tldr_cn": "针对连续时间生成模型均匀部署大网络效率低下的问题，提出复杂度平衡分割框架。基于函数逼近理论将扩散时间线分为等负担段，为每段分配专有子网络，从而更高效地分配计算资源。实验表明在保持生成质量的同时显著减少所需步骤。",
+      "llm_tldr": "针对连续时间生成模型均匀部署大网络效率低下的问题，提出复杂度平衡分割框架。基于函数逼近理论将扩散时间线分为等负担段，为每段分配专有子网络，从而更高效地分配计算资源。实验表明在保持生成质量的同时显著减少所需步骤。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.08804v1",
+      "source": "arxiv",
+      "title": "Q-Delta: Beyond Key-Value Associative State Evolution",
+      "abstract": "Linear attention reformulates sequence modeling as recurrent state evolution, enabling efficient linear-time inference. Under the key-value associative paradigm, existing approaches restrict the role of the query to the readout operation, decoupling it from state evolution. We show that query-conditioned state readout induces a structured value prediction over accumulated memory that complements key-based retrieval. Based on this insight, we propose Q-Delta, a query-aware delta rule that integrates mixed key-query prediction errors into state evolution, enabling jointly corrective dynamics while preserving delta-rule efficiency. We establish stability guarantees for the resulting dynamics and derive a hardware-efficient chunkwise-parallel formulation with a custom Triton implementation. Empirical results demonstrate stable optimization, competitive throughput, and consistent improvements over strong baselines on language modeling and long-context retrieval tasks.",
+      "authors": [
+        "Sumin Park",
+        "Seojin Kim",
+        "Noseong Park"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-07T19:49:01+00:00",
+      "link": "https://arxiv.org/pdf/2606.08804v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Linear attention for efficient generation",
+      "llm_evidence_cn": "线性注意力用于高效生成",
+      "llm_evidence": "线性注意力用于高效生成",
+      "canonical_evidence": "线性注意力用于高效生成",
+      "llm_tldr_en": "Proposes Q-Delta, a query-aware delta rule for linear attention that improves efficiency while preserving delta-rule speed, enabling faster sequence modeling with potential for image generation.",
+      "llm_tldr_cn": "本文提出Q-Delta，一种查询感知的delta规则，在线性注意力中整合混合键-查询预测误差，提升状态更新效率。该方法在保持线性推理效率的同时实现联合纠正动态，并提供了硬件高效的分块并行实现。对于需要快速生成的应用（如图像生成），这种注意力机制可以显著加速模型推理，但本文尚未直接应用于图像生成。尽管如此，其高效线性注意力架构为快速图像生成提供了方法论支持。",
+      "llm_tldr": "本文提出Q-Delta，一种查询感知的delta规则，在线性注意力中整合混合键-查询预测误差，提升状态更新效率。该方法在保持线性推理效率的同时实现联合纠正动态，并提供了硬件高效的分块并行实现。对于需要快速生成的应用（如图像生成），这种注意力机制可以显著加速模型推理，但本文尚未直接应用于图像生成。尽管如此，其高效线性注意力架构为快速图像生成提供了方法论支持。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "linear attention image generation",
+      "matched_requirement_id": "req-15",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.06042v2",
+      "source": "arxiv",
+      "title": "LoomVideo: Unifying Multimodal Inputs into Video Generation and Editing",
+      "abstract": "Developing unified video generation and editing models capable of interpreting interleaved multimodal inputs is a promising yet challenging frontier field. Existing unified frameworks predominantly rely on massive models (typically 13B parameters or more) and incorporate source video conditions for editing by concatenating sequence tokens. This concatenation inevitably doubles the sequence length, quadrupling the computational complexity of the self-attention mechanism and introducing prohibitive overhead. To address these bottlenecks, we present LoomVideo, a highly efficient 5B-parameter unified architecture for both video generation and editing. LoomVideo replaces the standard text encoder with a Multimodal Large Language Model (MLLM) and employs Deepstack injection mechanism to align multi-layer MLLM features with the Diffusion Transformer (DiT). Crucially, we introduce a zero-overhead Scale-and-Add conditioning approach for video editing. By scaling and directly adding the clean source video latent to the noised target latent, this elegant design eliminates the need for token concatenation, drastically reducing computational cost while maintaining robust capabilities for complex, non-rigid edits. Furthermore, a Negative Temporal RoPE strategy is seamlessly integrated to handle multiple reference images. Extensive experiments demonstrate that our compact 5B model achieves state-of-the-art or highly competitive performance across comprehensive benchmarks, exhibiting exceptional superiority in e-commerce and fashion generation scenarios. Benefiting from the zero-overhead conditioning mechanism, LoomVideo achieves at least a 5.41x acceleration in inference speed compared to models of similar capabilities, paving the way for highly practical and efficient video foundation models.",
+      "authors": [
+        "Jianzong Wu",
+        "Hao Lian",
+        "Jiongfan Yang",
+        "Dachao Hao",
+        "Ye Tian",
+        "Yunhai Tong",
+        "Jingyuan Zhu",
+        "Biaolong Chen",
+        "Qiaosong Qi",
+        "Aixi Zhang",
+        "Wanggui He",
+        "Mushui Liu",
+        "Jinlong Liu",
+        "Pipei Huang",
+        "Hao Jiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T11:35:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.06042v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient architecture for video generation reduces computational overhead",
+      "llm_evidence_cn": "高效视频生成架构，降低计算开销",
+      "llm_evidence": "高效视频生成架构，降低计算开销",
+      "canonical_evidence": "高效视频生成架构，降低计算开销",
+      "llm_tldr_en": "Presents LoomVideo, a 5B-parameter unified architecture for video generation and editing that replaces text encoder with MLLM and employs a design to avoid quadratic complexity, achieving efficiency.",
+      "llm_tldr_cn": "现有统一视频生成与编辑模型因拼接序列导致计算复杂度翻倍。本文提出LoomVideo高效架构，仅5B参数，用多模态大语言模型替换文本编码器并采用解耦设计，使自注意力复杂度不再随序列长度平方增长。在保持生成与编辑能力的同时显著降低计算开销，为实时应用提供可能。",
+      "llm_tldr": "现有统一视频生成与编辑模型因拼接序列导致计算复杂度翻倍。本文提出LoomVideo高效架构，仅5B参数，用多模态大语言模型替换文本编码器并采用解耦设计，使自注意力复杂度不再随序列长度平方增长。在保持生成与编辑能力的同时显著降低计算开销，为实时应用提供可能。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.06042v1",
+      "source": "arxiv",
+      "title": "LoomVideo: Unifying Multimodal Inputs into Video Generation and Editing",
+      "abstract": "Developing unified video generation and editing models capable of interpreting interleaved multimodal inputs is a promising yet challenging frontier field. Existing unified frameworks predominantly rely on massive models (typically 13B parameters or more) and incorporate source video conditions for editing by concatenating sequence tokens. This concatenation inevitably doubles the sequence length, quadrupling the computational complexity of the self-attention mechanism and introducing prohibitive overhead. To address these bottlenecks, we present LoomVideo, a highly efficient 5B-parameter unified architecture for both video generation and editing. LoomVideo replaces the standard text encoder with a Multimodal Large Language Model (MLLM) and employs Deepstack injection mechanism to align multi-layer MLLM features with the Diffusion Transformer (DiT). Crucially, we introduce a zero-overhead Scale-and-Add conditioning approach for video editing. By scaling and directly adding the clean source video latent to the noised target latent, this elegant design eliminates the need for token concatenation, drastically reducing computational cost while maintaining robust capabilities for complex, non-rigid edits. Furthermore, a Negative Temporal RoPE strategy is seamlessly integrated to handle multiple reference images. Extensive experiments demonstrate that our compact 5B model achieves state-of-the-art or highly competitive performance across comprehensive benchmarks, exhibiting exceptional superiority in e-commerce and fashion generation scenarios. Benefiting from the zero-overhead conditioning mechanism, LoomVideo achieves at least a 5.41x acceleration in inference speed compared to models of similar capabilities, paving the way for highly practical and efficient video foundation models.",
+      "authors": [
+        "Jianzong Wu",
+        "Hao Lian",
+        "Jiongfan Yang",
+        "Dachao Hao",
+        "Ye Tian",
+        "Yunhai Tong",
+        "Jingyuan Zhu",
+        "Biaolong Chen",
+        "Qiaosong Qi",
+        "Aixi Zhang",
+        "Wanggui He",
+        "Mushui Liu",
+        "Jinlong Liu",
+        "Hao Jiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T11:35:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.06042v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "efficient video generation and editing architecture",
+      "llm_evidence_cn": "高效的视频生成与编辑架构",
+      "llm_evidence": "高效的视频生成与编辑架构",
+      "canonical_evidence": "高效的视频生成与编辑架构",
+      "llm_tldr_en": "LoomVideo proposes a 5B-parameter efficient architecture for unified video generation and editing, using MLLM to replace text encoder and reducing computational overhead.",
+      "llm_tldr_cn": "现有统一视频生成与编辑模型依赖大规模参数且计算复杂。本文提出LoomVideo，一种5B参数的高效统一架构，通过多模态大语言模型替换文本编码器，并采用解耦设计避免序列长度翻倍，大幅降低自注意力计算复杂度，实现高效视频生成与编辑。",
+      "llm_tldr": "现有统一视频生成与编辑模型依赖大规模参数且计算复杂。本文提出LoomVideo，一种5B参数的高效统一架构，通过多模态大语言模型替换文本编码器，并采用解耦设计避免序列长度翻倍，大幅降低自注意力计算复杂度，实现高效视频生成与编辑。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.06158v1",
+      "source": "arxiv",
+      "title": "Adaptive Tokenisation Via Temporal Redundancy Masking And Latent Inpainting",
+      "abstract": "Adaptive video tokenisation seeks to dynamically allocate token budgets based on the underlying visual complexity of a sequence. Current continuous-regime approaches achieve this via iterative binarised searches or trained neural regressors, while discrete methods often require a full-rate decoder pass to estimate information content. We demonstrate that such computational overheads are not strictly necessary. We show that the latent space of a frozen continuous video tokeniser inherently encodes temporal redundancy that can be exploited directly: spatial positions whose latent representations change minimally between consecutive frames carry near-zero additional information.   We introduce a parameter-free adaptive token allocation mechanism that applies a fixed threshold to per-position temporal-L1 differences, identifying and dropping redundant latent positions. Consequently, the compression rate emerges naturally from the input content rather than being enforced top-down: static scenes get compressed aggressively, while highly dynamic sequences retain more tokens. To reconstruct the dropped positions, we propose the Latent Inpainting Transformer (LIT), a lightweight factorised spatial-temporal attention architecture. The resulting inference pipeline is highly efficient, requiring only a single encoder pass and one LIT forward pass, eliminating the need for auxiliary routing networks. Evaluations across TokenBench and DAVIS, which are the standard benchmarks used by recent tokenisers~\\cite{infotok, agarwal2025cosmos}, indicate that our framework yields meaningful, content-driven token allocation while maintaining competitive reconstruction fidelity, and delivers a $31\\times$ inference-time speedup over the continuous adaptive baseline (ElasticTok-CV) and an $\\approx2\\times$ speedup over the discrete information-theoretic baseline (InfoTok)",
+      "authors": [
+        "Kevin Dave",
+        "Sai Aditya Patkuri",
+        "Chhaya Kumar Das",
+        "Gouranga Bala",
+        "R. Venkatesh Babu",
+        "Rajeshkumar SA"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T13:31:12+00:00",
+      "link": "https://arxiv.org/pdf/2606.06158v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "adaptive token allocation by exploiting temporal redundancy, reducing tokens for efficient video processing",
+      "llm_evidence_cn": "通过利用时间冗余进行自适应token分配，减少token实现高效视频处理",
+      "llm_evidence": "通过利用时间冗余进行自适应token分配，减少token实现高效视频处理",
+      "canonical_evidence": "通过利用时间冗余进行自适应token分配，减少token实现高效视频处理",
+      "llm_tldr_en": "Proposes a parameter-free adaptive token allocation mechanism that exploits temporal redundancy in frozen video tokenizers latent space, reducing tokens without quality loss for faster video processing.",
+      "llm_tldr_cn": "本文提出一种无参数的自适应token分配机制，利用冻结视频分词器潜空间中的时间冗余，在保持质量的同时减少token数量，从而加速视频处理。该方法直接适用于视频生成模型中的token化步骤，可提升生成速度。",
+      "llm_tldr": "本文提出一种无参数的自适应token分配机制，利用冻结视频分词器潜空间中的时间冗余，在保持质量的同时减少token数量，从而加速视频处理。该方法直接适用于视频生成模型中的token化步骤，可提升生成速度。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.06885v1",
+      "source": "arxiv",
+      "title": "FreeAnimate: Training-Free Human Image Animation with Preview-Guided Denoising",
+      "abstract": "Human Image Animation has seen significant advancements, primarily driven by diffusion models. However, existing methods typically demand substantial training data and resources to achieve high-quality results, limiting generalization and accessibility. In this work, we introduce \\emph{FreeAnimate}, a training-free framework that leverages the inherent capabilities of image diffusion models to enable temporal consistency, identity preservation, and background stability. Our approach incorporates a novel preview generation strategy that provides temporal and structural priors from generated preview frames, effectively guiding pose alignment and background consistency without training. Additionally, FreeAnimate introduces Inversion-Boosted Attention and Reference-Anchored Self-Attention modules to guarantee temporal consistency and identity preservation. Experimental results demonstrate that FreeAnimate outperforms existing training-free competitors and training-based baseline methods, achieving generation quality comparable to state-of-the-art methods and offering robust generalization across diverse datasets. Our project page is at https://freeani.github.io/.",
+      "authors": [
+        "Yuan Zeng",
+        "Yujia Shi",
+        "Zongqing Lu",
+        "QingMin Liao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-05T04:06:42+00:00",
+      "link": "https://arxiv.org/pdf/2606.06885v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free video animation, enabling fast inference",
+      "llm_evidence_cn": "无训练视频动画，实现快速推理",
+      "llm_evidence": "无训练视频动画，实现快速推理",
+      "canonical_evidence": "无训练视频动画，实现快速推理",
+      "llm_tldr_en": "FreeAnimate enables training-free human image animation using preview-guided denoising, leveraging inherent capabilities of image diffusion models.",
+      "llm_tldr_cn": "本文提出FreeAnimate，一种无需训练的人类图像动画框架，利用图像扩散模型的内在能力实现时间一致性和身份保持。通过预览帧生成策略提供时域和结构先验，指导姿态对齐和背景一致性。实验表明无需训练数据即可获得高质量动画，显著降低计算开销，为快速视频生成提供了有效方案。",
+      "llm_tldr": "本文提出FreeAnimate，一种无需训练的人类图像动画框架，利用图像扩散模型的内在能力实现时间一致性和身份保持。通过预览帧生成策略提供时域和结构先验，指导姿态对齐和背景一致性。实验表明无需训练数据即可获得高质量动画，显著降低计算开销，为快速视频生成提供了有效方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.12072v1",
+      "source": "arxiv",
+      "title": "World Model Self-Distillation: Training World Models to Solve General Tasks",
+      "abstract": "Pretrained video generators are promising visual world models that exhibit emergent task-solving abilities; however, their reliance on detailed textual descriptions limits their direct use for planning and decision-making. Existing approaches either outsource this reasoning to language or vision-language models, or rely on supervised fine-tuning with paired task-execution videos, which are costly to collect and difficult to scale. We propose a scalable framework that elicits task-solving ability in such models by combining self-distillation with reinforcement learning. Given an unlabeled scene image, a vision-language model generates a candidate task and a detailed step-by-step solution. The solution conditions a pretrained video diffusion model, the Demonstrator; we distill its behavior into an Executor conditioned only on the image and a short task prompt. This transfers execution knowledge from caption-guided generation to instruction-conditioned task solving without curated task-video supervision. We further improve the Executor with reinforcement learning from VLM feedback, exploiting the asymmetry between judging whether a sampled video satisfies a task and generating the solution. Experiments on our proposed WorldTasks-Benchmark and the DreamGen robotics benchmark show that the Executor surpasses the Demonstrator under our VLM-based evaluation protocol and transfers competitively to robotic tasks.",
+      "authors": [
+        "Sebastian Stapf",
+        "Pablo Acuaviva Huertos",
+        "Aram Davtyan",
+        "Paolo Favaro"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T13:40:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.12072v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "self-distillation for video world models using video diffusion",
+      "llm_evidence_cn": "利用视频扩散模型进行世界模型自蒸馏",
+      "llm_evidence": "利用视频扩散模型进行世界模型自蒸馏",
+      "canonical_evidence": "利用视频扩散模型进行世界模型自蒸馏",
+      "llm_tldr_en": "Proposes self-distillation with RL to elicit task-solving in pretrained video generators, enabling general planning without paired video data.",
+      "llm_tldr_cn": "本文提出一种可扩展框架，结合自蒸馏与强化学习激发预训练视频生成器的任务解决能力。给定无标签场景图像，视觉语言模型生成候选任务和步骤解，然后条件化视频扩散模型生成执行视频，并通过自蒸馏将计划能力内化。方法避免了昂贵的任务视频标注，为世界模型从生成任务转向规划决策提供了新途径。",
+      "llm_tldr": "本文提出一种可扩展框架，结合自蒸馏与强化学习激发预训练视频生成器的任务解决能力。给定无标签场景图像，视觉语言模型生成候选任务和步骤解，然后条件化视频扩散模型生成执行视频，并通过自蒸馏将计划能力内化。方法避免了昂贵的任务视频标注，为世界模型从生成任务转向规划决策提供了新途径。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post training distillation for video diffusion models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.07317v1",
+      "source": "arxiv",
+      "title": "Gated Bidirectional Linear Attention for Generative Retrieval",
+      "abstract": "In recommender systems, generative retrieval typically uses an encoder-decoder setup: an encoder processes a user interaction history, and an autoregressive decoder then generates recommended items. In large-scale streaming services, active users accumulate very long histories over time. As histories grow, the encoder becomes a major latency bottleneck because softmax attention scales quadratically with sequence length. In our experiments, using bidirectional attention in the encoder substantially improves quality. However, most sub-quadratic attention methods focus on causal attention.   We propose Gated Bidirectional Linear Attention (GBLA), a linear-time bidirectional attention layer that extends kernelized linear attention with three lightweight components: local causal mixing (Conv1D), sequence-level key gating for soft forgetting, and a gated RMSNorm output. On a large-scale Yandex Music dataset, a hybrid encoder that interleaves self-attention (SA) and GBLA in a 1:2 ratio (one SA block followed by two GBLA blocks) matches bidirectional self-attention quality. On H100 GPUs, GBLA reaches up to an $8.2\\times$ single-layer speedup at a history length of 32768, compared to FlashAttention-v3. Finally, we show that the same hybrid design generalizes beyond our proprietary setting, consistently preserving self-attention retrieval quality on public Amazon benchmarks.",
+      "authors": [
+        "Artem Matveev",
+        "Vladislav Tytskiy",
+        "Sergei Makeev",
+        "Sergei Liamaev"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-06-05T14:37:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.07317v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "proposes gated bidirectional linear attention, transferable to efficient image generation",
+      "llm_evidence_cn": "提出门控双向线性注意力，可迁移至高效图像生成",
+      "llm_evidence": "提出门控双向线性注意力，可迁移至高效图像生成",
+      "canonical_evidence": "提出门控双向线性注意力，可迁移至高效图像生成",
+      "llm_tldr_en": "Proposes GBLA, a linear-time bidirectional attention layer that extends kernelized linear attention with gating, realizing sub-quadratic complexity for generative retrieval, potentially applicable to efficient image generation.",
+      "llm_tldr_cn": "本文提出GBLA（门控双向线性注意力），是一种线性时间双向注意力层，通过门控机制扩展核化线性注意力，在生成式检索中实现次二次复杂度。该方法可迁移至图像生成任务，为构建高效的线性注意力生成模型提供新思路。",
+      "llm_tldr": "本文提出GBLA（门控双向线性注意力），是一种线性时间双向注意力层，通过门控机制扩展核化线性注意力，在生成式检索中实现次二次复杂度。该方法可迁移至图像生成任务，为构建高效的线性注意力生成模型提供新思路。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "linear attention image generation",
+      "matched_requirement_id": "req-15",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.08260v1",
+      "source": "arxiv",
+      "title": "TIDE: Task-Isolated Diffusion for Unified Video Editing and Generation",
+      "abstract": "Recent advances in Diffusion Transformers have driven rapid progress in video generation and editing, yet these capabilities are still handled by separate, task-specific models. Building a unified framework that supports diverse video tasks remains an open challenge: existing unified attempts either require dedicated auxiliary encoders or lack explicit mechanisms to distinguish heterogeneous conditioning tokens, struggling when the number and type of visual conditions vary across tasks. We propose TIDE, a unified framework that integrates instruction-based editing, reference-guided editing, and multi-reference generation. At its core, we introduce per-token task embeddings that assign each input token a task-specific identifier, enabling the model to explicitly disambiguate target, source, and reference tokens. To simultaneously capture high-level semantic understanding and fine-grained structural fidelity, we design a dual-path conditioning scheme that couples a vision-language model with a VAE latent path for complementary signals. We further devise a multi-task progressive training strategy that incrementally introduces tasks of increasing complexity, effectively harmonizing diverse objectives and enabling smooth generalization across heterogeneous task distributions. Extensive experiments on multiple video editing and generation benchmarks demonstrate that TIDE achieves state-of-the-art performance across all evaluated tasks. Our project page is available at https://LittleWork123.github.io/tide.",
+      "authors": [
+        "Qi Liu",
+        "Gang Yue",
+        "Mingyu Yin",
+        "Lisai Zhang",
+        "Yidi Wu",
+        "Yaole Wang",
+        "Yaohui Wang",
+        "Chang Yao",
+        "Jingyuan Chen",
+        "Lin Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-06T17:11:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.08260v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "unified video generation and editing framework",
+      "llm_evidence_cn": "统一的视频生成与编辑框架",
+      "llm_evidence": "统一的视频生成与编辑框架",
+      "canonical_evidence": "统一的视频生成与编辑框架",
+      "llm_tldr_en": "TIDE presents a unified Diffusion Transformer framework for video generation and editing using per-token task embeddings, enabling instruction-based and reference-guided editing in a single model.",
+      "llm_tldr_cn": "提出TIDE统一框架，通过每token任务嵌入集成指令编辑、参考引导编辑和多参考生成任务。该方法无需专用辅助编码器，能有效区分异质条件令牌。实验表明在多个视频任务上达到专有模型性能，简化了视频生成与编辑的模型部署。",
+      "llm_tldr": "提出TIDE统一框架，通过每token任务嵌入集成指令编辑、参考引导编辑和多参考生成任务。该方法无需专用辅助编码器，能有效区分异质条件令牌。实验表明在多个视频任务上达到专有模型性能，简化了视频生成与编辑的模型部署。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.08336v1",
+      "source": "arxiv",
+      "title": "Beyond Raw Signals: Undecoded Generative Latents as Privileged Synthetic Data",
+      "abstract": "While multimodal integration significantly improves computer vision models, deploying them incurs prohibitive inference costs and requires scarce, perfectly paired datasets. Recent methods address this data bottleneck by synthesizing missing modalities via generative AI, yet they introduce a severe inefficiency: the Decode-Encode Loop. Specifically, information-rich generative latents are decoded into noisy raw signals, forcing the downstream classifier to waste capacity re-encoding them. To bypass this bottleneck, we propose Direct Latent Augmentation (DLA), utilizing undecoded generative latents directly as privileged information. Furthermore, to transfer this dense knowledge to a purely visual student, we introduce Multilayer Explicit Simulated Synesthesia (MESSy). Instead of enforcing rigid representation matching, which forces the student to distort its native visual features to accommodate complex multimodal topologies, MESSy uses a predictive objective to safely internalize these physical priors. Empirical results demonstrate that our framework significantly outperforms raw data augmentation and traditional distillation. Ultimately, our approach yields highly accurate unimodal students with ``synesthetic'' latent structures that are inherently aligned with physical properties they have never directly observed.",
+      "authors": [
+        "Cristian Sbrolli",
+        "Nicolas Michel",
+        "Matteo Matteucci",
+        "Toshihiko Yamasaki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-06T21:02:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.08336v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "knowledge distillation from generative latents to visual student",
+      "llm_evidence_cn": "从生成潜变量到视觉学生的知识蒸馏",
+      "llm_evidence": "从生成潜变量到视觉学生的知识蒸馏",
+      "canonical_evidence": "从生成潜变量到视觉学生的知识蒸馏",
+      "llm_tldr_en": "Direct Latent Augmentation uses undecoded generative latents as privileged information and transfers knowledge to a visual student via Multilayer Explicit Simulation.",
+      "llm_tldr_cn": "多模态集成面临推理成本和数据稀缺问题。本文提出直接潜增强（DLA），利用未解码的生成潜变量作为特权信息，并通过多层显式模拟将密集知识蒸馏到纯视觉学生网络，避免解码-编码循环，实现高效知识蒸馏，适用于图像生成加速。",
+      "llm_tldr": "多模态集成面临推理成本和数据稀缺问题。本文提出直接潜增强（DLA），利用未解码的生成潜变量作为特权信息，并通过多层显式模拟将密集知识蒸馏到纯视觉学生网络，避免解码-编码循环，实现高效知识蒸馏，适用于图像生成加速。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "knowledge distillation for generative models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.10135v1",
+      "source": "arxiv",
+      "title": "BiWM: Advancing Open-Source Interactive Video World Models with Bidirectional Autoregression",
+      "abstract": "Transitioning bidirectional video diffusion models into an autoregressive paradigm improves the interactivity of video world models, but existing causal pipelines need many stages (control fine-tuning, autoregressive training, causal initialization, few-step distillation) and still trail bidirectional models in quality due to error accumulation. Recent world models such as Yume-1.5 and Matrix-Game-3.0 instead adopt a bidirectional autoregressive approach, gaining fidelity and stable long-horizon rollout from self-correcting error propagation, yet open-source frameworks (e.g., minWM) support only causal models. We present BiWM, the first full-stack framework for interactive video world models under the bidirectional autoregressive paradigm, jointly optimizing generation quality and inference speed. From a pretrained video backbone, BiWM injects camera control by fine-tuning, then runs a few-step Distribution Matching Distillation (DMD) stage that turns the backbone into an action/camera-controllable world model: just two training stages instead of four in minWM, converging in a few hundred steps on 8xH200 GPUs. A single recipe spans Wan2.1-1.3B, Wan2.2-5B, HunyuanVideo-1.5-8B, and LTX-2.3-22B, and also supports secondary fine-tuning of existing bidirectional models. BiWM enables real-world camera control where minWM loses controllability, integrates pluggable history compression (FramePack-style and PackForcing-style) for long rollouts, and offers an optional NVFP4 4-bit training/inference pipeline. To counter DMD's mode-seeking degradation, we add GAN and mass-covering forward-KL objectives that preserve scene dynamics. We open-source BiWM for resource-constrained research and high-fidelity environment simulation.",
+      "authors": [
+        "Shaohao Rui",
+        "Xiaofeng Mao",
+        "Zhanyu Zhang",
+        "Peijia Lin",
+        "Yansong Zhu",
+        "Yibo Zhang",
+        "Haibin Wan",
+        "Weijie Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-08T20:08:41+00:00",
+      "link": "https://arxiv.org/pdf/2606.10135v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "discusses few-step distillation in existing pipelines and proposes bidirectional autoregressive framework for video world models",
+      "llm_evidence_cn": "讨论了现有流水线中的少步蒸馏问题，并提出双向自回归视频世界模型框架",
+      "llm_evidence": "讨论了现有流水线中的少步蒸馏问题，并提出双向自回归视频世界模型框架",
+      "canonical_evidence": "讨论了现有流水线中的少步蒸馏问题，并提出双向自回归视频世界模型框架",
+      "llm_tldr_en": "BiWM proposes the first full-stack bidirectional autoregressive framework for interactive video world models, addressing error accumulation in causal pipelines that require multi-stage training including few-step distillation.",
+      "llm_tldr_cn": "现有因果视频世界模型需要多阶段训练（包括少步蒸馏）且存在误差累积问题。BiWM提出了首个全栈双向自回归框架，通过双向建模提升长程交互质量。实验表明该方法在保持高保真度的同时能稳定生成长时视频，为交互式视频生成提供了一种无累积误差的替代方案。",
+      "llm_tldr": "现有因果视频世界模型需要多阶段训练（包括少步蒸馏）且存在误差累积问题。BiWM提出了首个全栈双向自回归框架，通过双向建模提升长程交互质量。实验表明该方法在保持高保真度的同时能稳定生成长时视频，为交互式视频生成提供了一种无累积误差的替代方案。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.11363v1",
+      "source": "arxiv",
+      "title": "NSVQ: Mitigating Codebook Collapse by Stabilizing Encoder Drift in Vector Quantization",
+      "abstract": "Vector quantization is central to modern generative modeling pipelines, but large-codebook VQ models often suffer from codebook collapse. We identify encoder drift as a key driver of this failure: as the encoder moves the latent distribution, sparsely updated code vectors can lag behind, lose assignments, and increase quantization error, creating a feedback loop through the straight-through estimator. We propose NSVQ, a non-stationary-aware VQ training strategy that combines a dense non-stationary embedding loss, codebook replacement, and stage-wise encoder freezing. NSVQ first helps the codebook track encoder drift during early training, then freezes the encoder to consolidate the codebook under a fixed latent geometry, and finally reintroduces adversarial refinement. Experiments on ImageNet-1k show that NSVQ improves reconstruction quality while maintaining full codebook utilization. On ImageNet-1k at 128$\\times$128 with 65,536 codes, NSVQ reduces rFID from 2.39 to 2.10 compared with SimVQ, while both methods maintain 100\\% utilization. Additional latent diffusion experiments show that NSVQ also improves downstream ImageNet generation FID.",
+      "authors": [
+        "Hao Lu",
+        "Yongxin Guo",
+        "Onur Koyun",
+        "Zhengjie Zhu",
+        "Abbas Alili",
+        "Metin N. Gurcan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T18:43:29+00:00",
+      "link": "https://arxiv.org/pdf/2606.11363v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "proposes NSVQ to mitigate codebook collapse in VQ, relevant to model quantization for efficient generation",
+      "llm_evidence_cn": "提出NSVQ缓解矢量量化中的码本坍塌，与模型量化高效生成相关",
+      "llm_evidence": "提出NSVQ缓解矢量量化中的码本坍塌，与模型量化高效生成相关",
+      "canonical_evidence": "提出NSVQ缓解矢量量化中的码本坍塌，与模型量化高效生成相关",
+      "llm_tldr_en": "NSVQ introduces a non-stationary-aware VQ training strategy combining dense loss, codebook replacement, and stage-wise encoder freezing to prevent codebook collapse.",
+      "llm_tldr_cn": "大型码本VQ模型常因码本坍塌导致量化质量下降。NSVQ通过非平稳嵌入损失、码本替换和分阶段编码器冻结策略，稳定编码器漂移，防止码本坍塌。在多种生成模型上验证，该方法能有效提升量化性能，为高效生成提供了更鲁棒的矢量量化方案。",
+      "llm_tldr": "大型码本VQ模型常因码本坍塌导致量化质量下降。NSVQ通过非平稳嵌入损失、码本替换和分阶段编码器冻结策略，稳定编码器漂移，防止码本坍塌。在多种生成模型上验证，该方法能有效提升量化性能，为高效生成提供了更鲁棒的矢量量化方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
