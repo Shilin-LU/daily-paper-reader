@@ -6,64 +6,45 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-12
-- 运行时间：2026-06-12 22:10:41 UTC
+- 最新运行日期：2026-06-13
+- 运行时间：2026-06-13 21:16:51 UTC
 - 运行状态：成功
-- 本次总论文数：14
-- 精读区：4
-- 速读区：10
+- 本次总论文数：7
+- 精读区：1
+- 速读区：6
 
 ### 今日简报（AI）
-今日焦点：两篇高分论文分别攻克实时高分辨率视频流生成与双向交互式世界模型，另有视频编辑、自适应分词及世界模型自蒸馏等速读亮点。  
-最值得关注方向：Ultra Flash实现高分辨率实时视频流生成（10分），BiWM以双向自回归开源交互式视频世界模型（9分）。  
-建议普通读者优先精读这两篇高分论文，把握视频生成与交互的最新范式；速读部分可辅助理解多模态输入编辑和模型自训练思路。
-- 详情：[/202606/12/README](/202606/12/README)
+今日精读1篇、速读6篇，重点关注开源视频世界模型与视频增强视觉语言模型。
+
+最值得精读的是《BiWM》中双向自回归的开源交互式视频世界模型（9.0分），以及《MotionEnhancer》中利用视频扩散增强运动理解的思路（7.0分）。
+
+建议优先复现BiWM的开源代码，并尝试将MotionEnhancer的运动增强方法融入已有视觉语言模型，以提升动态场景理解能力。
+- 详情：[/202606/13/README](/202606/13/README)
 
 ### 精读区论文标签
-1. [Ultra Flash: Scaling Real-Time Streaming Video Generation to High Resolutions](/202606/12/2606.09150v1-ultra-flash-scaling-real-time-streaming-video-generation-to-high-resolutions)  
-   标签：评分：10.0/10、query:fast-gen
-   evidence：单GPU实时高分辨率流式视频生成
-2. [BiWM: Advancing Open-Source Interactive Video World Models with Bidirectional Autoregression](/202606/12/2606.10135v2-biwm-advancing-open-source-interactive-video-world-models-with-bidirectional-autoregression)  
+1. [BiWM: Advancing Open-Source Interactive Video World Models with Bidirectional Autoregression](/202606/13/2606.10135v1-biwm-advancing-open-source-interactive-video-world-models-with-bidirectional-autoregression)  
    标签：评分：9.0/10、query:vd
-   evidence：为视频世界模型提出少步蒸馏
-3. [Complexity-Balanced Diffusion Splitting](/202606/12/2606.06477v1-complexity-balanced-diffusion-splitting)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：复杂度平衡的扩散分割加速生成
-4. [Q-Delta: Beyond Key-Value Associative State Evolution](/202606/12/2606.08804v1-q-delta-beyond-key-value-associative-state-evolution)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：线性注意力用于高效生成
+   evidence：少步采样视频生成，结合蒸馏的双向自回归
 
 ### 速读区论文标签
-1. [LoomVideo: Unifying Multimodal Inputs into Video Generation and Editing](/202606/12/2606.06042v2-loomvideo-unifying-multimodal-inputs-into-video-generation-and-editing)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：高效视频生成架构，降低计算开销
-2. [Adaptive Tokenisation Via Temporal Redundancy Masking And Latent Inpainting](/202606/12/2606.06158v1-adaptive-tokenisation-via-temporal-redundancy-masking-and-latent-inpainting)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：通过利用时间冗余进行自适应token分配，减少token实现高效视频处理
-3. [World Model Self-Distillation: Training World Models to Solve General Tasks](/202606/12/2606.12072v1-world-model-self-distillation-training-world-models-to-solve-general-tasks)  
+1. [MotionEnhancer: Leveraging Video Diffusion for Motion-Enhanced Vision-Language Models](/202606/13/2606.06853v1-motionenhancer-leveraging-video-diffusion-for-motion-enhanced-vision-language-models)  
    标签：评分：7.0/10、query:vd
-   evidence：利用视频扩散模型进行世界模型自蒸馏
-4. [LoomVideo: Unifying Multimodal Inputs into Video Generation and Editing](/202606/12/2606.06042v1-loomvideo-unifying-multimodal-inputs-into-video-generation-and-editing)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：高效的视频生成与编辑架构
-5. [FreeAnimate: Training-Free Human Image Animation with Preview-Guided Denoising](/202606/12/2606.06885v1-freeanimate-training-free-human-image-animation-with-preview-guided-denoising)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：无训练视频动画，实现快速推理
-6. [Gated Bidirectional Linear Attention for Generative Retrieval](/202606/12/2606.07317v1-gated-bidirectional-linear-attention-for-generative-retrieval)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：提出门控双向线性注意力，可迁移至高效图像生成
-7. [TIDE: Task-Isolated Diffusion for Unified Video Editing and Generation](/202606/12/2606.08260v1-tide-task-isolated-diffusion-for-unified-video-editing-and-generation)  
+   evidence：从视频扩散模型蒸馏运动先验，涉及后训练蒸馏
+2. [HACK++: Towards More Effective Head-Aware Key-Value Compression for Efficient Visual Autoregressive Modeling](/202606/13/2606.08302v1-hack-towards-more-effective-head-aware-key-value-compression-for-efficient-visual-autoregressive-modeling)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：KV缓存压缩实现高效视觉自回归建模，涉及生成效率提升
+3. [Breaking the Lock-in: Diversifying Text-to-Image Generation via Representation Modulation](/202606/13/2606.06813v1-breaking-the-lock-in-diversifying-text-to-image-generation-via-representation-modulation)  
    标签：评分：6.0/10、query:vd
-   evidence：统一的视频生成与编辑框架
-8. [Beyond Raw Signals: Undecoded Generative Latents as Privileged Synthetic Data](/202606/12/2606.08336v1-beyond-raw-signals-undecoded-generative-latents-as-privileged-synthetic-data)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：从生成潜变量到视觉学生的知识蒸馏
-9. [BiWM: Advancing Open-Source Interactive Video World Models with Bidirectional Autoregression](/202606/12/2606.10135v1-biwm-advancing-open-source-interactive-video-world-models-with-bidirectional-autoregression)  
+   evidence：通过表示调制增强文本到图像生成的多样性，与图像生成多样性增强相关
+4. [Beyond Skeletons: Learning Animation Directly from Driving Videos with Same2X Training Strategy](/202606/13/2606.06903v1-beyond-skeletons-learning-animation-directly-from-driving-videos-with-same2x-training-strategy)  
    标签：评分：6.0/10、query:vd
-   evidence：讨论了现有流水线中的少步蒸馏问题，并提出双向自回归视频世界模型框架
-10. [NSVQ: Mitigating Codebook Collapse by Stabilizing Encoder Drift in Vector Quantization](/202606/12/2606.11363v1-nsvq-mitigating-codebook-collapse-by-stabilizing-encoder-drift-in-vector-quantization)  
+   evidence：直接从驱动视频学习动画，提升运动动态
+5. [STAR-KV: Low-Rank KV Cache Compression via Soft Thresholding for Adaptive Rank Control](/202606/13/2606.08382v1-star-kv-low-rank-kv-cache-compression-via-soft-thresholding-for-adaptive-rank-control)  
    标签：评分：6.0/10、query:fast-gen
-   evidence：提出NSVQ缓解矢量量化中的码本坍塌，与模型量化高效生成相关
+   evidence：自适应低秩KV缓存压缩与量化，实现高效模型推理
+6. [Beyond Consistency: Preserving Temporal Structure in Zero-Shot Video Editing](/202606/13/2606.08780v1-beyond-consistency-preserving-temporal-structure-in-zero-shot-video-editing)  
+   标签：评分：6.0/10、query:vd
+   evidence：时间结构保留，视频编辑，扩散模型
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,318 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-13T21:10:51.239543+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 1,
+    "deep_cap": 7,
+    "deep_selected": 1,
+    "quick_candidates": 6,
+    "quick_skim_target": 12,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2606.10135v1",
+      "source": "arxiv",
+      "title": "BiWM: Advancing Open-Source Interactive Video World Models with Bidirectional Autoregression",
+      "abstract": "Transitioning bidirectional video diffusion models into an autoregressive paradigm improves the interactivity of video world models, but existing causal pipelines need many stages (control fine-tuning, autoregressive training, causal initialization, few-step distillation) and still trail bidirectional models in quality due to error accumulation. Recent world models such as Yume-1.5 and Matrix-Game-3.0 instead adopt a bidirectional autoregressive approach, gaining fidelity and stable long-horizon rollout from self-correcting error propagation, yet open-source frameworks (e.g., minWM) support only causal models. We present BiWM, the first full-stack framework for interactive video world models under the bidirectional autoregressive paradigm, jointly optimizing generation quality and inference speed. From a pretrained video backbone, BiWM injects camera control by fine-tuning, then runs a few-step Distribution Matching Distillation (DMD) stage that turns the backbone into an action/camera-controllable world model: just two training stages instead of four in minWM, converging in a few hundred steps on 8xH200 GPUs. A single recipe spans Wan2.1-1.3B, Wan2.2-5B, HunyuanVideo-1.5-8B, and LTX-2.3-22B, and also supports secondary fine-tuning of existing bidirectional models. BiWM enables real-world camera control where minWM loses controllability, integrates pluggable history compression (FramePack-style and PackForcing-style) for long rollouts, and offers an optional NVFP4 4-bit training/inference pipeline. To counter DMD's mode-seeking degradation, we add GAN and mass-covering forward-KL objectives that preserve scene dynamics. We open-source BiWM for resource-constrained research and high-fidelity environment simulation.",
+      "authors": [
+        "Shaohao Rui",
+        "Xiaofeng Mao",
+        "Zhanyu Zhang",
+        "Peijia Lin",
+        "Yansong Zhu",
+        "Yibo Zhang",
+        "Haibin Wan",
+        "Weijie Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-08T20:08:41+00:00",
+      "link": "https://arxiv.org/pdf/2606.10135v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "few-step sampling video generation, bidirectional autoregression with distillation",
+      "llm_evidence_cn": "少步采样视频生成，结合蒸馏的双向自回归",
+      "llm_evidence": "少步采样视频生成，结合蒸馏的双向自回归",
+      "canonical_evidence": "少步采样视频生成，结合蒸馏的双向自回归",
+      "llm_tldr_en": "BiWM proposes a bidirectional autoregressive framework for interactive video world models, addressing error accumulation in causal pipelines and enabling few-step distillation for efficient generation.",
+      "llm_tldr_cn": "现有视频世界模型在因果流水线中需要多阶段训练（包括少步蒸馏）但仍存在误差累积。BiWM提出首个双向自回归框架，通过自纠正误差传播提升了保真度和长期稳定性，并支持少步蒸馏以实现高效交互式视频生成。该框架开源，为视频生成模型的后训练蒸馏和快速采样提供了可复现的基准。",
+      "llm_tldr": "现有视频世界模型在因果流水线中需要多阶段训练（包括少步蒸馏）但仍存在误差累积。BiWM提出首个双向自回归框架，通过自纠正误差传播提升了保真度和长期稳定性，并支持少步蒸馏以实现高效交互式视频生成。该框架开源，为视频生成模型的后训练蒸馏和快速采样提供了可复现的基准。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.06853v1",
+      "source": "arxiv",
+      "title": "MotionEnhancer: Leveraging Video Diffusion for Motion-Enhanced Vision-Language Models",
+      "abstract": "The new era has witnessed a remarkable capability to extend Vision-Language Models (VLMs) for tackling tasks of video understanding. While current VLMs excel at event- or story-level understanding, their ability to capture fine-grained motion details remains limited, primarily due to their focus on high-level static semantic structures and macro-event logic. In contrast, Video Diffusion Models (VDMs) are adept at modeling dynamic motion patterns, benefiting from large-scale video data and the intrinsic requirement of temporal generation. In this paper, we introduce MotionEnhancer, a novel approach that leverages motion priors distilled from a powerful video diffusion model as auxiliary supervision to enhance the motion understanding capability of a VLM via attention alignment. MotionEnhancer comprises two simple parameter-free modules, Motion-sensitive Head Selection (MHS) and Motion-salient Text Token Identification (MTTI), to directly extract and optimize motion-related attentions from the VDM in a computation-only manner. MotionEnhancer provides a scalable solution for motion understanding without additional training parameters, modifications to existing architectures, or tool calling. Extensive experiments demonstrate that MotionEnhancer can achieve consistent improvements over state-of-the-art VLMs on two motion-level video understanding benchmarks, especially on motion-related metrics.",
+      "authors": [
+        "Yifan Xu",
+        "Chao Zhang",
+        "Ruifei Ma",
+        "Fei Gao",
+        "Zhifei Yang",
+        "Jiaxing Qi",
+        "Zhipeng Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-05T02:56:48+00:00",
+      "link": "https://arxiv.org/pdf/2606.06853v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "distills motion priors from video diffusion model for understanding",
+      "llm_evidence_cn": "从视频扩散模型蒸馏运动先验，涉及后训练蒸馏",
+      "llm_evidence": "从视频扩散模型蒸馏运动先验，涉及后训练蒸馏",
+      "canonical_evidence": "从视频扩散模型蒸馏运动先验，涉及后训练蒸馏",
+      "llm_tldr_en": "MotionEnhancer distills motion priors from a video diffusion model to enhance VLM motion understanding, demonstrating post-training distillation transferable to generation.",
+      "llm_tldr_cn": "MotionEnhancer针对视频理解中运动细节捕捉不足的问题，提出从强大视频扩散模型中蒸馏运动先验作为辅助监督，以增强视觉语言模型的运动理解能力。该方法展示了蒸馏技术在视频领域的可迁移性，为视频生成模型的后训练蒸馏提供了方法论支持。",
+      "llm_tldr": "MotionEnhancer针对视频理解中运动细节捕捉不足的问题，提出从强大视频扩散模型中蒸馏运动先验作为辅助监督，以增强视觉语言模型的运动理解能力。该方法展示了蒸馏技术在视频领域的可迁移性，为视频生成模型的后训练蒸馏提供了方法论支持。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.06813v1",
+      "source": "arxiv",
+      "title": "Breaking the Lock-in: Diversifying Text-to-Image Generation via Representation Modulation",
+      "abstract": "Recent text-to-image models built on large-scale Transformer backbones and flow-based objectives deliver strong text-image alignment and high visual quality, yet often produce overly similar samples under a fixed prompt. Existing diversity-enhancement methods alleviate this issue, but typically require expensive sampling or auxiliary optimization, incurring non-trivial overhead. To investigate the root cause of this homogeneity, we examine intermediate Transformer features and observe that the zero-frequency spatial average (DC) component rapidly converges across seeds early in generation, causing early trajectory lock-in that limits downstream variation. Building on this observation, we propose DC Attenuation for diVersity Enhancement (DAVE), a training-free representation-level intervention that selectively attenuates this component in the early regime. DAVE preserves the sampling pipeline with negligible overhead, improving prompt-consistent diversity while maintaining competitive image quality.",
+      "authors": [
+        "Dahee Kwon",
+        "Haeun Lee",
+        "Jaesik Choi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-05T01:27:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.06813v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "enhances diversity in text-to-image generation via representation modulation, related to diversity improvement in image generation",
+      "llm_evidence_cn": "通过表示调制增强文本到图像生成的多样性，与图像生成多样性增强相关",
+      "llm_evidence": "通过表示调制增强文本到图像生成的多样性，与图像生成多样性增强相关",
+      "canonical_evidence": "通过表示调制增强文本到图像生成的多样性，与图像生成多样性增强相关",
+      "llm_tldr_en": "Proposes DC Attenuation to diversify text-to-image generation by attenuating zero-frequency spatial average component in transformer features, achieving diversity without extra sampling cost.",
+      "llm_tldr_cn": "针对文本到图像模型在同一提示下生成样本过多相似的问题，本文发现早期生成中零频率空间平均（DC）分量的快速收敛导致轨迹锁定。提出DC衰减（DAVE）方法，通过调制中间Transformer特征来增加多样性，无需额外采样或优化。实验表明方法即插即用，显著提升多样性而不牺牲质量。",
+      "llm_tldr": "针对文本到图像模型在同一提示下生成样本过多相似的问题，本文发现早期生成中零频率空间平均（DC）分量的快速收敛导致轨迹锁定。提出DC衰减（DAVE）方法，通过调制中间Transformer特征来增加多样性，无需额外采样或优化。实验表明方法即插即用，显著提升多样性而不牺牲质量。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "knowledge distillation for diversity enhancement in image generation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.08302v1",
+      "source": "arxiv",
+      "title": "HACK++: Towards More Effective Head-Aware Key-Value Compression for Efficient Visual Autoregressive Modeling",
+      "abstract": "Visual Autoregressive (VAR) models adopt a next-scale prediction paradigm, offering high-quality generation with substantially fewer decoding steps. However, existing VAR models suffer from significant attention complexity and severe memory overhead due to the accumulation of key-value (KV) caches across scales. In this paper, we tackle this challenge by introducing KV cache compression into the next-scale paradigm. We begin with an in-depth analysis of VAR attention and observe that attention heads can be stably divided into two functionally distinct categories: Contextual Heads focus on maintaining semantic consistency, while Structural Heads preserve spatial coherence. Their functional divergence makes existing one-size-fits-all compression methods perform poorly on VAR models. We further find that the two head types differ markedly in their reliance on historical scales, and that this reliance shifts across layers and generation steps, arguing for an adaptive cache budget allocation. To address these challenges, we propose HACK++, a training-free Head-Aware key-value Compression frameworK for VAR models. From a one-time offline calibration, HACK++ classifies head types and derives head-specific priors. At inference, it decouples attention from cache compression under independent budgets, bounding the current-scale attention cost while compressing the accumulated cache far more aggressively, via pattern-specific strategies and a reliance-aware budget allocation. Extensive experiments on multiple VAR models across text-to-image, class-conditional, and unified understanding-and-generation tasks validate the effectiveness and generalizability of HACK++. For example, on Infinity-2B/8B, HACK++ maintains near-lossless generation with only a 30% attention budget and a 10% cache budget, and remains robust even under a 1% cache budget.",
+      "authors": [
+        "Ziran Qin",
+        "Yuchen Jiang",
+        "Mingbao Lin",
+        "Youru Lv",
+        "Hang Guo",
+        "Wen Fei",
+        "Weiyao Lin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-06T18:58:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.08302v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "KV cache compression for efficient visual autoregressive modeling, related to efficient generation",
+      "llm_evidence_cn": "KV缓存压缩实现高效视觉自回归建模，涉及生成效率提升",
+      "llm_evidence": "KV缓存压缩实现高效视觉自回归建模，涉及生成效率提升",
+      "canonical_evidence": "KV缓存压缩实现高效视觉自回归建模，涉及生成效率提升",
+      "llm_tldr_en": "HACK++ introduces head-aware KV cache compression for VAR models, significantly reducing memory and computation for efficient visual generation.",
+      "llm_tldr_cn": "HACK++针对视觉自回归模型在跨尺度推理中累积大量KV缓存导致高复杂度和内存开销的问题，提出头部感知的KV压缩方法。通过将注意力头分为上下文头和结构头并分别处理，在保持生成质量的同时大幅降低计算和内存需求，为高效视觉生成提供了新方向。",
+      "llm_tldr": "HACK++针对视觉自回归模型在跨尺度推理中累积大量KV缓存导致高复杂度和内存开销的问题，提出头部感知的KV压缩方法。通过将注意力头分为上下文头和结构头并分别处理，在保持生成质量的同时大幅降低计算和内存需求，为高效视觉生成提供了新方向。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "efficient image or video generation using sparse or linear attention architecture",
+      "matched_requirement_id": "req-17",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.06903v1",
+      "source": "arxiv",
+      "title": "Beyond Skeletons: Learning Animation Directly from Driving Videos with Same2X Training Strategy",
+      "abstract": "Human image animation aims to generate a video from a static reference image, guided by pose information extracted from a driving video. Existing approaches often rely on pose estimators to extract intermediate representations, but such signals are prone to errors under occlusion or complex poses. Building on these observations, we present DirectAnimator, a framework that bypasses pose extraction and directly learns from raw driving videos. We introduce a Driving Cue Triplet consisting of pose, face, and location cues that captures motion, expression, and alignment in a semantically rich yet stable form, and we fuse them through a CueFusion DiT block for reliable control during denoising. To make learning dependable when the driving and reference identities differ, we devise a Same2X training strategy that aligns cross-ID features with those learned from same-ID data, regularizing optimization and accelerating convergence. Extensive experiments demonstrate that DirectAnimator attains state-of-the-art visual quality and identity preservation while remaining robust to occlusions and complex articulation, and it does so with fewer computational resources. Our project page is at https://directanimator.github.io/.",
+      "authors": [
+        "Yuan Zeng",
+        "Yujia Shi",
+        "Yuhao Yang",
+        "Dongxia Liu",
+        "Zongqing Lu",
+        "Wenming Yang",
+        "Qingmin Liao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-05T04:39:46+00:00",
+      "link": "https://arxiv.org/pdf/2606.06903v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "directly learns animation from driving videos, improving motion dynamics",
+      "llm_evidence_cn": "直接从驱动视频学习动画，提升运动动态",
+      "llm_evidence": "直接从驱动视频学习动画，提升运动动态",
+      "canonical_evidence": "直接从驱动视频学习动画，提升运动动态",
+      "llm_tldr_en": "DirectAnimator bypasses pose extraction to learn human image animation directly from raw driving videos, using Driving Cue Triplet and CueFusion DiT block to improve motion dynamics and robustness.",
+      "llm_tldr_cn": "现有方法依赖姿态估计提取中间表示，在遮挡或复杂姿态下容易出错。本文提出DirectAnimator，直接从原始驱动视频学习，通过驾驶提示三元组（姿态、面部、位置）和CueFusion DiT模块实现鲁棒控制。实验表明在复杂场景下性能优于姿态依赖方法，为视频生成中的运动动态改进提供了新思路。",
+      "llm_tldr": "现有方法依赖姿态估计提取中间表示，在遮挡或复杂姿态下容易出错。本文提出DirectAnimator，直接从原始驱动视频学习，通过驾驶提示三元组（姿态、面部、位置）和CueFusion DiT模块实现鲁棒控制。实验表明在复杂场景下性能优于姿态依赖方法，为视频生成中的运动动态改进提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.08382v1",
+      "source": "arxiv",
+      "title": "STAR-KV: Low-Rank KV Cache Compression via Soft Thresholding for Adaptive Rank Control",
+      "abstract": "Low-rank projection has emerged as a promising approach for compressing the KV cache by exploiting hidden-dimension redundancy. However, prior methods rely on fixed or heuristic rank selection and struggle to achieve aggressive compression with minimal accuracy degradation. We propose STAR-KV, an adaptive low-rank KV cache compression framework with fine-grained rank control. STAR-KV encompasses 1) a differentiable thresholding mechanism that enables optimal rank selection at both attention-head and block levels, 2) a hybrid decomposition strategy that applies different low-rank factorizations according to the sensitivity of key and value projections, and 3) a low-rank-aware mixed precision quantization that leverages data statistics for near lossless low-bit quantization. Evaluated across multiple LLMs and benchmarks, STAR-KV achieves up to 75% KV cache compression and up to 20x overall KV cache reduction when combined with quantization. Enabled by custom Triton-based GPU kernels, STAR-KV delivers up to 6.9x speedup for the attention module and 3.1x end-to-end generation throughput. Our code is publicly available at: https://github.com/PriyanshBhatnagar/STAR-KV.",
+      "authors": [
+        "Priyansh Bhatnagar",
+        "Ashkan Moradifirouzabadi",
+        "Se-Hyun Yang",
+        "SeungJae Lee",
+        "Jungwook Choi",
+        "Mingu Kang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-07T00:24:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.08382v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "adaptive low-rank KV cache compression with quantization, enabling efficient model inference",
+      "llm_evidence_cn": "自适应低秩KV缓存压缩与量化，实现高效模型推理",
+      "llm_evidence": "自适应低秩KV缓存压缩与量化，实现高效模型推理",
+      "canonical_evidence": "自适应低秩KV缓存压缩与量化，实现高效模型推理",
+      "llm_tldr_en": "STAR-KV introduces adaptive low-rank KV cache compression with differentiable thresholding and mixed precision quantization, achieving aggressive compression while maintaining accuracy for LLM inference.",
+      "llm_tldr_cn": "KV缓存是LLM推理的瓶颈，现有低秩压缩方法依赖固定秩选择，难以兼顾压缩率和精度。STAR-KV提出可微分阈值机制实现细粒度秩选择，结合混合精度量化，在保持精度的同时大幅压缩KV缓存。该方法可应用于视频生成模型的注意力层，加速推理。",
+      "llm_tldr": "KV缓存是LLM推理的瓶颈，现有低秩压缩方法依赖固定秩选择，难以兼顾压缩率和精度。STAR-KV提出可微分阈值机制实现细粒度秩选择，结合混合精度量化，在保持精度的同时大幅压缩KV缓存。该方法可应用于视频生成模型的注意力层，加速推理。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.08780v1",
+      "source": "arxiv",
+      "title": "Beyond Consistency: Preserving Temporal Structure in Zero-Shot Video Editing",
+      "abstract": "Existing zero-shot video editing methods rely on pre-trained diffusion models, successfully achieving spatial control and basic temporal consistency but fundamentally fail to preserve the video's original temporal structure.This distinction is critical: temporal consistency ensures visual smoothness, but temporal structure dictates the video's high-level narrative, rhythm, and semantic flow. Without this preservation, the edited output, especially for long videos with complex semantic variations, becomes narratively incoherent and semantically ambiguous. To address this limitation, we introduce a novel zero-shot editing approach that, for the first time, explicitly focuses on preserving the source video's temporal structure. We achieve this by adaptively partitioning the video into semantically distinct clips based on feature similarity and selecting a representative anchor frame for each clip. To enhance both intra-clip fidelity and computational efficiency, we design a clip-adaptive token merging strategy which leverages the anchor's semantic dominance to stabilize the editing. Furthermore, we employ an alternating combination strategy that ensures seamless inter-clip transitions while maintaining semantic distinction. Extensive experiments demonstrate that our method achieves state-of-the-art results, successfully balancing the preservation of original temporal structure with computational efficiency, and setting a new benchmark for zero-shot video editing fidelity.",
+      "authors": [
+        "Deyin Liu",
+        "Yisheng Ding",
+        "Zhe Jin",
+        "Xiatian Zhu",
+        "Anjan Dutta",
+        "Lin Wu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-07T18:53:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.08780v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "temporal structure preservation, video editing, diffusion models",
+      "llm_evidence_cn": "时间结构保留，视频编辑，扩散模型",
+      "llm_evidence": "时间结构保留，视频编辑，扩散模型",
+      "canonical_evidence": "时间结构保留，视频编辑，扩散模型",
+      "llm_tldr_en": "This paper proposes a zero-shot video editing approach that explicitly preserves the source video's temporal structure, achieving narrative coherence in long videos with complex semantics.",
+      "llm_tldr_cn": "零样本视频编辑方法虽然能保证视觉平滑，但常丢失原视频的高层叙事结构和语义节奏。本文首次提出专注于保留时间结构的编辑方法，通过分析视频的语义流，在编辑后保持原始的时间顺序和因果关系，特别适用于长视频和复杂场景。",
+      "llm_tldr": "零样本视频编辑方法虽然能保证视觉平滑，但常丢失原视频的高层叙事结构和语义节奏。本文首次提出专注于保留时间结构的编辑方法，通过分析视频的语义流，在编辑后保持原始的时间顺序和因果关系，特别适用于长视频和复杂场景。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
