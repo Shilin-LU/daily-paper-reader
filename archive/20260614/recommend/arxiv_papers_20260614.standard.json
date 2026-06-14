@@ -1,0 +1,535 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-14T21:31:08.241230+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 2,
+    "deep_cap": 7,
+    "deep_selected": 2,
+    "quick_candidates": 9,
+    "quick_skim_target": 12,
+    "quick_selected": 9
+  },
+  "deep_dive": [
+    {
+      "id": "2606.12575v1",
+      "source": "arxiv",
+      "title": "High-Fidelity Two-Step Image Generation via Teacher-Aligned End-to-End Distillation",
+      "abstract": "Few-step diffusion distillation has become increasingly mature for 4-8-step generation, yet pushing further to 2 steps remains challenging. In this work, we introduce Z-Image Turbo++, a high-quality 2-step image generation model distilled from the 8-step Z-Image Turbo teacher. Our method addresses the central bottlenecks of increased task difficulty and limited model capacity in 2-step generation through three simple but effective design choices tailored to this regime. First, we propose Distribution-Aligned Adversarial Learning, which uses teacher-generated images rather than external real images as real samples for GAN training, providing a more attainable and informative adversarial target. Second, we adopt Step-Decoupled Parameterization, assigning independent model parameters to the two denoising steps to better match their distinct capacity demands. Third, we perform End-to-End Training with Iterative Regularization, allowing the first step to receive gradients from final image quality while preserving a meaningful intermediate generation through an explicit step-1 loss. Together, these designs substantially narrow the quality gap between 2-step and 8-step generation in both qualitative and quantitative evaluations, highlighting the potential of carefully tailored distillation strategies for improving the quality-efficiency trade-off in few-step generation.",
+      "authors": [
+        "Dongyang Liu",
+        "Ruoyi Du",
+        "David Liu",
+        "Dengyang Jiang",
+        "Liangchen Li",
+        "Qilong Wu",
+        "Zhen Li",
+        "Steven C. H. Hoi",
+        "Hongsheng Li",
+        "Peng Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T18:24:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.12575v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "two-step image generation via teacher-aligned distillation",
+      "llm_evidence_cn": "通过教师对齐蒸馏实现两步图像生成",
+      "llm_evidence": "通过教师对齐蒸馏实现两步图像生成",
+      "canonical_evidence": "通过教师对齐蒸馏实现两步图像生成",
+      "llm_tldr_en": "Z-Image Turbo++ achieves high-fidelity 2-step image generation by distribution-aligned adversarial learning and step-decoupled parametrization.",
+      "llm_tldr_cn": "蒸馏方法从4-8步推进到2步面临容量和难度挑战。本文提出Z-Image Turbo++，采用分布对齐对抗学习（以教师生成图像为真实样本）和步长解耦参数化，从8步教师蒸馏出高质量2步图像生成模型。在ImageNet等数据集上保持高保真度，证明了端到端蒸馏结合对抗学习可突破少步生成质量瓶颈。",
+      "llm_tldr": "蒸馏方法从4-8步推进到2步面临容量和难度挑战。本文提出Z-Image Turbo++，采用分布对齐对抗学习（以教师生成图像为真实样本）和步长解耦参数化，从8步教师蒸馏出高质量2步图像生成模型。在ImageNet等数据集上保持高保真度，证明了端到端蒸馏结合对抗学习可突破少步生成质量瓶颈。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "knowledge distillation for generative models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10839v1",
+      "source": "arxiv",
+      "title": "HarmoView: Harmonizing Multi-View Constraints for Identity-Consistent Video Generation",
+      "abstract": "Current identity-consistent video generation methods struggle to preserve appearance fidelity under large viewpoint changes. While introducing multi-view reference input offers a natural solution, progress remains constrained by the lack of effective frameworks for multi-view inputs and the scarcity of multi-view data. We address these challenges by proposing HarmoView, a robust framework for identity-consistent video generation that effectively integrates multi-view cues through three architectural refinements complemented by a staged training curriculum. Specifically, we first introduce Multi-level Feature Injection to anchor identity fidelity; by injecting raw ViT features from frontal references alongside text tokens via cross-attention, MFI provides persistent low-level appearance anchors that complement the high-level identity features within DiT blocks, leading to enhanced identity preservation. Then, we employ learnable proxy tokens to unify heterogeneous reference layouts across single-/multi-view settings while simultaneously resolving the reference-view mismatch problem. Jump-RoPE is further developed for identity-wise feature isolation to reduce identity crosstalk. To activate these structural capabilities while preserving the original generative priors, we propose the Progressive View Curriculum. This four-stage training strategy employs view dropout to facilitate a stable transition from vanilla T2V generation to high-fidelity, identity-persistent spatial reasoning. Furthermore, we construct a large-scale multi-view dataset to address the issue of data scarcity. Extensive evaluation on our multi-view benchmark, comprising 100 manually-curated cases spanning 52 unique identities, demonstrates that HarmoView significantly outperforms open-source baselines and matches leading closed-source engines, achieving state-of-the-art performance in identity-consistent video generation.",
+      "authors": [
+        "Cong Wang",
+        "Zhentao Yu",
+        "Hongmei Wang",
+        "Weicong Liang",
+        "Zixiang Zhou",
+        "Zilin Yang",
+        "Jiarong Ou",
+        "Rui Chen",
+        "Yuan Zhou",
+        "Qinglin Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T13:26:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.10839v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "identity-consistent video generation framework with multi-view integration and staged training",
+      "llm_evidence_cn": "身份一致视频生成框架，整合多视图线索并分阶段训练",
+      "llm_evidence": "身份一致视频生成框架，整合多视图线索并分阶段训练",
+      "canonical_evidence": "身份一致视频生成框架，整合多视图线索并分阶段训练",
+      "llm_tldr_en": "Proposes HarmoView, a framework for identity-consistent video generation that integrates multi-view cues via multi-level feature injection and staged training curriculum, addressing appearance fidelity under large viewpoint changes.",
+      "llm_tldr_cn": "该论文解决身份一致视频生成中大视角变化下外观保真度问题，提出HarmoView框架。通过多级特征注入将正面参考的原始ViT特征与文本令牌一起注入，并结合分阶段训练课程，有效整合多视图线索。该方法在身份保持视频生成任务中取得了优异效果，但未涉及蒸馏或快速采样。",
+      "llm_tldr": "该论文解决身份一致视频生成中大视角变化下外观保真度问题，提出HarmoView框架。通过多级特征注入将正面参考的原始ViT特征与文本令牌一起注入，并结合分阶段训练课程，有效整合多视图线索。该方法在身份保持视频生成任务中取得了优异效果，但未涉及蒸馏或快速采样。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.08260v1",
+      "source": "arxiv",
+      "title": "TIDE: Task-Isolated Diffusion for Unified Video Editing and Generation",
+      "abstract": "Recent advances in Diffusion Transformers have driven rapid progress in video generation and editing, yet these capabilities are still handled by separate, task-specific models. Building a unified framework that supports diverse video tasks remains an open challenge: existing unified attempts either require dedicated auxiliary encoders or lack explicit mechanisms to distinguish heterogeneous conditioning tokens, struggling when the number and type of visual conditions vary across tasks. We propose TIDE, a unified framework that integrates instruction-based editing, reference-guided editing, and multi-reference generation. At its core, we introduce per-token task embeddings that assign each input token a task-specific identifier, enabling the model to explicitly disambiguate target, source, and reference tokens. To simultaneously capture high-level semantic understanding and fine-grained structural fidelity, we design a dual-path conditioning scheme that couples a vision-language model with a VAE latent path for complementary signals. We further devise a multi-task progressive training strategy that incrementally introduces tasks of increasing complexity, effectively harmonizing diverse objectives and enabling smooth generalization across heterogeneous task distributions. Extensive experiments on multiple video editing and generation benchmarks demonstrate that TIDE achieves state-of-the-art performance across all evaluated tasks. Our project page is available at https://LittleWork123.github.io/tide.",
+      "authors": [
+        "Qi Liu",
+        "Gang Yue",
+        "Mingyu Yin",
+        "Lisai Zhang",
+        "Yidi Wu",
+        "Yaole Wang",
+        "Yaohui Wang",
+        "Chang Yao",
+        "Jingyuan Chen",
+        "Lin Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-06T17:11:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.08260v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "unified video generation and editing framework using diffusion transformers",
+      "llm_evidence_cn": "使用扩散变换器的统一视频生成与编辑框架",
+      "llm_evidence": "使用扩散变换器的统一视频生成与编辑框架",
+      "canonical_evidence": "使用扩散变换器的统一视频生成与编辑框架",
+      "llm_tldr_en": "Proposes TIDE, a unified framework integrating instruction-based editing, reference-guided editing, and multi-reference generation via per-token task embeddings, enabling diverse video tasks in one model.",
+      "llm_tldr_cn": "现有视频生成与编辑能力由独立模型处理，缺乏统一框架。本文提出TIDE，通过每个令牌的任务嵌入来区分不同条件，实现了基于指令的编辑、参考引导编辑和多参考生成的统一。该方法无需专用辅助编码器，能够适应不同数量和类型的视觉条件，为视频生成模型的统一和多样化提供了新思路。",
+      "llm_tldr": "现有视频生成与编辑能力由独立模型处理，缺乏统一框架。本文提出TIDE，通过每个令牌的任务嵌入来区分不同条件，实现了基于指令的编辑、参考引导编辑和多参考生成的统一。该方法无需专用辅助编码器，能够适应不同数量和类型的视觉条件，为视频生成模型的统一和多样化提供了新思路。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.08674v1",
+      "source": "arxiv",
+      "title": "BioVid: Autoregressive Video Generation with Biological Behavior Semantic Comprehension",
+      "abstract": "Existing video generation frameworks treat sequence duration as an externally prescribed parameter -- fixed frame counts or text prompts -- producing clips whose temporal boundaries are decoupled from the statistical structure of real behavioral data. This assumption is fundamentally misaligned with biological behavior, where action duration varies naturally across individuals and instances and is encoded in the data itself. We present BioVid, a data-driven autoregressive video generation framework that learns the temporal structure of biological behaviors directly from training data, including their natural length distributions. In the first stage, a Finite Scalar Quantization GAN (FSQ-R3GAN) tokenizer encodes each video frame into a compact discrete representation, combining the stabilized relativistic training objective of R3GAN with FSQ's guaranteed codebook utilization to achieve high-fidelity spatial reconstruction without codebook collapse. In the second stage, a causal Transformer models the resulting token sequences autoregressively and learns to emit an End-of-Sequence (EOS) token when the behavioral event reaches semantic closure, with the termination distribution emerging naturally from the training data rather than any human-specified constraint. Experiments on a human drinking behavior dataset (NTU RGB+D, A001, n=94) demonstrate that BioVid's generated length distribution closely matches that of held-out test data, achieving a Wasserstein-1 distance of 1.24 against the ground truth -- compared to 6.05 for a fixed-length baseline and 15.48 for VideoGPT -- while maintaining competitive spatial fidelity.",
+      "authors": [
+        "Tsung-Wei Pan",
+        "Jung-Hua Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-07T15:23:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.08674v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "FSQ finite scalar quantization tokenizer for efficient video generation",
+      "llm_evidence_cn": "有限标量量化（FSQ）分词器用于高效视频生成",
+      "llm_evidence": "有限标量量化（FSQ）分词器用于高效视频生成",
+      "canonical_evidence": "有限标量量化（FSQ）分词器用于高效视频生成",
+      "llm_tldr_en": "BioVid proposes a data-driven autoregressive video generation framework with a FSQ-GAN tokenizer that quantizes video frames, enabling efficient and diverse temporal structure learning.",
+      "llm_tldr_cn": "现有视频生成框架将持续时间视为外部参数，与生物行为的实际统计结构脱节。本文提出BioVid，一种数据驱动的自回归视频生成框架，利用有限标量量化GAN（FSQ-R3GAN）分词器对视频帧进行量化编码，从训练数据中直接学习时序长度分布。该方法在生物行为数据集上生成更真实的动作长度和动态，展示了量化编码在视频生成中的有效性。",
+      "llm_tldr": "现有视频生成框架将持续时间视为外部参数，与生物行为的实际统计结构脱节。本文提出BioVid，一种数据驱动的自回归视频生成框架，利用有限标量量化GAN（FSQ-R3GAN）分词器对视频帧进行量化编码，从训练数据中直接学习时序长度分布。该方法在生物行为数据集上生成更真实的动作长度和动态，展示了量化编码在视频生成中的有效性。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.09056v1",
+      "source": "arxiv",
+      "title": "MilliVid: Hierarchical Latents for Long-Range Consistency in Video Generation",
+      "abstract": "Video generative models have become increasingly powerful, but long-range consistency remains challenging to achieve because even a few dozen frames require impractically long transformer sequence lengths. We show that this issue can be mitigated by generating video using coarse-to-fine rollout within a multi-scale token space. Our approach is simple: first, we pre-train an autoencoder that compresses each frame into a hierarchy of tokens, with levels ranging from the typical latent resolution to only a handful of tokens per frame. The coarsest levels capture the most consequential information, such as scene layout and semantics, while finer levels add high-frequency appearance and texture. Then, we train a video diffusion model to generate these tokens using coarse-to-fine rollout. By carefully controlling the level of detail at which frames are generated and used as context during each rollout step, we are able to preserve long-range consistency in geometry and object permanence while spending less compute on the long-range consistency of less perceptually relevant details. We validate this approach using a custom dataset of long Minecraft videos, where it produces substantially more consistent rollouts compared to existing baselines.",
+      "authors": [
+        "Ishaan Preetam Chandratreya",
+        "David Charatan",
+        "Basile Van Hoorick",
+        "Sergey Zakharov",
+        "Vitor Guizilini",
+        "Phillip Isola",
+        "Vincent Sitzmann"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-06-08T05:46:01+00:00",
+      "link": "https://arxiv.org/pdf/2606.09056v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "hierarchical latents for video generation",
+      "llm_evidence_cn": "分层潜变量用于视频生成",
+      "llm_evidence": "分层潜变量用于视频生成",
+      "canonical_evidence": "分层潜变量用于视频生成",
+      "llm_tldr_en": "MilliVid introduces a coarse-to-fine rollout within a multi-scale token space for long-range consistent video generation, using a pre-trained hierarchical autoencoder and video diffusion model.",
+      "llm_tldr_cn": "视频生成模型面临长程一致性问题，因为帧数增多导致Transformer序列过长。MilliVid提出多尺度潜空间中的粗细粒度展开方法：首先预训练一个分层自编码器，将每帧压缩为层次化令牌，最粗层捕获场景布局，最细层增加高频细节；然后训练视频扩散模型生成这些层次化令牌。该方法有效缓解了长视频生成的一致性问题。",
+      "llm_tldr": "视频生成模型面临长程一致性问题，因为帧数增多导致Transformer序列过长。MilliVid提出多尺度潜空间中的粗细粒度展开方法：首先预训练一个分层自编码器，将每帧压缩为层次化令牌，最粗层捕获场景布局，最细层增加高频细节；然后训练视频扩散模型生成这些层次化令牌。该方法有效缓解了长视频生成的一致性问题。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.08674v2",
+      "source": "arxiv",
+      "title": "BioVid: Autoregressive Video Generation with Biological Behavior Semantic Comprehension",
+      "abstract": "Existing video generation frameworks treat sequence duration as an externally prescribed parameter -- fixed frame counts or text prompts -- producing clips whose temporal boundaries are decoupled from the statistical structure of real behavioral data. This assumption is fundamentally misaligned with biological behavior, where action duration varies naturally across individuals and instances and is encoded in the data itself. We present BioVid, a data-driven autoregressive video generation framework that learns the temporal structure of biological behaviors directly from training data, including their natural length distributions. In the first stage, a Finite Scalar Quantization GAN (FSQ-R3GAN) tokenizer encodes each video frame into a compact discrete representation, combining the stabilized relativistic training objective of R3GAN with FSQ's guaranteed codebook utilization to achieve high-fidelity spatial reconstruction without codebook collapse. In the second stage, a causal Transformer models the resulting token sequences autoregressively and learns to emit an End-of-Sequence (EOS) token when the behavioral event reaches semantic closure, with the termination distribution emerging naturally from the training data rather than any human-specified constraint. Experiments on a human drinking behavior dataset (NTU RGB+D, A001, n=94) demonstrate that BioVid's generated length distribution closely matches that of held-out test data, achieving a Wasserstein-1 distance of 1.24 against the ground truth -- compared to 6.05 for a fixed-length baseline and 15.48 for VideoGPT -- while maintaining competitive spatial fidelity.",
+      "authors": [
+        "Tsung-Wei Pan",
+        "Jung-Hua Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-07T15:23:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.08674v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "FSQ tokenizer for quantization in video generation",
+      "llm_evidence_cn": "有限标量量化分词器用于视频生成",
+      "llm_evidence": "有限标量量化分词器用于视频生成",
+      "canonical_evidence": "有限标量量化分词器用于视频生成",
+      "llm_tldr_en": "BioVid proposes a data-driven autoregressive video generation framework with a FSQ-GAN tokenizer that quantizes video frames, enabling efficient and diverse temporal structure learning.",
+      "llm_tldr_cn": "现有视频生成框架将持续时间视为外部参数，与生物行为的实际统计结构脱节。本文提出BioVid，一种数据驱动的自回归视频生成框架，利用有限标量量化GAN（FSQ-R3GAN）分词器对视频帧进行量化编码，从训练数据中直接学习时序长度分布。该方法在生物行为数据集上生成更真实的动作长度和动态，展示了量化编码在视频生成中的有效性。",
+      "llm_tldr": "现有视频生成框架将持续时间视为外部参数，与生物行为的实际统计结构脱节。本文提出BioVid，一种数据驱动的自回归视频生成框架，利用有限标量量化GAN（FSQ-R3GAN）分词器对视频帧进行量化编码，从训练数据中直接学习时序长度分布。该方法在生物行为数据集上生成更真实的动作长度和动态，展示了量化编码在视频生成中的有效性。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.10671v1",
+      "source": "arxiv",
+      "title": "FadeMem: Distance-Aware Memory Consolidation for Autoregressive Video Diffusion",
+      "abstract": "Autoregressive video generators synthesize long videos by generating successive temporal segments, but their historical KV cache grows with video length. Existing bounded-cache methods reduce this cost with local windows, sink tokens, or compressed memory states, yet they usually assign fixed roles to different parts of the history. We propose FadeMem, a distance-aware KV memory consolidation mechanism that organizes historical KV blocks into a temporal hierarchy under a fixed cache budget. This design is motivated by frequency-dependent temporal decay: fine details decorrelate quickly, while coarse scene structure and identity remain useful over longer horizons. During generation, new history is inserted as fine-grained entries, while older adjacent entries are progressively merged under a power-law temporal allocation schedule, yielding a dense-near, sparse-far memory within one cache. Without architectural changes, FadeMem preserves recent context for short-term dynamics and compact long-range anchors for identity and scene coherence. Experiments show improved subject consistency, background stability, and temporal coherence over existing bounded-cache strategies.",
+      "authors": [
+        "Yu Lu",
+        "Junjie Yang",
+        "Piotr Koniusz",
+        "YuXin Song",
+        "Yi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T10:22:18+00:00",
+      "link": "https://arxiv.org/pdf/2606.10671v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "distance-aware KV memory consolidation for efficient autoregressive video generation",
+      "llm_evidence_cn": "用于高效自回归视频生成的距离感知KV记忆整合",
+      "llm_evidence": "用于高效自回归视频生成的距离感知KV记忆整合",
+      "canonical_evidence": "用于高效自回归视频生成的距离感知KV记忆整合",
+      "llm_tldr_en": "Proposes FadeMem, a distance-aware KV cache consolidation mechanism for autoregressive video diffusion, enabling fast video generation under fixed memory budget.",
+      "llm_tldr_cn": "自回归视频生成长序列时KV缓存不断增长，现有有界缓存方法固定历史角色。本文提出FadeMem，一种距离感知的KV记忆整合机制，在固定缓存预算下按时间层次组织历史KV块，利用频率依赖的时间衰减特性，保留粗粒度场景结构而丢弃精细细节，实现了高效的长期视频生成。实验表明其在保持生成质量的同时大幅降低内存开销。",
+      "llm_tldr": "自回归视频生成长序列时KV缓存不断增长，现有有界缓存方法固定历史角色。本文提出FadeMem，一种距离感知的KV记忆整合机制，在固定缓存预算下按时间层次组织历史KV块，利用频率依赖的时间衰减特性，保留粗粒度场景结构而丢弃精细细节，实现了高效的长期视频生成。实验表明其在保持生成质量的同时大幅降低内存开销。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.10651v1",
+      "source": "arxiv",
+      "title": "Kwai Keye-VL-2.0 Technical Report",
+      "abstract": "We introduce Kwai Keye-VL-2.0-30B-A3B, an open-source Mixture-of-Experts (MoE) multimodal foundation model designed to advance long-video understanding and agentic intelligence. To address the challenges of ultra-long contexts, information redundancy, and prohibitive computational costs inherent in hour-level videos, Keye-VL-2.0 is the first to adapt DeepSeek Sparse Attention (DSA) to GQA-based multimodal architectures, enabling lossless 256K context processing while capturing critical frames and long-range temporal dependencies. This architecture is underpinned by a highly optimized training and inference infrastructure, including scalable video I/O, heterogeneous ViT-LM parallelism, and custom DSA kernels that significantly maximize throughput and minimize computational overhead. Furthermore, to overcome the algorithmic dilemma of catastrophic forgetting during multi-task alignment, we introduce Cross-Modal Multi-Teacher On-Policy Distillation (MOPD) paired with Context-RL and Video-RL. By distilling dense token-level teacher feedback from on-policy rollouts back into the MoE backbone, which activates only 3B parameters, Keye-VL-2.0 natively empowers advanced agent collaboration across Code, Tool, and Search scenarios with multimodal self-correction. Extensive evaluations across video understanding, temporal grounding, reasoning, STEM, and agent benchmarks demonstrate that Keye-VL-2.0-30B-A3B achieves state-of-the-art performance among models of similar scale, particularly excelling in fine-grained temporal localization on TimeLens and long-video comprehension on Video-MME-v2 and LongVideoBench. We release our model checkpoints to accelerate community progress toward scalable and robust multimodal agentic applications.",
+      "authors": [
+        "Kwai Keye Team",
+        "Bin Wen",
+        "Changyi Liu",
+        "Chengru Song",
+        "Chongling Rao",
+        "Guowang Zhang",
+        "Han Li",
+        "Haonan Fan",
+        "Hengrui Ju",
+        "Jiankang Chen",
+        "Jiapeng Chen",
+        "Jiawei Yuan",
+        "Kaixuan Yang",
+        "Kaiyu Jiang",
+        "Kun Gai",
+        "Lingzhi Zhou",
+        "Na Nie",
+        "Sen Na",
+        "Tianke Zhang",
+        "Tingting Gao",
+        "Xuanyu Zheng",
+        "Yulong Chen",
+        "Fan Yang",
+        "Haixuan Gao",
+        "Lele Yang",
+        "Mingqiao Liu",
+        "Muxi Diao",
+        "Qi Zhang",
+        "Qile Su",
+        "Wei Chen",
+        "Wentao Hong",
+        "Xingyu Lu",
+        "Yancheng Long",
+        "Yankai Yang",
+        "Yingxin Li",
+        "Yiyang Fan",
+        "Yu Xia",
+        "Yuzhe Chen",
+        "Ziliang Lai",
+        "Chuan Yi",
+        "Haonan Jia",
+        "Tianming Liang",
+        "Weixin Xu",
+        "Xiaoxiao Ma",
+        "Yang Tian",
+        "Yufei Han",
+        "Feng Han",
+        "Hang Li",
+        "Jing Wang",
+        "Jinghui Jia",
+        "Junmin Chen",
+        "Junyu Shi",
+        "Ruilin Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T09:58:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.10651v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "sparse attention for long-video understanding",
+      "llm_evidence_cn": "稀疏注意力用于长视频理解",
+      "llm_evidence": "稀疏注意力用于长视频理解",
+      "canonical_evidence": "稀疏注意力用于长视频理解",
+      "llm_tldr_en": "Introduces a multimodal MoE model with DeepSeek sparse attention for efficient long-video understanding.",
+      "llm_tldr_cn": "长视频理解面临超长上下文、信息冗余和巨大计算成本。本文提出Keye-VL-2.0模型，首次将DeepSeek稀疏注意力适配到基于GQA的多模态架构中，实现了无损的256K上下文处理。模型采用MoE结构，并优化了训练和推理基础设施，显著提升了吞吐量并降低了计算开销。",
+      "llm_tldr": "长视频理解面临超长上下文、信息冗余和巨大计算成本。本文提出Keye-VL-2.0模型，首次将DeepSeek稀疏注意力适配到基于GQA的多模态架构中，实现了无损的256K上下文处理。模型采用MoE结构，并优化了训练和推理基础设施，显著提升了吞吐量并降低了计算开销。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "sparse attention video generation",
+      "matched_requirement_id": "req-14",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.11670v1",
+      "source": "arxiv",
+      "title": "ARGUS: Stacked Multi-View Identity Mosaic Injection for Subject-Preserving Video Generation",
+      "abstract": "Subject-preserving video generation is not solved by frontal-face similarity alone: a generated person must remain recognizable across motion, large viewpoint changes, expression shifts, occlusion, scale variation, and conflicts among text, first-frame, and identity references. We argue that the central bottleneck is the point-reference paradigm, which collapses identity into a single static observation entangled with pose, accessories, lighting, background, and camera statistics. We introduce Argus, a Wan-based framework centered on Stacked Multi-View Identity Mosaic Injection (SMII). SMII converts MLLM-selected image/video identity evidence into a 3*3 stacked mosaic, synchronizes the mosaic with the current diffusion time, and injects it as negative-time read-only memory in Wan's native token space. This turns identity from an external clean adapter or a single reference image into a compact dynamic distribution. Around SMII, an MLLM Identity Director selects informative identity moments and resolves condition conflicts, while no-cross-pair counterfactual training, Temporal Identity Annealing, and Adaptive Self-Likeness Guidance improve robustness without paired subject-video supervision. We further release HardID-Celeb, a public-figure identity-stress benchmark, and introduce YawScore and OccScore to probe large-yaw and first-frame-occlusion robustness. Argus achieves state-of-the-art results on OpenS2V-Eval Human-Domain, reaching 64.38 Total Score, 71.86 FaceSim, 51.62 NexusScore, and 79.14 NaturalScore. On HardID-Celeb, Argus obtains 76.80 FaceSim and improves YawScore and OccScore by 12.60 and 15.10 points over the strongest baselines, demonstrating that dynamic identity memory and large-scale counterfactual self-supervision are highly effective for subject-preserving video generation.",
+      "authors": [
+        "Zijie Meng",
+        "Jiwen Liu",
+        "Yufei Liu",
+        "Chengzhuo Tong",
+        "Xiaoqiang Liu",
+        "Yuanxing Zhang",
+        "Yulong Xu",
+        "Pengfei Wan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-10T05:29:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.11670v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "improves subject-preserving video generation across motion and viewpoint changes",
+      "llm_evidence_cn": "提升视频生成中跨运动、视角变化的主体保持能力",
+      "llm_evidence": "提升视频生成中跨运动、视角变化的主体保持能力",
+      "canonical_evidence": "提升视频生成中跨运动、视角变化的主体保持能力",
+      "llm_tldr_en": "Argus introduces Stacked Multi-View Identity Mosaic Injection for subject-preserving video generation, improving motion dynamics and diversity.",
+      "llm_tldr_cn": "本文提出Argus框架，通过堆叠多视角身份马赛克注入（SMII）解决视频生成中主体在运动、视角变化下的保持问题。该方法将MLLM选取的身份证据转换为3x3马赛克并与扩散时间对齐，有效提升了视频生成的运动动态和多样性。实验表明在复杂场景下显著改善了主体一致性。",
+      "llm_tldr": "本文提出Argus框架，通过堆叠多视角身份马赛克注入（SMII）解决视频生成中主体在运动、视角变化下的保持问题。该方法将MLLM选取的身份证据转换为3x3马赛克并与扩散时间对齐，有效提升了视频生成的运动动态和多样性。实验表明在复杂场景下显著改善了主体一致性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.11783v1",
+      "source": "arxiv",
+      "title": "A Comprehensive Ecosystem for Open-Domain Customized Video Generation",
+      "abstract": "Recent progress in video generation has shown impressive visual synthesis capabilities. However, open-domain customized video generation remains limited by the lack of large-scale, annotated datasets capturing diverse identity-specific attributes. To address this, we introduce PexelsCustom-1M, the first publicly available million-scale dataset for identity-preserving video generation, containing one million curated <identity, text, video> triplets across 8,000+ categories. Leveraging this, we propose CustoMDiT, a parameter-efficient framework that adapts a pretrained multimodal Diffusion Transformer into a customized video generator with only 8% additional learnable parameters. Our method surpasses prior state-of-the-art. However, benchmarks such as DreamBooth cover only 100 classes, which is insufficient for real-world applications. To overcome this, we construct OpenCustom, a new benchmark with 1,000+ categories, created via cross-dataset knowledge fusion from ImageNet and MS-COCO. Extensive experiments confirm the advantages of both our dataset and model. We will open-source the entire ecosystem--including dataset, pipeline, benchmark, and implementations--to support further research.",
+      "authors": [
+        "Jingxu Zhang",
+        "Yuqian Hong",
+        "Daneul Kim",
+        "Kai Qiu",
+        "Qi Dai",
+        "Jianmin Bao",
+        "Yifan Yang",
+        "Xiaoyan Sun",
+        "Chong Luo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T08:15:52+00:00",
+      "link": "https://arxiv.org/pdf/2606.11783v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "post-training parameter-efficient adaptation of pretrained video diffusion transformer for customized generation",
+      "llm_evidence_cn": "对预训练视频扩散Transformer进行后训练参数高效适配以支持定制生成",
+      "llm_evidence": "对预训练视频扩散Transformer进行后训练参数高效适配以支持定制生成",
+      "canonical_evidence": "对预训练视频扩散Transformer进行后训练参数高效适配以支持定制生成",
+      "llm_tldr_en": "CustoMDiT adapts a pretrained multimodal DiT into a customized video generator with only 8% additional parameters, leveraging a million-scale dataset.",
+      "llm_tldr_cn": "本文针对开放域定制视频生成缺乏大规模标注数据的问题，构建了PexelsCustom-1M百万级数据集，并提出CustoMDiT框架，以仅8%的额外参数将预训练多模态扩散Transformer适配为定制视频生成器。该方法在后训练阶段通过参数高效微调，无需全量微调，实现了超越先前最优的性能。这项工作为视频模型的后训练适配提供了有效范例。",
+      "llm_tldr": "本文针对开放域定制视频生成缺乏大规模标注数据的问题，构建了PexelsCustom-1M百万级数据集，并提出CustoMDiT框架，以仅8%的额外参数将预训练多模态扩散Transformer适配为定制视频生成器。该方法在后训练阶段通过参数高效微调，无需全量微调，实现了超越先前最优的性能。这项工作为视频模型的后训练适配提供了有效范例。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.13347v1",
+      "source": "arxiv",
+      "title": "Enhanced Low-Density Region Exploration in Classifier-Guided Diffusion Models Through Modified Reverse Diffusion Sampling",
+      "abstract": "Diffusion models have emerged as state-of-the-art generative models for high-fidelity image synthesis, particularly in their classifier-free guided and classifier-guided forms. However, standard classifier guidance concentrates probability mass around high-density class mean, leading to poor coverage of rare samples in the tails of the class-conditional distributions. Recent work on diffusion-based tail sampling mitigates this by training an additional low-density-seeking classifier with a synthetic-vs-real discriminator, at the cost of additional networks and training. In parallel, a number of samplers and distillation techniques accelerate or refine diffusion sampling, but do not explicitly address long-tail coverage. We propose a purely sampling-time, density-aware extension of classifier-guided conditional diffusion model that targets low-density regions without any additional training. We have applied guidance at noisy images not on predicted noise like most diffusion models. Starting from a pretrained conditional diffusion model and classifier on ImageNet, we modify the guided reverse dynamics by steering trajectories toward low-confidence regions via the modified classifier gradient, and at each time step, we also guide the sampling process toward the predicted real image. 1st guidance helps explore low-probability samples, and 2nd guidance helps to generate samples to be close to the real data manifold. The proposed sampler consistently improves ADM model recall at 64x64 resolution while maintaining a comparable FID, and with a 256x256 ADM model, we showed the results visually with different combinations of both guidance. We also showed that standard ADM classifier guidance, combined with predicted real image guidance, helps generate high perceptual quality samples with a 256x256 ADM model on ImageNet.",
+      "authors": [
+        "Jagriti Singh",
+        "Shekhar Verma",
+        "Muneendra Ojha"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-11T13:35:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.13347v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "enhances diversity in diffusion models via low-density region exploration, relevant to improving diversity in generation",
+      "llm_evidence_cn": "通过低密度区域探索增强扩散模型多样性，与提升生成多样性相关",
+      "llm_evidence": "通过低密度区域探索增强扩散模型多样性，与提升生成多样性相关",
+      "canonical_evidence": "通过低密度区域探索增强扩散模型多样性，与提升生成多样性相关",
+      "llm_tldr_en": "Proposes modified reverse diffusion sampling to enhance low-density region exploration in classifier-guided diffusion models, improving diversity of rare samples without extra networks, complementing distillation techniques.",
+      "llm_tldr_cn": "标准分类器引导扩散模型集中于高密度区域，导致稀有样本覆盖不足。本文提出修改反向扩散采样，通过引导采样向低密度区域探索，无需额外网络即可提升生成多样性。实验表明该方法有效增加了尾部分布的样本覆盖，与现有蒸馏技术互补，为生成模型的多样性增强提供了轻量级方案。",
+      "llm_tldr": "标准分类器引导扩散模型集中于高密度区域，导致稀有样本覆盖不足。本文提出修改反向扩散采样，通过引导采样向低密度区域探索，无需额外网络即可提升生成多样性。实验表明该方法有效增加了尾部分布的样本覆盖，与现有蒸馏技术互补，为生成模型的多样性增强提供了轻量级方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
