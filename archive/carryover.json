@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-06-20T21:00:45.773293+00:00",
-  "updated_date": "20260620",
+  "generated_at": "2026-06-21T21:11:30.125787+00:00",
+  "updated_date": "20260621",
   "carryover_days": 9,
   "tag_states": {
     "vd": {
-      "updated_date": "20260620",
+      "updated_date": "20260621",
       "carryover_days": 9,
       "items": []
     },
     "fast-gen": {
-      "updated_date": "20260620",
+      "updated_date": "20260621",
       "carryover_days": 9,
       "items": []
     }
