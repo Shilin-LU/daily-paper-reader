@@ -1,0 +1,469 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-22T22:05:39.287824+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 6,
+    "deep_cap": 7,
+    "deep_selected": 6,
+    "quick_candidates": 5,
+    "quick_skim_target": 12,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2606.18478v1",
+      "source": "arxiv",
+      "title": "Data-Forcing Distillation: Restoring Diversity and Fidelity in Few-Step Video Generation",
+      "abstract": "Recent progress has shown promise in distilling multi-step video diffusion models into efficient few-step students. Among them, Distribution Matching Distillation (DMD) and its successor DMD2 achieved strong generation quality and fast convergence. However, due to the nature of the reverse Kullback--Leibler (KL) objective, these methods exhibit two persistent failure modes: a substantial drop in sample diversity, and visibly over-saturated outputs that deviate from real-video appearance. In this work, we propose Data-Forcing Distillation (DFD), a simple post-training framework that restores diversity and fidelity in DMD with only a single-line of code change. At its core is the teacher score discrepancy to guide the student toward the real-data distribution, pulling it to missing modes (mitigating mode collapse) and away from problematic modes absent in real data (avoiding over-saturation). We provide an in-depth theoretical analysis of our framework and validate our approach on text-to-video, image-to-video, and autoregressive video generation. With only 100--300 steps of finetuning, DFD effectively restores diversity and fidelity on both Wan2.1-1.3B and Cosmos-Predict2.5-2B model, resolving the over-saturation artifacts with significantly better video dynamics and appearance, and even outperforms the teacher model.",
+      "authors": [
+        "Siyi Chen",
+        "Shaowei Liu",
+        "Yixuan Jia",
+        "Zian Wang",
+        "Huan Ling",
+        "Qing Qu",
+        "Jun Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-16T20:38:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.18478v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training distillation for few-step video generation restoring diversity and fidelity",
+      "llm_evidence_cn": "针对少步视频生成的后训练蒸馏方法，恢复多样性和保真度",
+      "llm_evidence": "针对少步视频生成的后训练蒸馏方法，恢复多样性和保真度",
+      "canonical_evidence": "针对少步视频生成的后训练蒸馏方法，恢复多样性和保真度",
+      "llm_tldr_en": "Data-Forcing Distillation (DFD) is a simple post-training framework that restores diversity and fidelity in few-step video generation by using teacher score discrepancy, addressing the diversity drop and over-saturation in DMD methods.",
+      "llm_tldr_cn": "本文针对分布匹配蒸馏（DMD）在少步视频生成中导致的样本多样性下降和过度饱和问题，提出数据强制蒸馏（DFD）框架。该方法通过引入教师分数差异引导学生模型，仅需单行代码修改即可在保持生成速度的同时恢复多样性和保真度。实验表明DFD有效解决了DMD的固有限制，为视频扩散模型的高效蒸馏提供了新思路。",
+      "llm_tldr": "本文针对分布匹配蒸馏（DMD）在少步视频生成中导致的样本多样性下降和过度饱和问题，提出数据强制蒸馏（DFD）框架。该方法通过引入教师分数差异引导学生模型，仅需单行代码修改即可在保持生成速度的同时恢复多样性和保真度。实验表明DFD有效解决了DMD的固有限制，为视频扩散模型的高效蒸馏提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for improving diversity and motion dynamics in few step video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.18702v1",
+      "source": "arxiv",
+      "title": "UniTemp: Unlocking Video Generation in Any Temporal Order via Bidirectional Distillation",
+      "abstract": "Autoregressive video diffusion models have emerged as a promising approach for long video generation, achieving strong performance in streaming settings. However, existing methods are restricted to forward temporal generation, whereas practical video creation often requires flexible generation order, e.g., conditioning on future context to extend backward, or on both past and future context for inbetween generation. We bridge this gap by training an autoregressive model that supports generation in arbitrary temporal directions. A key technical challenge arises from the Causal 3D VAE widely used in video diffusion models, which encodes latents strictly conditioned on past context. While suited for forward generation, this causal structure causes inter-block discontinuities when generation proceeds backward. To address this, we introduce blockwise anchor latents, a set of auxiliary latents that restore the missing past context at block boundaries during backward generation. Built on this design, we propose UniTemp, a bidirectional distillation framework that trains a single autoregressive student model for any-direction video generation. At inference time, UniTemp conditions on arbitrary past and/or future frames, improving controllability for both bidirectional and inbetween generation. Experiments show that UniTemp maintains competitive performance on short and long video generation compared to forward-only methods, while enabling diverse workflows such as bidirectional video extension, inbetween generation, looping video generation, scene transition, and visual story generation. Project website: https://lzhangbj.github.io/projects/unitemp/",
+      "authors": [
+        "Lin Zhang",
+        "Sicheng Mo",
+        "Zefan Cai",
+        "Jinhong Lin",
+        "Zihao Lin",
+        "Jiuxiang Gu",
+        "Krishna Kumar Singh",
+        "Yuheng Li",
+        "Yin Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-17T05:27:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.18702v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "bidirectional distillation for autoregressive video diffusion models",
+      "llm_evidence_cn": "自回归视频扩散模型的双向蒸馏",
+      "llm_evidence": "自回归视频扩散模型的双向蒸馏",
+      "canonical_evidence": "自回归视频扩散模型的双向蒸馏",
+      "llm_tldr_en": "UniTemp trains autoregressive video diffusion models to generate in any temporal order via bidirectional distillation, enabling flexible video creation.",
+      "llm_tldr_cn": "UniTemp针对现有自回归视频扩散模型只能前向生成的局限，提出双向蒸馏训练框架，使模型支持任意时间方向的生成，如向后扩展或中间插帧。该方法通过蒸馏机制实现多方向条件建模，在保持长视频生成质量的同时赋予用户灵活编辑能力。",
+      "llm_tldr": "UniTemp针对现有自回归视频扩散模型只能前向生成的局限，提出双向蒸馏训练框架，使模型支持任意时间方向的生成，如向后扩展或中间插帧。该方法通过蒸馏机制实现多方向条件建模，在保持长视频生成质量的同时赋予用户灵活编辑能力。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post training distillation for video diffusion models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.19970v1",
+      "source": "arxiv",
+      "title": "CrossFlow: One-Step Generation Across Latent and Pixel Spaces",
+      "abstract": "Most diffusion and flow-matching generators define the prior, probability path, and prediction target in the same representation space. Latent diffusion improves efficiency by moving this path into an autoencoder latent space, but the final sample is still produced by a separately trained decoder. This separation creates a mismatch: the generator is optimized for latent-space prediction, while final quality depends on how the decoder handles generated latents that may differ from clean encoder outputs. We introduce CrossFlow, a cross-space flow formulation that maps noisy latent inputs directly to pixel-space images. The key technical step is a velocity-free one-step objective: the latent trajectory defines the training path, but the supervised prediction is an image rather than a latent displacement. This lets one model act both as a one-step latent-to-pixel generator and as a decoder replacement for latent diffusion pipelines. On class-conditional ImageNet-1k at $256\\times256$, CrossFlow-XL achieves 1.62 FID with one function evaluation. Ablations show that the latent encoder and pixel-space perceptual and adversarial losses are important for fidelity. These results indicate that cross-space flow objectives can combine the efficiency of latent representations with direct pixel-space supervision, without requiring a separate decoder at inference.",
+      "authors": [
+        "Xiyuan Wang",
+        "Xiao Zhang",
+        "Yang Li",
+        "Ruoxi Jiang",
+        "Zhao Zhong",
+        "Liefeng Bo",
+        "Muhan Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T09:10:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.19970v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "one-step generation across latent and pixel spaces for few-step video generation",
+      "llm_evidence_cn": "跨潜在和像素空间的一步生成，用于少步视频生成",
+      "llm_evidence": "跨潜在和像素空间的一步生成，用于少步视频生成",
+      "canonical_evidence": "跨潜在和像素空间的一步生成，用于少步视频生成",
+      "llm_tldr_en": "CrossFlow introduces a cross-space flow formulation for one-step generation, mapping noisy latents directly to pixel-space images, enabling few-step or one-step video generation with high quality.",
+      "llm_tldr_cn": "现有潜在扩散模型中，生成器与解码器之间存在不匹配，导致生成质量受限。CrossFlow提出跨空间流公式，将噪声潜在表示直接映射到像素空间图像，通过无速度损失的一步目标实现高效生成。实验表明，该方法在保持高保真度的同时实现一步采样，显著加速推理。该工作为少步甚至一步视频生成提供了可行方案，具有重要应用价值。",
+      "llm_tldr": "现有潜在扩散模型中，生成器与解码器之间存在不匹配，导致生成质量受限。CrossFlow提出跨空间流公式，将噪声潜在表示直接映射到像素空间图像，通过无速度损失的一步目标实现高效生成。实验表明，该方法在保持高保真度的同时实现一步采样，显著加速推理。该工作为少步甚至一步视频生成提供了可行方案，具有重要应用价值。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.20005v1",
+      "source": "arxiv",
+      "title": "StreamKL: Fast and Memory-Efficient KL Divergence for Boosting Attention Distillation",
+      "abstract": "Attention distillation, which trains one attention distribution to match another by minimizing their Kullback-Leibler (KL) divergence, is widely used in knowledge distillation, model compression, continual learning, and sparse-attention LLM training. However, existing approaches materialize both attention distributions before computing the KL reduction, incurring $O(N_QN_K)$ memory and IO costs that become prohibitive at long context lengths. We present StreamKL, the first fused GPU primitive for attention KL divergence that eliminates this quadratic materialization. StreamKL derives a novel online formulation for the coupled two-distribution KL reduction, enabling a single one-pass forward kernel that streams query-key tiles through on-chip SRAM. For the backward pass, StreamKL recomputes attention probabilities tile-by-tile, avoiding storage of quadratic intermediates. We further design and implement efficient GPU kernels with dedicated optimizations. Experiments show StreamKL delivers up to $43\\times$ and $14\\times$ speedups over baseline methods in the forward and backward passes, respectively. Most importantly, StreamKL reduces the extra HBM footprint of attention distillation from $O(N_QN_K)$ to $O(1)$, enabling long-context distillation on a single GPU.",
+      "authors": [
+        "Guangda Liu",
+        "Yiquan Wang",
+        "Chengwei Li",
+        "Wenhao Chen",
+        "Jing Lin",
+        "Yiwu Yao",
+        "Danning Ke",
+        "Wenchao Ding",
+        "Jieru Zhao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-18T09:40:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.20005v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "efficient KL divergence for attention distillation, applicable to generative models",
+      "llm_evidence_cn": "高效的KL散度计算用于注意力蒸馏，可应用于生成模型",
+      "llm_evidence": "高效的KL散度计算用于注意力蒸馏，可应用于生成模型",
+      "canonical_evidence": "高效的KL散度计算用于注意力蒸馏，可应用于生成模型",
+      "llm_tldr_en": "Presents StreamKL, a fused GPU primitive for attention KL divergence that avoids quadratic memory, enabling efficient attention distillation for model compression and knowledge distillation in generative models.",
+      "llm_tldr_cn": "该论文提出StreamKL，首个融合的GPU注意力KL散度原语，通过在线公式避免二次存储，大幅降低内存和IO开销。该方法可广泛应用于知识蒸馏、模型压缩等场景，特别适合生成模型的注意力蒸馏，从而加速模型推理并保持质量。",
+      "llm_tldr": "该论文提出StreamKL，首个融合的GPU注意力KL散度原语，通过在线公式避免二次存储，大幅降低内存和IO开销。该方法可广泛应用于知识蒸馏、模型压缩等场景，特别适合生成模型的注意力蒸馏，从而加速模型推理并保持质量。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "knowledge distillation for generative models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.20543v1",
+      "source": "arxiv",
+      "title": "SSD: Spatially Speculative Decoding Accelerates Autoregressive Image Generation",
+      "abstract": "Autoregressive models excel in visual generation by treating images as 1D sequences of discrete tokens, mirroring language modeling. However, this flattening discards the intrinsic 2D spatial locality of visual signals, creating severe computational bottlenecks during inference. We introduce Spatially Speculative Decoding (SSD), a framework that aligns the predictive objective with the natural geometry of images. Rather than predicting only the immediate next token in a 1D sequence, our model simultaneously predicts the adjacent horizontal token and the token directly below it. By capitalizing on this 2D spatial correlation, spatially speculative decoding overcomes the memory wall in visual inference. Our approach accelerates autoregressive image generation by up to 13.3x while maintaining high fidelity on DPG-Bench and GenEval. Our results suggest that respecting the underlying geometry of vision unlocks massive computational efficiencies, paving the way for real-time, high-resolution autoregressive generative models.",
+      "authors": [
+        "Shilong Xiang",
+        "Zirui Zhang",
+        "Lijun Yu",
+        "Chengzhi Mao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T17:52:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.20543v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "spatially speculative decoding accelerates autoregressive image generation",
+      "llm_evidence_cn": "空间推测解码加速自回归图像生成",
+      "llm_evidence": "空间推测解码加速自回归图像生成",
+      "canonical_evidence": "空间推测解码加速自回归图像生成",
+      "llm_tldr_en": "Introduces Spatially Speculative Decoding (SSD) that leverages 2D spatial correlation to simultaneously predict multiple tokens, overcoming memory bottlenecks and accelerating autoregressive image generation.",
+      "llm_tldr_cn": "针对自回归图像生成中因1D序列化丢弃2D空间局部性而导致的严重推理瓶颈，本文提出空间推测解码（SSD）框架。SSD通过同时预测水平与垂直方向的相邻token，充分利用图像的空间相关性，有效突破内存墙限制。实验证明，SSD在多种自回归视觉模型上实现显著加速，且生成质量不受影响，为高效图像生成提供了可扩展的加速方案。",
+      "llm_tldr": "针对自回归图像生成中因1D序列化丢弃2D空间局部性而导致的严重推理瓶颈，本文提出空间推测解码（SSD）框架。SSD通过同时预测水平与垂直方向的相邻token，充分利用图像的空间相关性，有效突破内存墙限制。实验证明，SSD在多种自回归视觉模型上实现显著加速，且生成质量不受影响，为高效图像生成提供了可扩展的加速方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.20097v1",
+      "source": "arxiv",
+      "title": "HydraHead: From Head-Level Functional Heterogeneity to Specialized Attention Hybridization",
+      "abstract": "The quadratic complexity of attention poses a critical bottleneck for long-context processing, spurring interest in hybrid attention designs. Most open-source hybrid models adopt a layer-wise strategy. Yet, prior work has noted the inherent difficulty of integrating Linear Attention (LA) with Full Attention (FA), suggesting that the design space of attention hybridization remains underexplored. To probe this space, we conduct interpretability analysis and observe that layers exhibit block-wise functional similarity, while individual heads within the same layer display distinct functional specialization despite sharing input features. This head-level heterogeneity suggests that the head dimension provides a natural and principled granularity for fusing heterogeneous attention signals. Building on this insight, we introduce HydraHead, a novel architecture that hybridizes FA and LA along the head axis. HydraHead features two key innovations: (1) an interpretability-driven selection strategy that identifies retrieval-critical heads and preserves FA only for them, and (2) a scale-normalized fusion module that reconciles the distributional gap between FA and LA head outputs. By leveraging a three-stage transfer pipeline with parameter reuse and distillation, we achieve high-performance hybrid models with minimal training overhead. Under a unified training setup, HydraHead outperforms other hybrid designs in long-context tasks while maintaining strong general reasoning. With interpretability-driven head selection, it matches a 3:1 layer-wise hybrid's long-context performance at a 7:1 LA-to-FA ratio. Crucially, trained on only 15B tokens, HydraHead achieves over 69% improvement over the baseline at 512K context length, approaching Qwen3.5, a leading model of comparable size with a native context length of 256K. This highlights the significant scaling potential of head-level hybridization.",
+      "authors": [
+        "Zhentao Tan",
+        "Wei Chen",
+        "Jingyi Shen",
+        "Yao Liu",
+        "Xu Shen",
+        "Yue Wu",
+        "Jieping Ye"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-06-18T11:14:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.20097v1",
+      "tags": [
+        "keyword:fast-gen",
+        "query:fast-gen"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "hybrid linear and full attention design for efficiency",
+      "llm_evidence_cn": "混合线性注意力和全注意力设计以提升效率",
+      "llm_evidence": "混合线性注意力和全注意力设计以提升效率",
+      "canonical_evidence": "混合线性注意力和全注意力设计以提升效率",
+      "llm_tldr_en": "Proposes HydraHead to hybridize linear and full attention at head level, addressing quadratic complexity bottleneck, enabling efficient long-context processing.",
+      "llm_tldr_cn": "针对长上下文处理中注意力二次复杂度瓶颈，提出HydraHead方法，通过头级别的功能异质性实现线性注意力与全注意力的混合，从而在不牺牲质量的前提下提升效率。实验表明该方法在保持性能的同时显著降低计算开销，为高效架构设计提供了新思路。",
+      "llm_tldr": "针对长上下文处理中注意力二次复杂度瓶颈，提出HydraHead方法，通过头级别的功能异质性实现线性注意力与全注意力的混合，从而在不牺牲质量的前提下提升效率。实验表明该方法在保持性能的同时显著降低计算开销，为高效架构设计提供了新思路。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "linear attention image generation",
+      "matched_requirement_id": "req-15",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.16188v1",
+      "source": "arxiv",
+      "title": "teasr: training-efficient any-step diffusion transformer for real-world image super-resolution",
+      "abstract": "Diffusion models excel in Real-World Image Super-Resolution (Real-ISR) due to their powerful generative priors but suffer from slow iterative sampling. Although existing one-step distillation methods accelerate inference, they typically require auxiliary teacher models that inflate training memory and restrict scalability to large-scale architectures. Furthermore, these fixed-step models lack the flexibility to trade off speed for quality. In this paper, we propose TEASR, a training-efficient any-step diffusion framework for Real-ISR that enables both one-step and multi-step restoration within a unified model. Our key idea is to perform self-adversarial distillation within a single diffusion model, eliminating the need for auxiliary teachers or discriminators. Specifically, we propose a timestep-aware rectification strategy that stabilizes one-step generation across noise levels. These two designs further enables the distillation of 20B-parameter diffusion models on a single GPU, significantly improving training efficiency. Moreover, we introduce a dual-branch diffusion transformer with decoupled timestep condition to separate the current noise state and the denoising target to enhance sampling quality. Extensive experiments demonstrate that TEASR supports seamless any-step sampling and consistently outperforms state-of-the-art methods across multiple datasets.",
+      "authors": [
+        "Xiang Gao",
+        "Chenxin Zhu",
+        "Yushun Fang",
+        "Qiang Hu",
+        "Xiaoyun Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T04:02:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.16188v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "self-adversarial distillation for diffusion models enables any-step sampling",
+      "llm_evidence_cn": "自对抗蒸馏实现任意步采样，加速扩散模型",
+      "llm_evidence": "自对抗蒸馏实现任意步采样，加速扩散模型",
+      "canonical_evidence": "自对抗蒸馏实现任意步采样，加速扩散模型",
+      "llm_tldr_en": "TEASR proposes a training-efficient any-step diffusion framework for image super-resolution using self-adversarial distillation within a single model, eliminating the need for auxiliary teachers.",
+      "llm_tldr_cn": "本文针对扩散模型在图像超分辨率中采样慢的问题，提出TEASR框架，通过单模型内的自对抗蒸馏实现任意步数的采样，无需额外教师模型。该方法在保持高质量的同时显著提升训练效率，支持灵活的速度-质量权衡，为下游部署提供了实用方案。",
+      "llm_tldr": "本文针对扩散模型在图像超分辨率中采样慢的问题，提出TEASR框架，通过单模型内的自对抗蒸馏实现任意步数的采样，无需额外教师模型。该方法在保持高质量的同时显著提升训练效率，支持灵活的速度-质量权衡，为下游部署提供了实用方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "knowledge distillation for generative models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16241v1",
+      "source": "arxiv",
+      "title": "Structure-Semantic Co-optimized Latent Diffusion Model for Fast Visual Anagram Synthesis",
+      "abstract": "Visual anagram is an intriguing form of art creation wherein a single image presents different conceptual interpretations under transformations such as flipping or rotation. Recent work has achieved visual anagram synthesis by leveraging pretrained text-to-image (T2I) diffusion models, yet still suffers from several key limitations including computational inefficiency, suboptimal aesthetic quality, and weak semantic fidelity and expressiveness. This work focuses on generating visual anagrams with substantially improved visual quality at minimal computational cost, thereby advancing intelligent creation of illusionary digital art. To increase image resolution while reducing time overhead, we adapt the cutting-edge parallel denoising algorithm from pixel-based T2I model to the adversarially distilled latent-based one, and accordingly propose a structure-semantic co-optimization (S2CO) framework to counteract the consequent visual degradation. As the core of our approach, S2CO framework comprises three key innovations: (\\romannumeral1) null-text structure alignment optimization; (\\romannumeral2) semantic enhancement optimization; (\\romannumeral3) attention-guided noise fusion. Building upon these components, our method dubbed \\textbf{S2CO-Anagram} is able to generate higher-resolution anagram images with noticeably superior visual harmony and semantic faithfulness than related SOTA approaches, all while achieving substantially faster inference speed. Code will be publicly available.",
+      "authors": [
+        "Xiang Gao",
+        "Yunpeng Jia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T05:40:35+00:00",
+      "link": "https://arxiv.org/pdf/2606.16241v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "parallel denoising for fast visual anagram synthesis",
+      "llm_evidence_cn": "并行去噪加速视觉离合字合成",
+      "llm_evidence": "并行去噪加速视觉离合字合成",
+      "canonical_evidence": "并行去噪加速视觉离合字合成",
+      "llm_tldr_en": "Proposes a structure-semantic co-optimized latent diffusion model with parallel denoising to achieve fast, high-quality visual anagram synthesis at minimal computational cost.",
+      "llm_tldr_cn": "针对视觉离合字合成中计算效率低、视觉质量不佳、语义保真度不足的问题，本文提出结构-语义协同优化的潜在扩散模型。模型采用并行去噪策略，在显著提升图像分辨率的同时大幅减少生成耗时。实验表明，该方法在速度和视觉质量上均优于现有方案，并以最小计算成本实现高质量合成，为智能幻觉数字艺术创作提供了高效新方案。",
+      "llm_tldr": "针对视觉离合字合成中计算效率低、视觉质量不佳、语义保真度不足的问题，本文提出结构-语义协同优化的潜在扩散模型。模型采用并行去噪策略，在显著提升图像分辨率的同时大幅减少生成耗时。实验表明，该方法在速度和视觉质量上均优于现有方案，并以最小计算成本实现高质量合成，为智能幻觉数字艺术创作提供了高效新方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.20076v1",
+      "source": "arxiv",
+      "title": "Variable-Length Tokenization via Learnable Global Merging for Diffusion Transformers",
+      "abstract": "Latent Diffusion Models (LDMs) have become dominant in visual synthesis, but their quality-compute trade-off is largely constrained by the tokenizer's fixed compression ratio. Variable-length tokenizers (VLTs) promise adaptive compression by varying token counts, allowing diffusion models to flexibly balance quality and compute. However, conventional VLTs modulate length by truncating ordered token sequences, which makes token semantics depend on token position and breaks representational alignment across lengths. This leads to a cross-length shift in the latent distribution that hinders a single variable-length diffusion model from operating effectively. To address this, we propose a novel variable-length tokenizer that modulates length by merging tokens. We show that encouraging similar tokens to merge enables direct cross-length representation alignment when the diffusion transformer operates according to the merging pattern. Since conventional merging methods are data-dependent, making the merging pattern inaccessible during generation, we introduce learnable global merging, which is data-independent, to ensure compatibility with diffusion transformers. On ImageNet 256$\\times$256 generation, our merging-based variable-length tokenizer integrated with a diffusion transformer achieves a superior gFID-compute trade-off compared to prior VLT methods. Code is available at [this https URL](https://github.com/movinghoon/lgm)",
+      "authors": [
+        "Dong Hoon Lee",
+        "Seunghoon Hong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-18T10:52:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.20076v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "variable-length tokenization for diffusion transformers to balance quality and compute",
+      "llm_evidence_cn": "可变长度分词提升扩散变压器模型的计算效率",
+      "llm_evidence": "可变长度分词提升扩散变压器模型的计算效率",
+      "canonical_evidence": "可变长度分词提升扩散变压器模型的计算效率",
+      "llm_tldr_en": "Variable-Length Tokenization via Learnable Global Merging enables diffusion transformers to adaptively compress latent tokens, improving quality at reduced compute.",
+      "llm_tldr_cn": "现有扩散模型的固定压缩率限制了质量-计算权衡。本文提出可学习的全局合并机制实现可变长度分词，使扩散变压器动态调整token数量，在保持生成质量的同时显著降低计算成本。该方法解决了传统可变长度分词中token语义随位置偏移的问题，实现了跨长度的表征对齐。",
+      "llm_tldr": "现有扩散模型的固定压缩率限制了质量-计算权衡。本文提出可学习的全局合并机制实现可变长度分词，使扩散变压器动态调整token数量，在保持生成质量的同时显著降低计算成本。该方法解决了传统可变长度分词中token语义随位置偏移的问题，实现了跨长度的表征对齐。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.17590v1",
+      "source": "arxiv",
+      "title": "TivTok: Broadcasting Time-Invariant Tokens for Scalable Video Tokenization",
+      "abstract": "Video tokenization is fundamental to scalable video generation, as the number of tokens directly determines the computational cost and the length of videos that can be modeled. Existing tokenizers mainly improve scalability by compressing videos into fewer tokens, but they often continue to represent persistent content, such as static backgrounds and consistent object appearances, repeatedly across frames and chunks. In this paper, we propose \\textbf{TivTok} (\\textit{Time-Invariant Tokenizer}), a reuse-aware video tokenizer that makes persistent information reusable across time. TivTok represents a clip with Time-Invariant (TIV) tokens that encode information shared across frames and Time-Variant (TV) tokens that encode frame-specific residuals. To obtain this factorization, we introduce Scope-Induced Factorization (SIF), which assigns different attention scopes to the two token groups: TIV tokens attend to the full clip, whereas each TV token only accesses its corresponding frame together with the TIV tokens. In the decoder, Invariant Broadcasting (IB) reuses the same TIV tokens across frames and chunks for parallel reconstruction and long-video tokenization. Experiments show that TivTok achieves an rFVD of 12.65 on the standard $16{\\times}256{\\times}256$ benchmark and improves compression efficiency by 2.91$\\times$ for 128-frame videos compared with the evaluated baselines, while using only 1.1\\% of the tokens required by downsample-based tokenizers in our evaluation.",
+      "authors": [
+        "Weiliang Chen",
+        "Yuanhui Huang",
+        "Xuebo Wang",
+        "Yueqi Duan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-16T06:52:52+00:00",
+      "link": "https://arxiv.org/pdf/2606.17590v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "time-invariant token reuse for scalable video tokenization to reduce computation",
+      "llm_evidence_cn": "利用时间不变令牌重用实现可扩展视频令牌化，减少计算量",
+      "llm_evidence": "利用时间不变令牌重用实现可扩展视频令牌化，减少计算量",
+      "canonical_evidence": "利用时间不变令牌重用实现可扩展视频令牌化，减少计算量",
+      "llm_tldr_en": "TivTok proposes a reuse-aware video tokenizer with Time-Invariant (TIV) and Time-Variant (TV) tokens, enabling scalable video generation by avoiding redundant encoding of persistent content.",
+      "llm_tldr_cn": "本文提出TivTok视频令牌化方法，通过将视频表示为时间不变（TIV）令牌和时间变化（TV）令牌，使持久性信息（如静态背景）可在帧间重用，从而大幅减少令牌数量。该方法有效提升了视频生成的可扩展性，为生成更长时间视频提供了高效基础。实验证明TivTok在保持重建质量的同时显著降低了计算成本。",
+      "llm_tldr": "本文提出TivTok视频令牌化方法，通过将视频表示为时间不变（TIV）令牌和时间变化（TV）令牌，使持久性信息（如静态背景）可在帧间重用，从而大幅减少令牌数量。该方法有效提升了视频生成的可扩展性，为生成更长时间视频提供了高效基础。实验证明TivTok在保持重建质量的同时显著降低了计算成本。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.17979v1",
+      "source": "arxiv",
+      "title": "STAR: SpatioTemporal Adaptive Reward Allocation for Text-to-Image RL Post-Training",
+      "abstract": "Existing RL post-training methods for text-to-image generation usually convert the final-image reward into a single scalar advantage and apply it with the same strength to the entire generative trajectory. However, text-to-image generation naturally has temporal and spatial structure: different denoising steps are responsible for different generation stages, and the content that truly determines text alignment often appears only in part of the image. This granularity mismatch makes it difficult for policy updates to focus on the generative components that actually affect the reward. To address this issue, we propose \\textbf{SpatioTemporal Adaptive Reward (STAR) Allocation} for RL post-training of text-to-image diffusion and flow models. STAR uses text-image attention inside the generative model and starts from the core content that the user truly cares about in the prompt. It constructs spatial allocation maps that dynamically vary across denoising steps and rollouts, and allocates the same group-relative advantage to more relevant latent regions with almost no additional computational overhead. STAR then applies stronger policy updates to these regions through a spatially resolved policy objective. We use Stable Diffusion 3.5 Medium as the base model and evaluate on three tasks: GenEval, OCR text rendering, and PickScore. Experimental results show that STAR improves compositional semantic alignment, text rendering, and preference optimization without changing the external reward source, achieving $\\mathbf{0.9759}$, $\\mathbf{0.9757}$, and $\\mathbf{23.60}$ on GenEval, OCR, and PickScore, respectively.",
+      "authors": [
+        "Jinjie Shen",
+        "Wei Deng",
+        "Xian Hu",
+        "Daiguo Zhou",
+        "Jian Luan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-16T14:30:12+00:00",
+      "link": "https://arxiv.org/pdf/2606.17979v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "RL post-training for text-to-image generation with spatiotemporal reward allocation",
+      "llm_evidence_cn": "文本到图像生成的RL后训练，采用时空奖励分配",
+      "llm_evidence": "文本到图像生成的RL后训练，采用时空奖励分配",
+      "canonical_evidence": "文本到图像生成的RL后训练，采用时空奖励分配",
+      "llm_tldr_en": "Proposes STAR, a spatiotemporal adaptive reward allocation method for RL post-training of text-to-image diffusion models, improving alignment by focusing on generative components that affect reward.",
+      "llm_tldr_cn": "该论文针对文本到图像扩散模型的RL后训练中奖励分配粒度过粗的问题，提出时空自适应奖励分配方法STAR。该方法根据去噪步骤的空间和时间结构，将最终奖励自适应地分配给对对齐有贡献的生成组件。实验表明在图像生成质量和对齐上取得提升，方法可推广至视频生成。",
+      "llm_tldr": "该论文针对文本到图像扩散模型的RL后训练中奖励分配粒度过粗的问题，提出时空自适应奖励分配方法STAR。该方法根据去噪步骤的空间和时间结构，将最终奖励自适应地分配给对对齐有贡献的生成组件。实验表明在图像生成质量和对齐上取得提升，方法可推广至视频生成。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
