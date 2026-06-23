@@ -6,57 +6,53 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-22
-- 运行时间：2026-06-22 22:13:02 UTC
+- 最新运行日期：2026-06-23
+- 运行时间：2026-06-23 22:28:51 UTC
 - 运行状态：成功
 - 本次总论文数：11
-- 精读区：6
-- 速读区：5
+- 精读区：5
+- 速读区：6
 
 ### 今日简报（AI）
-今日精选11篇论文，聚焦视频生成与图像超分领域，其中两篇高分论文分别从数据增强和时间顺序优化提升视频生成质量。
-
-最值得关注的方向：视频生成中通过数据强制蒸馏恢复多样性与保真度，以及双向蒸馏实现任意时序视频生成，均获9.0/10高分。
-
-建议普通读者优先精读上述两篇视频生成论文，其技术思路对理解当前扩散模型在视频领域的瓶颈与突破很有帮助。
-- 详情：[/202606/22/README](/202606/22/README)
+今日共推荐11篇论文，精读5篇，速读6篇，聚焦视频生成与实时头像技术。最值得关注的是《CoDMD》的Copula感知蒸馏加速视频生成及《InteractiveAvatar》的实时一致头像生成。建议关注视频生成蒸馏优化与实时交互方向，后续可留意多模态应用落地。
+- 详情：[/202606/23/README](/202606/23/README)
 
 ### 精读区论文标签
-1. [Data-Forcing Distillation: Restoring Diversity and Fidelity in Few-Step Video Generation](/202606/22/2606.18478v1-data-forcing-distillation-restoring-diversity-and-fidelity-in-few-step-video-generation)  
+1. [CoDMD: Copula-aware Distribution Matching Distillation for Fast Video Generation](/202606/23/2606.21982v1-codmd-copula-aware-distribution-matching-distillation-for-fast-video-generation)  
    标签：评分：9.0/10、query:vd
-   evidence：针对少步视频生成的后训练蒸馏方法，恢复多样性和保真度
-2. [UniTemp: Unlocking Video Generation in Any Temporal Order via Bidirectional Distillation](/202606/22/2606.18702v1-unitemp-unlocking-video-generation-in-any-temporal-order-via-bidirectional-distillation)  
-   标签：评分：9.0/10、query:vd
-   evidence：自回归视频扩散模型的双向蒸馏
-3. [CrossFlow: One-Step Generation Across Latent and Pixel Spaces](/202606/22/2606.19970v1-crossflow-one-step-generation-across-latent-and-pixel-spaces)  
-   标签：评分：9.0/10、query:vd
-   evidence：跨潜在和像素空间的一步生成，用于少步视频生成
-4. [StreamKL: Fast and Memory-Efficient KL Divergence for Boosting Attention Distillation](/202606/22/2606.20005v1-streamkl-fast-and-memory-efficient-kl-divergence-for-boosting-attention-distillation)  
+   evidence：视频扩散模型的少步蒸馏；改善布局稳定性和运动动态
+2. [InteractiveAvatar: Real-Time Streaming Video Generation for Consistent and Intent-Aware Avatars](/202606/23/2606.22905v1-interactiveavatar-real-time-streaming-video-generation-for-consistent-and-intent-aware-avatars)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：使用自回归蒸馏的实时流式视频生成
+3. [ScalingAttention: Discovering Intrinsic Sparse Attention Topology for Video Diffusion Transformers](/202606/23/2606.23019v1-scalingattention-discovering-intrinsic-sparse-attention-topology-for-video-diffusion-transformers)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：视频扩散Transformer的稀疏注意力
+4. [AoiZora: Topology-Aware Auto-Parallel Optimization for Inference of Diffusion Transformers](/202606/23/2606.17566v1-aoizora-topology-aware-auto-parallel-optimization-for-inference-of-diffusion-transformers)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：高效的KL散度计算用于注意力蒸馏，可应用于生成模型
-5. [HydraHead: From Head-Level Functional Heterogeneity to Specialized Attention Hybridization](/202606/22/2606.20097v1-hydrahead-from-head-level-functional-heterogeneity-to-specialized-attention-hybridization)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：混合线性注意力和全注意力设计以提升效率
-6. [SSD: Spatially Speculative Decoding Accelerates Autoregressive Image Generation](/202606/22/2606.20543v1-ssd-spatially-speculative-decoding-accelerates-autoregressive-image-generation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：空间推测解码加速自回归图像生成
+   evidence：面向扩散Transformer低延迟推理的拓扑感知自动并行
+5. [Through the PRISM: Preference Representation in Intermediate States of Video Diffusion Models](/202606/23/2606.20310v1-through-the-prism-preference-representation-in-intermediate-states-of-video-diffusion-models)  
+   标签：评分：8.0/10、query:vd
+   evidence：从视频扩散模型的噪声潜变量中直接进行偏好表示的后训练
 
 ### 速读区论文标签
-1. [teasr: training-efficient any-step diffusion transformer for real-world image super-resolution](/202606/22/2606.16188v1-teasr-training-efficient-any-step-diffusion-transformer-for-real-world-image-super-resolution)  
+1. [STAR: SpatioTemporal Adaptive Reward Allocation for Text-to-Image RL Post-Training](/202606/23/2606.17979v2-star-spatiotemporal-adaptive-reward-allocation-for-text-to-image-rl-post-training)  
+   标签：评分：7.0/10、query:vd
+   evidence：针对扩散生成模型的RL后训练方法，可迁移至视频领域
+2. [SSD: Spatially Speculative Decoding Accelerates Autoregressive Image Generation](/202606/23/2606.20543v1-ssd-spatially-speculative-decoding-accelerates-autoregressive-image-generation)  
    标签：评分：7.0/10、query:fast-gen
-   evidence：自对抗蒸馏实现任意步采样，加速扩散模型
-2. [Variable-Length Tokenization via Learnable Global Merging for Diffusion Transformers](/202606/22/2606.20076v1-variable-length-tokenization-via-learnable-global-merging-for-diffusion-transformers)  
+   evidence：空间推测解码加速自回归图像生成，实现快速视觉生成
+3. [NullFlow: One-Step Generative Reconstruction](/202606/23/2606.22696v1-nullflow-one-step-generative-reconstruction)  
    标签：评分：7.0/10、query:fast-gen
-   evidence：可变长度分词提升扩散变压器模型的计算效率
-3. [Structure-Semantic Co-optimized Latent Diffusion Model for Fast Visual Anagram Synthesis](/202606/22/2606.16241v1-structure-semantic-co-optimized-latent-diffusion-model-for-fast-visual-anagram-synthesis)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：并行去噪加速视觉离合字合成
-4. [TivTok: Broadcasting Time-Invariant Tokens for Scalable Video Tokenization](/202606/22/2606.17590v1-tivtok-broadcasting-time-invariant-tokens-for-scalable-video-tokenization)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：利用时间不变令牌重用实现可扩展视频令牌化，减少计算量
-5. [STAR: SpatioTemporal Adaptive Reward Allocation for Text-to-Image RL Post-Training](/202606/22/2606.17979v1-star-spatiotemporal-adaptive-reward-allocation-for-text-to-image-rl-post-training)  
+   evidence：使用流匹配的一步生成式重建
+4. [OrthoMotion:Disentangling Camera and Subject Motion via Geometry Semantics Orthogonal Attention](/202606/23/2606.22835v1-orthomotiondisentangling-camera-and-subject-motion-via-geometry-semantics-orthogonal-attention)  
+   标签：评分：7.0/10、query:vd
+   evidence：通过几何语义正交注意力在可控视频生成中解耦相机与主体运动
+5. [Keep The Essentials: Efficient Reference Conditioned Generation via Token Dropping](/202606/23/2606.23682v1-keep-the-essentials-efficient-reference-conditioned-generation-via-token-dropping)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：稀疏上下文实现高效参考条件生成
+6. [Semantic Browsing: Controllable Diversity for Image Generation](/202606/23/2606.23679v1-semantic-browsing-controllable-diversity-for-image-generation)  
    标签：评分：6.0/10、query:vd
-   evidence：文本到图像生成的RL后训练，采用时空奖励分配
+   evidence：图像生成中的多样性增强
 
 
 <div class="dpr-home-promo-card">

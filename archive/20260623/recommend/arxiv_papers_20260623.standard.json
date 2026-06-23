@@ -1,0 +1,481 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-23T22:21:58.897422+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 5,
+    "deep_cap": 7,
+    "deep_selected": 5,
+    "quick_candidates": 6,
+    "quick_skim_target": 12,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2606.21982v1",
+      "source": "arxiv",
+      "title": "CoDMD: Copula-aware Distribution Matching Distillation for Fast Video Generation",
+      "abstract": "Few-step distillation for video diffusion models has attracted significant attention, driven by the urgent demand for efficient deployment in real-world scenarios. However, Distribution Matching Distillation (DMD), a leading paradigm, tends to degrade under limited NFE budgets, manifesting in video generation as layout instability, oversaturation, and broken motion dynamics. We trace this failure to a structural limitation: standard DMD is an intra-sample distribution-matching objective with coordinate-wise gradients, and thus imposes no explicit constraint on the relational geometry across batch elements or temporal frames, leaving the underlying copula largely unregulated. Combined with the mode-seeking tendency of its reverse-KL objective, this absence of relational guidance makes DMD prone to collapsing into local optima in the few-step regime. Motivated by this insight, we propose Copula-aware DMD (CoDMD), a lightweight relational regularizer that reuses score estimates already produced by the frozen teacher and the online fake model to construct pairwise relation matrices across samples and frames. These are matched through a supplementary distributional objective that requires no additional networks, datasets, or sampling trajectories. On the Wan-2.1-T2V model series at 1.3B & 14B scales, CoDMD distills 50-step teachers into 4-step students, achieving an approximate 25$\\times$ speed-up while attaining VBench scores of 84.46 & 84.87, outperforming prior trajectory-based (rCM 82.81 & 84.05) and distribution-based (DMD 83.38 & 83.81) methods.",
+      "authors": [
+        "Wenhu Zhang",
+        "Kun Cheng",
+        "Changyuan Wang",
+        "Shiyao Li",
+        "Yuechen Zhang",
+        "Wenbo Li",
+        "Jiajun Zha",
+        "Jingyi Zhang",
+        "Kang Zhao",
+        "Jiaya Jia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-20T10:33:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.21982v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "few-step distillation for video diffusion models; improves layout stability and motion dynamics",
+      "llm_evidence_cn": "视频扩散模型的少步蒸馏；改善布局稳定性和运动动态",
+      "llm_evidence": "视频扩散模型的少步蒸馏；改善布局稳定性和运动动态",
+      "canonical_evidence": "视频扩散模型的少步蒸馏；改善布局稳定性和运动动态",
+      "llm_tldr_en": "Proposes Copula-aware Distribution Matching Distillation (CoDMD) to fix layout instability and broken motion dynamics in few-step video generation, achieving high quality with low NFE.",
+      "llm_tldr_cn": "现有分布匹配蒸馏（DMD）在少步视频生成中会导致布局不稳定、过饱和和运动动态断裂。本文提出CoDMD，引入copula感知的分布匹配损失，显式约束帧间关系几何，从而在很少的NFE下生成布局稳定、运动连续的视频。实验证明CoDMD在保持高质量的同时显著加速视频生成，适用于实际部署。",
+      "llm_tldr": "现有分布匹配蒸馏（DMD）在少步视频生成中会导致布局不稳定、过饱和和运动动态断裂。本文提出CoDMD，引入copula感知的分布匹配损失，显式约束帧间关系几何，从而在很少的NFE下生成布局稳定、运动连续的视频。实验证明CoDMD在保持高质量的同时显著加速视频生成，适用于实际部署。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for improving diversity and motion dynamics in few step video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.22905v1",
+      "source": "arxiv",
+      "title": "InteractiveAvatar: Real-Time Streaming Video Generation for Consistent and Intent-Aware Avatars",
+      "abstract": "Recent diffusion-based models have enabled realistic audio-driven avatar generation in real-time streaming. However, existing approaches struggle to maintain visual temporal consistency and fail to explicitly perceive user intent in complex interactive streaming scenarios. To address these challenges, we propose InteractiveAvatar, a real-time infinite-streaming video generation framework that supports visually consistent avatar video generation and intent-aware interactions. With autoregressive distillation, InteractiveAvatar achieves real-time str-eaming generation of human avatars over arbitrarily long durations. For visual consistency, we introduce a Long-Short Visual Memory (LSVM) mechanism that flexibly compresses historical visual information into compact tokens, preserving both short-range coherence and long-term consistency. To generate avatars with speeches and actions aligned with user intent, we propose a Reasoning-Reaction Module (RRM), which incorporates a State-Cycling strategy and a Cache-Switching mechanism. Extensive experimental results over diverse scenarios demonstrate that our method achieves state-of-the-art visual consistency in long-duration generation, while enabling complex user-avatar interaction in real time.",
+      "authors": [
+        "Quanyue Song",
+        "Yishan He",
+        "Yanfei Zhang",
+        "Shihao Cheng",
+        "Zhixiang He",
+        "Zhizhi Guo",
+        "Chi Zhang",
+        "Xuelong Li",
+        "Caigui Jiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-22T06:41:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.22905v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "real-time streaming video generation with autoregressive distillation",
+      "llm_evidence_cn": "使用自回归蒸馏的实时流式视频生成",
+      "llm_evidence": "使用自回归蒸馏的实时流式视频生成",
+      "canonical_evidence": "使用自回归蒸馏的实时流式视频生成",
+      "llm_tldr_en": "InteractiveAvatar uses autoregressive distillation to achieve real-time streaming video generation for consistent and intent-aware avatars.",
+      "llm_tldr_cn": "InteractiveAvatar提出一种实时无限流式视频生成框架，通过自回归蒸馏技术实现长时间一致的虚拟角色视频生成，并引入长短视觉记忆机制保持视觉一致性，解决现有方法在交互场景中时序不一致和用户意图感知不足的问题。",
+      "llm_tldr": "InteractiveAvatar提出一种实时无限流式视频生成框架，通过自回归蒸馏技术实现长时间一致的虚拟角色视频生成，并引入长短视觉记忆机制保持视觉一致性，解决现有方法在交互场景中时序不一致和用户意图感知不足的问题。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23019v1",
+      "source": "arxiv",
+      "title": "ScalingAttention: Discovering Intrinsic Sparse Attention Topology for Video Diffusion Transformers",
+      "abstract": "While Diffusion Transformers (DiTs) have revolutionized high-fidelity video generation, their reliance on 3D full attention creates a quadratic computational bottleneck. Existing sparse methods face a dilemma: dynamic pruning suffers from prohibitive runtime overhead and memory fragmentation, while static heuristics fail to capture fine-grained dependencies. In this work, we propose ScalingAttention, a training-free framework grounded in a key inductive bias: while individual activations are input-dependent, the high-mass attention regions for each head rapidly converge to a stable, prompt-agnostic Intrinsic Sparse Topology. This topology is weight-encoded, scale-invariant, and efficient to extract. ScalingAttention decouples topology discovery from sparsity control via: (1) WEST (Weight-Encoded Sparse Topology), which extracts a robust block-sparse prior mask offline to eliminate runtime search; (2) FAST (Fidelity-Aware Sensitivity Tuning), which adaptively tunes head-wise sparsity based on diffusion fidelity requirements. To ensure practical acceleration, we co-design a hardware-aligned bit-wise block-sparse kernel. Experiments on Wan2.1 show up to 1.90X end-to-end speedup with superior fidelity, establishing a new Pareto frontier over state-of-the-art baselines.",
+      "authors": [
+        "Ruiliang Zhou",
+        "Xuecheng Wu",
+        "Kang He",
+        "Guangyun Han",
+        "Bin Liu",
+        "Qinqin Chen",
+        "Wende Xu",
+        "Qingjie Zhao",
+        "Chengru Song"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-22T08:32:07+00:00",
+      "link": "https://arxiv.org/pdf/2606.23019v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "sparse attention for video diffusion transformers",
+      "llm_evidence_cn": "视频扩散Transformer的稀疏注意力",
+      "llm_evidence": "视频扩散Transformer的稀疏注意力",
+      "canonical_evidence": "视频扩散Transformer的稀疏注意力",
+      "llm_tldr_en": "ScalingAttention discovers a training-free intrinsic sparse attention topology for video diffusion transformers, drastically reducing quadratic costs while maintaining quality.",
+      "llm_tldr_cn": "视频扩散Transformer依赖全3D注意力导致计算瓶颈，现有稀疏方法面临开销大或依赖静态启发式的问题。本文提出ScalingAttention，一种无需训练的框架，利用注意力高位区域快速收敛到稳定内在稀疏拓扑的归纳偏置，实现了高效、权重编码且尺度不变的稀疏注意力。该方法在不牺牲生成质量的前提下大幅降低了计算复杂度，为实时视频生成铺平了道路。",
+      "llm_tldr": "视频扩散Transformer依赖全3D注意力导致计算瓶颈，现有稀疏方法面临开销大或依赖静态启发式的问题。本文提出ScalingAttention，一种无需训练的框架，利用注意力高位区域快速收敛到稳定内在稀疏拓扑的归纳偏置，实现了高效、权重编码且尺度不变的稀疏注意力。该方法在不牺牲生成质量的前提下大幅降低了计算复杂度，为实时视频生成铺平了道路。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "sparse attention video generation",
+      "matched_requirement_id": "req-14",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.17566v1",
+      "source": "arxiv",
+      "title": "AoiZora: Topology-Aware Auto-Parallel Optimization for Inference of Diffusion Transformers",
+      "abstract": "Video diffusion has quickly grown into a key generative serving workload, yet producing each clip demands many denoising iterations over large spatio-temporal latents, which puts low-latency inference out of reach on a single device. A denoising step is therefore typically distributed across multiple accelerators, and TPU sub-slices have become an attractive and practical fabric for doing so. Current auto-parallel systems, however, search almost exclusively over logical device meshes and disregard how a chosen sharding is actually laid out on the physical TPU interconnect -- an oversight that leaves large, topology-dependent performance on the table. We address this gap with AoiZora, a compiler-mediated topology planner built for low-latency video diffusion inference on TPU sub-slices. Its guiding principle is to reconnect logical sharding with physical placement by drawing on different points in the compilation flow: AoiZora first eliminates weak sharding candidates from inexpensive pre-compilation IRs, then compiles only the ones that survive and orders their physical placements using compiled HLO together with a topology-aware communication model. The winning plan is realized along the ordinary compiler path, leaving model code, compiler lowering, collective kernels, and network routing entirely intact. On TPU v5e sub-slices, AoiZora reduces Wan 2.1 one-step denoising latency by as much as 1.42x relative to existing solutions.",
+      "authors": [
+        "Kaijian Wang",
+        "Yuanyuan Xu",
+        "Fanjiang Ye",
+        "Ye Cao",
+        "Jingwei Zuo",
+        "T. S. Eugene Ng",
+        "Yarong Mu",
+        "Yuke Wang"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-06-16T06:12:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.17566v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Topology-aware auto-parallel for low-latency inference of diffusion transformers",
+      "llm_evidence_cn": "面向扩散Transformer低延迟推理的拓扑感知自动并行",
+      "llm_evidence": "面向扩散Transformer低延迟推理的拓扑感知自动并行",
+      "canonical_evidence": "面向扩散Transformer低延迟推理的拓扑感知自动并行",
+      "llm_tldr_en": "AoiZora leverages topology-aware auto-parallel planning to accelerate inference of video diffusion transformers on TPU clusters, reducing latency significantly.",
+      "llm_tldr_cn": "视频扩散模型每个去噪步需处理大规模时空潜在表示，单设备无法满足低延迟推理需求，通常需多设备并行。现有自动并行系统忽略物理网络拓扑，导致性能损失。本文提出AoiZora，一个面向TPU子片的编译器中间拓扑规划器，感知物理互连拓扑优化分片策略。实验显示，相比现有方法，推理延迟显著降低，使视频扩散模型更接近实时。",
+      "llm_tldr": "视频扩散模型每个去噪步需处理大规模时空潜在表示，单设备无法满足低延迟推理需求，通常需多设备并行。现有自动并行系统忽略物理网络拓扑，导致性能损失。本文提出AoiZora，一个面向TPU子片的编译器中间拓扑规划器，感知物理互连拓扑优化分片策略。实验显示，相比现有方法，推理延迟显著降低，使视频扩散模型更接近实时。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "real-time inference generation",
+      "matched_requirement_id": "req-11",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.20310v1",
+      "source": "arxiv",
+      "title": "Through the PRISM: Preference Representation in Intermediate States of Video Diffusion Models",
+      "abstract": "Evaluating video generation with clean, pixel-based reward models disconnects evaluation from the noisy diffusion process and incurs massive VAE decoding costs. In this paper, we challenge this paradigm by asking a fundamental question: Can a powerful video generator inherently discriminate preferences directly from noisy latents? To answer this, we introduce \\textbf{PRISM} (\\textbf{P}reference \\textbf{R}epresentation in \\textbf{I}ntermediate \\textbf{S}tates of Diffusion \\textbf{M}odels). PRISM employs a lightweight Query-based Aggregation head with a frozen video diffusion backbone to decode preference signals from noisy latents. Surprisingly, PRISM not only achieves SOTA preference accuracy but also unlocks strong noise-robustness, which enables early-stage Best-of-$N$ sampling. This allows for filtering suboptimal candidates at the very beginning of denoising, drastically reducing computation while boosting video quality. We also reveal a strong positive correlation between a backbone's generative performance and its inherent evaluative power, enabling self-improving video backbones.",
+      "authors": [
+        "Haoxuan Wu",
+        "Lai Man Po",
+        "Mengyang Liu",
+        "Kun Li",
+        "Hongzheng Yang",
+        "Wei Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T14:44:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.20310v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Post-training with preference representation directly from noisy latents of video diffusion models",
+      "llm_evidence_cn": "从视频扩散模型的噪声潜变量中直接进行偏好表示的后训练",
+      "llm_evidence": "从视频扩散模型的噪声潜变量中直接进行偏好表示的后训练",
+      "canonical_evidence": "从视频扩散模型的噪声潜变量中直接进行偏好表示的后训练",
+      "llm_tldr_en": "PRISM introduces a lightweight query-based aggregation head on a frozen video diffusion backbone to decode preference signals directly from noisy latents, achieving SOTA preference accuracy and noise robustness.",
+      "llm_tldr_cn": "本文针对视频生成评估中像素级奖励模型代价高且与扩散过程脱节的问题，提出PRISM方法：在冻结的视频扩散骨干上附加轻量级查询聚合头，直接从噪声隐变量中解码偏好信号。实验表明该方法不仅达到最优偏好准确率，还展现出强大的噪声鲁棒性，从而为视频生成的后训练提供了高效的新范式。",
+      "llm_tldr": "本文针对视频生成评估中像素级奖励模型代价高且与扩散过程脱节的问题，提出PRISM方法：在冻结的视频扩散骨干上附加轻量级查询聚合头，直接从噪声隐变量中解码偏好信号。实验表明该方法不仅达到最优偏好准确率，还展现出强大的噪声鲁棒性，从而为视频生成的后训练提供了高效的新范式。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.17979v2",
+      "source": "arxiv",
+      "title": "STAR: SpatioTemporal Adaptive Reward Allocation for Text-to-Image RL Post-Training",
+      "abstract": "Existing RL post-training methods for text-to-image generation usually convert the final-image reward into a single scalar advantage and apply it with the same strength to the entire generative trajectory. However, text-to-image generation naturally has temporal and spatial structure: different denoising steps are responsible for different generation stages, and the content that truly determines text alignment often appears only in part of the image. This granularity mismatch makes it difficult for policy updates to focus on the generative components that actually affect the reward. To address this issue, we propose \\textbf{SpatioTemporal Adaptive Reward (STAR) Allocation} for RL post-training of text-to-image diffusion and flow models. STAR uses text-image attention inside the generative model and starts from the core content that the user truly cares about in the prompt. It constructs spatial allocation maps that dynamically vary across denoising steps and rollouts, and allocates the same group-relative advantage to more relevant latent regions with almost no additional computational overhead. STAR then applies stronger policy updates to these regions through a spatially resolved policy objective. We use Stable Diffusion 3.5 Medium as the base model and evaluate on three tasks: GenEval, OCR text rendering, and PickScore. Experimental results show that STAR improves compositional semantic alignment, text rendering, and preference optimization without changing the external reward source, achieving $\\mathbf{0.9759}$, $\\mathbf{0.9757}$, and $\\mathbf{23.60}$ on GenEval, OCR, and PickScore, respectively.",
+      "authors": [
+        "Jinjie Shen",
+        "Wei Deng",
+        "Xian Hu",
+        "Daiguo Zhou",
+        "Jian Luan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-16T14:30:12+00:00",
+      "link": "https://arxiv.org/pdf/2606.17979v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "RL post-training for diffusion generative models, transferable to video",
+      "llm_evidence_cn": "针对扩散生成模型的RL后训练方法，可迁移至视频领域",
+      "llm_evidence": "针对扩散生成模型的RL后训练方法，可迁移至视频领域",
+      "canonical_evidence": "针对扩散生成模型的RL后训练方法，可迁移至视频领域",
+      "llm_tldr_en": "Proposes SpatioTemporal Adaptive Reward (STAR) allocation for RL post-training of text-to-image diffusion and flow models, addressing granularity mismatch between full-trajectory rewards and generative components. Enables targeted policy updates for better text alignment.",
+      "llm_tldr_cn": "现有文本到图像生成的RL后训练方法将最终图像奖励转换为单一标量优势，忽略了生成过程的时间和空间结构。本文提出时空自适应奖励分配（STAR），根据每个去噪步骤和空间区域对奖励的贡献自适应分配优势，从而实现更精准的策略更新。实验表明该方法能显著提升文本对齐质量和图像多样性，为扩散模型的后训练提供了新范式，且可推广到视频生成等序列生成任务。",
+      "llm_tldr": "现有文本到图像生成的RL后训练方法将最终图像奖励转换为单一标量优势，忽略了生成过程的时间和空间结构。本文提出时空自适应奖励分配（STAR），根据每个去噪步骤和空间区域对奖励的贡献自适应分配优势，从而实现更精准的策略更新。实验表明该方法能显著提升文本对齐质量和图像多样性，为扩散模型的后训练提供了新范式，且可推广到视频生成等序列生成任务。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.23679v1",
+      "source": "arxiv",
+      "title": "Semantic Browsing: Controllable Diversity for Image Generation",
+      "abstract": "Modern text-to-image models excel in visual fidelity and prompt adherence. However, this strict adherence comes at the cost of diversity: generated samples tend to collapse into a single visual interpretation. Existing methods to improve diversity produce outputs driven by incidental variations rather than meaningful design choices. This motivates a new variant of the diversity task where structure is enforced on the generated samples. We introduce a method for controlled diversity that enables Semantic Browsing, where users can navigate structured image galleries and experience creative exploration through a systematic traversal of meaningful, interpretable axes of variation. Achieving this level of semantic control requires a deep understanding of the scene. We exploit the fact that recent text-to-image models are trained on elaborated captions, effectively decoupling semantic decision-making from pixel generation. This enables a paradigm shift: instead of relying on stochastic variation within the text-to-image model, we induce diversity directly at the text level. By leveraging rich textual representations, we allow a Vision Language Model (VLM) to operate on the full scene context. To overcome the generic outputs typical of standard VLMs, we employ an agentic workflow that explicitly enforces structured variation attuned to the original prompt. We demonstrate that our method produces diverse and navigable design spaces where every variation corresponds to a specific, user-understandable semantic decision.",
+      "authors": [
+        "Sara Dorfman",
+        "Maya Vishnevsky",
+        "Omer Dahary",
+        "Or Patashnik",
+        "Daniel Cohen-Or"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR",
+        "cs.LG"
+      ],
+      "published": "2026-06-22T17:59:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.23679v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "diversity enhancement in image generation",
+      "llm_evidence_cn": "图像生成中的多样性增强",
+      "llm_evidence": "图像生成中的多样性增强",
+      "canonical_evidence": "图像生成中的多样性增强",
+      "llm_tldr_en": "Semantic Browsing introduces controlled diversity for text-to-image generation, enabling users to navigate structured image galleries along interpretable axes, addressing the collapse of visual interpretations.",
+      "llm_tldr_cn": "现代文本到图像模型在保真度和提示遵循上表现出色，但导致生成样本多样性不足，倾向于单一视觉解释。本文提出Semantic Browsing方法，通过对场景的深度理解，在生成过程中引入可控制的多样性，使用户能够沿有意义的可解释轴遍历结构化图像库，实现创造性探索。该方法在保持视觉质量的同时显著提升了多样性。",
+      "llm_tldr": "现代文本到图像模型在保真度和提示遵循上表现出色，但导致生成样本多样性不足，倾向于单一视觉解释。本文提出Semantic Browsing方法，通过对场景的深度理解，在生成过程中引入可控制的多样性，使用户能够沿有意义的可解释轴遍历结构化图像库，实现创造性探索。该方法在保持视觉质量的同时显著提升了多样性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "knowledge distillation for diversity enhancement in image generation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.20543v1",
+      "source": "arxiv",
+      "title": "SSD: Spatially Speculative Decoding Accelerates Autoregressive Image Generation",
+      "abstract": "Autoregressive models excel in visual generation by treating images as 1D sequences of discrete tokens, mirroring language modeling. However, this flattening discards the intrinsic 2D spatial locality of visual signals, creating severe computational bottlenecks during inference. We introduce Spatially Speculative Decoding (SSD), a framework that aligns the predictive objective with the natural geometry of images. Rather than predicting only the immediate next token in a 1D sequence, our model simultaneously predicts the adjacent horizontal token and the token directly below it. By capitalizing on this 2D spatial correlation, spatially speculative decoding overcomes the memory wall in visual inference. Our approach accelerates autoregressive image generation by up to 13.3x while maintaining high fidelity on DPG-Bench and GenEval. Our results suggest that respecting the underlying geometry of vision unlocks massive computational efficiencies, paving the way for real-time, high-resolution autoregressive generative models.",
+      "authors": [
+        "Shilong Xiang",
+        "Zirui Zhang",
+        "Lijun Yu",
+        "Chengzhi Mao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T17:52:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.20543v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "spatially speculative decoding accelerates autoregressive image generation, enabling fast visual generation",
+      "llm_evidence_cn": "空间推测解码加速自回归图像生成，实现快速视觉生成",
+      "llm_evidence": "空间推测解码加速自回归图像生成，实现快速视觉生成",
+      "canonical_evidence": "空间推测解码加速自回归图像生成，实现快速视觉生成",
+      "llm_tldr_en": "SSD accelerates autoregressive image generation by leveraging 2D spatial locality to predict multiple tokens simultaneously, overcoming memory bottlenecks.",
+      "llm_tldr_cn": "自回归图像生成模型将图像展平为1D序列，忽略了2D空间局部性，导致推理效率低下。本文提出空间推测解码（SSD），通过同时预测相邻水平与下方token来利用2D空间相关性，克服了视觉推理中的内存墙。实验表明该方法显著加速了图像生成过程，为快速视觉生成提供了新思路。",
+      "llm_tldr": "自回归图像生成模型将图像展平为1D序列，忽略了2D空间局部性，导致推理效率低下。本文提出空间推测解码（SSD），通过同时预测相邻水平与下方token来利用2D空间相关性，克服了视觉推理中的内存墙。实验表明该方法显著加速了图像生成过程，为快速视觉生成提供了新思路。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.22696v1",
+      "source": "arxiv",
+      "title": "NullFlow: One-Step Generative Reconstruction",
+      "abstract": "We propose NullFlow, a principled framework for one-step generative image reconstruction. Our key idea is to confine the generative flow to a measurement-consistent subspace. Because the flow never leaves this subspace, NullFlow needs no separate data-fidelity corrections, unlike existing solvers. NullFlow samples in a single network evaluation by learning the flow's average velocity, avoiding the step-by-step integration of traditional flow matching methods. We prove that the average velocity of this constrained flow yields a training objective whose global minimizer is a one-step posterior sampler. We show on image inpainting that NullFlow matches state-of-the-art diffusion solvers while cutting inference from hundreds of network evaluations to one.",
+      "authors": [
+        "Xiao Shi",
+        "Edward P. Chandler",
+        "Chicago Y. Park",
+        "Shirin Shoushtari",
+        "Ulugbek S. Kamilov"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-21T22:21:43+00:00",
+      "link": "https://arxiv.org/pdf/2606.22696v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "one-step generative reconstruction using flow matching",
+      "llm_evidence_cn": "使用流匹配的一步生成式重建",
+      "llm_evidence": "使用流匹配的一步生成式重建",
+      "canonical_evidence": "使用流匹配的一步生成式重建",
+      "llm_tldr_en": "NullFlow achieves one-step generative image reconstruction by learning the average velocity of a constrained flow, matching diffusion quality with a single network evaluation.",
+      "llm_tldr_cn": "NullFlow提出一种单步生成式图像重建框架，通过将生成流限制在测量一致子空间并学习平均速度，避免传统流匹配的逐步积分。在图像修复任务上，该方法以单次网络评估达到与扩散模型相当的质量，大幅降低推理计算量。",
+      "llm_tldr": "NullFlow提出一种单步生成式图像重建框架，通过将生成流限制在测量一致子空间并学习平均速度，避免传统流匹配的逐步积分。在图像修复任务上，该方法以单次网络评估达到与扩散模型相当的质量，大幅降低推理计算量。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.22835v1",
+      "source": "arxiv",
+      "title": "OrthoMotion:Disentangling Camera and Subject Motion via Geometry Semantics Orthogonal Attention",
+      "abstract": "Controllable video generation demands independent command of the camera and the subject, yet 2D conditioning entangles them: camera- and object-induced optical flow share the same inverse-depth (1/Z) scaling and cannot be separated from image evidence alone. We first prove that this entanglement is representational, not architectural -- the 2D camera/object split is a non-identifiable inverse problem -- and therefore reframe decoupling as a question of operator design. We resolve it at the level of the attention operator. OrthoMotion routes camera motion into a geometric channel, a norm-preserving rotation of the rotary position embedding (RoPE) phase, and subject motion into a semantic channel, a gated value injection in cross-attention. Because these sub-operators are algebraically complementary -- a rotation versus a translation of the affine action on tokens -- a lightweight decoupling regularizer provably drives their response subspaces to orthogonality, so the two controls stop interfering. To our knowledge OrthoMotion is the first method to guarantee disentanglement by construction rather than hope for it to emerge. It attains state-of-the-art camera and subject accuracy at once while minimizing cross-talk, which we quantify with a new Cross-Talk Error (CTE) metric, cutting cross-talk by more than 2.4x with no loss in fidelity and generalizing across backbones.",
+      "authors": [
+        "Zijie Meng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-22T04:15:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.22835v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "disentangles camera and subject motion in controllable video generation via geometry semantics orthogonal attention",
+      "llm_evidence_cn": "通过几何语义正交注意力在可控视频生成中解耦相机与主体运动",
+      "llm_evidence": "通过几何语义正交注意力在可控视频生成中解耦相机与主体运动",
+      "canonical_evidence": "通过几何语义正交注意力在可控视频生成中解耦相机与主体运动",
+      "llm_tldr_en": "OrthoMotion disentangles camera and subject motion in video generation using orthogonal attention, improving motion dynamics control.",
+      "llm_tldr_cn": "可控视频生成中相机与主体运动难以独立控制，因为2D条件纠缠。本文证明该纠缠是表征性的，并从注意力算子层面解决：通过正交注意力将相机运动路由为几何通道，主体运动路由为语义通道，从而实现精确的运动解耦。该方法显著提升了视频生成中的运动动态控制能力。",
+      "llm_tldr": "可控视频生成中相机与主体运动难以独立控制，因为2D条件纠缠。本文证明该纠缠是表征性的，并从注意力算子层面解决：通过正交注意力将相机运动路由为几何通道，主体运动路由为语义通道，从而实现精确的运动解耦。该方法显著提升了视频生成中的运动动态控制能力。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.23682v1",
+      "source": "arxiv",
+      "title": "Keep The Essentials: Efficient Reference Conditioned Generation via Token Dropping",
+      "abstract": "Reference-based diffusion models enable highly controllable image generation by leveraging elements from input images to guide prompt-driven synthesis. However, these models are computationally expensive in runtime, and their cost scales severely with the number of input references. While the efficiency of diffusion models has been extensively studied in the context of prompt-driven generation, it remains largely under-explored in the realm of reference-based models. This setting presents unique challenges not addressed by methods focusing solely on generation. In particular, the wasteful representation of references as dense token grids offers significant opportunities for improvement. In this work, we present Sparse Context, a method for constructing sparse reference representations by retaining only a reduced subset of reference tokens. We observe that even without modifying the model, dropping a significant portion of reference tokens at inference time largely preserves its generation capabilities. To fully realize this potential, we fine-tune the model with random token dropping at varying ratios, encouraging robustness to partial reference representations. Crucially, this training strategy decouples the model from any specific token selection rule, allowing flexible control at inference time. At inference time, instead of random dropping, we apply task-aware token selection strategies that prioritize the most informative regions of the reference images, adapting the token budget to the input and task requirements. Extensive experiments show our method achieves a 4x increase in inference speed for multi-reference generation and an 2x for single reference generation. Importantly, this efficiency is achieved without compromising visual quality across both spatially-aligned editing and subject-driven generation.",
+      "authors": [
+        "Rishubh Parihar",
+        "Ayush Raina",
+        "R. Venkatesh Babu",
+        "Or Patashnik"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-22T17:59:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.23682v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Sparse Context for efficient reference-conditioned generation",
+      "llm_evidence_cn": "稀疏上下文实现高效参考条件生成",
+      "llm_evidence": "稀疏上下文实现高效参考条件生成",
+      "canonical_evidence": "稀疏上下文实现高效参考条件生成",
+      "llm_tldr_en": "Sparse Context improves reference-based diffusion models by dropping redundant token grids, achieving efficient image generation without sacrificing quality.",
+      "llm_tldr_cn": "参考图像扩散模型的推理效率受限于密集词元网格造成的冗余，尤其当参考输入增多时计算成本急剧上升。本文提出Sparse Context，通过词元丢弃策略过滤冗余参考表示，仅保留关键信息参与生成。该方法在保持生成质量的同时显著降低计算开销，验证了稀疏表示在参考条件生成中的有效性，为高效生成模型设计提供新思路。",
+      "llm_tldr": "参考图像扩散模型的推理效率受限于密集词元网格造成的冗余，尤其当参考输入增多时计算成本急剧上升。本文提出Sparse Context，通过词元丢弃策略过滤冗余参考表示，仅保留关键信息参与生成。该方法在保持生成质量的同时显著降低计算开销，验证了稀疏表示在参考条件生成中的有效性，为高效生成模型设计提供新思路。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "efficient image or video generation using sparse or linear attention architecture",
+      "matched_requirement_id": "req-17",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
