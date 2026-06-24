@@ -1,0 +1,375 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-24T22:03:23.832365+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 3,
+    "deep_cap": 7,
+    "deep_selected": 3,
+    "quick_candidates": 5,
+    "quick_skim_target": 12,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2606.18478v2",
+      "source": "arxiv",
+      "title": "Data-Forcing Distillation: Restoring Diversity and Fidelity in Few-Step Video Generation",
+      "abstract": "Recent progress has shown promise in distilling multi-step video diffusion models into efficient few-step students. Among them, Distribution Matching Distillation (DMD) and its successor DMD2 achieved strong generation quality and fast convergence. However, due to the nature of the reverse Kullback--Leibler (KL) objective, these methods exhibit two persistent failure modes: a substantial drop in sample diversity, and visibly over-saturated outputs that deviate from real-video appearance. In this work, we propose Data-Forcing Distillation (DFD), a simple post-training framework that restores diversity and fidelity in DMD with only a single-line of code change. At its core is the teacher score discrepancy to guide the student toward the real-data distribution, pulling it to missing modes (mitigating mode collapse) and away from problematic modes absent in real data (avoiding over-saturation). We provide an in-depth theoretical analysis of our framework and validate our approach on text-to-video, image-to-video, and autoregressive video generation. With only 100--300 steps of finetuning, DFD effectively restores diversity and fidelity on both Wan2.1-1.3B and Cosmos-Predict2.5-2B model, resolving the over-saturation artifacts with significantly better video dynamics and appearance, and even outperforms the teacher model.",
+      "authors": [
+        "Siyi Chen",
+        "Shaowei Liu",
+        "Yixuan Jia",
+        "Zian Wang",
+        "Huan Ling",
+        "Qing Qu",
+        "Jun Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-16T20:38:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.18478v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "data-forcing distillation restores diversity and fidelity in few-step video generation",
+      "llm_evidence_cn": "数据强迫蒸馏恢复少步视频生成的多样性和保真度",
+      "llm_evidence": "数据强迫蒸馏恢复少步视频生成的多样性和保真度",
+      "canonical_evidence": "数据强迫蒸馏恢复少步视频生成的多样性和保真度",
+      "llm_tldr_en": "Proposes Data-Forcing Distillation (DFD), a post-training framework that fixes diversity drop and over-saturation in DMD-based few-step video generation with a single-line code change, restoring real-video appearance.",
+      "llm_tldr_cn": "现有分布匹配蒸馏（DMD）方法在少步视频生成中会导致样本多样性显著下降和输出过饱和。本文提出数据强迫蒸馏（DFD），一种简单的后训练框架，只需一行代码修改即可恢复多样性和保真度。其核心是利用教师得分差异指导学生，在保持快速采样的同时使视频外观更真实。实验表明DFD有效解决了DMD的失败模式，提升了生成质量。",
+      "llm_tldr": "现有分布匹配蒸馏（DMD）方法在少步视频生成中会导致样本多样性显著下降和输出过饱和。本文提出数据强迫蒸馏（DFD），一种简单的后训练框架，只需一行代码修改即可恢复多样性和保真度。其核心是利用教师得分差异指导学生，在保持快速采样的同时使视频外观更真实。实验表明DFD有效解决了DMD的失败模式，提升了生成质量。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for improving diversity and motion dynamics in few step video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.24253v1",
+      "source": "arxiv",
+      "title": "TuringViT: Making SOTA Vision Transformers Accessible to All",
+      "abstract": "Modern VLMs and VLA systems commonly adopt off-the-shelf ViTs such as SigLIP2 as visual encoders, but diverse downstream requirements in latency, temporal modeling, and VLM integration often call for customized SOTA-level ViTs. Training such encoders remains beyond the reach of much of the community, as it requires massive image-text data, while standard softmax attention makes high-resolution or dynamic-resolution pretraining prohibitively costly and often forces low-resolution pretraining followed by post-hoc adaptation. TuringViT addresses these challenges with three key designs: Turing Linear Attention (TLA) for efficient sequence modeling, VISTA-Curation to construct supervision-rich image-video training data, and native dynamic-resolution pretraining that supports flexible inputs from the start and transfers seamlessly to downstream VLMs. As a result, TuringViT outperforms leading open-source ViT baselines with only 10% of the data, achieves stronger downstream VLM performance, and delivers substantially better latency scaling on high-resolution inputs. Our scaling-law analysis further shows that TuringViT continues to improve predictably with curated data scale, far from saturation. Its fast adaptation, hardware-friendly design, and efficient deployment have made it a unified visual foundation across XPeng's AI systems. More broadly, TuringViT provides a reproducible pipeline that dramatically lowers the cost for the community to train, customize, and deploy SOTA-level ViTs, moving toward making such Vision Transformers accessible to all.",
+      "authors": [
+        "Qiman Wu",
+        "Hanlin Chen",
+        "Lyujie Chen",
+        "Rui Xin",
+        "Jianlei Zheng",
+        "Mingyuan Wang",
+        "Jiahui Hu",
+        "Da Zhu",
+        "Yuecheng Ma",
+        "Yuhua Wei",
+        "Yizhao Wang",
+        "Hua Zhou",
+        "Yuheng Zhang",
+        "Anhua Liu",
+        "Shaman Tang",
+        "Yue He",
+        "Pengfei Diao",
+        "Shuang Su",
+        "Haotong Xin",
+        "Weichao Huang",
+        "Hang Zhang",
+        "Xianming Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T07:42:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.24253v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "linear attention for efficient vision transformers",
+      "llm_evidence_cn": "线性注意力用于高效视觉Transformer",
+      "llm_evidence": "线性注意力用于高效视觉Transformer",
+      "canonical_evidence": "线性注意力用于高效视觉Transformer",
+      "llm_tldr_en": "Proposes TuringViT with Turing Linear Attention for efficient sequence modeling, enabling high-resolution dynamic-resolution pretraining for vision transformers.",
+      "llm_tldr_cn": "该论文提出TuringViT，其核心是Turing线性注意力（TLA）机制，用于高效序列建模，支持从零开始进行高分辨率动态分辨率预训练。这解决了标准softmax注意力在训练SOTA视觉编码器时的高成本问题，使得在消费级硬件上也能训练高性能ViT。该工作与用户需求中的线性注意力图像生成方向高度吻合。",
+      "llm_tldr": "该论文提出TuringViT，其核心是Turing线性注意力（TLA）机制，用于高效序列建模，支持从零开始进行高分辨率动态分辨率预训练。这解决了标准softmax注意力在训练SOTA视觉编码器时的高成本问题，使得在消费级硬件上也能训练高性能ViT。该工作与用户需求中的线性注意力图像生成方向高度吻合。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "linear attention image generation",
+      "matched_requirement_id": "req-15",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23743v1",
+      "source": "arxiv",
+      "title": "Sol Video Inference Engine: Agent-Native Full-Stack Acceleration Framework for Efficient Video Generation",
+      "abstract": "Modern video diffusion models achieve higher generation quality through scaling, but this also increases inference cost. Although many acceleration methods have been proposed, a central challenge is that the most effective acceleration strategy is highly instance-specific: a recipe that works well for one combination of model, hardware, and inference configuration often does not transfer to another. Different models vary in architecture, numerical sensitivity, and attention concentration patterns. Inference settings differ in spatial and temporal resolution and video duration, while hardware platforms differ in memory hierarchy, supported numerical formats, and kernel throughput. These factors create a large tuning space, making manual performance engineering costly. We present Sol Video Inference Engine, an agentic, native, training-free acceleration framework for video diffusion models. It organizes five broadly applicable techniques, cache, sparse attention, token pruning, quantization, and kernel fusion, into an agentic acceleration stack for instance-specific optimization. For a concrete deployment target defined by a model, hardware platform, and serving configuration, parallel skill agents optimize the implementation of each technique, an agent integrator composes them into a global acceleration stack, and a human validator provides feedback on generation quality. We instantiate this workflow on three video models with different sizes and architectures: 64B Cosmos3-Super, 22B LTX-2.3, and 2B SANA-Video. With little human effort, the full stack achieves more than 2x end-to-end acceleration while maintaining near-lossless VBench quality, demonstrating the effectiveness of the agent framework for video diffusion acceleration.",
+      "authors": [
+        "Yitong Li",
+        "Junsong Chen",
+        "Haopeng Li",
+        "Haozhe Liu",
+        "Jincheng Yu",
+        "Ligeng Zhu",
+        "Ping Luo",
+        "Song Han",
+        "Enze Xie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-21T17:23:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.23743v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "full-stack acceleration framework for video diffusion inference",
+      "llm_evidence_cn": "针对视频扩散推理的全栈加速框架",
+      "llm_evidence": "针对视频扩散推理的全栈加速框架",
+      "canonical_evidence": "针对视频扩散推理的全栈加速框架",
+      "llm_tldr_en": "Sol Video Inference Engine proposes an agent-native full-stack acceleration framework for efficient video generation, addressing instance-specific acceleration strategy tuning across models and hardware.",
+      "llm_tldr_cn": "视频扩散模型推理成本高，且加速策略高度依赖模型、硬件和配置组合。本文提出Sol视频推理引擎，一种智能体原生全栈加速框架，能够自动适应不同实例并优化推理性能。实验表明该方法在多种模型和硬件上显著降低延迟，同时保持生成质量。该工作为视频生成推理加速提供了实用的解决方案。",
+      "llm_tldr": "视频扩散模型推理成本高，且加速策略高度依赖模型、硬件和配置组合。本文提出Sol视频推理引擎，一种智能体原生全栈加速框架，能够自动适应不同实例并优化推理性能。实验表明该方法在多种模型和硬件上显著降低延迟，同时保持生成质量。该工作为视频生成推理加速提供了实用的解决方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.21947v1",
+      "source": "arxiv",
+      "title": "ScalePredictor: Instance-aware Scale Learning for Accurate Quantization of Vision Transformers",
+      "abstract": "Vision Transformers have achieved remarkable success in many fields, yet their deployment on edge devices remains challenging due to their substantial computational demands. Post-Training Quantization (PTQ) offers an attractive solution by compressing models using a small calibration set with minimal training overhead. However, most existing PTQ works adopt a static quantization paradigm that is uniformly applied to all instances. Given the substantial diversity of natural images, the activation distributions vary significantly across samples, making these methods inherently suboptimal. In this paper, we propose ScalePredictor, a dynamic quantization framework for accurate and efficient quantization scale learning of ViTs. We first reveal a hidden correlation between the distribution range of shallow-layer activations and the optimal scales of deeper layers. Based on this, we develop a scale learning mechanism that integrates an efficient range extraction approach to capture robust range statistics at the shallow stage, which are then fed into a Taylor-motivated polynomial scale projection module to generate all quantization scales simultaneously. With the efficiency of polynomial approximation, ScalePredictor introduces insignificant computational overhead while avoiding costly just-in-time calibration. Extensive experiments on ImageNet demonstrate that ScalePredictor consistently outperforms prior PTQ methods, achieving a more favorable accuracy-efficiency trade-off. Code and additional results are shown in the supplementary materials.",
+      "authors": [
+        "Changjun Li",
+        "Runqing Jiang",
+        "Lian Xu",
+        "Ye Zhang",
+        "Qingyong Hu",
+        "Yulan Guo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-20T08:33:55+00:00",
+      "link": "https://arxiv.org/pdf/2606.21947v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "dynamic quantization framework for vision transformers",
+      "llm_evidence_cn": "针对视觉Transformer的动态量化框架",
+      "llm_evidence": "针对视觉Transformer的动态量化框架",
+      "canonical_evidence": "针对视觉Transformer的动态量化框架",
+      "llm_tldr_en": "ScalePredictor proposes a dynamic quantization framework that learns instance-aware quantization scales for Vision Transformers, improving accuracy and efficiency for deployment.",
+      "llm_tldr_cn": "ScalePredictor提出了一种动态量化框架，为视觉Transformer学习实例感知的量化缩放因子，从而在保持精度的同时实现高效部署。现有的后训练量化方法通常对所有实例采用静态量化，忽略了不同样本间激活分布的差异。该方法通过动态调整缩放因子，显著提高了量化模型的准确性，为在消费级GPU上高效运行生成模型提供了关键技术。",
+      "llm_tldr": "ScalePredictor提出了一种动态量化框架，为视觉Transformer学习实例感知的量化缩放因子，从而在保持精度的同时实现高效部署。现有的后训练量化方法通常对所有实例采用静态量化，忽略了不同样本间激活分布的差异。该方法通过动态调整缩放因子，显著提高了量化模型的准确性，为在消费级GPU上高效运行生成模型提供了关键技术。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.19495v1",
+      "source": "arxiv",
+      "title": "LooseControlVideo: Directorial Video Control using Spatial Blocking",
+      "abstract": "Precise 3D spatial orchestration in text-to-video generation remains a significant challenge, particularly for multi-object scenes where semantic layout and temporal dynamics are often entangled. While existing depth-conditioned models achieve good structural fidelity, they necessitate dense, frame-accurate guidance that is labor-intensive to author for dynamic events involving deformable objects. We present LooseControlVideo, a framework that enables intuitive and expressive control by using sparse, oriented 3D boxes as a \"blocking\" proxy. This allows users to author high-level layout and trajectory while leveraging a video generative model to generate realistic occlusions, dynamics and interactions. We achieve this by fine-tuning a Wan 2.2 backbone on a video dataset annotated with DNOCS, a novel encoding for 3D size, orientation and depth-ordered occlusions. Furthermore, our method allows for localized refinement, such as adjusting a jump trajectory or adding an interaction, with minimal disruption to the global scene context. Extensive evaluations on the nuScenes, HO-3D, and BEHAVE benchmarks demonstrate that LooseControlVideo significantly outperforms existing 2D-box and flow-based baselines. Our findings indicate a 1.2x to 3x improvement in Trajectory Error; 2x improvement in Rigid Motion Consistency; and a 1.5x to 2x increase in Occlusion Accuracy over current state-of-the-art layout-conditioned models, demonstrating that oriented 3D primitives provide good geometric prior for complex, multi-agent video authoring.",
+      "authors": [
+        "Shariq Farooq Bhat",
+        "Niloy J. Mitra",
+        "Kalyan Sunkavalli"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-17T18:32:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.19495v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "post-training for video generation via fine-tuning a video backbone",
+      "llm_evidence_cn": "通过微调视频生成模型的后训练方法",
+      "llm_evidence": "通过微调视频生成模型的后训练方法",
+      "canonical_evidence": "通过微调视频生成模型的后训练方法",
+      "llm_tldr_en": "LooseControlVideo enables directorial video control by fine-tuning a video generative model with sparse 3D boxes, facilitating post-training for video generation models.",
+      "llm_tldr_cn": "该论文提出LooseControlVideo框架，通过微调视频生成模型（Wan 2.2）实现使用稀疏3D框进行导演级视频控制。它解决了现有方法需要密集帧级指导的局限性，使得用户可以通过高级布局和轨迹生成视频。这项工作展示了后训练微调在视频生成控制中的潜力，但未直接涉及蒸馏或多样性提升。",
+      "llm_tldr": "该论文提出LooseControlVideo框架，通过微调视频生成模型（Wan 2.2）实现使用稀疏3D框进行导演级视频控制。它解决了现有方法需要密集帧级指导的局限性，使得用户可以通过高级布局和轨迹生成视频。这项工作展示了后训练微调在视频生成控制中的潜力，但未直接涉及蒸馏或多样性提升。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.22371v1",
+      "source": "arxiv",
+      "title": "ZeroGVC: Zero-Shot Generative Video Compression with Autoregressive Diffusion Priors",
+      "abstract": "Recent generative video compression methods leverage powerful generative priors to achieve perceptually pleasing reconstructions. However, most existing approaches require additional training to adapt generative models to produce realistic reconstructions from compact representations. In this paper, we propose ZeroGVC, a zero-shot generative video compression framework that leverages pretrained autoregressive diffusion priors for low-delay video reconstruction. ZeroGVC encodes the first frame of each group of pictures (GOP) with an image codec and represents subsequent P-frames through Codebook-Guided Autoregressive Latent Compression. This design is motivated by our observation that the compression scheme of denoising diffusion codebook models is effective in few-step consistency sampling. By selecting compact combinations of reproducible codebook noise vectors, ZeroGVC steers the latent denoising trajectory toward the target P-frame while allowing the decoder to reproduce the same trajectory in only a few denoising steps. In addition, we design an optional bidirectional reference mode that mitigates error propagation by leveraging the next I-frame context without introducing any additional bitrate overhead. Extensive experiments on standard video compression benchmarks demonstrate that ZeroGVC achieves superior perceptual reconstruction quality at ultra-low bitrates without any additional training.",
+      "authors": [
+        "Yixin Gao",
+        "Xiaohan Pan",
+        "Lin Liu",
+        "Xin Li",
+        "Zhibo Chen",
+        "Qi Tian"
+      ],
+      "primary_category": "eess.IV",
+      "categories": [
+        "eess.IV",
+        "cs.CV"
+      ],
+      "published": "2026-06-21T07:46:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.22371v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "fast video generation via zero-shot generative video compression with diffusion priors",
+      "llm_evidence_cn": "通过零样本生成式视频压缩与扩散先验实现快速视频生成",
+      "llm_evidence": "通过零样本生成式视频压缩与扩散先验实现快速视频生成",
+      "canonical_evidence": "通过零样本生成式视频压缩与扩散先验实现快速视频生成",
+      "llm_tldr_en": "ZeroGVC leverages pretrained autoregressive diffusion priors for low-delay video reconstruction, achieving fast generative video compression without additional training.",
+      "llm_tldr_cn": "ZeroGVC提出零样本生成式视频压缩框架，利用预训练的自回归扩散先验实现低延迟视频重建。它采用图像编解码器编码首帧，并通过码本引导的自回归潜在压缩表示后续P帧。该方法无需额外训练即可生成高质量视频帧，适用于快速视频生成场景，但针对的是压缩任务而非原始生成。",
+      "llm_tldr": "ZeroGVC提出零样本生成式视频压缩框架，利用预训练的自回归扩散先验实现低延迟视频重建。它采用图像编解码器编码首帧，并通过码本引导的自回归潜在压缩表示后续P帧。该方法无需额外训练即可生成高质量视频帧，适用于快速视频生成场景，但针对的是压缩任务而非原始生成。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.24025v1",
+      "source": "arxiv",
+      "title": "Information-Theoretic Classifier-Free Guidance with Adaptive Schedule Optimization",
+      "abstract": "Diffusion models have achieved strong performance in image, text-to-image, and video generation, where conditional generation is often controlled by classifier-free guidance (CFG). CFG improves condition consistency by increasing a guidance weight, but stronger guidance typically reduces diversity and distributional coverage. It remains unclear how this consistency-coverage trade-off should be controlled across the reverse trajectory, since the distribution induced by CFG is not simply the fixed-time tilted distribution given by the guided score field. To address this issue, we propose an information-theoretic framework for CFG schedule optimization. Our approach uses a clean endpoint reference to specify the desired consistency-coverage trade-off, while optimizing the actual distribution induced by the guided sampler toward this reference. We derive trajectory-level formulas to estimate the objective from samples and score evaluations, avoiding explicit density estimation. On ImageNet-512 with EDM-XXL and COCO with SD-XL, the learned schedules achieve competitive or improved trade-offs over constant guidance and allocate guidance selectively across noise levels.",
+      "authors": [
+        "Haobo Chen",
+        "Xiangxiang Xu",
+        "Yuheng Bu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-23T00:04:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.24025v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improving diversity via CFG schedule optimization",
+      "llm_evidence_cn": "通过CFG调度优化提升多样性",
+      "llm_evidence": "通过CFG调度优化提升多样性",
+      "canonical_evidence": "通过CFG调度优化提升多样性",
+      "llm_tldr_en": "Proposes an information-theoretic framework for classifier-free guidance schedule optimization to improve diversity while maintaining condition consistency in diffusion models for image/video generation.",
+      "llm_tldr_cn": "该论文针对扩散模型中无分类器引导（CFG）的多样性-一致性权衡问题，提出了一种信息论框架指导的CFG调度优化方法。通过利用干净端点参考来指定期望的权衡，自适应调整引导权重，在保持条件一致性的同时显著提升生成多样性。该方法可应用于图像和视频生成，为改进生成模型的多样性提供了新的理论基础。",
+      "llm_tldr": "该论文针对扩散模型中无分类器引导（CFG）的多样性-一致性权衡问题，提出了一种信息论框架指导的CFG调度优化方法。通过利用干净端点参考来指定期望的权衡，自适应调整引导权重，在保持条件一致性的同时显著提升生成多样性。该方法可应用于图像和视频生成，为改进生成模型的多样性提供了新的理论基础。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.24369v1",
+      "source": "arxiv",
+      "title": "Accelerating Disaggregated RL for Visual Generative LLMs with Diffusion-Based Parallelism and Trainer-Assisted Generation",
+      "abstract": "Reinforcement learning (RL) has become a dominant post-training paradigm, driving the emergence of high-performance RL systems such as veRL for autoregressive large language models (LLMs). In parallel, diffusion-oriented RL algorithms, e.g., DanceGRPO and FlowGRPO, have rapidly expanded the scope of RL from language reasoning to diffusion-based visual and flow-based generation. However, efficient RL systems for diffusion generative LLMs remain underexplored. Existing implementations, e.g., veRL-Omni, still rely on colocated execution, which simplifies synchronization but couples rollout and training resources, limits heterogeneous deployment, and constrains independent scaling.   To this end, we introduce DigenRL, a disaggregated RL framework for diffusion-based generative LLMs that supports flexible resource allocation, accommodates heterogeneous GPUs, and facilitates efficient task scheduling. To maximally reduce the execution bubbles in the disaggregated architecture, we propose: 1) a generation-axis pipeline (GAP) and time-step parallelism (TSP) in the diffusion architecture to enable finer-grained pipelining between rollout and training; 2) an elastic trainer-assisted generation (TAG) approach to enable the trainer GPU resources to dynamically assist in executing rollout generations; and 3) a tightly one-step constrained asynchronous strategy to further utilize the tail bubble in the pipeline. Extensive experiments are conducted on three hardware testbeds with 16-32 GPUs using HunyuanVideo-13B, Wan2.1-14B, FLUX.1-12B, and QwenImage-20B generative models. Experimental results show that DigenRL achieves 1.56-2.10x throughput improvements over state-of-the-art diffusion RL systems, veRL-Omni and GenRL.",
+      "authors": [
+        "Sijie Wang",
+        "Zhengyu Qing",
+        "Zhiqiang Tan",
+        "Yiming Yin",
+        "Yeqing Zhang",
+        "Yaoyuan Wang",
+        "Qiang Wang",
+        "Xiaowen Chu",
+        "Shaohuai Shi"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.DC",
+        "cs.NI",
+        "cs.PF"
+      ],
+      "published": "2026-06-23T09:59:35+00:00",
+      "link": "https://arxiv.org/pdf/2606.24369v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "post-training via RL for visual generative LLMs with diffusion parallelism",
+      "llm_evidence_cn": "使用扩散并行和生成器辅助加速视觉生成LLM的后训练",
+      "llm_evidence": "使用扩散并行和生成器辅助加速视觉生成LLM的后训练",
+      "canonical_evidence": "使用扩散并行和生成器辅助加速视觉生成LLM的后训练",
+      "llm_tldr_en": "Proposes a disaggregated RL system for visual generative models, using diffusion-based parallelism and trainer-assisted generation to accelerate post-training, applicable to video generation.",
+      "llm_tldr_cn": "当前扩散生成模型的后训练效率受限于colocated执行方式，资源耦合且扩展受限。本文提出一种解耦的RL系统，利用扩散并行和生成器辅助生成加速视觉生成LLM的后训练。实验表明该方法显著提升训练吞吐，为视频生成模型的高效后训练提供了新思路。",
+      "llm_tldr": "当前扩散生成模型的后训练效率受限于colocated执行方式，资源耦合且扩展受限。本文提出一种解耦的RL系统，利用扩散并行和生成器辅助生成加速视觉生成LLM的后训练。实验表明该方法显著提升训练吞吐，为视频生成模型的高效后训练提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

@@ -6,53 +6,44 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-23
-- 运行时间：2026-06-23 22:28:51 UTC
+- 最新运行日期：2026-06-24
+- 运行时间：2026-06-24 22:09:10 UTC
 - 运行状态：成功
-- 本次总论文数：11
-- 精读区：5
-- 速读区：6
+- 本次总论文数：8
+- 精读区：3
+- 速读区：5
 
 ### 今日简报（AI）
-今日共推荐11篇论文，精读5篇，速读6篇，聚焦视频生成与实时头像技术。最值得关注的是《CoDMD》的Copula感知蒸馏加速视频生成及《InteractiveAvatar》的实时一致头像生成。建议关注视频生成蒸馏优化与实时交互方向，后续可留意多模态应用落地。
-- 详情：[/202606/23/README](/202606/23/README)
+今日聚焦视频生成多样性提升与视觉Transformer易用化，精读两篇高分论文。最值得关注Data-Forcing蒸馏技术（10分）解决少步视频生成的保真与多样性，以及TuringViT（9分）降低SOTA ViT使用门槛。建议深入阅读这两篇精读论文以掌握前沿方向。
+- 详情：[/202606/24/README](/202606/24/README)
 
 ### 精读区论文标签
-1. [CoDMD: Copula-aware Distribution Matching Distillation for Fast Video Generation](/202606/23/2606.21982v1-codmd-copula-aware-distribution-matching-distillation-for-fast-video-generation)  
-   标签：评分：9.0/10、query:vd
-   evidence：视频扩散模型的少步蒸馏；改善布局稳定性和运动动态
-2. [InteractiveAvatar: Real-Time Streaming Video Generation for Consistent and Intent-Aware Avatars](/202606/23/2606.22905v1-interactiveavatar-real-time-streaming-video-generation-for-consistent-and-intent-aware-avatars)  
+1. [Data-Forcing Distillation: Restoring Diversity and Fidelity in Few-Step Video Generation](/202606/24/2606.18478v2-data-forcing-distillation-restoring-diversity-and-fidelity-in-few-step-video-generation)  
+   标签：评分：10.0/10、query:vd
+   evidence：数据强迫蒸馏恢复少步视频生成的多样性和保真度
+2. [TuringViT: Making SOTA Vision Transformers Accessible to All](/202606/24/2606.24253v1-turingvit-making-sota-vision-transformers-accessible-to-all)  
    标签：评分：9.0/10、query:fast-gen
-   evidence：使用自回归蒸馏的实时流式视频生成
-3. [ScalingAttention: Discovering Intrinsic Sparse Attention Topology for Video Diffusion Transformers](/202606/23/2606.23019v1-scalingattention-discovering-intrinsic-sparse-attention-topology-for-video-diffusion-transformers)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：视频扩散Transformer的稀疏注意力
-4. [AoiZora: Topology-Aware Auto-Parallel Optimization for Inference of Diffusion Transformers](/202606/23/2606.17566v1-aoizora-topology-aware-auto-parallel-optimization-for-inference-of-diffusion-transformers)  
+   evidence：线性注意力用于高效视觉Transformer
+3. [Sol Video Inference Engine: Agent-Native Full-Stack Acceleration Framework for Efficient Video Generation](/202606/24/2606.23743v1-sol-video-inference-engine-agent-native-full-stack-acceleration-framework-for-efficient-video-generation)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：面向扩散Transformer低延迟推理的拓扑感知自动并行
-5. [Through the PRISM: Preference Representation in Intermediate States of Video Diffusion Models](/202606/23/2606.20310v1-through-the-prism-preference-representation-in-intermediate-states-of-video-diffusion-models)  
-   标签：评分：8.0/10、query:vd
-   evidence：从视频扩散模型的噪声潜变量中直接进行偏好表示的后训练
+   evidence：针对视频扩散推理的全栈加速框架
 
 ### 速读区论文标签
-1. [STAR: SpatioTemporal Adaptive Reward Allocation for Text-to-Image RL Post-Training](/202606/23/2606.17979v2-star-spatiotemporal-adaptive-reward-allocation-for-text-to-image-rl-post-training)  
+1. [ScalePredictor: Instance-aware Scale Learning for Accurate Quantization of Vision Transformers](/202606/24/2606.21947v1-scalepredictor-instance-aware-scale-learning-for-accurate-quantization-of-vision-transformers)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：针对视觉Transformer的动态量化框架
+2. [ZeroGVC: Zero-Shot Generative Video Compression with Autoregressive Diffusion Priors](/202606/24/2606.22371v1-zerogvc-zero-shot-generative-video-compression-with-autoregressive-diffusion-priors)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：通过零样本生成式视频压缩与扩散先验实现快速视频生成
+3. [Information-Theoretic Classifier-Free Guidance with Adaptive Schedule Optimization](/202606/24/2606.24025v1-information-theoretic-classifier-free-guidance-with-adaptive-schedule-optimization)  
    标签：评分：7.0/10、query:vd
-   evidence：针对扩散生成模型的RL后训练方法，可迁移至视频领域
-2. [SSD: Spatially Speculative Decoding Accelerates Autoregressive Image Generation](/202606/23/2606.20543v1-ssd-spatially-speculative-decoding-accelerates-autoregressive-image-generation)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：空间推测解码加速自回归图像生成，实现快速视觉生成
-3. [NullFlow: One-Step Generative Reconstruction](/202606/23/2606.22696v1-nullflow-one-step-generative-reconstruction)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：使用流匹配的一步生成式重建
-4. [OrthoMotion:Disentangling Camera and Subject Motion via Geometry Semantics Orthogonal Attention](/202606/23/2606.22835v1-orthomotiondisentangling-camera-and-subject-motion-via-geometry-semantics-orthogonal-attention)  
+   evidence：通过CFG调度优化提升多样性
+4. [Accelerating Disaggregated RL for Visual Generative LLMs with Diffusion-Based Parallelism and Trainer-Assisted Generation](/202606/24/2606.24369v1-accelerating-disaggregated-rl-for-visual-generative-llms-with-diffusion-based-parallelism-and-trainer-assisted-generation)  
    标签：评分：7.0/10、query:vd
-   evidence：通过几何语义正交注意力在可控视频生成中解耦相机与主体运动
-5. [Keep The Essentials: Efficient Reference Conditioned Generation via Token Dropping](/202606/23/2606.23682v1-keep-the-essentials-efficient-reference-conditioned-generation-via-token-dropping)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：稀疏上下文实现高效参考条件生成
-6. [Semantic Browsing: Controllable Diversity for Image Generation](/202606/23/2606.23679v1-semantic-browsing-controllable-diversity-for-image-generation)  
+   evidence：使用扩散并行和生成器辅助加速视觉生成LLM的后训练
+5. [LooseControlVideo: Directorial Video Control using Spatial Blocking](/202606/24/2606.19495v1-loosecontrolvideo-directorial-video-control-using-spatial-blocking)  
    标签：评分：6.0/10、query:vd
-   evidence：图像生成中的多样性增强
+   evidence：通过微调视频生成模型的后训练方法
 
 
 <div class="dpr-home-promo-card">
