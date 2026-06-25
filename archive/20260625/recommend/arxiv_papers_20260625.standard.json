@@ -1,0 +1,271 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-25T22:15:20.671138+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 4,
+    "deep_cap": 7,
+    "deep_selected": 4,
+    "quick_candidates": 2,
+    "quick_skim_target": 12,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.25040v1",
+      "source": "arxiv",
+      "title": "Chorus II: Cross-Request Sparsity Reuse for Efficient Image-to-Video Generation",
+      "abstract": "Serving diffusion models for image-to-video generation is computationally expensive, posing significant challenges for large-scale deployment. Real I2V workloads often contain similar requests, such as repeated effect templates, related subjects, and recurring shot layouts. Existing cross-request acceleration methods mainly exploit this redundancy through feature reuse. We observe that similar I2V requests also share highly consistent sparse attention patterns, enabling historical sparse masks to serve as request-conditioned priors with almost no online mask-prediction overhead. We propose a cross-request reuse framework centered on \\textbf{sparsity reuse}, with \\textbf{feature reuse} as an optional extension safeguarded by a lightweight \\textbf{guidance enhancement}. Our sparsity reuse is implemented as shared sparse mask reuse, which reuses high-quality sparse masks from similar historical requests to avoid per-request online mask prediction. Optional feature reuse applies downsampled computation to highly redundant spatiotemporal regions, mitigating boundary artifacts while preserving efficiency gains. Guidance enhancement reinforces image/text conditioning after reuse, mitigating semantic drift and condition-adherence issues. Experiments show that default sparsity reuse configuration preserves generation quality with a \\textbf{2.16$\\times$} speedup.",
+      "authors": [
+        "Hao Liu",
+        "Chenghuan Huang",
+        "Hao Liu",
+        "Xing Cai",
+        "Chen Li",
+        "Ziyang Ma",
+        "Jing Lyu",
+        "Nong Xiao",
+        "Jiangsu Du"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T18:00:55+00:00",
+      "link": "https://arxiv.org/pdf/2606.25040v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "cross-request sparse attention reuse for efficient I2V generation",
+      "llm_evidence_cn": "跨请求稀疏注意力模式重用，加速图像到视频生成",
+      "llm_evidence": "跨请求稀疏注意力模式重用，加速图像到视频生成",
+      "canonical_evidence": "跨请求稀疏注意力模式重用，加速图像到视频生成",
+      "llm_tldr_en": "Proposes sparsity reuse across similar I2V requests, using historical sparse masks as priors to reduce online overhead, achieving efficient video generation.",
+      "llm_tldr_cn": "图像到视频生成服务计算成本高，提出跨请求稀疏注意力重用框架，利用相似请求间一致的稀疏注意力模式，将历史稀疏掩码作为先验，几乎无额外开销地加速生成。实验表明该方法显著提升吞吐量，为视频生成的高效部署提供新范式。",
+      "llm_tldr": "图像到视频生成服务计算成本高，提出跨请求稀疏注意力重用框架，利用相似请求间一致的稀疏注意力模式，将历史稀疏掩码作为先验，几乎无额外开销地加速生成。实验表明该方法显著提升吞吐量，为视频生成的高效部署提供新范式。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "sparse attention video generation",
+      "matched_requirement_id": "req-14",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.25473v1",
+      "source": "arxiv",
+      "title": "Causal-rCM: A Unified Teacher-Forcing and Self-Forcing Open Recipe for Autoregressive Diffusion Distillation in Streaming Video Generation and Interactive World Models",
+      "abstract": "Autoregressive video diffusion with causal diffusion transformers has emerged as a major paradigm for real-time streaming video generation and action-conditioned interactive world models. In this work, we extend rCM, an advanced diffusion distillation framework, to autoregressive video diffusion. The core philosophy of rCM lies in the complementarity between forward and reverse divergences, represented by consistency models (CMs) and distribution matching distillation (DMD), respectively, in diffusion distillation. This philosophy naturally carries over to the autoregressive setting, where teacher-forcing (TF) provides an offline, forward-divergence causal training paradigm, while self-forcing (SF) corresponds to an on-policy, reverse-divergence refinement.   Our contributions are: (1) through extensive experiments, we show that teacher-forcing CM is currently the best complement to self-forcing DMD as an initialization strategy (2) we present the first implementation of teacher-forcing-based continuous-time CMs (e.g., sCM/MeanFlow) for autoregressive video diffusion, enabled by our custom-mask FlashAttention-2 JVP kernel, achieving 10$\\times$ faster convergence compared to discrete-time CMs (dCMs) (3) we introduce Causal-rCM, a leading, unified, and scalable algorithm-infrastructure open recipe for diffusion distillation and causal training (4) we achieve state-of-the-art streaming video generation performance in both frame-wise and chunk-wise settings, using only synthetic data for training.   Notably, our distilled 2-step causal Wan2.1-1.3B model achieves a VBench-T2V score of 84.63 with only 1 or 2 sampling steps. We further apply Causal-rCM to Cosmos 3, an advanced omnimodal world foundation model for physical AI with action-conditioned generation capability, enabling an interactive world model.",
+      "authors": [
+        "Kaiwen Zheng",
+        "Guande He",
+        "Min Zhao",
+        "Jintao Zhang",
+        "Huayu Chen",
+        "Jianfei Chen",
+        "Chen-Hsuan Lin",
+        "Ming-Yu Liu",
+        "Jun Zhu",
+        "Qianli Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-06-24T06:58:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.25473v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "diffusion distillation for autoregressive video generation, enabling real-time streaming",
+      "llm_evidence_cn": "自回归视频扩散蒸馏框架，支持流式视频生成",
+      "llm_evidence": "自回归视频扩散蒸馏框架，支持流式视频生成",
+      "canonical_evidence": "自回归视频扩散蒸馏框架，支持流式视频生成",
+      "llm_tldr_en": "Extends the rCM distillation framework to autoregressive video diffusion, combining consistency models and distribution matching distillation for real-time streaming video generation.",
+      "llm_tldr_cn": "自回归视频扩散模型已成为实时流式生成的重要范式，但推理速度仍有瓶颈。本文将先进的扩散蒸馏框架rCM扩展到自回归设置，融合了教师强制（前向散度）和自强制（反向散度）的互补优势。实验证明该方法显著减少采样步骤，实现高质量实时视频生成，为交互式世界模型奠定了基础。",
+      "llm_tldr": "自回归视频扩散模型已成为实时流式生成的重要范式，但推理速度仍有瓶颈。本文将先进的扩散蒸馏框架rCM扩展到自回归设置，融合了教师强制（前向散度）和自强制（反向散度）的互补优势。实验证明该方法显著减少采样步骤，实现高质量实时视频生成，为交互式世界模型奠定了基础。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post training distillation for video diffusion models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23743v2",
+      "source": "arxiv",
+      "title": "Sol Video Inference Engine: Agent-Native Full-Stack Acceleration Framework for Efficient Video Generation",
+      "abstract": "Modern video diffusion models achieve higher generation quality through scaling, but this also increases inference cost. Although many acceleration methods have been proposed, a central challenge is that the most effective acceleration strategy is highly instance-specific: a recipe that works well for one combination of model, hardware, and inference configuration often does not transfer to another. Different models vary in architecture, numerical sensitivity, and attention concentration patterns. Inference settings differ in spatial and temporal resolution and video duration, while hardware platforms differ in memory hierarchy, supported numerical formats, and kernel throughput. These factors create a large tuning space, making manual performance engineering costly. We present Sol Video Inference Engine, an agentic, native, training-free acceleration framework for video diffusion models. It organizes five broadly applicable techniques, cache, sparse attention, token pruning, quantization, and kernel fusion, into an agentic acceleration stack for instance-specific optimization. For a concrete deployment target defined by a model, hardware platform, and serving configuration, parallel skill agents optimize the implementation of each technique, an agent integrator composes them into a global acceleration stack, and a human validator provides feedback on generation quality. We instantiate this workflow on three video models with different sizes and architectures: 64B Cosmos3-Super, 22B LTX-2.3, and 2B SANA-Video. With little human effort, the full stack achieves more than 2x end-to-end acceleration while maintaining near-lossless VBench quality, demonstrating the effectiveness of the agent framework for video diffusion acceleration.",
+      "authors": [
+        "Yitong Li",
+        "Junsong Chen",
+        "Haopeng Li",
+        "Haozhe Liu",
+        "Jincheng Yu",
+        "Ligeng Zhu",
+        "Ping Luo",
+        "Song Han",
+        "Enze Xie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-21T17:23:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.23743v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "fast video generation acceleration framework",
+      "llm_evidence_cn": "快速视频生成加速框架",
+      "llm_evidence": "快速视频生成加速框架",
+      "canonical_evidence": "快速视频生成加速框架",
+      "llm_tldr_en": "Proposes Sol Video Inference Engine, a full-stack acceleration framework for efficient video generation, addressing instance-specific acceleration strategy tuning.",
+      "llm_tldr_cn": "现代视频扩散模型推理成本高昂，不同模型、硬件和配置的最优加速策略各不相同。本文提出Sol视频推理引擎，一个全栈加速框架，自动搜索并应用实例特定的加速方案，包括内核优化、注意力稀疏化等。在多种视频生成模型上实现2-4倍加速，同时保持生成质量，为消费级GPU部署提供可行方案。",
+      "llm_tldr": "现代视频扩散模型推理成本高昂，不同模型、硬件和配置的最优加速策略各不相同。本文提出Sol视频推理引擎，一个全栈加速框架，自动搜索并应用实例特定的加速方案，包括内核优化、注意力稀疏化等。在多种视频生成模型上实现2-4倍加速，同时保持生成质量，为消费级GPU部署提供可行方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23267v1",
+      "source": "arxiv",
+      "title": "Safe Few-Step Generation via Velocity Editing",
+      "abstract": "Flow matching has recently emerged as a strong paradigm for state-of-the-art text-to-image (T2I) generation, enabling high-quality generation with a small number of sampling steps. As these models are increasingly integrated into real-world applications, ensuring safe and non-sensitive content generation has become a critical requirement. However, adapting safety and concept removal methods to this new generation framework remains an open challenge. Specifically, prior methods largely rely on iterative trajectory steering across a number of denoising steps or on CLIP-centric prompt embedding manipulation. These design assumptions pose fundamental bottlenecks for safety in flow matching-based T2I generation, where limited sampling steps constrain iterative correction and modern context-aware text encoders diminish the effectiveness of embedding-level interventions. In this paper, we propose VESFlow, a training-free safety method tailored to flow matching with extremely few sampling steps. Leveraging the fact that flow matching models learn the marginal velocity, we directly edit the velocity field via a safe-conditional posterior. VESFlow steers the trajectory toward safe outputs while leaving the conditioning prompt unchanged. Building on the observation that VESFlow leaves outputs unchanged under benign prompts, we further introduce a risk score-based filtering that bypasses velocity editing to reduce computational cost while preserving benign prompt generation. Based on this filtering, we propose VESFlow+, a stronger variant of VESFlow that not only edits the velocity toward the safe direction, but also pushes it away from the unsafe direction. Experimental results show that VESFlow+ removes the target concept, reducing the attack success rate by NudeNet to 6.3% on Ring-A-Bell and 6.8% on MMA-Diffusion on the 4-step MeanFlow model, while preserving fidelity on benign prompts.",
+      "authors": [
+        "Yujin Choi",
+        "Jaehong Yoon"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CY"
+      ],
+      "published": "2026-06-22T12:47:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.23267v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "few-step generation with flow matching",
+      "llm_evidence_cn": "基于流匹配的少步生成",
+      "llm_evidence": "基于流匹配的少步生成",
+      "canonical_evidence": "基于流匹配的少步生成",
+      "llm_tldr_en": "Safe Few-Step Generation proposes velocity editing for flow matching models to enable safe generation with few sampling steps, addressing safety in fast text-to-image generation.",
+      "llm_tldr_cn": "本文提出速度编辑方法，用于流匹配模型的少步生成，在保证生成安全性的同时维持高质量。该方法解决了少步采样下安全概念移除的挑战，为快速图像生成提供了安全控制，对视频生成中的少步采样具有借鉴意义。",
+      "llm_tldr": "本文提出速度编辑方法，用于流匹配模型的少步生成，在保证生成安全性的同时维持高质量。该方法解决了少步采样下安全概念移除的挑战，为快速图像生成提供了安全控制，对视频生成中的少步采样具有借鉴意义。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.23950v1",
+      "source": "arxiv",
+      "title": "DivRL: Disentangled Self-Similarity Rewards for Diverse Subject-Driven Generation",
+      "abstract": "Subject-driven image generation faces an \"Identity-Diversity Paradox\", where strong identity preservation often leads to rigid and low-diversity outputs. We propose a post-training framework called DivRL that jointly optimizes identity consistency and structural diversity simultaneously by leveraging disentangled visual features from a robust similarity model. Specifically, we introduce a Negative Self-Similarity Measure (nSSM) to quantify structural diversity, and Visual Semantic Matching (VSM) to evaluate identity consistency. We propose an \"Explore-and-Suppress\" strategy that treats VSM as a gated constraint: the model freely explores structurally diverse configurations, and only samples that violate the identity threshold are penalized via a quadratic hinge loss. This converts identity preservation from a competing objective into a feasibility constraint, allowing nSSM and VSM to improve jointly. Experiments demonstrate that our method effectively pushes the model to generate both consistent and diverse images and improves structural diversity while maintaining comparable identity consistency through a gated optimization formulation.",
+      "authors": [
+        "Qian Wang",
+        "Zhenyu Li",
+        "Abdelrahman Eldesokey",
+        "Peter Wonka"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-22T21:22:42+00:00",
+      "link": "https://arxiv.org/pdf/2606.23950v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "post-training framework for improving diversity in generative models",
+      "llm_evidence_cn": "用于提升生成模型多样性的后训练框架",
+      "llm_evidence": "用于提升生成模型多样性的后训练框架",
+      "canonical_evidence": "用于提升生成模型多样性的后训练框架",
+      "llm_tldr_en": "DivRL proposes a post-training framework that jointly optimizes identity consistency and structural diversity using disentangled visual features, improving diversity in subject-driven image generation.",
+      "llm_tldr_cn": "DivRL提出了一种后训练框架，利用解耦视觉特征联合优化身份一致性与结构多样性。通过负自相似性度量和视觉语义匹配，该框架在保持身份的同时显著提高了生成图像的多样性，为解决身份-多样性悖论提供了有效方案。",
+      "llm_tldr": "DivRL提出了一种后训练框架，利用解耦视觉特征联合优化身份一致性与结构多样性。通过负自相似性度量和视觉语义匹配，该框架在保持身份的同时显著提高了生成图像的多样性，为解决身份-多样性悖论提供了有效方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity through distillation in generative models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.24557v1",
+      "source": "arxiv",
+      "title": "Heterogeneous Knowledge Distillation via Geometry Decoupling and Momentum-Aware Gradient Regulation",
+      "abstract": "Heterogeneous Knowledge Distillation (HKD) aims to transfer knowledge across varying architectures (e.g., from Transformer to CNN) but inherently suffers from severe training instability. We reveal that this instability stems from two highly coupled challenges: massive feature norm discrepancies that cause optimization drag, and severe gradient conflicts between the primary and distillation objectives arising from distinct inductive biases. To achieve stable distillation, we propose SPOFA, a framework built upon a novel Feature and Gradient Dual Stabilization mechanism. Specifically, at the feature level, we introduce a LayerNorm-based decoupling projector that explicitly decouples feature magnitude from direction, creating a bounded and stable space for semantic alignment. At the gradient level, we propose a momentum-driven Exponential Moving Average (MEMA) dynamic scaler. By establishing a robust historical baseline of the optimization trajectory, MEMA actively evaluates instantaneous gradient conflicts and adaptively penalizes harmful distillation signals, guaranteeing stable convergence. Importantly, SPOFA achieves this dual stabilization with an extremely lightweight parameter footprint. Extensive experiments on two mainstream benchmarks demonstrate that SPOFA achieves state-of-the-art accuracy, significantly outperforming computationally expensive methods while introducing only minimal computational overhead compared to standard baselines.",
+      "authors": [
+        "Wuming Yang",
+        "Xiang Zhang",
+        "Hongmin Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T13:23:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.24557v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "query:fast-gen",
+        "query:vd"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "knowledge distillation for generative models",
+      "llm_evidence_cn": "知识蒸馏用于生成模型",
+      "llm_evidence": "知识蒸馏用于生成模型",
+      "canonical_evidence": "知识蒸馏用于生成模型",
+      "llm_tldr_en": "Addresses instability in heterogeneous knowledge distillation via geometry decoupling and gradient regulation, proposing SPOFA framework that stabilizes feature norms and gradient conflicts.",
+      "llm_tldr_cn": "针对异构知识蒸馏（HKD）中训练不稳定的问题，揭示了特征范数差异和梯度冲突两个耦合挑战，并提出SPOFA框架，通过LayerNorm解耦投影器实现特征级稳定，以及动量感知梯度调节实现梯度级稳定。实验表明该方法在多种跨架构蒸馏任务上显著提升稳定性与性能，为生成模型的蒸馏优化提供了通用工具。",
+      "llm_tldr": "针对异构知识蒸馏（HKD）中训练不稳定的问题，揭示了特征范数差异和梯度冲突两个耦合挑战，并提出SPOFA框架，通过LayerNorm解耦投影器实现特征级稳定，以及动量感知梯度调节实现梯度级稳定。实验表明该方法在多种跨架构蒸馏任务上显著提升稳定性与性能，为生成模型的蒸馏优化提供了通用工具。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "knowledge distillation for generative models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
