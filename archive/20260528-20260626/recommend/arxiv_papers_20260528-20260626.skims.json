@@ -1,0 +1,905 @@
+{
+  "mode": "skims",
+  "generated_at": "2026-06-26T01:43:40.340180+00:00",
+  "stats": {
+    "mode": "skims",
+    "forced_all_quick": true,
+    "min_score": 8.0,
+    "deep_divecandidates": 21,
+    "deep_cap": null,
+    "deep_selected": 0,
+    "quick_candidates": 21,
+    "quick_skim_target": null,
+    "quick_selected": 21
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.24336v1",
+      "source": "arxiv",
+      "title": "TIGER: Taming Identity, Geometry, and Generative Priors for High-Quality Face Video Restoration",
+      "abstract": "Face Video Restoration (FVR) aims to recover high-fidelity facial videos from degraded input while preserving identity and semantic consistency across frames. Existing methods often struggle to simultaneously address three key challenges: identity shift, viewpoint-entangled guidance, and perceptual realism. To tackle these issues, we propose TIGER, a structured tri-prior fusion framework that Tames Identity, Geometry, and gEnerative pRiors for high-quality FVR. Specifically, an Identity Prior is first established by injecting subject-discriminative embeddings into the latent space, effectively anchoring the subject's identity against severe degradations. Then, to provide temporally consistent structural guidance for dynamic videos, TIGER constructs a Geometry Prior by lifting 2D reference cues into a disentangled 3D parameter space, creating a geometric anchor through cross-source parameter fusion. Moreover, to achieve maximum efficiency without compromising realism, we harness the video generation model's Generative Prior through a one-step rectified flow. We further design a progressive three-stage training optimization strategy that refines structural fidelity, textural reconstruction, and distribution-level realism to ensure robust optimization. We also construct a large-scale FVR dataset to facilitate robust training and standardized evaluation. Extensive experiments demonstrate that TIGER achieves state-of-the-art performance in both identity fidelity and temporal stability, delivering a high-quality, efficient and identity-consistent FVR. Project page: https://yzhoulv.github.io/Tiger/.",
+      "authors": [
+        "Yang Zhou",
+        "Wenxue Li",
+        "Peng Zhang",
+        "Yifei Chen",
+        "Fei Wang",
+        "Daiguo Zhou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T09:21:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.24336v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "face video restoration for generative outputs",
+      "llm_evidence_cn": "人脸视频恢复作为生成后处理",
+      "llm_evidence": "人脸视频恢复作为生成后处理",
+      "canonical_evidence": "人脸视频恢复作为生成后处理",
+      "llm_tldr_en": "TIGER proposes a tri-prior fusion framework for high-quality face video restoration, addressing identity shift and temporal consistency.",
+      "llm_tldr_cn": "本论文针对人脸视频恢复任务中身份偏移和视角纠缠等问题，提出TIGER框架，融合身份、几何和生成先验。通过注入身份嵌入和时空一致的结构引导，在严重退化下保持身份和语义一致性。实验证明该方法在身份保持和感知真实性上达到最优。该工作为生成视频的后处理提供了高质量恢复方案。",
+      "llm_tldr": "本论文针对人脸视频恢复任务中身份偏移和视角纠缠等问题，提出TIGER框架，融合身份、几何和生成先验。通过注入身份嵌入和时空一致的结构引导，在严重退化下保持身份和语义一致性。实验证明该方法在身份保持和感知真实性上达到最优。该工作为生成视频的后处理提供了高质量恢复方案。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video restoration for generative outputs",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30325v1",
+      "source": "arxiv",
+      "title": "Veda: Scalable Video Diffusion via Distilled Sparse Attention",
+      "abstract": "Scaling Diffusion Transformers to generate high-resolution, long videos is constrained by the quadratic cost of self-attention, and existing sparse attention methods degrade under high sparsity. We show empirically that generation quality is determined not by the sparsity ratio itself, but by how well the sparse mask aligns with the tile-wise geometry of full attention. Based on this insight, we propose Veda, a distilled sparse attention framework that formulates tile selection as an explicit reconstruction problem from full attention. Veda integrates statistics-aware tile scoring with head-aware tiling to reduce estimation error and structural mismatch, enabling aggressive sparsity. A hardware-efficient tile-skipping kernel converts theoretical sparsity into practical wall-clock speedups. Experiments on large video diffusion models, including Waver and Wan2.1, demonstrate substantial acceleration with no noticeable degradation in generation quality. To generate 720P 10-second videos on Waver-T2V-12B, Veda achieves a 5.1$\\times$ end-to-end speedup and a 10.5$\\times$ self-attention speedup, reducing attention overhead from 92% to 50%. Notably, the gains increase with sequence length, indicating that Veda scales favorably with spatiotemporal resolution across models.",
+      "authors": [
+        "Shihao Han",
+        "Hao Yang",
+        "Xinting Hu",
+        "Xiaofeng Mei",
+        "Yi Jiang",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-28T17:57:07+00:00",
+      "link": "https://arxiv.org/pdf/2605.30325v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "distilled sparse attention for efficient video diffusion",
+      "llm_evidence_cn": "蒸馏稀疏注意力用于高效视频扩散",
+      "llm_evidence": "蒸馏稀疏注意力用于高效视频扩散",
+      "canonical_evidence": "蒸馏稀疏注意力用于高效视频扩散",
+      "llm_tldr_en": "Veda proposes a distilled sparse attention framework with statistics-aware tile scoring and head-aware tiling, achieving aggressive sparsity while maintaining quality for video diffusion.",
+      "llm_tldr_cn": "针对扩散Transformer中自注意力二次复杂度限制高分辨率长视频生成的问题，提出Veda蒸馏稀疏注意力框架，通过将瓦片选择建模为从全注意力的显式重构，结合统计感知评分和头部感知瓦片化，实现激进稀疏性且保持质量，并设计了硬件高效内核，显著加速视频扩散模型。",
+      "llm_tldr": "针对扩散Transformer中自注意力二次复杂度限制高分辨率长视频生成的问题，提出Veda蒸馏稀疏注意力框架，通过将瓦片选择建模为从全注意力的显式重构，结合统计感知评分和头部感知瓦片化，实现激进稀疏性且保持质量，并设计了硬件高效内核，显著加速视频扩散模型。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30409v1",
+      "source": "arxiv",
+      "title": "SANA-Streaming: Real-time Streaming Video Editing with Hybrid Diffusion Transformer",
+      "abstract": "Real-time streaming video-to-video editing (V2V) is critical for interactive applications such as live broadcasting and gaming, yet it remains a formidable challenge due to the stringent requirements for temporal consistency and inference throughput. In this paper, we present SANA-Streaming, a system-algorithm co-designed framework for high-resolution, real-time streaming video editing on consumer GPUs, with the following three core designs: (1) Hybrid Diffusion Transformer architecture introduces softmax attention in part of the blocks to improve local modeling capabilities while preserving the efficiency of linear layers. (2) Cycle-Reverse Regularization is a novel training strategy that enforces semantic consistency by predicting source frames from generated content via flow matching, improving temporal consistency without requiring paired long edited videos. (3) Efficient System Co-design combines fused GDN kernels and Mixed-Precision Quantization (MPQ) optimized for the NVIDIA Blackwell (RTX 5090) architecture. By profiling real-world throughput, our MPQ maximizes Tensor Core utilization while maintaining generation quality. The resulting system achieves real-time 1280 x 704 resolution editing at 24 end-to-end FPS on a single RTX 5090 GPU, with the DiT core running at 58 FPS. Experimental results demonstrate that our co-design approach significantly outperforms existing SOTA methods in both temporal coherence and system throughput.",
+      "authors": [
+        "Yuyang Zhao",
+        "Yicheng Pan",
+        "Qiyuan He",
+        "Jincheng Yu",
+        "Junsong Chen",
+        "Tian Ye",
+        "Haozhe Liu",
+        "Enze Xie",
+        "Song Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-28T17:59:17+00:00",
+      "link": "https://arxiv.org/pdf/2605.30409v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "real-time streaming video editing on consumer GPUs with hybrid attention",
+      "llm_evidence_cn": "在消费级GPU上使用混合注意力实现实时流式视频编辑",
+      "llm_evidence": "在消费级GPU上使用混合注意力实现实时流式视频编辑",
+      "canonical_evidence": "在消费级GPU上使用混合注意力实现实时流式视频编辑",
+      "llm_tldr_en": "SANA-Streaming achieves real-time streaming video editing on consumer GPUs via a hybrid Diffusion Transformer with softmax and linear attention, plus cycle-reverse regularization for temporal consistency.",
+      "llm_tldr_cn": "为应对实时流式视频编辑在消费级GPU上的挑战，本文提出SANA-Streaming系统-算法协同框架。核心设计包括混合扩散Transformer架构，在部分块中引入softmax注意力以增强局部建模，同时保留线性层效率；以及循环逆正则化训练策略保证语义一致性。在消费级GPU上实现了高分辨率、实时视频编辑，时序一致性优异，为交互式应用打开了新可能。",
+      "llm_tldr": "为应对实时流式视频编辑在消费级GPU上的挑战，本文提出SANA-Streaming系统-算法协同框架。核心设计包括混合扩散Transformer架构，在部分块中引入softmax注意力以增强局部建模，同时保留线性层效率；以及循环逆正则化训练策略保证语义一致性。在消费级GPU上实现了高分辨率、实时视频编辑，时序一致性优异，为交互式应用打开了新可能。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30431v1",
+      "source": "arxiv",
+      "title": "DTG-Restore: Training-Free Diffusion Refinement for Generative Video Super-Resolution",
+      "abstract": "Recent progress in video diffusion models has enabled remarkable generative fidelity, yet leveraging these priors for restoration remains limited by the strong coupling between conditional and unconditional branches in standard classifier-free guidance. We introduce a training-free framework that enhances distorted and low-resolution videos by decoupling these signals in time. Our proposed Decoupled Time Guidance (DTG) evaluates the unconditional branch at a cleaner diffusion timestep, providing a lookahead prior that preserves geometry while suppressing replication of warped content. This temporal bias is annealed throughout sampling, allowing the model to transition from structure correction to detail refinement without retraining. Combined with any off-the-shelf restoration module in a plug-and-play manner, our approach improves perceptual coherence and restores plausible structure in AIgenerated and real-world videos alike. To facilitate evaluation, we curate GenWarp480, a benchmark of 4,400 distorted 480p videos synthesized from diverse text-to-video models. GenWarp480 focuses on characteristic generative degradations such as warped faces, body misalignments, and spatial artifacts, providing a purpose-built testbed for assessing robustness to generative errors. Extensive experiments demonstrate that our method achieves significant improvements in structural fidelity and temporal stability without any model training.",
+      "authors": [
+        "Hidir Yesiltepe",
+        "Koutilya PNVR",
+        "Gaurav Pathak",
+        "Navaneeth Bodla",
+        "Bharat Singh",
+        "Pinar Yanardag",
+        "Jinrong Xie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-28T18:00:14+00:00",
+      "link": "https://arxiv.org/pdf/2605.30431v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "training-free diffusion refinement for generative video super-resolution",
+      "llm_evidence_cn": "无训练扩散精炼用于生成式视频超分辨率",
+      "llm_evidence": "无训练扩散精炼用于生成式视频超分辨率",
+      "canonical_evidence": "无训练扩散精炼用于生成式视频超分辨率",
+      "llm_tldr_en": "DTG-Restore introduces Decoupled Time Guidance for training-free refinement of distorted and low-resolution videos, enabling structure correction and detail enhancement without retraining.",
+      "llm_tldr_cn": "针对视频扩散模型先验用于修复时条件与非条件分支强耦合的问题，提出无训练框架DTG-Restore，通过解耦时间引导（DTG）利用更干净步长的无条件分支作为前瞻先验，在无需重训的情况下逐步从结构修正过渡到细节增强，有效提升了生成式视频的超分辨率质量。",
+      "llm_tldr": "针对视频扩散模型先验用于修复时条件与非条件分支强耦合的问题，提出无训练框架DTG-Restore，通过解耦时间引导（DTG）利用更干净步长的无条件分支作为前瞻先验，在无需重训的情况下逐步从结构修正过渡到细节增强，有效提升了生成式视频的超分辨率质量。",
+      "llm_tags": [
+        "query:video-refine:composite"
+      ],
+      "matched_query_tag": "query:video-refine:composite",
+      "matched_query_text": "Papers central to 请帮我查找与video refiner以及video super resolution相关的paper，用于增强视频生成后的质量, especially work that connects or combines: video refinement techniques for generated videos; video super resolution methods for quality enhancement; video restoration for generative outputs; How to refine videos generated by AI models to improve visual quality; What are the state of the art video super resolution methods applied to synthesis results; Techniques for removing artifacts and enhancing details in generated videos; Post generation video processing for temporal coherence and sharpness.",
+      "matched_requirement_id": "req-composite-video-refine",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.03972v1",
+      "source": "arxiv",
+      "title": "AAD-1: Asymmetric Adversarial Distillation for One-Step Autoregressive Video Generation",
+      "abstract": "We present AAD-1, an Asymmetric Adversarial Distillation framework for One-step autoregressive image-to-video generation. State-of-the-art methods adopt adversarial distillation but suffer from motion collapse and training instability, resulting in static videos. AAD-1 addresses these challenges through two key designs in architecture and training strategy. Our key architectural insight is to break the symmetry between generator and discriminator. While the generator remains causal to preserve autoregressive sampling capability, the discriminator attends bidirectionally over the full spatiotemporal context and produces a single holistic realism score for the entire video sequence. This asymmetric design enables the discriminator to effectively detect global temporal failures and long-range drift that cause motion collapse in autoregressive generation. To stabilize training, we introduce a phased strategy that first uses distribution matching to bootstrap a stable one-step generator, providing a warm-up phase that brings the student distribution closer to the teacher before adversarial distillation begins. Extensive experiments on VBench demonstrate that AAD-1 achieves state-of-the-art performance in one-step autoregressive video generation.",
+      "authors": [
+        "Haobo Li",
+        "Yanhong Zeng",
+        "Yunhong Lu",
+        "Jiapeng Zhu",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Ka Leong Cheng",
+        "Yujun Shen",
+        "Zhipeng Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-02T17:55:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.03972v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "one-step adversarial distillation for fast video generation on consumer GPUs",
+      "llm_evidence_cn": "用于消费级GPU上快速视频生成的一步对抗蒸馏",
+      "llm_evidence": "用于消费级GPU上快速视频生成的一步对抗蒸馏",
+      "canonical_evidence": "用于消费级GPU上快速视频生成的一步对抗蒸馏",
+      "llm_tldr_en": "AAD-1 uses asymmetric adversarial distillation to achieve one-step autoregressive video generation, overcoming motion collapse and training instability for high-quality fast video generation.",
+      "llm_tldr_cn": "针对现有自回归视频生成模型在单步蒸馏中出现的运动坍塌和训练不稳定问题，本文提出非对称对抗蒸馏框架AAD-1。通过打破生成器与判别器的对称性，生成器保持因果性以支持自回归采样，判别器采用双向时空注意力产生整体真实度评分。实验表明，AAD-1在单步推理下生成高质量、高动态视频，有效避免了静态输出，为高效视频生成提供了新方案。",
+      "llm_tldr": "针对现有自回归视频生成模型在单步蒸馏中出现的运动坍塌和训练不稳定问题，本文提出非对称对抗蒸馏框架AAD-1。通过打破生成器与判别器的对称性，生成器保持因果性以支持自回归采样，判别器采用双向时空注意力产生整体真实度评分。实验表明，AAD-1在单步推理下生成高质量、高动态视频，有效避免了静态输出，为高效视频生成提供了新方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.03972v2",
+      "source": "arxiv",
+      "title": "AAD-1: Asymmetric Adversarial Distillation for One-Step Autoregressive Video Generation",
+      "abstract": "We present AAD-1, an Asymmetric Adversarial Distillation framework for One-step autoregressive image-to-video generation. State-of-the-art methods adopt adversarial distillation but suffer from motion collapse and training instability, resulting in static videos. AAD-1 addresses these challenges through two key designs in architecture and training strategy. Our key architectural insight is to break the symmetry between generator and discriminator. While the generator remains causal to preserve autoregressive sampling capability, the discriminator attends bidirectionally over the full spatiotemporal context and produces a single holistic realism score for the entire video sequence. This asymmetric design enables the discriminator to effectively detect global temporal failures and long-range drift that cause motion collapse in autoregressive generation. To stabilize training, we introduce a phased strategy that first uses distribution matching to bootstrap a stable one-step generator, providing a warm-up phase that brings the student distribution closer to the teacher before adversarial distillation begins. Extensive experiments on VBench demonstrate that AAD-1 achieves state-of-the-art performance in one-step autoregressive video generation.",
+      "authors": [
+        "Haobo Li",
+        "Yanhong Zeng",
+        "Yunhong Lu",
+        "Jiapeng Zhu",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Ka Leong Cheng",
+        "Yujun Shen",
+        "Zhipeng Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-02T17:55:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.03972v2",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "one-step adversarial distillation for fast video generation on consumer GPUs",
+      "llm_evidence_cn": "用于消费级GPU上快速视频生成的一步对抗蒸馏",
+      "llm_evidence": "用于消费级GPU上快速视频生成的一步对抗蒸馏",
+      "canonical_evidence": "用于消费级GPU上快速视频生成的一步对抗蒸馏",
+      "llm_tldr_en": "AAD-1 uses asymmetric adversarial distillation to achieve one-step autoregressive video generation, overcoming motion collapse and training instability for high-quality fast video generation.",
+      "llm_tldr_cn": "针对现有自回归视频生成模型在单步蒸馏中出现的运动坍塌和训练不稳定问题，本文提出非对称对抗蒸馏框架AAD-1。通过打破生成器与判别器的对称性，生成器保持因果性以支持自回归采样，判别器采用双向时空注意力产生整体真实度评分。实验表明，AAD-1在单步推理下生成高质量、高动态视频，有效避免了静态输出，为高效视频生成提供了新方案。",
+      "llm_tldr": "针对现有自回归视频生成模型在单步蒸馏中出现的运动坍塌和训练不稳定问题，本文提出非对称对抗蒸馏框架AAD-1。通过打破生成器与判别器的对称性，生成器保持因果性以支持自回归采样，判别器采用双向时空注意力产生整体真实度评分。实验表明，AAD-1在单步推理下生成高质量、高动态视频，有效避免了静态输出，为高效视频生成提供了新方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.04432v1",
+      "source": "arxiv",
+      "title": "DSA: Dynamic Step Allocation for Fast Autoregressive Video Generation",
+      "abstract": "Video diffusion transformers have achieved state-of-the-art visual quality, but their high inference cost remains a major bottleneck for real-time applications. Recent distillation frameworks produce autoregressive video diffusion models with reduced latency, yet these models still use a fixed number of denoising steps per frame, wasting computation on predictable frames and under-refining challenging ones. We present DSA, a confidence-guided adaptive computation framework for AR video diffusion. DSA introduces a lightweight confidence head, trained jointly with the generator under a distribution-matching distillation objective, to estimate per-frame denoising reliability. At inference, this confidence signal dynamically adjusts the number of diffusion steps: simple frames terminate early for speed, while complex frames receive additional refinement. Our method requires no extra video data, no heuristics, and little architectural modification. Experiments show that DSA achieves real-time autoregressive video generation, reaching 22.63 FPS with sub-second latency on H100 GPUs, while maintaining competitive or superior VBench quality compared to recent autoregressive and bidirectional video diffusion models. Our results demonstrate that confidence-guided adaptive sampling provides an effective and practical path toward interactive video generation.",
+      "authors": [
+        "Thanh-Tung Le",
+        "Yunhan Zhao",
+        "Menglei Chai",
+        "Zhengyang Shen",
+        "Zhe Cao",
+        "Danhang Tang",
+        "Xiaohui Xie",
+        "Deying Kong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-03T04:25:11+00:00",
+      "link": "https://arxiv.org/pdf/2606.04432v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "distillation-based adaptive step allocation for fast AR video generation",
+      "llm_evidence_cn": "基于蒸馏的自适应步数分配加速自回归视频生成",
+      "llm_evidence": "基于蒸馏的自适应步数分配加速自回归视频生成",
+      "canonical_evidence": "基于蒸馏的自适应步数分配加速自回归视频生成",
+      "llm_tldr_en": "Introduces confidence-guided adaptive denoising step allocation for autoregressive video diffusion, trained with distribution-matching distillation, reducing latency without sacrificing quality.",
+      "llm_tldr_cn": "本文针对视频扩散Transformer推理成本高的问题，提出DSA框架，通过轻量级置信度头联合生成器在分布匹配蒸馏目标下训练，动态调整每帧去噪步数。该方法在保持视频质量的同时显著减少推理时间，为实时视频生成提供了有效方案。",
+      "llm_tldr": "本文针对视频扩散Transformer推理成本高的问题，提出DSA框架，通过轻量级置信度头联合生成器在分布匹配蒸馏目标下训练，动态调整每帧去噪步数。该方法在保持视频质量的同时显著减少推理时间，为实时视频生成提供了有效方案。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09250v1",
+      "source": "arxiv",
+      "title": "LiteVSR: Lightweight Adaptation of Frozen Diffusion Transformers for Video Super-Resolution",
+      "abstract": "Adapting large-scale pre-trained video generators for Video Super-Resolution (VSR) in novel domains remains computationally prohibitive. Methods that reformulate generation as direct Low-Quality to High-Quality mappings deviate from the original generative formulation, demanding extensive fine-tuning. ControlNet-style adapters lose their efficiency under modern Diffusion Transformers since the absence of encoder-decoder hierarchy forces duplication of the entire backbone. We observe that flow matching offers a principled alternative for cross-domain VSR adaptation. By predicting a constant velocity field across all timesteps, the adaptation task reduces to learning a fixed injection pattern rather than time-varying transformations. Building on this insight, we propose LiteVSR, a minimalist framework that performs VSR using a completely frozen Diffusion Transformer with a lightweight State-Aware Adapter. The adapter employs a dual-stream architecture that extracts static structural cues from the LQ input and dynamic cues from intermediate denoising states, aligning them through time-dependent cross-attention to enable adaptive transition from structural alignment to texture refinement as denoising proceeds. LiteVSR achieves competitive restoration quality with only 11.25% trainable parameters and 12 GPU-hours of training on a single A100, while maintaining fast sampling (down to a single step) compatibility.",
+      "authors": [
+        "Yu Cao",
+        "Ziquan Liu",
+        "Zhensong Zhang",
+        "Jiankang Deng",
+        "Shaogang Gong",
+        "Jifei Song"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T09:23:42+00:00",
+      "link": "https://arxiv.org/pdf/2606.09250v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "video super resolution using frozen diffusion transformers with lightweight adaptation",
+      "llm_evidence_cn": "利用冻结扩散变换器的轻量级视频超分辨率方法",
+      "llm_evidence": "利用冻结扩散变换器的轻量级视频超分辨率方法",
+      "canonical_evidence": "利用冻结扩散变换器的轻量级视频超分辨率方法",
+      "llm_tldr_en": "LiteVSR adapts frozen video generators for video super-resolution via flow matching, enabling efficient cross-domain VSR without full model duplication.",
+      "llm_tldr_cn": "针对冻结扩散变换器在视频超分辨率（VSR）中适配成本高的问题，本文提出LiteVSR，通过流匹配将跨域VSR简化为学习固定注入模式，避免复制整个骨干网络。该方法只需少量可训练参数即可高效适配预训练视频生成模型。实验表明，LiteVSR在多个VSR基准上达到与全微调方法相当的保真度，而计算开销显著降低，为实际应用中的视频质量增强提供了轻量级方案。",
+      "llm_tldr": "针对冻结扩散变换器在视频超分辨率（VSR）中适配成本高的问题，本文提出LiteVSR，通过流匹配将跨域VSR简化为学习固定注入模式，避免复制整个骨干网络。该方法只需少量可训练参数即可高效适配预训练视频生成模型。实验表明，LiteVSR在多个VSR基准上达到与全微调方法相当的保真度，而计算开销显著降低，为实际应用中的视频质量增强提供了轻量级方案。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video super resolution methods for quality enhancement",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09516v1",
+      "source": "arxiv",
+      "title": "SwiftVR: Real-Time One-Step Generative Video Restoration",
+      "abstract": "Real-time video restoration (VR) for live streams requires high-resolution outputs under strict per-frame latency constraints. Existing one-step diffusion-based VR models remain difficult to deploy on consumer-grade GPUs due to two main bottlenecks: quadratic spatial attention at high resolutions and the latency-memory overhead of large video autoencoders. We present SwiftVR, a streaming one-step generative VR framework that reduces both bottlenecks under a causal chunk-wise protocol. For attention, mask-free shifted-window self-attention gathers each spatial window into a dense tensor via deterministic indexing, keeping all attention calls on the dense scaled dot-product attention path without masks, cyclic shifts, padding, or hardware-specific sparse kernels. Because SwiftVR uses only standard dense SDPA calls, the trained model transfers to consumer GPUs without retraining or custom kernels. For autoencoding, a lightweight Restoration-aware Autoencoder enables fast chunk-wise decoding while preserving reconstruction quality. On a single H100, SwiftVR sustains 31~FPS at 2560x1440 and 14~FPS at 3840x2160, whereas all compared diffusion-based VR baselines exceed the memory limit at 4K. On a consumer RTX~5090, SwiftVR reaches 26~FPS at 1920x1080. To our knowledge, SwiftVR is the first generative VR model to achieve real-time 1080p streaming on a consumer-grade GPU, while attaining strong no-reference perceptual quality with lower inference cost. Project is available at https://h-oliday.github.io/SwiftVR.",
+      "authors": [
+        "Jiaqi Yan",
+        "Xiangyu Chen",
+        "Xinlin Zhong",
+        "Haibin Huang",
+        "Chi Zhang",
+        "Jie Liu",
+        "Jiantao Zhou",
+        "Xuelong Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T14:07:29+00:00",
+      "link": "https://arxiv.org/pdf/2606.09516v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "real-time generative video restoration with one-step diffusion",
+      "llm_evidence_cn": "实时生成式视频恢复，一步扩散模型",
+      "llm_evidence": "实时生成式视频恢复，一步扩散模型",
+      "canonical_evidence": "实时生成式视频恢复，一步扩散模型",
+      "llm_tldr_en": "SwiftVR is a real-time one-step generative video restoration framework using mask-free shifted-window self-attention, enabling deployment on consumer GPUs for high-resolution outputs.",
+      "llm_tldr_cn": "本文提出SwiftVR，一个实时一步生成式视频恢复框架，采用掩码自由移位窗口自注意力机制，在消费级GPU上实现高分辨率视频恢复。该方法通过因果分块协议和稀疏注意力设计，降低了空间注意力和视频自编码器的计算开销，适用于直播等实时场景。实验表明其在保持高质量的同时显著提升速度。",
+      "llm_tldr": "本文提出SwiftVR，一个实时一步生成式视频恢复框架，采用掩码自由移位窗口自注意力机制，在消费级GPU上实现高分辨率视频恢复。该方法通过因果分块协议和稀疏注意力设计，降低了空间注意力和视频自编码器的计算开销，适用于直播等实时场景。实验表明其在保持高质量的同时显著提升速度。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video restoration for generative outputs",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.11969v1",
+      "source": "arxiv",
+      "title": "SpecLoR: Spectral Lookahead Rectification for Motion-Coherent Text-to-Video Generation",
+      "abstract": "Flow Matching has enabled robust text-to-video generation via latent ODE sampling. However, velocity approximation and numerical discretization errors inevitably accumulate, causing sampling trajectories to drift. Consequently, generated videos often suffer from severe spatiotemporal inconsistencies. Nevertheless, directly correcting these drifted, noisy latents is challenging: (i) timestep-dependent noise obscures reliable structural cues; (ii) spatial interventions risk disrupting intricate local geometry while incurring heavy computational costs. To address this, we propose Spectral Lookahead Rectification (SpecLoR), a plug-and-play inference method that bypasses noise via lookahead prediction, and circumvents spatiotemporal entanglement by shifting corrections to the frequency domain, where universal statistical priors of natural videos are readily available. First, during early sampling stages, SpecLoR looks ahead to estimate the clean latent $z_{t,0}$ and computes its 3D spatiotemporal spectrum. Next, SpecLoR rectifies the amplitude spectrum to match the prior, leaving the phase intact. Finally, the corrected state is re-noised to resume ODE integration. Experiments on Wan2.2 demonstrate that SpecLoR significantly reduces physical artifacts and enhances motion coherence across multiple benchmarks with minimal computational overhead (4 additional NFEs).",
+      "authors": [
+        "Xu Zhang",
+        "Yu Lu",
+        "Ruijie Quan",
+        "Zhaozheng Chen",
+        "Bohan Wang",
+        "Yi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T11:49:54+00:00",
+      "link": "https://arxiv.org/pdf/2606.11969v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "inference-time rectification for spatiotemporal consistency in generated videos",
+      "llm_evidence_cn": "推理时修正生成视频的时空不一致性",
+      "llm_evidence": "推理时修正生成视频的时空不一致性",
+      "canonical_evidence": "推理时修正生成视频的时空不一致性",
+      "llm_tldr_en": "SpecLoR is a plug-and-play inference method that rectifies sampling trajectory drift in flow matching text-to-video generation, improving motion coherence and temporal consistency without additional training.",
+      "llm_tldr_cn": "本论文针对流匹配文本到视频生成中速度近似和离散误差导致的时空不一致问题，提出SpecLoR，一种即插即用的推理修正方法。它通过前向预测绕过噪声干扰，避免时空纠缠和计算开销。实验表明在保持高质量的同时显著提升运动连贯性和时间一致性。该方法可无缝集成到现有生成流程中，提升视频精炼效果。",
+      "llm_tldr": "本论文针对流匹配文本到视频生成中速度近似和离散误差导致的时空不一致问题，提出SpecLoR，一种即插即用的推理修正方法。它通过前向预测绕过噪声干扰，避免时空纠缠和计算开销。实验表明在保持高质量的同时显著提升运动连贯性和时间一致性。该方法可无缝集成到现有生成流程中，提升视频精炼效果。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "Post generation video processing for temporal coherence and sharpness",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13580v1",
+      "source": "arxiv",
+      "title": "EvTexture++: Event-Driven Texture Enhancement for Video Super-Resolution",
+      "abstract": "Event-based vision has drawn increasing attention owing to its distinctive properties, including ultra-high temporal resolution and extreme dynamic range. Recent works have introduced it to video super-resolution (VSR) to enhance flow estimation and temporal alignment. In contrast, this paper shifts the focus of event signals from motion refinement to texture enhancement in VSR. We propose EvTexture++, the first event-driven framework dedicated to texture enhancement in VSR. It leverages high-frequency spatiotemporal details from events to improve texture recovery. EvTexture++ incorporates a customized texture enhancement branch, along with an iterative texture enhancement module that progressively exploits high-temporal-resolution event information for texture restoration. This enables gradual refinement of texture regions across iterations, yielding more accurate and detailed high-resolution outputs. Besides intra-frame texture recovery, large motions could degrade inter-frame temporal consistency, particularly in texture regions, leading to texture flickering. To mitigate this, we further exploit the continuous-time motion cues of events to enhance temporal consistency, introducing a temporal texture alignment module that estimates event-guided texture-aware flow for precise inter-frame texture alignment. Moreover, EvTexture++ is designed as a plug-and-play tool to flexibly boost the performance of existing VSR models. Experiments on five datasets demonstrate that EvTexture++ achieves state-of-the-art performance. When integrated into recent VSR models, it yields significant improvements, with gains of up to 1.55 dB in PSNR on the texture-rich Vid4 dataset. Code: https://github.com/DachunKai/EvTexture.",
+      "authors": [
+        "Dachun Kai",
+        "Jiayao Lu",
+        "Yueyi Zhang",
+        "Xiaoyan Sun"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-11T17:04:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.13580v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Event-driven texture enhancement for video super-resolution",
+      "llm_evidence_cn": "基于事件驱动的视频超分辨率纹理增强",
+      "llm_evidence": "基于事件驱动的视频超分辨率纹理增强",
+      "canonical_evidence": "基于事件驱动的视频超分辨率纹理增强",
+      "llm_tldr_en": "EvTexture++ is an event-driven framework that enhances texture recovery in video super-resolution by leveraging high-frequency spatiotemporal details from events, improving quality.",
+      "llm_tldr_cn": "EvTexture++是一个基于事件驱动的视频超分辨率框架，通过利用事件中的高频时空细节来增强纹理恢复。它包含定制的纹理增强分支和迭代纹理增强模块，逐步利用高时间分辨率的事件信息。实验表明该方法在纹理细节恢复上优于现有VSR方法，为生成视频的后处理质量提升提供了新思路。",
+      "llm_tldr": "EvTexture++是一个基于事件驱动的视频超分辨率框架，通过利用事件中的高频时空细节来增强纹理恢复。它包含定制的纹理增强分支和迭代纹理增强模块，逐步利用高时间分辨率的事件信息。实验表明该方法在纹理细节恢复上优于现有VSR方法，为生成视频的后处理质量提升提供了新思路。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video super resolution methods for quality enhancement",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.16401v1",
+      "source": "arxiv",
+      "title": "RGFVR: Reference-Guided Face Video Restoration with Flow Matching",
+      "abstract": "Face video restoration from degraded observations is challenging, as it requires simultaneously recovering visual fidelity, temporal consistency, and subject identity. Existing approaches are often either reference-free, which can lead to identity loss when person-specific facial details are lost, or subject-specific, which limits generalization to unseen identities. We propose a subject-agnostic, reference-guided framework for identity-preserving face video restoration. Our method introduces bimodal perceptual-descriptive identity conditioning into a pretrained flow-based text-to-video generator and employs a two-stage training strategy to strengthen identity guidance during restoration. Experiments show that our approach improves restoration fidelity, temporal consistency, and identity preservation, achieving superior performance under challenging video degradations, including downsampling, blur, noise, and compression artifacts. The code is available under: https://github.com/batuhanntosun/RG-FVR.",
+      "authors": [
+        "Cem Eteke",
+        "Batuhan Tosun",
+        "Eckehard Steinbach"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T08:39:51+00:00",
+      "link": "https://arxiv.org/pdf/2606.16401v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Reference-guided face video restoration for generative outputs",
+      "llm_evidence_cn": "参考引导的人脸视频恢复，适用于生成输出",
+      "llm_evidence": "参考引导的人脸视频恢复，适用于生成输出",
+      "canonical_evidence": "参考引导的人脸视频恢复，适用于生成输出",
+      "llm_tldr_en": "RGFVR proposes a subject-agnostic reference-guided framework for identity-preserving face video restoration, using bimodal conditioning and two-stage training to improve fidelity and temporal consistency.",
+      "llm_tldr_cn": "RGFVR提出了一种与主体无关的参考引导框架，用于保持身份的人脸视频恢复。它通过双模态感知-描述身份条件注入预训练的流式文本到视频生成器，并采用两阶段训练策略强化身份引导。实验表明该方法在恢复保真度、时序一致性和身份保持上均优于现有方法，可直接用于改善生成视频的面部质量。",
+      "llm_tldr": "RGFVR提出了一种与主体无关的参考引导框架，用于保持身份的人脸视频恢复。它通过双模态感知-描述身份条件注入预训练的流式文本到视频生成器，并采用两阶段训练策略强化身份引导。实验表明该方法在恢复保真度、时序一致性和身份保持上均优于现有方法，可直接用于改善生成视频的面部质量。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video restoration for generative outputs",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.18478v1",
+      "source": "arxiv",
+      "title": "Data-Forcing Distillation: Restoring Diversity and Fidelity in Few-Step Video Generation",
+      "abstract": "Recent progress has shown promise in distilling multi-step video diffusion models into efficient few-step students. Among them, Distribution Matching Distillation (DMD) and its successor DMD2 achieved strong generation quality and fast convergence. However, due to the nature of the reverse Kullback--Leibler (KL) objective, these methods exhibit two persistent failure modes: a substantial drop in sample diversity, and visibly over-saturated outputs that deviate from real-video appearance. In this work, we propose Data-Forcing Distillation (DFD), a simple post-training framework that restores diversity and fidelity in DMD with only a single-line of code change. At its core is the teacher score discrepancy to guide the student toward the real-data distribution, pulling it to missing modes (mitigating mode collapse) and away from problematic modes absent in real data (avoiding over-saturation). We provide an in-depth theoretical analysis of our framework and validate our approach on text-to-video, image-to-video, and autoregressive video generation. With only 100--300 steps of finetuning, DFD effectively restores diversity and fidelity on both Wan2.1-1.3B and Cosmos-Predict2.5-2B model, resolving the over-saturation artifacts with significantly better video dynamics and appearance, and even outperforms the teacher model.",
+      "authors": [
+        "Siyi Chen",
+        "Shaowei Liu",
+        "Yixuan Jia",
+        "Zian Wang",
+        "Huan Ling",
+        "Qing Qu",
+        "Jun Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-16T20:38:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.18478v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training distillation for few-step video generation, restoring diversity",
+      "llm_evidence_cn": "后训练蒸馏用于少步视频生成，恢复多样性",
+      "llm_evidence": "后训练蒸馏用于少步视频生成，恢复多样性",
+      "canonical_evidence": "后训练蒸馏用于少步视频生成，恢复多样性",
+      "llm_tldr_en": "Data-Forcing Distillation (DFD) restores diversity and fidelity in few-step video generation by using teacher score discrepancy, addressing diversity drop and oversaturation in DMD methods.",
+      "llm_tldr_cn": "本文提出数据强迫蒸馏（DFD），一种简单有效的后训练框架，通过教师分数差异引导少步学生模型，恢复分布匹配蒸馏中丢失的多样性和保真度。仅需一行代码修改，即可显著提升生成视频的多样性和视觉真实性。实验表明，DFD在多个视频生成基准上优于DMD2等现有蒸馏方法。",
+      "llm_tldr": "本文提出数据强迫蒸馏（DFD），一种简单有效的后训练框架，通过教师分数差异引导少步学生模型，恢复分布匹配蒸馏中丢失的多样性和保真度。仅需一行代码修改，即可显著提升生成视频的多样性和视觉真实性。实验表明，DFD在多个视频生成基准上优于DMD2等现有蒸馏方法。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.18478v2",
+      "source": "arxiv",
+      "title": "Data-Forcing Distillation: Restoring Diversity and Fidelity in Few-Step Video Generation",
+      "abstract": "Recent progress has shown promise in distilling multi-step video diffusion models into efficient few-step students. Among them, Distribution Matching Distillation (DMD) and its successor DMD2 achieved strong generation quality and fast convergence. However, due to the nature of the reverse Kullback--Leibler (KL) objective, these methods exhibit two persistent failure modes: a substantial drop in sample diversity, and visibly over-saturated outputs that deviate from real-video appearance. In this work, we propose Data-Forcing Distillation (DFD), a simple post-training framework that restores diversity and fidelity in DMD with only a single-line of code change. At its core is the teacher score discrepancy to guide the student toward the real-data distribution, pulling it to missing modes (mitigating mode collapse) and away from problematic modes absent in real data (avoiding over-saturation). We provide an in-depth theoretical analysis of our framework and validate our approach on text-to-video, image-to-video, and autoregressive video generation. With only 100--300 steps of finetuning, DFD effectively restores diversity and fidelity on both Wan2.1-1.3B and Cosmos-Predict2.5-2B model, resolving the over-saturation artifacts with significantly better video dynamics and appearance, and even outperforms the teacher model.",
+      "authors": [
+        "Siyi Chen",
+        "Shaowei Liu",
+        "Yixuan Jia",
+        "Zian Wang",
+        "Huan Ling",
+        "Qing Qu",
+        "Jun Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-16T20:38:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.18478v2",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training distillation for diversity and fidelity in few-step video generation",
+      "llm_evidence_cn": "后训练蒸馏提升少步视频生成的多样性和保真度",
+      "llm_evidence": "后训练蒸馏提升少步视频生成的多样性和保真度",
+      "canonical_evidence": "后训练蒸馏提升少步视频生成的多样性和保真度",
+      "llm_tldr_en": "Data-Forcing Distillation restores diversity and fidelity in few-step video generation with a single-line code change, addressing reverse KL failure modes.",
+      "llm_tldr_cn": "针对分布匹配蒸馏（DMD）在少步视频生成中出现的多样性下降和输出过饱和问题，本文提出数据强制蒸馏（DFD），仅需修改一行代码即可恢复多样性和保真度。核心思想是使用教师得分差异引导学生模型向真实视频分布靠近。实验表明，DFD在保持生成速度的同时，显著提升了样本多样性并消除了过饱和伪影，为高效高质量视频生成蒸馏提供了一种简单有效的解决方案。",
+      "llm_tldr": "针对分布匹配蒸馏（DMD）在少步视频生成中出现的多样性下降和输出过饱和问题，本文提出数据强制蒸馏（DFD），仅需修改一行代码即可恢复多样性和保真度。核心思想是使用教师得分差异引导学生模型向真实视频分布靠近。实验表明，DFD在保持生成速度的同时，显著提升了样本多样性并消除了过饱和伪影，为高效高质量视频生成蒸馏提供了一种简单有效的解决方案。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.18591v1",
+      "source": "arxiv",
+      "title": "Bridging Creative Intent and Visual Quality: Creator-Driven Recurrent Video Generation with Agentic Feedback Loops",
+      "abstract": "Generative AI has made content creation increasingly accessible, but many AI-generated videos lack narrative coherence and creative direction, issues that become more substantial at longer durations. Unlike coding, where AI generation benefits from reliable feedback and techniques such as recurrent self-improvement, video generation requires subjective feedback about plot, scenes, and narrative, which naturally motivates approaches that incorporate human creative direction. We introduce CHIEF, a human-AI co-creation video generation framework that places the creator at the center of human-in-the-loop iterative video refinement, and supports them by providing automatic subjective feedback. The creator incorporates their creative direction by driving each iteration, while their revisions are incorporated by a specialized refiner agent. The feedback loop is generated by persona-conditioned multimodal LLMs that watch generated videos and produce subjective critique from the audience perspectives, providing feedback that self-evaluation alone cannot capture. To test the effectiveness of our proposed framework, we work with high school and college students with no prior filmmaking experience to create videos, from short 1-minute videos to a complete short 10-minute film with a complicated plot.",
+      "authors": [
+        "Denis Savytski",
+        "Aiden Lei",
+        "Heding Liu",
+        "Warren Yang",
+        "Sihan Liang",
+        "Alexander Liu",
+        "Zhe Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-17T01:39:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.18591v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "creatordriven iterative video refinement for quality improvement",
+      "llm_evidence_cn": "创作者驱动的迭代视频精炼以提升质量",
+      "llm_evidence": "创作者驱动的迭代视频精炼以提升质量",
+      "canonical_evidence": "创作者驱动的迭代视频精炼以提升质量",
+      "llm_tldr_en": "Introduces CHIEF, a human-AI co-creation framework that places the creator at the center of iterative video refinement, using automatic subjective feedback to improve narrative coherence and visual quality.",
+      "llm_tldr_cn": "针对AI生成视频叙事连贯性差和视觉质量不足的问题，提出了CHIEF，一种人机协同的视频生成框架。该框架将创作者置于核心，通过自动主观反馈循环实现迭代视频精炼，显著提升长视频的剧情连贯性和视觉质量。该方法弥合了创意意图与视觉质量之间的鸿沟，为AI视频创作提供了实用的后处理方案。",
+      "llm_tldr": "针对AI生成视频叙事连贯性差和视觉质量不足的问题，提出了CHIEF，一种人机协同的视频生成框架。该框架将创作者置于核心，通过自动主观反馈循环实现迭代视频精炼，显著提升长视频的剧情连贯性和视觉质量。该方法弥合了创意意图与视觉质量之间的鸿沟，为AI视频创作提供了实用的后处理方案。",
+      "llm_tags": [
+        "query:video-refine:composite"
+      ],
+      "matched_query_tag": "query:video-refine:composite",
+      "matched_query_text": "Papers central to 请帮我查找与video refiner以及video super resolution相关的paper，用于增强视频生成后的质量, especially work that connects or combines: video refinement techniques for generated videos; video super resolution methods for quality enhancement; video restoration for generative outputs; How to refine videos generated by AI models to improve visual quality; What are the state of the art video super resolution methods applied to synthesis results; Techniques for removing artifacts and enhancing details in generated videos; Post generation video processing for temporal coherence and sharpness.",
+      "matched_requirement_id": "req-composite-video-refine",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.01620v1",
+      "source": "arxiv",
+      "title": "Real-Time Generation of Streamable Talking Portrait Video with Reference-Guided Deep Compression VAEs",
+      "abstract": "Video diffusion models have significantly advanced portrait video generation, yet their high computational demands limit their use in interactive applications. This work presents a framework for streamable talking portrait video generation conditioned on speech audio and reference images. Designed meticulously for streaming scenarios, it features a causal video VAE for deep latent compression and an autoregressive latent denoising model. Our causal VAE integrates a variable number of reference images as guidance, allowing the network to focus on dynamic information rather than static appearance, thereby enhancing compression efficacy and reconstruction quality. Additionally, we extend the residual auto-encoding paradigm to improve spatial-temporal causality handling in our VAE. The generator is based on a Rectified Flow Transformer architecture and produces video latents in a blockwise auto-regressive manner. Our method enables the real-time generation of high-quality talking portrait videos, achieving speeds significantly faster than baseline models. Furthermore, comprehensive experiments demonstrate that it is on par with or even outperforms these large models in realism, vividness, and video quality.",
+      "authors": [
+        "Sicheng Xu",
+        "Yu Deng",
+        "Shoukang Hu",
+        "Yichuan Wang",
+        "Yizhong Zhang",
+        "Zhan Chen",
+        "Jiaolong Yang",
+        "Baining Guo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-01T03:12:23+00:00",
+      "link": "https://arxiv.org/pdf/2606.01620v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time streamable video generation with causal VAE and autoregressive denoising",
+      "llm_evidence_cn": "实时流式视频生成，使用因果VAE和自回归去噪",
+      "llm_evidence": "实时流式视频生成，使用因果VAE和自回归去噪",
+      "canonical_evidence": "实时流式视频生成，使用因果VAE和自回归去噪",
+      "llm_tldr_en": "Presents a framework for streamable talking portrait video generation using causal video VAE for deep latent compression and autoregressive latent denoising, enabling real-time inference.",
+      "llm_tldr_cn": "本文提出一种流式说话肖像视频生成框架，采用因果视频VAE进行深度潜特征压缩，并结合自回归潜变量去噪模型，专为流式场景设计。通过将参考图像引导融入VAE，网络能聚焦于动态信息而非静态外观，从而提升压缩效率和重建质量。该框架实现了实时生成，适用于交互应用。",
+      "llm_tldr": "本文提出一种流式说话肖像视频生成框架，采用因果视频VAE进行深度潜特征压缩，并结合自回归潜变量去噪模型，专为流式场景设计。通过将参考图像引导融入VAE，网络能聚焦于动态信息而非静态外观，从而提升压缩效率和重建质量。该框架实现了实时生成，适用于交互应用。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.06309v1",
+      "source": "arxiv",
+      "title": "RhymeFlow: Training-Free Acceleration for Video Generation with Asynchronous Denoising Flow Scheduling",
+      "abstract": "Video generation models based on Diffusion Transformers (DiTs) have achieved remarkable performance in video synthesis, yet they suffer from high inference latency and computational costs due to the quadratic complexity of 3D attention. Existing acceleration methods primarily reduce computational complexity within each individual denoising steps through techniques such as sparse attention and KV-caching. However, they rigidly adhere to the inherent constraint of the standard diffusion pipeline: every frame in the target video sequence must be subjected to a complete, dense denoising process across all diffusion timesteps. We observe that due to the corresponding contents and motions among adjacent frames, when keyframes with critical semantic transitions are anchored, the intermediate states of others often follow more predictable trajectories, which indicates that such uniform, dense denoising process is inherently redundant for natural video data. To this end, we introduce \\textbf{RhymeFlow}, a training-free framework that decouples the denoising trajectories of different frames. Specifically, we first identify a sparse set of pivotal key frames that dominate the latent semantic evolution. Then, only these keyframes undergo dense, step-by-step denoising to ensure structural integrity, while non-keyframes progressively skip denoising steps to minimize computational cost. Since skipped intermediate states of non-keyframes break the temporal coherence in keyframe denoising steps, leading to visual degradation, we further introduce a latent trajectory projection module, which enables keyframes to interact with a complete and temporally consistent sequence representation. Extensive experiments on current DiT-based video generation models demonstrate our method outperforms existing baselines with higher inference speed and better visual quality.",
+      "authors": [
+        "Chensheng Dai",
+        "Shengjun Zhang",
+        "Yifan Li",
+        "Zhang Zhang",
+        "Zheng Zhu",
+        "Yueqi Duan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T15:49:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.06309v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "training-free acceleration for video generation via sparse attention scheduling, relevant to fast generation",
+      "llm_evidence_cn": "通过稀疏注意力调度实现视频生成的无训练加速，与快速生成相关",
+      "llm_evidence": "通过稀疏注意力调度实现视频生成的无训练加速，与快速生成相关",
+      "canonical_evidence": "通过稀疏注意力调度实现视频生成的无训练加速，与快速生成相关",
+      "llm_tldr_en": "RhymeFlow accelerates video DiT generation by asynchronously scheduling denoising flows across frames, reducing latency without retraining.",
+      "llm_tldr_cn": "针对扩散变换器视频生成推理延迟高的问题，本文提出RhymeFlow，利用相邻帧的内容对应关系，异步调度去噪流，避免所有帧经历完整密集去噪。该方法无需重新训练，兼容现有稀疏注意力和KV缓存技术。实验表明，在保持生成质量的同时，推理速度提升数倍，为消费级显卡上的快速视频生成提供了有效方案。",
+      "llm_tldr": "针对扩散变换器视频生成推理延迟高的问题，本文提出RhymeFlow，利用相邻帧的内容对应关系，异步调度去噪流，避免所有帧经历完整密集去噪。该方法无需重新训练，兼容现有稀疏注意力和KV缓存技术。实验表明，在保持生成质量的同时，推理速度提升数倍，为消费级显卡上的快速视频生成提供了有效方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09150v1",
+      "source": "arxiv",
+      "title": "Ultra Flash: Scaling Real-Time Streaming Video Generation to High Resolutions",
+      "abstract": "While recent autoregressive video diffusion models achieve remarkable streaming quality, they remain confined to low resolutions (e.g., 480P), leaving efficient, scalable, real-time high-resolution video generation a fundamental open challenge. To bridge this gap, we present Ultra Flash, a cascaded streaming framework capable of real-time high-resolution video generation. Ultra Flash achieves ~30 FPS at 1K resolution and ~18 FPS at 2K resolution on a single GPU through three key contributions: (1) an architecture-preserving T2V-to-TV2V super-resolution training paradigm coupled with an AIGC-oriented data degradation pipeline that effectively preserves the generative capability of the base model, enabling enhanced high-resolution detail when cascaded after mainstream low-resolution generative models; (2) a causal streaming latent upsampler paired with a high-resolution decoder, which enhances spatiotemporal coherence while enabling efficient latent spatial scaling and precise high-resolution decoding with negligible computational overhead; and (3) a cascade high-resolution streaming video generation optimization scheme that first performs hybrid-reward-enhanced sparse causalization and single-step distillation of the super-resolution model, then introduces cascaded streaming self-forcing preference optimization with dynamic cache management, jointly enhancing overall coherence, improving quality, and enabling real-time high-resolution streaming video generation. Extensive experiments demonstrate that Ultra Flash reliably produces ultra-high-resolution streaming video while maintaining state-of-the-art visual quality and superior efficiency.",
+      "authors": [
+        "Luxury",
+        "Jie Huang",
+        "Zihao Fan",
+        "Xiaoxiao Ma",
+        "Yuming Li",
+        "Jun-hao Zhuang",
+        "Zeyue Xue",
+        "Siming Fu",
+        "Haoran Li",
+        "Mingchen Zhong",
+        "Guohui Zhang",
+        "Shichen Ma",
+        "Yijun Liu",
+        "Jiaqi Shi",
+        "Yanwen Ma",
+        "Yaofeng Su",
+        "Haoyu Wang",
+        "Yaowei Li",
+        "Songchun Zhang",
+        "Weiyang Jin",
+        "Yuxuan Bian",
+        "Shiyi Zhang",
+        "Haojun Xu",
+        "Shuai Lu",
+        "Xin Han",
+        "Wei Tang",
+        "Haoyang Huang",
+        "Nan Duan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T07:45:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.09150v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time high-resolution video generation on single GPU",
+      "llm_evidence_cn": "单GPU实时高分辨率视频生成",
+      "llm_evidence": "单GPU实时高分辨率视频生成",
+      "canonical_evidence": "单GPU实时高分辨率视频生成",
+      "llm_tldr_en": "Ultra Flash achieves ~30 FPS at 1K and ~18 FPS at 2K on a single GPU via cascaded streaming with a super-resolution training paradigm, enabling real-time high-resolution video generation.",
+      "llm_tldr_cn": "针对现有自回归视频扩散模型仅限于低分辨率的问题，提出Ultra Flash级联流式框架，通过架构保留的超分辨率训练范式和AIGC数据退化流程，在单GPU上实现1K分辨率约30 FPS、2K约18 FPS的实时高分辨率视频生成，显著推动了实时视频生成的实用性。",
+      "llm_tldr": "针对现有自回归视频扩散模型仅限于低分辨率的问题，提出Ultra Flash级联流式框架，通过架构保留的超分辨率训练范式和AIGC数据退化流程，在单GPU上实现1K分辨率约30 FPS、2K约18 FPS的实时高分辨率视频生成，显著推动了实时视频生成的实用性。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09150v2",
+      "source": "arxiv",
+      "title": "Ultra Flash: Scaling Real-Time Streaming Video Generation to High Resolutions",
+      "abstract": "While recent autoregressive video diffusion models achieve remarkable streaming quality, they remain confined to low resolutions (e.g., 480P), leaving efficient, scalable, real-time high-resolution video generation a fundamental open challenge. To bridge this gap, we present Ultra Flash, a cascaded streaming framework capable of real-time high-resolution video generation. Ultra Flash achieves ~30 FPS at 1K resolution and ~18 FPS at 2K resolution on a single GPU through three key contributions: (1) an architecture-preserving T2V-to-TV2V super-resolution training paradigm coupled with an AIGC-oriented data degradation pipeline that effectively preserves the generative capability of the base model, enabling enhanced high-resolution detail when cascaded after mainstream low-resolution generative models; (2) a causal streaming latent upsampler paired with a high-resolution decoder, which enhances spatiotemporal coherence while enabling efficient latent spatial scaling and precise high-resolution decoding with negligible computational overhead; and (3) a cascade high-resolution streaming video generation optimization scheme that first performs hybrid-reward-enhanced sparse causalization and single-step distillation of the super-resolution model, then introduces cascaded streaming self-forcing preference optimization with dynamic cache management, jointly enhancing overall coherence, improving quality, and enabling real-time high-resolution streaming video generation. Extensive experiments demonstrate that Ultra Flash reliably produces ultra-high-resolution streaming video while maintaining state-of-the-art visual quality and superior efficiency. Project Page: https://xin1u.github.io/UltraFlash/",
+      "authors": [
+        "Luxury",
+        "Jie Huang",
+        "Zihao Fan",
+        "Xiaoxiao Ma",
+        "Jun-hao Zhuang",
+        "Yuming Li",
+        "Zeyue Xue",
+        "Siming Fu",
+        "Haoran Li",
+        "Mingchen Zhong",
+        "Guohui Zhang",
+        "Shichen Ma",
+        "Yijun Liu",
+        "Jiaqi Shi",
+        "Yanwen Ma",
+        "Yaofeng Su",
+        "Haoyu Wang",
+        "Yaowei Li",
+        "Songchun Zhang",
+        "Weiyang Jin",
+        "Yuxuan Bian",
+        "Shiyi Zhang",
+        "Haojun Xu",
+        "Shuai Lu",
+        "Xin Han",
+        "Wei Tang",
+        "Haoyang Huang",
+        "Nan Duan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T07:45:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.09150v2",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time high-resolution video generation on single GPU",
+      "llm_evidence_cn": "单GPU实时高分辨率视频生成",
+      "llm_evidence": "单GPU实时高分辨率视频生成",
+      "canonical_evidence": "单GPU实时高分辨率视频生成",
+      "llm_tldr_en": "Ultra Flash achieves ~30 FPS at 1K and ~18 FPS at 2K on a single GPU via cascaded streaming with a super-resolution training paradigm, enabling real-time high-resolution video generation.",
+      "llm_tldr_cn": "针对现有自回归视频扩散模型仅限于低分辨率的问题，提出Ultra Flash级联流式框架，通过架构保留的超分辨率训练范式和AIGC数据退化流程，在单GPU上实现1K分辨率约30 FPS、2K约18 FPS的实时高分辨率视频生成，显著推动了实时视频生成的实用性。",
+      "llm_tldr": "针对现有自回归视频扩散模型仅限于低分辨率的问题，提出Ultra Flash级联流式框架，通过架构保留的超分辨率训练范式和AIGC数据退化流程，在单GPU上实现1K分辨率约30 FPS、2K约18 FPS的实时高分辨率视频生成，显著推动了实时视频生成的实用性。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13035v1",
+      "source": "arxiv",
+      "title": "TetherCache: Stabilizing Autoregressive Long-Form Video Generation with Gated Recall and Trusted Alignment",
+      "abstract": "Autoregressive video diffusion models provide a natural formulation for streaming and variable-length video generation by conditioning newly generated frames on previously generated content. However, extending these models to minute-level generation remains challenging: the limited KV-cache budget prevents the model from retaining the full history, while repeatedly conditioning on self-generated frames induces a context distribution shift that accumulates over time, leading to visual artifacts, quality degradation, and temporal drift. In this paper, we propose TetherCache, a training-free and plug-and-play cache management strategy for drift-resistant long video generation. TetherCache organizes the cache into sink, memory, and recent regions, and introduces two complementary mechanisms. First, GRAB (Gated Recall with Attention-Diversity Balancing) selects long-range memory frames using a gated score that combines attention-based relevance with temporal diversity, preserving informative yet diverse historical context under a fixed cache budget. Second, TAME (Trusted Alignment via Memory Editing) lightly edits newly recalled memory tokens by aligning their statistics to a trusted context distribution, reducing the pollution caused by drifted historical features. Built on Self-Forcing, TetherCache consistently improves long-video generation quality on VBench-Long across 30s, 60s, and 240s settings. In particular, for 240s generation, it substantially improves overall and semantic scores while reducing quality drift from 7.84 to 1.33, demonstrating its effectiveness for stable long-horizon autoregressive video diffusion.",
+      "authors": [
+        "Yu Meng",
+        "Xiangyang Luo",
+        "Letian Li",
+        "Wenyuan Jiang",
+        "Chen Gao",
+        "Xinlei Chen",
+        "Yong Li",
+        "Xiao-Ping Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-11T08:16:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.13035v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "addresses visual artifacts and quality degradation in autoregressive video generation",
+      "llm_evidence_cn": "解决自回归视频生成中的视觉伪影和质量退化",
+      "llm_evidence": "解决自回归视频生成中的视觉伪影和质量退化",
+      "canonical_evidence": "解决自回归视频生成中的视觉伪影和质量退化",
+      "llm_tldr_en": "Proposes TetherCache, a training-free cache management strategy to reduce visual artifacts and temporal drift in long autoregressive video generation.",
+      "llm_tldr_cn": "自回归视频生成模型在生成长视频时，有限的KV缓存和历史帧分布偏移会导致视觉伪影和时间漂移。本文提出TetherCache，一种训练免费且即插即用的缓存管理策略，通过门控召回和可信对齐来稳定生成。该方法无需额外训练即可显著减少伪影，提升长视频的时间一致性，为实用化长视频生成提供了一种轻量级解决方案。",
+      "llm_tldr": "自回归视频生成模型在生成长视频时，有限的KV缓存和历史帧分布偏移会导致视觉伪影和时间漂移。本文提出TetherCache，一种训练免费且即插即用的缓存管理策略，通过门控召回和可信对齐来稳定生成。该方法无需额外训练即可显著减少伪影，提升长视频的时间一致性，为实用化长视频生成提供了一种轻量级解决方案。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "Techniques for removing artifacts and enhancing details in generated videos",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23743v1",
+      "source": "arxiv",
+      "title": "Sol Video Inference Engine: Agent-Native Full-Stack Acceleration Framework for Efficient Video Generation",
+      "abstract": "Modern video diffusion models achieve higher generation quality through scaling, but this also increases inference cost. Although many acceleration methods have been proposed, a central challenge is that the most effective acceleration strategy is highly instance-specific: a recipe that works well for one combination of model, hardware, and inference configuration often does not transfer to another. Different models vary in architecture, numerical sensitivity, and attention concentration patterns. Inference settings differ in spatial and temporal resolution and video duration, while hardware platforms differ in memory hierarchy, supported numerical formats, and kernel throughput. These factors create a large tuning space, making manual performance engineering costly. We present Sol Video Inference Engine, an agentic, native, training-free acceleration framework for video diffusion models. It organizes five broadly applicable techniques, cache, sparse attention, token pruning, quantization, and kernel fusion, into an agentic acceleration stack for instance-specific optimization. For a concrete deployment target defined by a model, hardware platform, and serving configuration, parallel skill agents optimize the implementation of each technique, an agent integrator composes them into a global acceleration stack, and a human validator provides feedback on generation quality. We instantiate this workflow on three video models with different sizes and architectures: 64B Cosmos3-Super, 22B LTX-2.3, and 2B SANA-Video. With little human effort, the full stack achieves more than 2x end-to-end acceleration while maintaining near-lossless VBench quality, demonstrating the effectiveness of the agent framework for video diffusion acceleration.",
+      "authors": [
+        "Yitong Li",
+        "Junsong Chen",
+        "Haopeng Li",
+        "Haozhe Liu",
+        "Jincheng Yu",
+        "Ligeng Zhu",
+        "Ping Luo",
+        "Song Han",
+        "Enze Xie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-21T17:23:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.23743v1",
+      "tags": [
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "full-stack acceleration for video generation inference",
+      "llm_evidence_cn": "视频生成推理全栈加速",
+      "llm_evidence": "视频生成推理全栈加速",
+      "canonical_evidence": "视频生成推理全栈加速",
+      "llm_tldr_en": "Proposes a full-stack acceleration framework for efficient video generation inference, adapting to model, hardware, and configuration.",
+      "llm_tldr_cn": "针对视频扩散模型推理成本高的问题，提出了Sol视频推理引擎，一个智能体原生的全栈加速框架。该框架通过实例特定的优化策略，适应不同模型、硬件和推理配置，实现高效视频生成。实验表明，在不牺牲质量的前提下显著降低推理延迟。该工作为视频生成的实时部署提供了系统级解决方案。",
+      "llm_tldr": "针对视频扩散模型推理成本高的问题，提出了Sol视频推理引擎，一个智能体原生的全栈加速框架。该框架通过实例特定的优化策略，适应不同模型、硬件和推理配置，实现高效视频生成。实验表明，在不牺牲质量的前提下显著降低推理延迟。该工作为视频生成的实时部署提供了系统级解决方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    }
+  ]
+}

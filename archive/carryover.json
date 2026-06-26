@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-25T22:15:20.671865+00:00",
-  "updated_date": "20260625",
+  "generated_at": "2026-06-26T01:43:40.341771+00:00",
+  "updated_date": "20260528-20260626",
   "carryover_days": 9,
   "tag_states": {
     "vd": {
@@ -10,6 +10,11 @@
     },
     "fast-gen": {
       "updated_date": "20260625",
+      "carryover_days": 9,
+      "items": []
+    },
+    "video-refine": {
+      "updated_date": "20260528-20260626",
       "carryover_days": 9,
       "items": []
     }

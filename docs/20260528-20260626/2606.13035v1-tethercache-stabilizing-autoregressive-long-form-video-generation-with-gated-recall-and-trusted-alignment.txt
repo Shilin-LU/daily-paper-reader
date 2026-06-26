@@ -1,0 +1,751 @@
+Title: TetherCache: Stabilizing Autoregressive Long-Form Video Generation with Gated Recall and Trusted Alignment
+
+URL Source: https://arxiv.org/pdf/2606.13035v1
+
+Published Time: Fri, 12 Jun 2026 00:39:19 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+Preprint. 
+
+# TETHER CACHE : STABILIZING AUTOREGRESSIVE 
+
+# LONG -F ORM VIDEO GENERATION WITH GATED RE-
+
+# CALL AND TRUSTED ALIGNMENT 
+
+Yu Meng 1, Xiangyang Luo 1, Letian Li 1, Wenyuan Jiang 2, Chen Gao 1, Xinlei Chen 1,Yong Li 1, Xiao-Ping Zhang 11Tsinghua University, 2D-INFK, ETH Z¨ urich 
+
+mengy24@mails.tsinghua.edu.cn 𝑡 = 0𝑠 𝑡 = 30𝑠 𝑡 = 60𝑠 𝑡 = 100𝑠 𝑡 = 120𝑠                                
+
+> 𝑡 =300𝑠
+> 𝑡 =120𝑠
+> 𝑡 =300𝑠 𝑡 =250𝑠
+> 𝑡 =100𝑠 𝑡 =60𝑠
+> 𝑡 =210𝑠
+> 𝑡 =210𝑠 𝑡 =250𝑠 𝑡 =180𝑠
+> 𝑡 =30𝑠
+> 𝑡 =180𝑠
+> 𝑡 =0𝑠
+> 𝑡 =150𝑠
+> 𝑡 =150𝑠
+
+Figure 1: TetherCache enables ultra-long video generation for autoregressive diffusion models. 
+
+Without requiring any additional model training, TetherCache maintains visual quality even for 5-minute video generation. 
+
+## ABSTRACT 
+
+Autoregressive video diffusion models provide a natural formulation for streaming and variable-length video generation by conditioning newly generated frames on previously generated content. However, extending these models to minute-level generation remains challenging: the limited KV-cache budget prevents the model from retaining the full history, while repeatedly conditioning on self-generated frames induces a context distribution shift that accumulates over time, leading to visual artifacts, quality degradation, and temporal drift. In this paper, we pro-pose TetherCache , a training-free and plug-and-play cache management strategy for drift-resistant long video generation. TetherCache organizes the cache into sink, memory, and recent regions, and introduces two complementary mecha-nisms. First, GRAB (Gated Recall with Attention-Diversity Balancing) selects long-range memory frames using a gated score that combines attention-based rel-evance with temporal diversity, preserving informative yet diverse historical con-text under a fixed cache budget. Second, TAME (Trusted Alignment via Memory 
+
+Editing) lightly edits newly recalled memory tokens by aligning their statistics to a trusted context distribution, reducing the pollution caused by drifted historical features. Built on Self-Forcing, TetherCache consistently improves long-video generation quality on VBench-Long across 30s, 60s, and 240s settings. In par-ticular, for 240s generation, it substantially improves overall and semantic scores while reducing quality drift from 7.84 to 1.33, demonstrating its effectiveness for stable long-horizon autoregressive video diffusion. Code and demos can be found at https://my4f175.github.io/TetherCache .1
+
+> arXiv:2606.13035v1 [cs.CV] 11 Jun 2026
+
+Preprint. 
+
+## 1 INTRODUCTION 
+
+Recent advances in diffusion-based video generation have substantially improved the visual fidelity and temporal coherence of synthesized videos. Despite this progress, most existing models remain optimized for short clips of only dozens of frames, falling short of the requirements of emerging applications such as game simulation (Wang et al., 2026; Tang et al., 2026), world modeling (Seo et al., 2026; Sun et al., 2025; NVIDIA et al., 2026), and interactive cinema (Yang et al., 2025; Luo et al., 2026; Shin et al., 2026), where models are expected to continuously synthesize minute-level video streams. Generating such long-form videos is challenging because the model must preserve both local motion continuity and long-range semantic consistency while avoiding the progressive degradation. Autoregressive (AR) video diffusion models provide a natural formulation for this setting by gen-erating video frames sequentially. Given previously generated frames or chunks (for simplicity, we use “frame” hereafter to uniformly refer to either a frame or a chunk) as conditions, an AR model predicts the next frame and can therefore be rolled out to arbitrary lengths without changing the underlying generation interface. During inference, historical frames are typically stored in the KV cache and reused as conditioning context for future generation, enabling efficient and temporally co-herent video synthesis. However, when AR diffusion models are extended far beyond their training horizon, this seemingly straightforward rollout exposes two fundamental challenges: 1. Context Length Limitation : The amount of historical context grows linearly with the generated video length, whereas the KV-cache budget is fixed by memory and latency constraints. The model must therefore discard part of the history, which can remove useful long-range cues and weaken semantic consistency. 2. Context Distribution Shift : During training, the model is conditioned on ground-truth frames or short self-generated rollouts whose distribution remains close to the training context. During long-video inference, however, the model must repeatedly condition on its own generated outputs far beyond the training window. The resulting mismatch accu-mulates over time and manifests as visual artifacts, color shifts, noise amplification, and positional or semantic drift. These two challenges are coupled but require different remedies. A cache policy should retain his-torical information that is useful for future generation under a constrained budget, but it should also prevent drifted historical features from degrading the conditioning context. Naively keeping the most recent frames preserves short-term continuity but loses long-range information, while blindly recalling generated frames may reintroduce statistically unreliable features generated after substan-tial rollout drift. This suggests that long-form AR video generation requires cache management that is both selective and distribution-aware. Existing context management methods (Yesiltepe et al., 2026; Yi et al., 2025) often select or compress context according to a single criterion, such as re-cency or attention, and therefore do not explicitly balance relevance with diversity. Moreover, al-though sink frames are widely used as persistent context (Ye et al., 2026; Yi et al., 2025; Li et al., 2026a), their role is typically limited to stabilizing attention or positional extrapolation. The reliable distributional priors carried by these early high-quality frames remain under-exploited for repairing drifted historical features. To this end, we propose TetherCache , a training-free and plug-and-play cache management strategy for drift-resistant long video generation. TetherCache organizes the KV cache into three regions: 
+
+Sink , Recent , and Memory . The Sink cache stores several initial frames as trusted sink frames, motivated by the observation that early AR outputs are generated under contexts closest to those seen during training and usually have higher quality. The Recent cache keeps the latest frames to preserve local temporal coherence. The Memory cache stores a compact subset of intermediate historical frames that supplies long-range context under a fixed cache budget. By separating these roles, TetherCache provides a simple structure in which stable sink frames, local continuity, and long-range recall can be handled explicitly. Within this structure, we introduce two complementary mechanisms. First, GRAB (Gated Re-call via Attention-Diversity Balancing) addresses the context length limitation by deciding which historical frames deserve memory slots. GRAB scores each candidate using both attention-based relevance and temporal diversity: the former estimates how useful a frame is for the current rollout, 2Preprint. while the latter discourages the memory from being filled with redundant neighboring frames. This gated selection preserves informative yet diverse long-range context instead of relying on a purely recency-based cache. Second, TAME (Trusted Alignment via Memory Editing) addresses context distribution shift by lightly editing newly admitted memory tokens. Using the trusted cache region as a reference, TAME aligns the statistics of admitted KV tokens toward a more reliable context distribution, reducing the risk that drifted historical features pollute future attention computation. Together, GRAB and TAME allow TetherCache to recall useful history while tethering the recalled context to a stable distribution. We implement TetherCache on top of Self-Forcing (Huang et al., 2025) without retraining or mod-ifying model parameters. Experiments on VBench-Long (Huang et al., 2024) show consistent im-provements across 30s, 60s, and 240s generation settings. In the challenging 240s setting, Tether-Cache substantially improves overall and semantic scores, and reduces ∆ Quality Drift from 7.84 to 1.33 compared with the Self-Forcing baseline. Ablation studies further show that GRAB and TAME contribute complementary gains: GRAB improves long-range recall and reduces drift, while TAME further stabilizes the cached context and improves final generation quality. Our contributions are summarized as follows: 1. We identify two coupled cache challenges in long-form AR video diffusion: limited his-torical coverage under a fixed KV-cache budget and context distribution shift caused by long-horizon self-conditioning. 2. We propose TetherCache, a training-free cache management framework that jointly ad-dresses the two failures through GRAB, which performs relevance-diversity memory recall, and TAME, which exploits sink-frame distributional priors for trusted statistic alignment. 3. We demonstrate that TetherCache improves long-video generation quality on VBench-Long across multiple durations, with especially strong gains in 240s generation and quality-drift reduction, without modifying model parameters or the original KV-cache representa-tion. 
+
+## 2 RELATED WORK 
+
+2.1 AR V IDEO DIFFUSION 
+
+The AR generation paradigm naturally aligns with the causal structure of video streams. To achieve AR video generation, one line of work (Gao et al., 2025; Hu et al., 2026; Jin et al., 2025) applies Teacher Forcing (Williams & Zipser, 1989), training diffusion models to predict subsequent video frames conditioned on clean historical frames. Another line of work (Chen et al., 2025b; Gu et al., 2025; ai et al., 2025; Song et al., 2025) builds on Diffusion Forcing (Chen et al., 2025a), enabling models to learn to denoise frames with independently sampled noise levels. CausVid (Yin et al., 2025) first proposes distilling a bidirectional diffusion model into an AR generative model using a holistic distribution-level loss (Yin et al., 2024). Based on this idea, Self-Forcing (Huang et al., 2025) mitigates the train–test discrepancy in AR generation by introducing KV-Cache and Self-Rollout during training. Causal Forcing (Zhu et al., 2026) further improves the initialization process of Self-Forcing, achieving higher generation quality. However, although these methods enable AR generation, when extrapolating to long videos beyond the training window length, they still suffer from quality drift caused by error accumulation, facing the challenge of exposure bias (Ranzato et al., 2016). 2.2 MITIGATING EXPOSURE BIAS IN LONG VIDEO EXTRAPOLATION 
+
+To mitigate exposure bias in long video generation, SVI (Li et al., 2025) and Helios (Yuan et al., 2026) explicitly inject generation errors into training context, enabling robust generation even in the presence of quality drift. Self-Forcing++ (Cui et al., 2025) extends the training window length, while Rolling Forcing (Liu et al., 2025) and HiAR (Zou et al., 2026) slow error accumulation through joint multi-frame denoising. However, all of these methods incur the cost of retraining the model. Another line of work achieves long-horizon extrapolation or inference acceleration by designing training-free context management strategies, including the use of sink tokens (Yesiltepe et al., 2026; 3Preprint. Yi et al., 2025; Li et al., 2026a; Kim et al., 2026; Zhao et al., 2026; Ye et al., 2026; Li et al., 2026b), positional encoding designs (Yesiltepe et al., 2026; Kim et al., 2026; Li et al., 2026a; Mao et al., 2026; Li et al., 2026b), cache compression and retrieval (Kim et al., 2026; Wu et al., 2026; Mao et al., 2026; Ji et al., 2026; Samuel et al., 2026), and efficient attention mechanism (Li et al., 2026c; Samuel et al., 2026). Different from prior methods that mainly focus on cache layout or positional encoding, but largely overlook that sink frames themselves carry reliable distributional priors for repairing drifted contexts, TetherCache explicitly leverages the trusted statistics of the sink region to align newly recalled memory tokens, thereby jointly addressing memory selection and context distribution shift under the original KV-cache budget. 
+
+## 3 PRELIMINARY 
+
+AR video diffusion. We consider long-form video generation in an AR setting. A video latent sequence z1: n is generated from left to right, 
+
+p(z1: n) = 
+
+> n
+
+Y
+
+> i=1
+
+p(zi | z<i ). (1) Each conditional distribution is modeled by a diffusion generator Gθ . At denoising step j, the generator receives a noisy latent ztj 
+
+> i
+
+and attends to the KV cache produced by previously generated frames, 
+
+ztj−1 
+
+> i
+
+= Ψ 
+
+
+
+Gθ
+
+
+
+ztj 
+
+> i
+
+, t j , K<i , V<i 
+
+
+
+, t j−1
+
+
+
+, (2) where Ψ denotes the forward noising operator from level tj to tj−1, and ztT 
+
+> i
+
+∼ N (0 , I ).In practice, the cache cannot grow with video length. Let the cache budget be K latent frames and let each latent frame contain L tokens. A standard local-cache baseline stores only the most recent K
+
+frames, which bounds memory but removes all earlier context. This is problematic for long rollouts: early sink frames that calibrate attention statistics are discarded, while semantically useful distant frames become inaccessible. 
+
+## 4 METHOD 
+
+4.1 OVERVIEW 
+
+We propose TetherCache , a training-free, drop-in cache management strategy for stabilizing long-form AR video generation. As shown in Figure 2, TetherCache keeps the original cache tensor shape unchanged, but reinterprets its K frame slots as three contiguous regions: 
+
+S|{z}  
+
+> Ssink frames
+
+∥ M|{z}  
+
+> Mmemory frames
+
+∥ R|{z}  
+
+> Rrecent frames
+
+, (3) and K = S + M + R. Here S is a frozen sink region, M is a selective long-range memory, and R
+
+is a short sliding window. During warm-up, since the cache has not yet been filled, newly generated frames are added to the cache unconditionally. Once the cache first fills, the first S frames are frozen as sink frames, the next M frames initialize memory, and the last R frames form the recent window. After warmup, every newly generated frame is written to the tail of R. The front of R is evicted and becomes a candidate for long-range storage. TetherCache then performs two operations: GRAB 
+
+decides whether the evicted frame should be recalled into M, and TAME edits the recalled K/V tokens before they are written into memory. TetherCache is applied independently in each attention layer. It does not allocate a parallel KV buffer: the memory region is the same physical slice of the model’s original K and V cache. We only maintain lightweight metadata, including the global frame index of each memory slot and frozen sink statistics. To avoid corrupting rotary positions when a frame is moved into memory, TetherCache stores unrotated keys and applies block-relative RoPE when reading from the cache. 4Preprint. Autoregressive Video 
+
+Diffusion Rollout  
+
+> AR step 𝒔
+
+𝑧 !"#𝑧 !"$𝑧 !"%𝑧 !  
+
+> Temporal Diversity
+> Attention Relevance
+
+GRAB: Gated Recall with Attention -Diversity Balancing 
+
+> Evicted Frame
+> 𝑒 !
+> M!
+> cur
+
+… 
+
+> Scoring Signal Inputs
+> Top -M Selection
+
+M!&%
+
+𝑄 !𝐾 '
+
+> Attend
+> (Updated Memory Cache)
+
+TAME: Trusted Alignment via Memory Editing          
+
+> Recalled
+> Frame
+> 𝑒 !
+> Editing Strength 𝜏 strong weak
+> (Raw Tokens)
+> Edited Frame
+> mean/std statistics
+> mean 𝜇 std σ
+> Trusted Pool
+> Sink Cache S
+> Memory Cache M!
+> cur
+
+……                  
+
+> Memory Frames
+> Sink Frames
+> Recent Frames
+> Recalled Frames
+> Sink Cache SMemory Cache MRecent Cache R
+> Trusted Statistics Selected Long -Range Frames Sliding Window
+
+…      
+
+> New frame
+> enters Recent
+> Frozen Sinks
+> Edited frame
+> enters Memory
+> FIFO
+> Top -M
+> Recalled
+> Edited Recalled
+> Frame
+> 𝑒 !
+> Pop out
+> Oldest
+
+Figure 2: Overview of TetherCache. TetherCache divides the fixed KV cache into Sink, Memory, and Recent regions. GRAB performs relevance-diversity memory recall from evicted recent frames and existing memory, while TAME uses trusted sink statistics to align newly recalled KV tokens. 4.2 GRAB: G ATED RECALL WITH ATTENTION -D IVERSITY BALANCING 
+
+GRAB determines which frames deserve the limited memory slots. Suppose that at AR rollout step 
+
+s, the current memory contains m ≤ M frames and the recent window evicts one frame es. GRAB forms the candidate pool 
+
+Ps = Mcur 
+
+s ∪ { es}. (4) It then re-scores every candidate in Ps, including frames already stored in memory. The new mem-ory is the top-M subset under a score combining attention-based importance and temporal diversity: 
+
+ϕ(c) = ϕimp (c) + α ϕ div (c), c ∈ P s, (5) where α controls the strength of the diversity term. The evicted frame is recalled iff it enters this top-M set, otherwise it is dropped. Since old memory entries are also re-evaluated, GRAB is not append-only: stale memories can be demoted when a more relevant evicted frame appears. 
+
+Attention-mass importance. Let Qs ∈ RL×H×D be the clean queries of the current frame, where 
+
+L is the number of tokens per latent frame, H is the number of heads, and D is the head dimension. For a candidate frame c with key tokens Kc ∈ RL×H×D , GRAB estimates how much attention mass the candidate would attract from the current frame: 
+
+ℓ(c) = 1
+
+HL 2
+
+HX
+
+h=1 
+
+LX
+
+q=1 
+
+LX
+
+k=1 
+
+D
+
+Qhs,q , Khc,k 
+
+E
+
+√D , ϕimp (c) = exp ( ℓ(c)) 
+
+P
+
+c′∈P s exp ( ℓ(c′)) . (6) This score is computed from the same query-key geometry used by attention, but pooled to one scalar per candidate frame. The implementation also supports a lightweight equivalent that sums queries before the matrix product, avoiding explicitly constructing the full L × |P s|L attention tensor. 
+
+Temporal diversity. Importance alone can fill memory with adjacent frames from the same short interval. GRAB therefore adds a temporal diversity bonus that favors candidates covering different parts of the rollout. Let gc ∈ Z be the global frame index of candidate c, and set 
+
+σs = max 
+
+
+
+1, 12
+
+
+
+max 
+
+c∈P s
+
+gc − min 
+
+c∈P s
+
+gc + 1 
+
+ 
+
+. (7) 5Preprint. We measure the redundancy of c as its maximum importance-weighted temporal similarity to any other candidate: 
+
+r(c) = max   
+
+> c′̸=c
+
+exp 
+
+
+
+− |gc − gc′ |
+
+σs
+
+
+
+ϕimp (c′). (8) The diversity bonus is 
+
+ϕdiv (c) = max (0 , 1 − r(c)) . (9) A candidate receives a small bonus if it lies near another already important candidate, and a large bonus if it represents a temporally isolated portion of the video. Finally, GRAB selects 
+
+Ms+1 = TopM c∈P s ϕ(c). (10) 4.3 TAME: T RUSTED ALIGNMENT VIA MEMORY EDITING 
+
+GRAB recalls useful distant frames, but recalled K/V tokens may have drifted statistically during long rollouts. Such drift changes attention calibration: even semantically relevant tokens can distort the softmax distribution if their K/V statistics no longer match the trusted context. TAME addresses this by editing only newly recalled frames, leaving sink frames, recent frames, and already accepted memory entries untouched. For a recalled frame, let x ∈ RL×H×D denote either its key or value tokens. TAME constructs a trusted pool 
+
+Ts = S ∪ Mcur  
+
+> s
+
+, (11) where sink frames provide a stable distributional tether and existing memory provides slowly evolv-ing rollout context. When x denotes key or value tokens, Ts denotes the corresponding key or value tokens from the trusted pool. K and V are edited separately. We compute per-head, per-channel statistics over token positions, 
+
+(μx, σ x) = Stat( x), (μT , σ T ) = Stat( Ts), (12) where μ, σ ∈ RH×D, and Stat returns the mean and standard deviation over the batch/token axes. TAME then performs a partial alignment: 
+
+˜x = σT ⊙ x − μx
+
+σx
+
++ μT , ˆx = (1 − τ )x + τ ˜x, τ ∈ [0 , 1] . (13) This preserves the normalized content pattern of the recalled frame while aligning its first- and second-order statistics to trusted cache tokens. The edit is conservative: if the candidate is already close to the trusted distribution, then ˜x ≈ x and the update is nearly identity. If it has drifted, the blend pulls it back proportionally to τ .4.4 PUTTING IT TOGETHER 
+
+At each steady-state frame, TetherCache executes the following procedure in every attention layer: (1) roll the recent window and snapshot the evicted frame; (2) write the current frame to the recent tail on every denoising pass; (3) run GRAB over existing memory plus the evicted frame; (4) apply TAME if that frame is newly recalled; and (5) rewrite the memory region with the selected top-M
+
+frames. The method preserves the cache budget and attention interface of the baseline. Its overhead is limited to one small candidate scoring operation per generated frame and per-layer metadata for memory indices and sink statistics. By combining short-term recency, long-term selective recall, and trusted statistical alignment, TetherCache stabilizes long-form generation without model finetuning or changing the diffusion sampler. 
+
+## 5 EXPERIMENTS 
+
+5.1 EXPERIMENTAL SETUP 
+
+Implementation Details. We implement the proposed method upon Self Forcing, an AR diffusion model trained on Wan2.1 (Wan et al., 2025). We use a total cache budget of K = 21 (where S = 3 
+
+6Preprint. Table 1: Quantitative comparison for 30s, 60s and 240s video generation on VBench-Long. 
+
+The best performance is highlighted in bold, and the second-best is underlined. Cons. stands for Consistency.                                                                                                                                                            
+
+> Model Dynamic Degree ↑Imaging Quality ↑Color Cons. ↑Overall Cons. ↑∆Quality Drift ↓
+> Evaluation Scores ↑
+> Total Score Quality Score Semantic Score
+> 30 seconds CausVid 52.00 67.38 78.04 24.94 4.45 81.79 83.42 75.31 Self Forcing 24.29 69.79 68.27 26.11 0.95 80.86 82.03 76.16
+> ∞-RoPE 45.71 69.22 70.21 25.60 1.01 82.31 82.95 79.73 MemRoPE 41.43 69.40 72.94 26.03 0.09 81.74 82.92 77.01 Deep Forcing 37.14 68.12 89.06 25.40 4.17 82.04 82.76 79.17
+> Ours 48.57 70.00 89.74 25.71 -0.51 82.70 83.40 79.94
+> 60 seconds CausVid 39.33 67.66 78.35 24.45 2.57 80.06 82.16 71.67 Self Forcing 34.48 67.06 67.56 23.49 11.34 78.82 81.53 67.97
+> ∞-RoPE 22.76 65.00 56.23 23.96 11.51 78.40 80.60 69.59 MemRoPE 34.48 67.36 81.95 24.74 4.75 79.69 81.04 74.27 Deep Forcing 23.45 70.01 90.96 26.69 1.97 81.49 82.01 79.42
+> Ours 43.45 69.84 95.01 26.07 0.33 82.11 82.51 80.49
+> 240 seconds CausVid 33.75 67.31 72.21 23.42 8.03 78.45 82.03 64.12 Self Forcing 28.99 58.51 78.78 14.98 7.84 71.22 77.95 44.34
+> ∞-RoPE 39.71 56.29 78.84 18.52 8.84 72.34 79.02 45.61 MemRoPE 34.03 64.69 79.21 21.77 7.94 75.63 80.13 57.62 Deep Forcing 25.42 65.59 90.47 24.44 3.96 78.44 79.92 72.54
+> Ours 35.50 68.58 98.96 25.70 1.33 80.17 81.50 74.85
+
+and R = 4 ) as the default cache configuration to align with the training window length of Self-Forcing, with α = 0 .35 and τ = 0 .6 as the default hyperparameters. Following (Yesiltepe et al., 2026; Kim et al., 2026), we use block-wise relative RoPE to further maintain the distributional stability of the KV cache. 
+
+Evaluation Protocol. We randomly sample 128 prompts from MovieGen-Bench (Polyak et al., 2024) to generate videos of 30s and 60s, and sample 32 prompts to generate 240s videos at a reso-lution of 832 × 480 , and evaluate them using VBench metrics. All prompts are refined by Qwen2.5-7B-Instruct (Qwen et al., 2025). To evaluate quality drift in long video generation, following (Zhang et al., 2025), we compute the difference in Imaging Quality between the first and last clips of each video, denoted as ∆ Quality Drift. The ∆ Quality Drift value intuitively reflects the degree of er-ror accumulation. We also conduct a user study follow the Two-Alternative Forced Choice (2AFC) protocol. 5.2 MAIN RESULTS 
+
+Quantitative Results. Table 1 reports quantitative comparisons with several state-of-the-art base-lines under 30s, 60s, and 240s generation settings. Overall, TetherCache achieves the best Total Score at all three durations, showing that the proposed cache management strategy consistently im-proves long-video generation quality without retraining the backbone model. In the 30s setting, our method obtains the highest Total Score and Semantic Score, while also achieving the lowest ∆
+
+Quality Drift. This indicates that TetherCache does not sacrifice short-horizon generation quality despite introducing long-range memory management. The advantage becomes more pronounced as the generation length increases. For 60s videos, Teth-erCache achieves the best Dynamic Degree, Quality Score, Semantic Score, Total Score, and ∆
+
+Quality Drift, and remains competitive on Imaging Quality and Overall Consistency. In the more challenging 240s setting, most baselines suffer from substantial degradation: Self-Forcing drops to 58.51 Imaging Quality and 44.34 Semantic Score, while its ∆ Quality Drift reaches 7.84. In contrast, TetherCache maintains the best Imaging Quality, Overall Consistency, Total Score, and 7Preprint. TetherCache  Deep            
+
+> Forcing  ∞-RoPE  Self
+> Forcing
+> 0s 60s
+> Frame 0Frame 240 Frame 480 Frame 720 Frame 960
+> TetherCache  Deep
+> Forcing  ∞-RoPE  Self
+> Forcing
+> 0s 60s A close -up of a young adult playing a classic acoustic guitar, with their fingers deftly plucking the strings.
+> They sit in a cozy, dimly lit room, with soft ambient lighting casting gentle shadows across their face…
+> A person is roller skating in an urban park, moving smoothly across the paved path. They wear a black
+> helmet with a visor and knee pads, elbow pads, and wrist guards for safety…
+
+Figure 3: Qualitative comparisons with baselines. TetherCache better preserves visual quality throughout long rollouts, while suppressing accumulated artifacts in later clips. Semantic Score, and reduces ∆ Quality Drift to 1.33. These results demonstrate that retaining rele-vant and diverse historical context with GRAB and stabilizing admitted memory tokens with TAME effectively mitigates both semantic drift and visual quality degradation during long AR rollouts. 
+
+Qualitative Results. Figure 3 presents qualitative comparisons between our method and represen-tative baselines in long-video generation. Baseline methods tend to suffer from visible degradation as the rollout becomes longer, including accumulated noise, color or illumination shifts, distorted object shapes, and weakened semantic consistency. These artifacts are especially pronounced in later clips, where the model has repeatedly conditioned on its own imperfect generations. In contrast, our method maintains more stable visual quality and preserves the main scene layout, object identity, and motion continuity. The improvement suggests that TetherCache not only enhances quantitative scores, but also effectively suppresses perceptible drift in actual generated videos. By recalling in-formative historical frames and regularizing recalled memory tokens, we provide a cleaner and more reliable conditioning context throughout the AR rollout. 8Preprint. Table 2: User Preference Rates. Pairwise 2AFC user preference percentages of TetherCache over each baseline.                        
+
+> Method Subject Consistency Imaging Quality Overall Quality Avg.
+> vs. CausVid 89.29 100.00 96.43 95.24 vs. Self Forcing 71.43 71.43 67.86 70.24 vs. ∞-RoPE 71.43 67.86 67.86 69.05 vs. MemRoPE 71.43 82.14 71.43 75.00 vs. Deep Forcing 64.29 67.86 67.86 66.67
+
+User Studies. Table 2 reports the human preference rates of 14 participants under the 2AFC proto-col. Participants compare videos generated from the same prompt and choose the better one in terms of different metrics. TetherCache is preferred over all baselines across all aspects, confirming that the improvements are perceptually noticeable beyond automatic metrics. These results suggest that TetherCache better preserves subject identity and imaging quality during extended rollouts, leading to more coherent and visually appealing long videos. 5.3 ABLATION STUDIES 
+
+Table 3 validates the effectiveness of the two proposed components on the 240s generation setting. Starting from the Self-Forcing baseline, adding GRAB improves the Total Score from 71.22 to 78.80 and the Semantic Score from 44.34 to 71.05, while reducing ∆ Quality Drift from 7.84 to 3.64. This indicates that relevance-diversity gated recall provides more informative long-range context than the original cache policy and substantially alleviates semantic degradation over long rollouts. Further adding TAME improves all metrics consistently, increasing the Total Score to 80.17 and further reducing ∆ Quality Drift to 1.33. The additional gain confirms that the recalled memory frames are not only required to be relevant and diverse, but also need to be statistically aligned with a trusted context distribution. Overall, GRAB and TAME address the two major failure modes from complementary perspectives: GRAB mitigates information loss under a limited cache budget, whereas TAME suppresses error accumulation caused by drifted memory features. We provide a qualitative ablation study in Appendix A.2. Table 3: Ablation Studies. Component ablation on 240s video generation. We progressively add GRAB and TAME to the baseline and verify their complementary effects.                   
+
+> Method Total Score ↑
+> Quality Score ↑
+> Semantic Score ↑
+> ∆Quality Drift ↓
+> SF (Baseline) 71.22 77.95 44.34 7.84 + GRAB 78.80 80.74 71.05 3.64 + GRAB + TAME ( Ours )80.17 81.50 74.85 1.33
+
+5.4 ANALYSIS AND DISCUSSION 
+
+Hyperparameter Sensitivity. Detailed results are provided in Appendix A.3. Overall, Tether-Cache is stable across a range of α and τ : a moderate diversity weight ( α = 0 .35 ) best balances relevance and temporal coverage, while TAME becomes more helpful for longer rollouts and satu-rates around τ = 0 .6. We use these values as defaults. 
+
+Latent statistic drift analysis. Figure 4 visualizes how the latent statistics deviate from the trusted reference distribution along the AR rollout. For both the mean and standard deviation, Self-Forcing exhibits a clear monotonic increase in drift magnitude as the latent frame index grows, indicating that repeatedly conditioning on self-generated frames gradually moves the cached features away from the training-time context distribution. ∞-RoPE slows this process to some extent, but its latent statistics still keep drifting over long horizons. In contrast, our method keeps both mean drift and standard-deviation drift consistently low and stable after the initial context region. This directly sup-ports the motivation of TAME: lightly aligning newly admitted memory tokens to trusted statistics 9Preprint. 50 100 150 200      
+
+> latent frame index t
+> 0
+> 1
+> 2
+> 3
+> (t) ref  2
+> Mean drift magnitude
+> Self-Forcing
+> Infinity-RoPE
+> Ours 50 100 150 200
+> latent frame index t
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> (t) ref  2
+> Standard deviation drift magnitude
+> Self-Forcing
+> Infinity-RoPE
+> Ours
+
+(a) (b) Figure 4: Latent statistic drift analysis. (a) Mean drift magnitude. (b) Standard deviation drift magnitude. prevents drifted KV features from polluting the future context, thereby reducing the accumulation of distribution mismatch during long-video generation. 50 100 150 200  
+
+> AR step (latent frame index t)
+> 0
+> 2
+> 4
+> 6
+> 8
+> 10
+> 12
+> memory slot  m
+
+Cache Biography   
+
+> 100
+> 200
+> source frame index 100 200
+> AR step
+> 0
+> 50
+> 100
+> 150
+> 200
+> source frame index  f Ours
+> 100 200
+> AR step
+> source frame index  f Attention Only
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> token retention
+
+(a) (b) Figure 5: Cache content visualization. (a) Source-frame indices stored in each memory slot during rollout. (b) Token retention comparison between our relevance-diversity recall and attention-only selection. 
+
+Cache content visualization. Figure 5 illustrates how GRAB manages the limited memory. The cache biography in Figure 5(a) shows that different memory slots are assigned to source frames from different temporal ranges instead of being occupied only by the latest frames. Some slots retain early or middle-stage frames for a long period, while others are updated with more recent frames as the rollout progresses, forming a temporally broad memory layout. This behavior matches the design of GRAB, which jointly considers relevance and diversity. Figure 5(b) compares our selection with an attention-only strategy. Attention-only retention concentrates around a narrow diagonal band, meaning that the cache is dominated by temporally adjacent frames and quickly forgets distant history. By contrast, our method produces sparse but long-lasting horizontal retention patterns, showing that selected historical frames can remain in memory across many AR steps. These results demonstrate that the diversity term prevents redundant local caching and enables the memory cache to provide diverse long-range context, which complements TAME’s role in stabilizing the distribution of the recalled tokens. 
+
+Computational Overhead. The runtime comparison is reported in Appendix A.4. TetherCache keeps the backbone and cache budget unchanged, adding only lightweight scoring and editing for recalled frames. It introduces < 6% latency overhead over Self-Forcing and remains comparable to baselines such as Deep Forcing, indicating a favorable quality-efficiency trade-off. 
+
+## 6 CONCLUSION 
+
+We present TetherCache , a training-free cache management strategy for stable long-horizon autore-gressive video diffusion. By combining relevance-diversity based memory selection with trusted memory editing, TetherCache preserves useful historical context while mitigating distribution drift in the KV cache. Experiments on VBench-Long show consistent improvements over strong base-lines across 30s, 60s, and 240s generation, especially in reducing long-term quality drift. 10 Preprint. 
+
+## REFERENCES 
+
+Sand. ai, Hansi Teng, Hongyu Jia, Lei Sun, Lingzhi Li, Maolin Li, Mingqiu Tang, Shuai Han, Tianning Zhang, W. Q. Zhang, Weifeng Luo, Xiaoyang Kang, Yuchen Sun, Yue Cao, Yunpeng Huang, Yutong Lin, Yuxin Fang, Zewei Tao, Zheng Zhang, Zhongshu Wang, Zixun Liu, Dai Shi, Guoli Su, Hanwen Sun, Hong Pan, Jie Wang, Jiexin Sheng, Min Cui, Min Hu, Ming Yan, Shucheng Yin, Siran Zhang, Tingting Liu, Xianping Yin, Xiaoyu Yang, Xin Song, Xuan Hu, Yankai Zhang, and Yuqiao Li. Magi-1: Autoregressive video generation at scale, 2025. URL 
+
+https://arxiv.org/abs/2505.13211 .Boyuan Chen, Diego Mart´ ı Mons´ o, Yilun Du, Max Simchowitz, Russ Tedrake, and Vincent Sitz-mann. Diffusion forcing: Next-token prediction meets full-sequence diffusion. Advances in Neural Information Processing Systems , 37:24081–24125, 2025a. Guibin Chen, Dixuan Lin, Jiangping Yang, Chunze Lin, Junchen Zhu, Mingyuan Fan, Hao Zhang, Sheng Chen, Zheng Chen, Chengcheng Ma, Weiming Xiong, Wei Wang, Nuo Pang, Kang Kang, Zhiheng Xu, Yuzhe Jin, Yupeng Liang, Yubing Song, Peng Zhao, Boyuan Xu, Di Qiu, Debang Li, Zhengcong Fei, Yang Li, and Yahui Zhou. Skyreels-v2: Infinite-length film generative model, 2025b. URL https://arxiv.org/abs/2504.13074 .Justin Cui, Jie Wu, Ming Li, Tao Yang, Xiaojie Li, Rui Wang, Andrew Bai, Yuanhao Ban, and Cho-Jui Hsieh. Self-forcing++: Towards minute-scale high-quality video generation. arXiv preprint arXiv:2510.02283 , 2025. Tri Dao. Flashattention-2: Faster attention with better parallelism and work partitioning, 2023. URL 
+
+https://arxiv.org/abs/2307.08691 .Kaifeng Gao, Jiaxin Shi, Hanwang Zhang, Chunping Wang, Jun Xiao, and Long Chen. Ca2-vdm: Efficient autoregressive video diffusion model with causal generation and cache sharing. In ICML .PMLR, 2025. Yuchao Gu, weijia Mao, and Mike Zheng Shou. Long-context autoregressive video modeling with next-frame prediction. arXiv preprint arXiv:2503.19325 , 2025. Jinyi Hu, Shengding Hu, Yuxuan Song, Yufei Huang, Mingxuan Wang, Hao Zhou, Zhiyuan Liu, Wei-Ying Ma, and Maosong Sun. ACDit: Interpolating autoregressive conditional modeling and diffusion transformer. Transactions on Machine Learning Research , 2026. ISSN 2835-8856. URL https://openreview.net/forum?id=OuFNXESoCO .Xun Huang, Zhengqi Li, Guande He, Mingyuan Zhou, and Eli Shechtman. Self forcing: Bridging the train-test gap in autoregressive video diffusion. In D. Belgrave, C. Zhang, H. Lin, R. Pascanu, P. Koniusz, M. Ghassemi, and N. Chen (eds.), Advances in Neural Information Processing Systems , volume 38, pp. 167283–167308. Curran Associates, Inc., 2025. URL https://proceedings.neurips.cc/paper_files/paper/2025/ file/f4823f831af67a3ef15e41a85434422a-Paper-Conference.pdf .Ziqi Huang, Yinan He, Jiashuo Yu, Fan Zhang, Chenyang Si, Yuming Jiang, Yuanhan Zhang, Tianx-ing Wu, Qingyang Jin, Nattapol Chanpaisit, Yaohui Wang, Xinyuan Chen, Limin Wang, Dahua Lin, Yu Qiao, and Ziwei Liu. VBench: Comprehensive benchmark suite for video generative models. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recogni-tion , 2024. Yicheng Ji, Zhizhou Zhong, Jun Zhang, Qin Yang, XiTai Jin, Ying Qin, Wenhan Luo, Shuiyang Mao, Wei Liu, and Huan Li. Forcing-kv: Hybrid kv cache compression for efficient autoregressive video diffusion models, 2026. URL https://arxiv.org/abs/2605.09681 .Yang Jin, Zhicheng Sun, Ningyuan Li, Kun Xu, Hao Jiang, Nan Zhuang, Quzhe Huang, Yang Song, Yadong MU, and Zhouchen Lin. Pyramidal flow matching for efficient video generative modeling. In Y. Yue, A. Garg, N. Peng, F. Sha, and R. Yu (eds.), 
+
+International Conference on Learning Representations , volume 2025, pp. 23378–23402, 2025. URL https://proceedings.iclr.cc/paper_files/paper/2025/file/ 3ab228c4703c4459b1a600ebadc5732c-Paper-Conference.pdf .11 Preprint. Youngrae Kim, Qixin Hu, C.-C. Jay Kuo, and Peter A. Beerel. Memrope: Training-free infinite video generation via evolving memory tokens. arXiv preprint arXiv:2603.12513 , 2026. Haodong Li, Shaoteng Liu, Zhe Lin, and Manmohan Chandraker. Rolling sink: Bridging limited-horizon training and open-ended testing in autoregressive video diffusion. arXiv preprint arXiv:2602.07775 , 2026a. Jia Li, Xiaomeng Fu, Xurui Peng, Weifeng Chen, Youwei Zheng, Tianyu Zhao, Jiexi Wang, Fang-min Chen, Xing Wang, and Hayden Kwok-Hay So. Train short, inference long: Training-free horizon extension for autoregressive video generation, 2026b. URL https://arxiv.org/ abs/2602.14027 .Ruibin Li, Tao Yang, Fangzhou Ai, Tianhe Wu, Shilei Wen, Bingyue Peng, and Lei Zhang. Long-horizon streaming video generation via hybrid attention with decoupled distillation, 2026c. URL 
+
+https://arxiv.org/abs/2604.10103 .Wuyang Li, Wentao Pan, Po-Chien Luan, Yang Gao, and Alexandre Alahi. Stable video infin-ity: Infinite-length video generation with error recycling, 2025. URL https://arxiv.org/ abs/2510.09212 .Kunhao Liu, Wenbo Hu, Jiale Xu, Ying Shan, and Shijian Lu. Rolling forcing: Autoregressive long video diffusion in real time. arXiv preprint arXiv:2509.25161 , 2025. Xiangyang Luo, Qingyu Li, Xiaokun Liu, Wenyu Qin, Miao Yang, Meng Wang, Pengfei Wan, Di Zhang, Kun Gai, and Shao-Lun Huang. Filmweaver: Weaving consistent multi-shot videos with cache-guided autoregressive diffusion. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 40, pp. 7689–7697, 2026. Xiaofeng Mao, Shaohao Rui, Kaining Ying, Bo Zheng, Chuanhao Li, Mingmin Chi, and Kaipeng Zhang. Packforcing: Short video training suffices for long video sampling and long context inference, 2026. URL https://arxiv.org/abs/2603.25730 .NVIDIA, :, Arslan Ali, Junjie Bai, Maciej Bala, Yogesh Balaji, Aaron Blakeman, Tiffany Cai, Jiaxin Cao, Tianshi Cao, Elizabeth Cha, Yu-Wei Chao, Prithvijit Chattopadhyay, Mike Chen, Yongxin Chen, Yu Chen, Shuai Cheng, Yin Cui, Jenna Diamond, Yifan Ding, Jiaojiao Fan, Linxi Fan, Liang Feng, Francesco Ferroni, Sanja Fidler, Xiao Fu, Ruiyuan Gao, Yunhao Ge, Jinwei Gu, Aryaman Gupta, Siddharth Gururani, Imad El Hanafi, Ali Hassani, Zekun Hao, Jacob Huffman, Joel Jang, Pooya Jannaty, Jan Kautz, Grace Lam, Xuan Li, Zhaoshuo Li, Maosheng Liao, Chen-Hsuan Lin, Tsung-Yi Lin, Yen-Chen Lin, Huan Ling, Ming-Yu Liu, Xian Liu, Yifan Lu, Alice Luo, Qianli Ma, Hanzi Mao, Kaichun Mo, Seungjun Nah, Yashraj Narang, Abhijeet Panaskar, Lindsey Pavao, Trung Pham, Morteza Ramezanali, Fitsum Reda, Scott Reed, Xuanchi Ren, Hao-nan Shao, Yue Shen, Stella Shi, Shuran Song, Bartosz Stefaniak, Shangkun Sun, Shitao Tang, Sameena Tasmeen, Lyne Tchapmi, Wei-Cheng Tseng, Jibin Varghese, Andrew Z. Wang, Hao Wang, Haoxiang Wang, Heng Wang, Ting-Chun Wang, Fangyin Wei, Jiashu Xu, Dinghao Yang, Xiaodong Yang, Haotian Ye, Seonghyeon Ye, Xiaohui Zeng, Jing Zhang, Qinsheng Zhang, Kai-wen Zheng, Andrew Zhu, and Yuke Zhu. World simulation with video foundation models for physical ai, 2026. URL https://arxiv.org/abs/2511.00062 .Adam Polyak, Amit Zohar, Andrew Brown, Andros Tjandra, Animesh Sinha, Ann Lee, Apoorv Vyas, Bowen Shi, Chih-Yao Ma, Ching-Yao Chuang, et al. Movie gen: A cast of media founda-tion models. arXiv preprint arXiv:2410.13720 , 2024. Qwen, :, An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, Huan Lin, Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jingren Zhou, Junyang Lin, Kai Dang, Keming Lu, Keqin Bao, Kexin Yang, Le Yu, Mei Li, Mingfeng Xue, Pei Zhang, Qin Zhu, Rui Men, Runji Lin, Tianhao Li, Tianyi Tang, Tingyu Xia, Xingzhang Ren, Xuancheng Ren, Yang Fan, Yang Su, Yichang Zhang, Yu Wan, Yuqiong Liu, Zeyu Cui, Zhenru Zhang, and Zihan Qiu. Qwen2.5 technical report, 2025. URL https://arxiv.org/abs/2412.15115 .Marc’Aurelio Ranzato, Sumit Chopra, Michael Auli, and Wojciech Zaremba. Sequence level train-ing with recurrent neural networks. In Yoshua Bengio and Yann LeCun (eds.), 4th International 
+
+12 Preprint. 
+
+Conference on Learning Representations, ICLR 2016, San Juan, Puerto Rico, May 2-4, 2016, Conference Track Proceedings , 2016. URL http://arxiv.org/abs/1511.06732 .Dvir Samuel, Issar Tzachor, Matan Levy, Micahel Green, Gal Chechik, and Rami Ben-Ari. Fast autoregressive video diffusion and world models with temporal cache compression and sparse attention, 2026. URL https://arxiv.org/abs/2602.01801 .Junyoung Seo, Hyunwook Choi, Minkyung Kwon, Jinhyeok Choi, Siyoon Jin, Gayoung Lee, Junho Kim, JoungBin Lee, Geonmo Gu, Dongyoon Han, Sangdoo Yun, Seungryong Kim, and Jin-Hwa Kim. Grounding world simulation models in a real-world metropolis, 2026. URL https: //arxiv.org/abs/2603.15583 .Joonghyuk Shin, Zhengqi Li, Richard Zhang, Jun-Yan Zhu, Jaesik Park, Eli Shechtman, and Xun Huang. Motionstream: Real-time video generation with interactive motion controls, 2026. URL 
+
+https://arxiv.org/abs/2511.01266 .Kiwhan Song, Boyuan Chen, Max Simchowitz, Yilun Du, Russ Tedrake, and Vincent Sitz-mann. History-guided video diffusion. In Aarti Singh, Maryam Fazel, Daniel Hsu, Simon Lacoste-Julien, Felix Berkenkamp, Tegan Maharaj, Kiri Wagstaff, and Jerry Zhu (eds.), Pro-ceedings of the 42nd International Conference on Machine Learning , volume 267 of Pro-ceedings of Machine Learning Research , pp. 56242–56280. PMLR, 13–19 Jul 2025. URL 
+
+https://proceedings.mlr.press/v267/song25b.html .Wenqiang Sun, Haiyu Zhang, Haoyuan Wang, Junta Wu, Zehan Wang, Zhenwei Wang, Yunhong Wang, Jun Zhang, Tengfei Wang, and Chunchao Guo. Worldplay: Towards long-term geomet-ric consistency for real-time interactive world modeling, 2025. URL https://arxiv.org/ abs/2512.14614 .Junshu Tang, Jiacheng Liu, Jiaqi Li, Longhuang Wu, Haoyu Yang, Penghao Zhao, Siruis Gong, Xiang Yuan, Shuai Shao, Linfeng Zhang, and Qinglin Lu. Hunyuan-gamecraft-2: Instruction-following interactive game world model, 2026. URL https://arxiv.org/abs/2511. 23429 .Team Wan, Ang Wang, Baole Ai, Bin Wen, Chaojie Mao, Chen-Wei Xie, Di Chen, Feiwu Yu, Haiming Zhao, Jianxiao Yang, Jianyuan Zeng, Jiayu Wang, Jingfeng Zhang, Jingren Zhou, Jinkai Wang, Jixuan Chen, Kai Zhu, Kang Zhao, Keyu Yan, Lianghua Huang, Mengyang Feng, Ningyi Zhang, Pandeng Li, Pingyu Wu, Ruihang Chu, Ruili Feng, Shiwei Zhang, Siyang Sun, Tao Fang, Tianxing Wang, Tianyi Gui, Tingyu Weng, Tong Shen, Wei Lin, Wei Wang, Wei Wang, Wenmeng Zhou, Wente Wang, Wenting Shen, Wenyuan Yu, Xianzhong Shi, Xiaoming Huang, Xin Xu, Yan Kou, Yangyu Lv, Yifei Li, Yijing Liu, Yiming Wang, Yingya Zhang, Yitong Huang, Yong Li, You Wu, Yu Liu, Yulin Pan, Yun Zheng, Yuntao Hong, Yupeng Shi, Yutong Feng, Zeyinzi Jiang, Zhen Han, Zhi-Fan Wu, and Ziyu Liu. Wan: Open and advanced large-scale video generative models, 2025. URL https://arxiv.org/abs/2503.20314 .Zile Wang, Zexiang Liu, Jiaxing Li, Kaichen Huang, Baixin Xu, Fei Kang, Mengyin An, Peiyu Wang, Biao Jiang, Yichen Wei, Yidan Xietian, Jiangbo Pei, Liang Hu, Boyi Jiang, Hua Xue, Zidong Wang, Haofeng Sun, Wei Li, Wanli Ouyang, Xianglong He, Yang Liu, Yangguang Li, and Yahui Zhou. Matrix-game 3.0: Real-time and streaming interactive world model with long-horizon memory, 2026. URL https://arxiv.org/abs/2604.08995 .Ronald J. Williams and David Zipser. A learning algorithm for continually running fully recurrent neural networks. Neural Computation , 1(2):270–280, 1989. doi: 10.1162/neco.1989.1.2.270. Mingqiang Wu, Weilun Feng, Zhefeng Zhang, Haotong Qin, Yuqi Li, Guoxin Fan, Xiaokun Liu, Zhulin An, Libo Huang, Yongjun Xu, and Chuanguang Yang. Echo-forcing: A scene memory framework for interactive long video generation, 2026. URL https://arxiv.org/abs/ 2605.16003 .Shuai Yang, Wei Huang, Ruihang Chu, Yicheng Xiao, Yuyang Zhao, Xianbang Wang, Muyang Li, Enze Xie, Yingcong Chen, Yao Lu, and Song Hanand Yukang Chen. Longlive: Real-time interactive long video generation, 2025. 13 Preprint. Bo Ye, Xinyu Cui, Jian Zhao, Tong Wei, and Min-Ling Zhang. Dysink: Dynamic frame sinks for autoregressive long video generation, 2026. URL https://arxiv.org/abs/2605. 21028 .Hidir Yesiltepe, Tuna Han Salih Meral, Adil Kaan Akan, Kaan Oktay, and Pinar Yanardag. Infinity-rope: Action-controllable infinite video generation emerges from autoregressive self-rollout, 2026. URL https://arxiv.org/abs/2511.20649 .Jung Yi, Wooseok Jang, Paul Hyunbin Cho, Jisu Nam, Heeji Yoon, and Seungryong Kim. Deep forcing: Training-free long video generation with deep sink and participative compression. arXiv preprint arXiv:2512.05081 , 2025. Tianwei Yin, Micha¨ el Gharbi, Richard Zhang, Eli Shechtman, Fr´ edo Durand, William T Freeman, and Taesung Park. One-step diffusion with distribution matching distillation. In CVPR , 2024. Tianwei Yin, Qiang Zhang, Richard Zhang, William T Freeman, Fredo Durand, Eli Shechtman, and Xun Huang. From slow bidirectional to fast autoregressive video diffusion models. In CVPR ,2025. Shenghai Yuan, Yuanyang Yin, Zongjian Li, Xinwei Huang, Xiao Yang, and Li Yuan. Helios: Real real-time long video generation model, 2026. URL https://arxiv.org/abs/2603. 04379 .Lvmin Zhang, Shengqu Cai, Muyang Li, Gordon Wetzstein, and Maneesh Agrawala. Frame con-text packing and drift prevention in next-frame-prediction video diffusion models, 2025. URL 
+
+https://arxiv.org/abs/2504.12626 .Zengqun Zhao, Yanzuo Lu, Ziquan Liu, Jifei Song, Jiankang Deng, and Ioannis Patras. Re-lax forcing: Relaxed kv-memory for consistent long video generation, 2026. URL https: //arxiv.org/abs/2603.21366 .Hongzhou Zhu, Min Zhao, Guande He, Hang Su, Chongxuan Li, and Jun Zhu. Causal forcing: Autoregressive diffusion distillation done right for high-quality real-time interactive video gener-ation. arXiv preprint arXiv:2602.02214 , 2026. Kai Zou, Dian Zheng, Hongbo Liu, Tiankai Hang, Bin Liu, and Nenghai Yu. Hiar: Efficient autore-gressive long video generation via hierarchical denoising, 2026. URL https://arxiv.org/ abs/2603.08703 .14 Preprint. 
+
+## A APPENDIX 
+
+A.1 THE TETHER CACHE ALGORITHM 
+
+Algorithm 1 TetherCache for one attention layer 
+
+Require: Cache budget K = S + M + R; tokens per frame L; GRAB weight α; TAME strength τ
+
+Require: Current clean query Qs and K/V tokens (Ks, Vs); cache S∥M∥R
+
+Ensure: Updated cache and attention output at rollout step s 
+
+> 1:
+
+if cache is not filled then  
+
+> 2:
+
+Append (Ks, Vs) to the live cache.  
+
+> 3:
+
+if the cache first reaches K frames then  
+
+> 4:
+
+Freeze the first S frames as S. 
+
+> 5:
+
+Initialize M with the next M frames and store their global indices gc. 
+
+> 6:
+
+Set the last R frames as the recent window R. 
+
+> 7:
+
+end if  
+
+> 8:
+
+Apply block-relative RoPE on cached keys and return attention.  
+
+> 9:
+
+end if  
+
+> 10:
+
+Snapshot the front recent frame es ← head( R). 
+
+> 11:
+
+Roll R left and write (Ks, Vs) to its tail.  
+
+> 12:
+
+Form Ps ← Mcur  
+
+> s
+
+∪ { es}. 
+
+> 13:
+
+σs ← max(1 , 12 (max c∈P s gc − min c∈P s gc + 1)) . 
+
+> 14:
+
+for all c ∈ P s do  
+
+> 15:
+
+ℓ(c) ← 1
+
+> HL 2
+
+P
+
+> h,q,k
+
+⟨Qhs,q , Khc,k ⟩/√D. 
+
+> 16:
+
+end for  
+
+> 17:
+
+ϕimp (c) ← exp( ℓ(c)) / P 
+
+> c′∈P s
+
+exp( ℓ(c′)) for all c. 
+
+> 18:
+
+for all c ∈ P s do  
+
+> 19:
+
+r(c) ← max c′̸ =c exp( −| gc − gc′ |/σ s)ϕimp (c′). 
+
+> 20:
+
+ϕ(c) ← ϕimp (c) + α max(0 , 1 − r(c)) . 
+
+> 21:
+
+end for  
+
+> 22:
+
+Ms+1 ← TopM c∈P s ϕ(c). 
+
+> 23:
+
+if es ∈ Ms+1 then  
+
+> 24:
+
+Ts ← S ∪ Mcur  
+
+> s
+
+. 
+
+> 25:
+
+for all x ∈ { Kes , Ves } do  
+
+> 26:
+
+(μx, σ x) ← Stat( x). 
+
+> 27:
+
+(μT , σ T ) ← Stat( Ts) using the corresponding K/V trusted tokens.  
+
+> 28:
+
+˜x ← σT ⊙ (x − μx)/σ x + μT . 
+
+> 29:
+
+ˆx ← (1 − τ )x + τ ˜x. 
+
+> 30:
+
+end for  
+
+> 31:
+
+Replace es in Ms+1 with ( ˆKes , ˆVes ). 
+
+> 32:
+
+end if  
+
+> 33:
+
+Rewrite the physical memory region with Ms+1 and update global-index metadata.  
+
+> 34:
+
+Apply block-relative RoPE on cached keys and return attention over S∥Ms+1 ∥R.Algorithm 1 summarizes the layer-wise procedure of TetherCache. The implementation follows the same fixed cache layout in Eq. 3: newly generated K/V tokens are written into the recent region, the evicted recent frame competes with existing memory through GRAB, and TAME is applied only when the evicted frame is newly admitted. In AR diffusion inference, the same slot is overwritten during noisy denoising passes, while the GRAB/TAME update is executed on the final clean context pass using the clean query tokens Qs.A.2 QUALITATIVE ABLATION STUDY 
+
+Figure 6 presents the qualitative results of the ablation study. In 30-second video generation, the baseline method quickly exhibits significant color shifts and inconsistencies. After applying GRAB, the color consistency of the generated video is substantially improved, although artifacts highlighted by the red boxes still appear. When both GRAB and TAME are applied simultaneously, these artifacts are eliminated, enabling stable and consistent long-video generation. 15 Preprint. +GRAB  Self           
+
+> Forcing
+> Frame 0Frame 120 Frame 240 Frame 360 Frame 480
+> +GRAB
+> +TAME
+> 0s 30s A vibrant display of fireworks lighting up the night sky. The fireworks burst into colorful explosions of red,
+> blue, green, and gold, creating intricate patterns against a dark, starry backdrop …
+
+Figure 6: Qualitative ablation results. 
+
+A.3 HYPERPARAMETER SENSITIVITY 0.00 0.15 0.35 0.60 1.00       
+
+> 0.810
+> 0.820
+> 0.830
+> 0.840
+> VBench Score
+> Total Score
+> Imaging Quality
+> Quality Drift 1.5
+> 1.0
+> 0.5
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> Quality Drift
+> VBench Score and Quality Drift vs 0.0 0.1 0.3 0.6 0.8
+> 74.00
+> 76.00
+> 78.00
+> 80.00
+> 82.00
+> VBench Score
+> VBench Score vs
+> 30s
+> 240s
+
+(a) (b) Figure 7: Hyperparameter sensitivity analysis. (a) VBench score and ∆ Quality Drift under different αs. (b) VBench score under different τ s. Figure 7 studies the sensitivity of TetherCache to the two key hyperparameters: the diversity weight 
+
+α in GRAB and the editing strength τ in TAME. As shown in Figure 7(a), the overall performance is relatively stable across different α values, indicating that GRAB is not overly sensitive to the exact balance between attention-based relevance and temporal diversity. Nevertheless, setting α =0.35 achieves the best Total Score and Imaging Quality, while also producing the lowest ∆ Quality Drift. When α is too small, the selection is dominated by attention relevance and tends to keep temporally clustered frames, which weakens long-range coverage. When α becomes too large, the cache may over-emphasize temporal dispersion and admit less relevant frames. The intermediate value therefore provides a better trade-off between recalling useful context and maintaining diverse historical coverage. Figure 7(b) analyzes the effect of the TAME strength τ . For short 30s generation, the VBench score changes only mildly with τ , suggesting that limited rollout length introduces relatively small distri-bution drift and thus requires less aggressive correction. In contrast, for 240s generation, increasing 
+
+τ consistently improves the score until it saturates around τ = 0 .6, demonstrating that statistical alignment becomes increasingly important as the autoregressive rollout becomes longer. A very large τ brings no further gain, as excessive editing may suppress useful content-specific variations in the admitted memory tokens. We therefore use α = 0 .35 and τ = 0 .6 as the default configuration, which offers a strong and robust balance across both short and long generation settings. Figure 8 studies cache allocation under a fixed total budget. Performance improves when increasing the sink size from S = 0 to S = 3 , confirming the value of trusted sink statistics, but drops at 
+
+S = 6 as too many sink slots reduce memory capacity. For the recent window, R = 4 performs best. Larger R weakens long-range memory by occupying more cache slots. These results support our default setting S = 3 and R = 4 , which balances trusted priors, local continuity, and selective long-range recall. 16 Preprint. 0 1 2 3 6       
+
+> S
+> 81.00
+> 81.20
+> 81.40
+> 81.60
+> 81.80
+> Quality
+> Performance vs Ssize
+> Quality Score 34812
+> R
+> 80.50
+> 80.75
+> 81.00
+> 81.25
+> 81.50
+> 81.75
+> Quality
+> Performance vs Rsize
+> Quality Score
+
+(a) (b) Figure 8: Cache budget analysis. (a) The impact of sink size S on model performance. (b) The impact of recent size R on model performance. A.4 COMPUTATIONAL OVERHEAD 
+
+We analyze the computational overhead of TetherCache. The FLOPs of the baseline method’s reg-ular computation for each frame and each self-attention layer are estimated as follows (chunk-wise generation, 3 frames per chunk): 
+
+(T + 1) 
+
+| {z }
+
+> timesteps
+
+ 18 L (HD )2
+
+| {z }
+
+> QKV projection
+
++ 12 HDKL 2
+
+| {z }
+
+> Softmax( QK ⊤)V
+
++ 6LD 2
+
+| {z } 
+
+> Output projection
+
+ . (14) The additional computational cost introduced by GRAB and TAME is: 
+
+6HDL 2 (M + 3) 
+
+| {z }
+
+> GRAB
+
++ ( S + M + 2) HDL 
+
+| {z }
+
+> TAME
+
+. (15) From the two equations above, we can see that denoising each chunk and saving the cache require 
+
+T + 1 forward passes, whereas GRAB computes the Attention Mass Score only once among them, which greatly reduces the proportion of computational overhead introduced by GRAB. Although the overhead scales quadratically with L, L only denotes the token number in a single frame, which is constant and therefore does not become a scalability bottleneck. Table 4: Computational overhead results. All metrics are measured on one NVIDIA H20 (96GB) with Flash Attention (Dao, 2023). 
+
+Method # Params Latency (s) ↓ Throughput (FPS) ↑
+
+Self Forcing (Baseline) 1.3B 1126.1 3.41 MemRoPE 1.3B 1211.4 3.17 Deep Forcing 1.3B 1185.2 3.24 Ours 1.3B 1192.5 3.22 Table 4 compares the inference efficiency of TetherCache with representative baselines for 240-second video generation. Since TetherCache is training-free and does not modify the backbone network, it keeps the same number of parameters as Self-Forcing. Its additional cost mainly comes from the lightweight GRAB candidate scoring and the TAME statistics alignment applied only when a frame is admitted into memory. Compared with the Self-Forcing baseline, TetherCache increases latency from 1126.1s to 1192.5s, corresponding to less than 6% overhead, while maintaining a practical throughput of 3.22 FPS. This overhead is modest given the substantial gains in generation quality and drift reduction reported in Table 1. Compared with other long-context baselines, TetherCache has comparable runtime efficiency: it is faster than MemRoPE and close to Deep Forcing in both latency and throughput. These results indicate that the proposed cache management operations do not introduce a heavy computational burden. Instead, TetherCache achieves a favorable quality-efficiency trade-off by reusing the original KV-cache structure and adding only small per-frame metadata updates, candidate scoring, and token-statistic normalization. 17
