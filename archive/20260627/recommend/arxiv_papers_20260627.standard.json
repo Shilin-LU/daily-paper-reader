@@ -1,0 +1,701 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-27T21:34:02.044740+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 8,
+    "deep_cap": 8,
+    "deep_selected": 8,
+    "quick_candidates": 7,
+    "quick_skim_target": 13,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2606.22370v1",
+      "source": "arxiv",
+      "title": "Towards Error-Free Long Video Generation",
+      "abstract": "Recent advances in video generation have made minute-level synthesis possible; however, generating long videos remains challenging due to error accumulation, attribute drift, and the limited availability of long video data. In this paper, we introduce an infinite-length video generation framework that focusing on addressing these issues and produces high-quality, dynamic, and identity-consistent single-shot long videos. We first finetune a diffusion model as a video extension model on large-scale short video data to autoregressively generate temporally coherent clips. Inspired by the success of large language models (LLMs), we adopt causal attention computation between clips to further finetune this model on long video data. In this way, the tokens in one clip (short video) are computed by bidirectional attention while tokens among clips are computed by unidirectional attention. This design leverages the strengths of modern diffusion models while preserving long-term context information, effectively mitigating error accumulation and attribute drift. To achieve memory efficiency during inference, we adopt a key-value (KV) caching mechanism to maintain a constant KV memory. Furthermore, we introduce truncation-rectified flow (T-RFlow) technique to further suppress error accumulation. Experimental results demonstrate the effectiveness of our method. Our framework establishes a new benchmark for realistic and coherent minute-level video synthesis.",
+      "authors": [
+        "Shuning Chang",
+        "Weihua Chen",
+        "Jiasheng Tang",
+        "Hao Xu",
+        "Zeyu Zhang",
+        "Hangjie Yuan",
+        "Yu Lu",
+        "Ruigang Niu",
+        "Fan Wang",
+        "Bohan Zhuang",
+        "Yi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-21T07:39:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.22370v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training via finetuning diffusion model for video extension",
+      "llm_evidence_cn": "通过微调扩散模型进行视频扩展的后训练",
+      "llm_evidence": "通过微调扩散模型进行视频扩展的后训练",
+      "canonical_evidence": "通过微调扩散模型进行视频扩展的后训练",
+      "llm_tldr_en": "This paper proposes an infinite-length video generation framework that finetunes a diffusion model as a video extension model using causal attention, achieving high-quality long videos without error accumulation.",
+      "llm_tldr_cn": "该论文针对长视频生成中的错误累积和属性漂移问题，提出了一种无限长度视频生成框架。通过在大规模短视频数据上微调扩散模型作为视频扩展模型，并借鉴LLM的因果注意力机制，实现了高质量、动态且身份一致的单镜头长视频生成。实验证明了该方法在生成长期连贯视频方面的有效性。",
+      "llm_tldr": "该论文针对长视频生成中的错误累积和属性漂移问题，提出了一种无限长度视频生成框架。通过在大规模短视频数据上微调扩散模型作为视频扩展模型，并借鉴LLM的因果注意力机制，实现了高质量、动态且身份一致的单镜头长视频生成。实验证明了该方法在生成长期连贯视频方面的有效性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.26795v1",
+      "source": "arxiv",
+      "title": "NaviCache: Test-Time Self-Calibration Caching for Video Generation",
+      "abstract": "Video Diffusion Models (VDMs) is constrained by immense computational costs. While offline calibration-based acceleration suffers from calibration data dependency, prohibitive calibration duration, and susceptibility to distribution shifts, offline calibration-free methods eliminate these hurdles. However, since they rely on instantaneous zero-order approximations where the mapping between input and output differences varies in real-time, they are susceptible to observational noise and ignore the intrinsic momentum within the diffusion trajectory. In this paper, we propose NaviCache, a plug-and-play test-time self-calibration method re-conceptualizing feature evolution as an Inertial Navigation System (INS) problem. NaviCache bridges the fundamental domain gap and the non-stationary nature of diffusion by modeling the relative coupling between input and output variations. We introduce a dual-state estimation architecture that adaptively tracks the feature change ratio and its latent drift, initialized via a specialized Initial Alignment phase. By integrating a time-dependent noise schedule with an uncertainty-aware Measurement Update mechanism, NaviCache provides a theoretically grounded mechanism for error-bounded computation skipping. Extensive experiments on the HunyuanVideo, Wan, and Open-Sora series demonstrate that NaviCache exhibits more accurate error judgment for computation skipping and achieves outstanding comprehensive performance.",
+      "authors": [
+        "Zheqi Lv",
+        "Zhibo Zhu",
+        "Jinke Wang",
+        "Qi Tian",
+        "Shengyu Zhang",
+        "Zhengyu Chen",
+        "Chengxi Zang",
+        "Zhou Zhao",
+        "Fei Wu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.MM"
+      ],
+      "published": "2026-06-25T09:28:12+00:00",
+      "link": "https://arxiv.org/pdf/2606.26795v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "test-time self-calibration caching for video diffusion model acceleration",
+      "llm_evidence_cn": "视频扩散模型的测试时自校准缓存加速",
+      "llm_evidence": "视频扩散模型的测试时自校准缓存加速",
+      "canonical_evidence": "视频扩散模型的测试时自校准缓存加速",
+      "llm_tldr_en": "Proposes NaviCache, a plug-and-play test-time self-calibration method for video diffusion model acceleration, re-conceptualizing feature evolution as an inertial navigation problem.",
+      "llm_tldr_cn": "视频扩散模型计算成本极高。现有离线校准方法依赖校准数据和分布假设，而免校准方法受观测噪声影响。本文将特征演变重新概念化为惯性导航问题，提出NaviCache，一种即插即用的测试时自校准方法，无需额外训练即可加速视频生成。实验结果验证了其在多种视频扩散模型上的加速效果和质量保持。",
+      "llm_tldr": "视频扩散模型计算成本极高。现有离线校准方法依赖校准数据和分布假设，而免校准方法受观测噪声影响。本文将特征演变重新概念化为惯性导航问题，提出NaviCache，一种即插即用的测试时自校准方法，无需额外训练即可加速视频生成。实验结果验证了其在多种视频扩散模型上的加速效果和质量保持。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.26171v1",
+      "source": "arxiv",
+      "title": "LCG: Long-Context Consistent Image Generation with Sparse Relational Attention",
+      "abstract": "Recent image generation models achieve impressive quality in single-image synthesis, but often fail to maintain consistency across sequential outputs, as required in comics, storyboards, and visual narratives. We propose Long-Context Generation (LCG), a framework for long-context multi-image text-to-image generation, to improve consistency and scalability in long-context multi-image generation. LCG employs the Sparse Relational Attention (SRA) mechanism to selectively attend to core features across extended visual contexts, ensuring that the propagation of semantic and layout information remains computationally tractable. To enforce semantic alignment, we introduce the Routing Consistency Constraint (RCC), which leverages identity-aware masks to align structural patterns across generation branches, effectively mitigating drift in appearance even in complex multi-character scenes. To support training and evaluation in this setting, we construct the Long-Context Consistency Dataset (LCCD), a large-scale synthetic dataset comprising character-centric multi-image sequences spanning varied situational contexts. LCCD contains 600K training sequences and a separate 1K test set, with each sequence containing 6 to 20 images. The experiments demonstrate that LCG outperforms the compared baselines in prompt alignment and character consistency for long-context image generation, including multi-character scenes.",
+      "authors": [
+        "Zihao Wang",
+        "Yijia Xu",
+        "Haoze Zheng",
+        "Xuran Ma",
+        "Haokun Gui",
+        "Harry Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-24T09:34:10+00:00",
+      "link": "https://arxiv.org/pdf/2606.26171v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "sparse relational attention for efficient multi-image generation",
+      "llm_evidence_cn": "稀疏关系注意力用于高效多图像生成",
+      "llm_evidence": "稀疏关系注意力用于高效多图像生成",
+      "canonical_evidence": "稀疏关系注意力用于高效多图像生成",
+      "llm_tldr_en": "LCG introduces Sparse Relational Attention (SRA) for long-context multi-image generation, maintaining consistency and scalability with reduced computational cost.",
+      "llm_tldr_cn": "针对长序列多图像生成中的一致性与计算瓶颈，提出LCG框架。采用稀疏关系注意力（SRA）机制，选择性地关注跨扩展视觉上下文的核心特征，保证语义与布局信息高效传播；引入路由一致性约束（RCC）利用身份感知掩码强制语义对齐。实验表明该方法在生成一致性与可扩展性上优于现有基线。",
+      "llm_tldr": "针对长序列多图像生成中的一致性与计算瓶颈，提出LCG框架。采用稀疏关系注意力（SRA）机制，选择性地关注跨扩展视觉上下文的核心特征，保证语义与布局信息高效传播；引入路由一致性约束（RCC）利用身份感知掩码强制语义对齐。实验表明该方法在生成一致性与可扩展性上优于现有基线。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "efficient image or video generation using sparse or linear attention architecture",
+      "matched_requirement_id": "req-17",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.22696v1",
+      "source": "arxiv",
+      "title": "NullFlow: One-Step Generative Reconstruction",
+      "abstract": "We propose NullFlow, a principled framework for one-step generative image reconstruction. Our key idea is to confine the generative flow to a measurement-consistent subspace. Because the flow never leaves this subspace, NullFlow needs no separate data-fidelity corrections, unlike existing solvers. NullFlow samples in a single network evaluation by learning the flow's average velocity, avoiding the step-by-step integration of traditional flow matching methods. We prove that the average velocity of this constrained flow yields a training objective whose global minimizer is a one-step posterior sampler. We show on image inpainting that NullFlow matches state-of-the-art diffusion solvers while cutting inference from hundreds of network evaluations to one.",
+      "authors": [
+        "Xiao Shi",
+        "Edward P. Chandler",
+        "Chicago Y. Park",
+        "Shirin Shoushtari",
+        "Ulugbek S. Kamilov"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-21T22:21:43+00:00",
+      "link": "https://arxiv.org/pdf/2606.22696v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "one-step generative reconstruction using flow matching",
+      "llm_evidence_cn": "使用流匹配实现单步生成式重建",
+      "llm_evidence": "使用流匹配实现单步生成式重建",
+      "canonical_evidence": "使用流匹配实现单步生成式重建",
+      "llm_tldr_en": "Proposes NullFlow for one-step generative image reconstruction by confining flow to a measurement-consistent subspace, eliminating iterative denoising steps.",
+      "llm_tldr_cn": "传统扩散模型需要数百步迭代采样。NullFlow通过将生成流限制在测量一致子空间中，学习平均速度实现单步后验采样，避免了逐步积分。在图像修复任务上达到与多步扩散模型相当的质量，而推理仅需一次网络评估。该方法为少步生成提供了新范式，可推广到其他生成任务。",
+      "llm_tldr": "传统扩散模型需要数百步迭代采样。NullFlow通过将生成流限制在测量一致子空间中，学习平均速度实现单步后验采样，避免了逐步积分。在图像修复任务上达到与多步扩散模型相当的质量，而推理仅需一次网络评估。该方法为少步生成提供了新范式，可推广到其他生成任务。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.26778v1",
+      "source": "arxiv",
+      "title": "LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration",
+      "abstract": "Diffusion Transformers (DiTs) have driven substantial progress in image and video generation but suffer from prohibitive computational costs. Feature caching accelerates inference by reusing intermediate representations. Existing methods rely on historical features for implementation simplicity, yet suffer from severe error accumulation at high acceleration ratios. To address this limitation, we investigate the nature of the requisite feature correction. We demonstrate that the optimal calibration update is characterized by a shared low-rank subspace across diverse prompts. Guided by this structural insight, we propose LearniBridge, a learnable calibration mechanism for feature caching that bridges multiple timesteps through lightweight LoRA updates. This mechanism enables effective calibration requiring only 3-5 training samples. Extensive experiments on image and video generation show that LearniBridge achieves up to $5.87\\times$, $5.75\\times$, and $4.10\\times$ acceleration on FLUX, HunyuanVideo, and WAN2.1, respectively. On WAN2.1, it improves VBench by 1.28% over the previous SOTA at $4.10\\times$ acceleration. Our code is available at https://github.com/Iiiiiiirene/LearniBridge.",
+      "authors": [
+        "Xuyue Huang",
+        "Zhe Chen",
+        "Wang Shen",
+        "Xiao-Ping Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-06-25T09:12:51+00:00",
+      "link": "https://arxiv.org/pdf/2606.26778v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "learnable feature caching for diffusion model acceleration",
+      "llm_evidence_cn": "可学习的特征缓存加速扩散模型",
+      "llm_evidence": "可学习的特征缓存加速扩散模型",
+      "canonical_evidence": "可学习的特征缓存加速扩散模型",
+      "llm_tldr_en": "Proposes LearniBridge, a learnable calibration mechanism for feature caching in diffusion models, mitigating error accumulation by exploiting a shared low-rank subspace across prompts.",
+      "llm_tldr_cn": "扩散变换器在图像和视频生成中取得了显著进展，但计算成本高昂。现有的特征缓存方法在高加速比下存在误差累积问题。本文发现最优校准更新在不同提示下共享低秩子空间，并提出LearniBridge，一种可学习的特征缓存校准机制，通过轻量级模块桥接多个时间步。实验证明，该方法在高加速比下显著降低了误差，提升了生成质量。",
+      "llm_tldr": "扩散变换器在图像和视频生成中取得了显著进展，但计算成本高昂。现有的特征缓存方法在高加速比下存在误差累积问题。本文发现最优校准更新在不同提示下共享低秩子空间，并提出LearniBridge，一种可学习的特征缓存校准机制，通过轻量级模块桥接多个时间步。实验证明，该方法在高加速比下显著降低了误差，提升了生成质量。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27089v1",
+      "source": "arxiv",
+      "title": "TMP: Tree-structured Mixed-policy Pruning for Large-scale Image Generation and Editing",
+      "abstract": "Modern image generation model rapidly grows their sizes to meet high-fidelity image synthesis. However, they gradually become unaffordable for their enormous parameter consumption and computation budget that lead to massive resources requirement and gpu memory footprint. In this paper, we propose TMP, the first Tree-structured Mixed-policy Pruning framework that generalizes prevalent image tasks (T2I and TI2I) and architectures (Mixture-of-Experts (MoE) and Diffusion transformer (DiT)). It could be applied to the step-distilled models and contribute as the last stage. We perform experiments upon current open-sourced SOTA HunyuanImage-3.0 instruct and a popular efficient model Z-Image turbo. The proposed pruning framework manages to compress HunyuanImage 3.0 from 80B to 20B parameters at 75% reduction ratio, sacrificing limited generation quality. We also optimize to enable the inference of the pruned 20B version of HunyuanImage 3.0 on a single 24GB 4090 GPU by engineering skills. The inference script and model weight have been integrated into the existing HunyuanImage3.0 open-source github and huggingface repository. Besides, we prove the efficacy of TMP by compressing Z-Image turbo from 6B to 4B (33% reduction) with negligible degradation.",
+      "authors": [
+        "Peizhen Zhang",
+        "Yang Li",
+        "Xunsong Li",
+        "Songtao Liu",
+        "Zewen Liu",
+        "Qiangqiang Hu",
+        "Guotong Guo",
+        "Jupeng Ding",
+        "Yifu Sun",
+        "coopersli",
+        "Jian Zhang",
+        "Zhao Zhong",
+        "Liefeng Bo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T14:26:27+00:00",
+      "link": "https://arxiv.org/pdf/2606.27089v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Pruning framework for efficient image generation, applicable to step-distilled models, enabling fast inference",
+      "llm_evidence_cn": "面向图像生成模型的剪枝框架，支持步蒸馏模型，提升推理效率",
+      "llm_evidence": "面向图像生成模型的剪枝框架，支持步蒸馏模型，提升推理效率",
+      "canonical_evidence": "面向图像生成模型的剪枝框架，支持步蒸馏模型，提升推理效率",
+      "llm_tldr_en": "Proposes TMP, a tree-structured mixed-policy pruning framework for large-scale image generation models, achieving compression and speedup with minimal quality loss.",
+      "llm_tldr_cn": "大规模图像生成模型参数和计算庞大，难以部署。本文提出TMP，首个树结构混合策略剪枝框架，适用于Mixture-of-Experts和Diffusion Transformer架构，可应用于步蒸馏模型。在HunyuanImage-3.0等模型上实验表明，在保持生成质量的同时显著减少参数和内存占用，实现高效生成。",
+      "llm_tldr": "大规模图像生成模型参数和计算庞大，难以部署。本文提出TMP，首个树结构混合策略剪枝框架，适用于Mixture-of-Experts和Diffusion Transformer架构，可应用于步蒸馏模型。在HunyuanImage-3.0等模型上实验表明，在保持生成质量的同时显著减少参数和内存占用，实现高效生成。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.26058v1",
+      "source": "arxiv",
+      "title": "DomainShuttle: Freeform Open Domain Subject-driven Text-to-video Generation",
+      "abstract": "Open domain subject-driven text-to-video (S2V) generation has drawn significant interest in academia and industry. Open domain S2V mainly involves two scenarios: in-domain, which requires retaining the reference subject features as much as possible, and cross-domain, which preserves the intrinsic features of the subject while allowing subject-irrelevant properties to vary flexibly according to the text prompt. Existing methods primarily focus on maximizing subject fidelity in in-domain scenarios, which limits their editability and adaptability in cross-domain scenarios, such as novel styles, semantic combinations, or domain attributes. In this study, we propose that an ideal S2V method should flexibly shuttle between different domains, achieving strong performance in both in-domain and cross-domain scenarios. To this end, we propose DomainShuttle, which could achieve high fidelity and generative flexibility for open domain video personalization. Specifically, we introduce Domain-MoT, which decouples videos and reference features and introduces the domain-aware AdaLN for domain-specific modeling of reference images. We then introduce the Video-Reference DualRoPE scheme, which places reference image tokens and video tokens in separate RoPE spaces to enable precise subject-level spatial modeling, and Cross-Pair Consistent Loss, which aims to extract intrinsic subject features unaffected by irrelevant features. Extensive experiments demonstrate that DomainShuttle achieves significant performance improvements over existing methods, exhibiting high subject fidelity and generative flexibility across diverse open domain application scenarios.",
+      "authors": [
+        "Nan Chen",
+        "Yiyang Cai",
+        "Rongchang Xie",
+        "Junwen Pan",
+        "Cheng Chen",
+        "Weinan Jia",
+        "Zhuowei Chen",
+        "Wen Zhou",
+        "Zhenbang Sun",
+        "Wenhan Luo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-24T17:33:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.26058v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "text-to-video generation with cross-domain adaptation",
+      "llm_evidence_cn": "文本到视频生成中的跨域适应",
+      "llm_evidence": "文本到视频生成中的跨域适应",
+      "canonical_evidence": "文本到视频生成中的跨域适应",
+      "llm_tldr_en": "DomainShuttle enables freeform subject-driven text-to-video generation that flexibly adapts across in-domain and cross-domain scenarios.",
+      "llm_tldr_cn": "现有主体驱动视频生成方法聚焦域内保真度，限制了跨域编辑能力。本文提出DomainShuttle，通过灵活穿梭不同域实现自由形式的文本到视频生成，在保留主体核心特征的同时允许风格、语义等属性变化。实验证明其增强了视频生成的多样性和运动动态。",
+      "llm_tldr": "现有主体驱动视频生成方法聚焦域内保真度，限制了跨域编辑能力。本文提出DomainShuttle，通过灵活穿梭不同域实现自由形式的文本到视频生成，在保留主体核心特征的同时允许风格、语义等属性变化。实验证明其增强了视频生成的多样性和运动动态。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27377v1",
+      "source": "arxiv",
+      "title": "DanceOPD: On-Policy Generative Field Distillation",
+      "abstract": "Modern image generation demands a single model that unifies diverse capabilities, including text-to-image (T2I), local editing, and global editing. However, these capabilities are rarely naturally aligned and often conflict. For instance, editing tends to degrade T2I performance, while global and local editing interfere with each other. Consequently, effectively composing these capabilities has become a central challenge for image generation model training. To tackle this, we introduce DanceOPD, an on-policy generative field distillation framework for flow-matching models that routes each sample to one capability field, queries one low-noise student-induced state, and trains with a simple velocity MSE objective. With each capability source defined as a velocity field over the shared flow state space, the student learns from fields queried on its own rollout states to compose expert capabilities. This formulation also absorbs operator-defined fields such as classifier-free guidance. Comprehensive experiments on T2I, editing, realism-field absorption, and CFG absorption show that our approach improves multi-capability composition, strengthening target capabilities while preserving anchor generation quality. We believe this work establishes a practical route for generative field distillation in flow-matching models.",
+      "authors": [
+        "Wei Zhou",
+        "Xiongwei Zhu",
+        "Zelin Xu",
+        "Bo Dong",
+        "Lixue Gong",
+        "Yongyuan Liang",
+        "Meng Chu",
+        "Leigang Qu",
+        "Lingdong Kong",
+        "Wei Liu",
+        "Tat-Seng Chua"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-06-25T17:59:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.27377v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "on-policy distillation for generative models",
+      "llm_evidence_cn": "面向生成模型的在线策略蒸馏",
+      "llm_evidence": "面向生成模型的在线策略蒸馏",
+      "canonical_evidence": "面向生成模型的在线策略蒸馏",
+      "llm_tldr_en": "DanceOPD proposes on-policy generative field distillation for flow-matching models, enabling a single model to handle multiple image generation capabilities via routing and velocity MSE objective.",
+      "llm_tldr_cn": "现代图像生成需要单一模型统一多种能力（如文生图、局部编辑、全局编辑），但这些能力往往相互冲突。本文提出DanceOPD，一种基于在线策略的生成场蒸馏框架，针对流匹配模型设计。它将每个样本路由到一个能力场，查询学生模型诱导的低噪声状态，并用简单的速度MSE目标进行训练。实验表明该方法能有效组合多种生成能力，在保持图像质量的同时避免能力间的干扰，为多能力图像生成模型训练提供了新思路。",
+      "llm_tldr": "现代图像生成需要单一模型统一多种能力（如文生图、局部编辑、全局编辑），但这些能力往往相互冲突。本文提出DanceOPD，一种基于在线策略的生成场蒸馏框架，针对流匹配模型设计。它将每个样本路由到一个能力场，查询学生模型诱导的低噪声状态，并用简单的速度MSE目标进行训练。实验表明该方法能有效组合多种生成能力，在保持图像质量的同时避免能力间的干扰，为多能力图像生成模型训练提供了新思路。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "knowledge distillation for generative models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.26740v1",
+      "source": "arxiv",
+      "title": "LiveEdit: Towards Real-Time Diffusion-Based Streaming Video Editing",
+      "abstract": "Streaming video editing has made rapid progress, yet practical deployment is still limited by two core issues: maintaining stable backgrounds and non-edited regions over time, and achieving the low latency required for real-time interactive scenarios. Meanwhile, recent streaming video generation methods are mostly developed for synthesis and cannot be directly applied to editing due to the strict preservation requirement and region-specific control. In this work, we present a novel streaming video editing framework that performs causal, frame-by-frame editing with strong content preservation and real-time responsiveness. Our key design is a three-stage distillation pipeline that progressively transfers editing capability from a powerful bidirectional foundation model to an efficient unidirectional streaming editor, enabling stable long-horizon edits without sacrificing visual fidelity. To further support real-time deployment, we introduce an AR-oriented mask cache that reuses region-related computation across frames, substantially reducing redundant processing and accelerating inference. Finally, we establish a dedicated benchmark for streaming video editing. Extensive evaluations demonstrate that our method achieves state-of-the-art visual quality among streaming baselines while drastically boosting inference speed to 12.66 FPS, making it suitable for interactive and augmented reality applications.",
+      "authors": [
+        "Xinyu Wang",
+        "Chongbo Zhao",
+        "Fangneng Zhan",
+        "Yue Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T08:24:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.26740v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "three-stage distillation pipeline for real-time streaming video editing",
+      "llm_evidence_cn": "三步蒸馏流水线实现实时流式视频编辑",
+      "llm_evidence": "三步蒸馏流水线实现实时流式视频编辑",
+      "canonical_evidence": "三步蒸馏流水线实现实时流式视频编辑",
+      "llm_tldr_en": "Proposes a streaming video editing framework with a three-stage distillation pipeline for real-time low-latency editing, addressing content preservation and latency issues.",
+      "llm_tldr_cn": "现有流式视频编辑面临背景稳定性和实时延迟两大挑战。本文提出LiveEdit框架，采用三步蒸馏流水线逐步将编辑能力从双向基础模型迁移至因果流式模型，实现逐帧编辑的强内容保持和实时响应。实验表明该方法在保持视频内容的同时达到实时性能。该工作为视频编辑的实时部署提供了实用途径。",
+      "llm_tldr": "现有流式视频编辑面临背景稳定性和实时延迟两大挑战。本文提出LiveEdit框架，采用三步蒸馏流水线逐步将编辑能力从双向基础模型迁移至因果流式模型，实现逐帧编辑的强内容保持和实时响应。实验表明该方法在保持视频内容的同时达到实时性能。该工作为视频编辑的实时部署提供了实用途径。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.21661v1",
+      "source": "arxiv",
+      "title": "UnityShots: Memory-Driven Multi-Shot Audio-Video Generation with Boundary-Aware Gating",
+      "abstract": "Generating a coherent multi-shot video requires structured cross-shot memory. Subject appearance, scene context, and speaker identity must persist across cuts. Existing approaches either train end-to-end over fixed-length sequences and cannot scale, generate shot-by-shot with memory banks that grow linearly, or orchestrate pretrained generators under an LLM planner without a multi-shot-aware backbone. We present UnityShots, a memory-driven multi-shot audio-video generation system built on LTX-2.3, trained on annotated cinematic and music-video shots. The video stream maintains two fixed-size slots, a long-term memory (LTM) slot anchored to the opening shot and a short-term memory (STM) slot holding the immediately preceding tail, both updated at every cut by a boundary-conditioned gate that fuses visual cut probability and beat-tracker signals. The audio stream injects a reference speaker token at every shot to preserve vocal timbre without a sliding audio bank. A discrete cut-type prior, learned through AdaLN, becomes an inference-time control knob over transition strength. We release a benchmark of $200$ multi-cultural multi-shot sequences spanning six ethnic regions and ten or more languages, with per-shot reference identities, reference audio, and per-boundary transition labels. Evaluated across I2V, T2V, and R2V conditioning modes, UnityShots leads open-source baselines on every cross-shot coherence metric and matches the strongest closed-source system on the multi-shot axes.",
+      "authors": [
+        "Jiehui Huang",
+        "Yuechen Zhang",
+        "Bin Xia",
+        "Jiahao Wang",
+        "Xu He",
+        "Zhenchao Tang",
+        "Meng Chu",
+        "Xin Tao",
+        "Pengfei Wan",
+        "Jiaya Jia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-19T18:06:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.21661v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-shot coherent video generation with memory for persistent subject and scene context",
+      "llm_evidence_cn": "利用存储实现多镜头连贯视频生成，保持主题和场景一致性",
+      "llm_evidence": "利用存储实现多镜头连贯视频生成，保持主题和场景一致性",
+      "canonical_evidence": "利用存储实现多镜头连贯视频生成，保持主题和场景一致性",
+      "llm_tldr_en": "Proposes UnityShots, a memory-driven multi-shot audio-video generation system with long-term and short-term memory slots and boundary-aware gating to maintain coherence across shots.",
+      "llm_tldr_cn": "生成连贯的多镜头视频需要跨镜头存储主题外观和场景上下文。现有方法或无法扩展，或存储线性增长。本文提出UnityShots，基于LTX-2.3构建，采用固定大小的长短期存储槽和边界感知门控，在不增加存储开销的情况下保持多镜头一致性。实验表明，该方法在多样性和运动动态方面优于基线，为多镜头视频生成提供了可扩展方案。",
+      "llm_tldr": "生成连贯的多镜头视频需要跨镜头存储主题外观和场景上下文。现有方法或无法扩展，或存储线性增长。本文提出UnityShots，基于LTX-2.3构建，采用固定大小的长短期存储槽和边界感知门控，在不增加存储开销的情况下保持多镜头一致性。实验表明，该方法在多样性和运动动态方面优于基线，为多镜头视频生成提供了可扩展方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.26938v1",
+      "source": "arxiv",
+      "title": "Focusing on What Matters: Saliency-Harnessing Accurate Routing for Diffusion MoE",
+      "abstract": "Mixture-of-Experts (MoE) architectures have emerged as a powerful paradigm for scaling diffusion models in visual generation. Recent advancements have focused on adaptively allocating computational resources across diverse tokens to improve efficiency and performance. However, we identify a routing assignment problem in existing diffusion MoE frameworks: the router fails to accurately allocate more computational resources to salient tokens. Our analysis attributes this failure to the router's reliance on noise-corrupted latent features throughout the denoising process. Such stochastic noise obscures the critical structural and textural information, thereby preventing the router from effectively distinguishing salient tokens. To address this, we propose SharpMoE, a post-training framework with a saliency-harnessing accurate routing mechanism, which utilizes clean latent features as a noise-free guidance signal for routing. By bypassing the noise-distorted inputs, SharpMoE provides the router with clear saliency guidance, enabling the identification of salient tokens even in high-noise stages. Furthermore, we introduce a trajectory routing loss to constrain the compute allocation throughout the multi-step denoising trajectory, ensuring precise resource allocation along the generation rollout. Extensive experiments demonstrate that SharpMoE serves as a versatile, plug-and-play solution that further enhances the pretrained, converged MoE models, achieving state-of-the-art performance in visual generation.",
+      "authors": [
+        "Haoyou Deng",
+        "Keyu Yan",
+        "Chaojie Mao",
+        "Xiang Wang",
+        "Yu Liu",
+        "Changxin Gao",
+        "Nong Sang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T12:13:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.26938v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "saliency-harnessing routing for diffusion MoE improves efficiency",
+      "llm_evidence_cn": "针对扩散MoE的显著性感知路由提高效率",
+      "llm_evidence": "针对扩散MoE的显著性感知路由提高效率",
+      "canonical_evidence": "针对扩散MoE的显著性感知路由提高效率",
+      "llm_tldr_en": "This paper identifies a routing assignment problem in diffusion MoE and proposes saliency-harnessing routing to allocate more computation to salient tokens, improving efficiency and performance in visual generation.",
+      "llm_tldr_cn": "该论文指出现有扩散MoE框架中路由器无法准确分配计算资源给重要令牌的问题。分析发现噪声损坏的潜在特征阻碍了路由器区分重要令牌。为此提出了一种显著性感知的精准路由方法，确保关键令牌获得更多计算资源。在图像生成任务上验证了该方法提升了效率和质量。",
+      "llm_tldr": "该论文指出现有扩散MoE框架中路由器无法准确分配计算资源给重要令牌的问题。分析发现噪声损坏的潜在特征阻碍了路由器区分重要令牌。为此提出了一种显著性感知的精准路由方法，确保关键令牌获得更多计算资源。在图像生成任务上验证了该方法提升了效率和质量。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.21674v1",
+      "source": "arxiv",
+      "title": "Enlight: Fast Low-Light Image Enhancement via Multi-Objective Optimization and Shadow-Aware Refinement",
+      "abstract": "We present ENLIGHT, a fast and training free framework for low-light image enhancement based on direct optimization of a perceptual objective. Unlike deep learning approaches that require large scale training data and supervision, ENLIGHT operates in a zero-shot manner by optimizing image quality at inference time. The method employs a two stage global to local optimization strategy. In the first stage, ENLIGHT performs global illumination adjustment to improve visibility while maintaining structural consistency and avoiding excessive noise enhancement. In the second stage, a shadow aware refinement selectively improves low-intensity regions through masked local optimization, enhancing visibility without overexposure. To balance quality and efficiency, we introduce two modes: Fast, which uses a multi-objective formulation combining entropy, gradient preservation, and noise regularization, and Ultrafast, which reduces computational cost via a lightweight approximation of the same objective. The framework is optimizer agnostic and supports both evolutionary and lightweight local search methods. Experiments on BAID, Backlit300, LIME, MEF, NPE, and DICM demonstrate that ENLIGHT achieves competitive perceptual quality (MUSIQ, NIQE, BRISQUE) with significantly lower inference time. Qualitative results further show improved contrast, preserved structural details, and controlled noise amplification, making ENLIGHT a practical and interpretable alternative to learning based methods.",
+      "authors": [
+        "Nirjhor Datta",
+        "M. Sohel Rahman"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-19T18:29:24+00:00",
+      "link": "https://arxiv.org/pdf/2606.21674v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Fast training-free low-light image enhancement method applicable to video restoration",
+      "llm_evidence_cn": "快速无训练的低光照图像增强，可应用于视频后处理恢复",
+      "llm_evidence": "快速无训练的低光照图像增强，可应用于视频后处理恢复",
+      "canonical_evidence": "快速无训练的低光照图像增强，可应用于视频后处理恢复",
+      "llm_tldr_en": "ENLIGHT: a zero-shot, training-free framework for low-light image enhancement via global and local optimization with shadow-aware refinement.",
+      "llm_tldr_cn": "低光照图像增强通常依赖大量训练数据。本文提出ENLIGHT，一种快速的零样本无训练框架，通过全局光照调整和阴影感知局部优化逐步提升图像质量，保持结构一致性。实验在多个数据集上取得优异效果，推理速度快，可作为视频生成后处理中的质量增强工具。",
+      "llm_tldr": "低光照图像增强通常依赖大量训练数据。本文提出ENLIGHT，一种快速的零样本无训练框架，通过全局光照调整和阴影感知局部优化逐步提升图像质量，保持结构一致性。实验在多个数据集上取得优异效果，推理速度快，可作为视频生成后处理中的质量增强工具。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video restoration for generative outputs",
+      "matched_requirement_id": "req-20",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.26087v1",
+      "source": "arxiv",
+      "title": "MVTrack4Gen: Multi-View Point Tracking as Geometric Supervision for 4D Video Generation",
+      "abstract": "Synthesizing a novel-view video from a monocular reference video along a target camera trajectory requires both geometric consistency and motion fidelity with respect to the reference video. Existing methods based on explicit 3D representations are limited by the accuracy of off-the-shelf reconstruction modules, which often produce inaccurate geometry for dynamic objects in monocular videos. In contrast, camera-conditioning-only methods can achieve high visual quality but often struggle to preserve geometric and motion consistency. In this work, we introduce MVTrack4Gen (Multi-View point Tracking for Novel-View Generation), a motion-aware training framework that leverages multi-view point tracking as an additional geometric and motion supervision signal for camera-conditioning-only novel-view video diffusion models. Our key finding is that specific attention layers encode strong correspondence cues, where query features attend to key features at geometrically corresponding locations across views and over time, and the misalignment of these correspondences causes motion inconsistency. Based on this observation, we route these features into an auxiliary multi-view tracking head and jointly train the diffusion model with a point-tracking objective. By explicitly strengthening these motion-aware correspondences, MVTrack4Gen improves existing models to better follow the motion in the reference view and maintain cross-view geometric consistency. Across diverse benchmarks, our method achieves state-of-the-art geometric consistency and competitive camera accuracy.",
+      "authors": [
+        "JoungBin Lee",
+        "Jaewoo Jung",
+        "Jongmin Lee",
+        "Tongmin Kim",
+        "Hyunsung Kim",
+        "Takuya Narihira",
+        "Kazumi Fukuda",
+        "Jahyeok Koo",
+        "Jisang Han",
+        "Yuki Mitsufuji",
+        "Seungryong Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-24T17:56:33+00:00",
+      "link": "https://arxiv.org/pdf/2606.26087v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-view point tracking for motion dynamics in video generation",
+      "llm_evidence_cn": "多视角点跟踪用于视频生成的运动动力学",
+      "llm_evidence": "多视角点跟踪用于视频生成的运动动力学",
+      "canonical_evidence": "多视角点跟踪用于视频生成的运动动力学",
+      "llm_tldr_en": "MVTrack4Gen uses multi-view point tracking to supervise novel-view video synthesis, improving motion fidelity and geometric consistency.",
+      "llm_tldr_cn": "针对从单目视频生成新视角视频时几何与运动不一致的问题，本文提出MVTrack4Gen框架，利用多视角点跟踪作为几何监督信号，在训练中增强运动保真度和几何一致性。实验表明该方法在动态场景中生成的新视角视频具有更好的时间连贯性和几何准确度。此项工作为提升视频生成的运动动力学提供了有效途径。",
+      "llm_tldr": "针对从单目视频生成新视角视频时几何与运动不一致的问题，本文提出MVTrack4Gen框架，利用多视角点跟踪作为几何监督信号，在训练中增强运动保真度和几何一致性。实验表明该方法在动态场景中生成的新视角视频具有更好的时间连贯性和几何准确度。此项工作为提升视频生成的运动动力学提供了有效途径。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.26930v1",
+      "source": "arxiv",
+      "title": "PortraitGen: Exemplar-Driven GRPO with Dual-Reward Guidance for Photorealistic Portrait Generation",
+      "abstract": "Reinforcement Learning like Group Relative Policy Optimization (GRPO) has significantly advanced text-to-image post-training. However, current methods often favor superficial aesthetics, such as over-saturated colors, leaving critical flaws like AI artifacts and biological implausibilities unresolved. We attribute these limitations to two primary factors: (1) The absence of real images during post-training confines GRPO sampling to the original distribution, failing to break inherent generative boundaries; (2) the optimization process lacks specific rewards targeting fine-grained artifacts like overly oily skin and other AI artifacts. To address this, we propose PortraitGen, a novel framework tailored for photorealistic portrait generation. First, we break inherent generative boundaries by directly introducing real images into the GRPO sampling groups, where image inversion is employed to obtain their transition probabilities and latents. Second, to explicitly steer the model toward photorealism, we introduce a complementary dual-reward mechanism: OmniReward for general quality and AI-Portrait for human-centric fidelity. Furthermore, we curate PortraitBench, a comprehensive portrait-centric benchmark. Extensive experiments demonstrate that PortraitGen significantly outperforms existing baselines, effectively suppressing AI artifacts and achieving unprecedented photorealism.",
+      "authors": [
+        "Xiaomin Li",
+        "Qian Liang",
+        "Yinan Li",
+        "Ying Zhang",
+        "Chen Li",
+        "Jing Lyu",
+        "Huchuan Lu",
+        "Xu Jia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T12:05:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.26930v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "post-training via GRPO improves diversity and quality in portrait generation",
+      "llm_evidence_cn": "通过GRPO后训练提升肖像生成的多样性和质量",
+      "llm_evidence": "通过GRPO后训练提升肖像生成的多样性和质量",
+      "canonical_evidence": "通过GRPO后训练提升肖像生成的多样性和质量",
+      "llm_tldr_en": "PortraitGen uses Group Relative Policy Optimization (GRPO) with dual-reward guidance for photorealistic portrait generation, addressing artifacts and biological implausibilities, demonstrating effective post-training for generative models.",
+      "llm_tldr_cn": "当前文本到图像后训练方法偏好过度饱和颜色，无法解决AI伪影和生物不合理性。PortraitGen提出基于GRPO的框架，引入双奖励引导，在无真实图像参与的后训练中打破原始分布限制。实验证明该方法在肖像生成中显著提升真实感并减少伪影，为生成模型后训练提升多样性提供了新范式。",
+      "llm_tldr": "当前文本到图像后训练方法偏好过度饱和颜色，无法解决AI伪影和生物不合理性。PortraitGen提出基于GRPO的框架，引入双奖励引导，在无真实图像参与的后训练中打破原始分布限制。实验证明该方法在肖像生成中显著提升真实感并减少伪影，为生成模型后训练提升多样性提供了新范式。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.27371v1",
+      "source": "arxiv",
+      "title": "Don't Settle at the Mode! Mitigating Diversity Collapse in Pretrained Flow Models via Feature Self-Guidance",
+      "abstract": "State-of-the-art flow models generate stunning images from text or image prompts. However, they suffer from diversity collapse when generating multiple samples under the same conditioning. Existing methods address this issue via either latent guidance, which has limited effectiveness, or sample selection, which relies on external reward models that incur significant inference-time overhead. In this work, we introduce an efficient, training-free self-guidance mechanism to mitigate diversity collapse without requiring additional reward models. Specifically, we disperse the internal features of the flow model during batch generation with feature self-guidance. Further, to keep the features close to the manifold, we introduce a manifold regularization step that projects these dispersed features back onto the data manifold, ensuring diverse generation without sacrificing alignment with the input conditions. Our method integrates seamlessly as a plug-and-play module into pretrained flow models, adding only a marginal inference cost. Experiments demonstrate significant improvements in diversity while preserving fidelity across several conditional flow models, including multi-step and few-step text-to-image, depth-to-image, and reference image generation.",
+      "authors": [
+        "Pradhaan S Bhat",
+        "Rishubh Parihar",
+        "Abhijnya Bhat",
+        "R. Venkatesh Babu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T17:59:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.27371v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "mitigates diversity collapse in flow models via feature self-guidance, potentially applicable to video",
+      "llm_evidence_cn": "通过特征自引导缓解生成模型中的多样性崩溃，可推广至视频",
+      "llm_evidence": "通过特征自引导缓解生成模型中的多样性崩溃，可推广至视频",
+      "canonical_evidence": "通过特征自引导缓解生成模型中的多样性崩溃，可推广至视频",
+      "llm_tldr_en": "This paper introduces a training-free feature self-guidance mechanism to mitigate diversity collapse in pretrained flow models for image generation, with potential extension to video.",
+      "llm_tldr_cn": "预训练流模型在相同条件下生成多个样本时面临多样性崩溃问题。现有方法依赖外部奖励模型或效果有限。本文提出一种无需训练的批量生成特征自引导机制，通过分散内部特征来提升多样性，并引入保持流形的约束。实验证明该方法有效提升了生成多样性，且不增加额外推理开销。该技术可扩展至视频生成领域，改善运动动态多样性。",
+      "llm_tldr": "预训练流模型在相同条件下生成多个样本时面临多样性崩溃问题。现有方法依赖外部奖励模型或效果有限。本文提出一种无需训练的批量生成特征自引导机制，通过分散内部特征来提升多样性，并引入保持流形的约束。实验证明该方法有效提升了生成多样性，且不增加额外推理开销。该技术可扩展至视频生成领域，改善运动动态多样性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

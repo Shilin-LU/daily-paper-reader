@@ -6,84 +6,67 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-05-28 ~ 2026-06-26
-- 运行时间：2026-06-26 01:48:31 UTC
+- 最新运行日期：2026-06-27
+- 运行时间：2026-06-27 21:44:40 UTC
 - 运行状态：成功
-- 本次总论文数：21
-- 精读区：0
-- 速读区：21
+- 本次总论文数：15
+- 精读区：8
+- 速读区：7
 
 ### 今日简报（AI）
-本期日报共推荐21篇论文，其中3篇高分速读聚焦视频恢复与生成。最值得关注的方向包括高质量人脸视频恢复（TIGER）、可扩展视频扩散（Veda）以及实时视频编辑（SANA-Streaming）。建议读者优先精读这三篇，把握视频生成与编辑领域的最新进展。
-- 详情：[/20260528-20260626/README](/20260528-20260626/README)
+1. 今日重点攻克视频生成与编辑，两篇9分论文聚焦长视频错误消除与测试时缓存自校准。
+2. 最值得关注的方向：长视频生成中的错误校正（《Towards Error-Free Long Video Generation》）和推理阶段的缓存优化（《NaviCache》），两者均获9.0/10高分。
+3. 建议读者优先精读上述两篇论文，并速览《LiveEdit》实时编辑与《UnityShots》音视频生成，以把握视频模型最新进展。
+- 详情：[/202606/27/README](/202606/27/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Towards Error-Free Long Video Generation](/202606/27/2606.22370v1-towards-error-free-long-video-generation)  
+   标签：评分：9.0/10、query:vd
+   evidence：通过微调扩散模型进行视频扩展的后训练
+2. [NaviCache: Test-Time Self-Calibration Caching for Video Generation](/202606/27/2606.26795v1-navicache-test-time-self-calibration-caching-for-video-generation)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：视频扩散模型的测试时自校准缓存加速
+3. [NullFlow: One-Step Generative Reconstruction](/202606/27/2606.22696v1-nullflow-one-step-generative-reconstruction)  
+   标签：评分：8.0/10、query:vd
+   evidence：使用流匹配实现单步生成式重建
+4. [DomainShuttle: Freeform Open Domain Subject-driven Text-to-video Generation](/202606/27/2606.26058v1-domainshuttle-freeform-open-domain-subject-driven-text-to-video-generation)  
+   标签：评分：8.0/10、query:vd
+   evidence：文本到视频生成中的跨域适应
+5. [LCG: Long-Context Consistent Image Generation with Sparse Relational Attention](/202606/27/2606.26171v1-lcg-long-context-consistent-image-generation-with-sparse-relational-attention)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：稀疏关系注意力用于高效多图像生成
+6. [LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration](/202606/27/2606.26778v1-learnibridge-learnable-calibration-of-feature-caching-for-diffusion-models-acceleration)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：可学习的特征缓存加速扩散模型
+7. [TMP: Tree-structured Mixed-policy Pruning for Large-scale Image Generation and Editing](/202606/27/2606.27089v1-tmp-tree-structured-mixed-policy-pruning-for-large-scale-image-generation-and-editing)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：面向图像生成模型的剪枝框架，支持步蒸馏模型，提升推理效率
+8. [DanceOPD: On-Policy Generative Field Distillation](/202606/27/2606.27377v1-danceopd-on-policy-generative-field-distillation)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：面向生成模型的在线策略蒸馏
 
 ### 速读区论文标签
-1. [TIGER: Taming Identity, Geometry, and Generative Priors for High-Quality Face Video Restoration](/20260528-20260626/2606.24336v1-tiger-taming-identity-geometry-and-generative-priors-for-high-quality-face-video-restoration)  
-   标签：评分：10.0/10、query:video-refine
-   evidence：人脸视频恢复作为生成后处理
-2. [Veda: Scalable Video Diffusion via Distilled Sparse Attention](/20260528-20260626/2605.30325v1-veda-scalable-video-diffusion-via-distilled-sparse-attention)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：蒸馏稀疏注意力用于高效视频扩散
-3. [SANA-Streaming: Real-time Streaming Video Editing with Hybrid Diffusion Transformer](/20260528-20260626/2605.30409v1-sana-streaming-real-time-streaming-video-editing-with-hybrid-diffusion-transformer)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：在消费级GPU上使用混合注意力实现实时流式视频编辑
-4. [DTG-Restore: Training-Free Diffusion Refinement for Generative Video Super-Resolution](/20260528-20260626/2605.30431v1-dtg-restore-training-free-diffusion-refinement-for-generative-video-super-resolution)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：无训练扩散精炼用于生成式视频超分辨率
-5. [AAD-1: Asymmetric Adversarial Distillation for One-Step Autoregressive Video Generation](/20260528-20260626/2606.03972v1-aad-1-asymmetric-adversarial-distillation-for-one-step-autoregressive-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：用于消费级GPU上快速视频生成的一步对抗蒸馏
-6. [AAD-1: Asymmetric Adversarial Distillation for One-Step Autoregressive Video Generation](/20260528-20260626/2606.03972v2-aad-1-asymmetric-adversarial-distillation-for-one-step-autoregressive-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：用于消费级GPU上快速视频生成的一步对抗蒸馏
-7. [DSA: Dynamic Step Allocation for Fast Autoregressive Video Generation](/20260528-20260626/2606.04432v1-dsa-dynamic-step-allocation-for-fast-autoregressive-video-generation)  
-   标签：评分：9.0/10、query:vd
-   evidence：基于蒸馏的自适应步数分配加速自回归视频生成
-8. [LiteVSR: Lightweight Adaptation of Frozen Diffusion Transformers for Video Super-Resolution](/20260528-20260626/2606.09250v1-litevsr-lightweight-adaptation-of-frozen-diffusion-transformers-for-video-super-resolution)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：利用冻结扩散变换器的轻量级视频超分辨率方法
-9. [SwiftVR: Real-Time One-Step Generative Video Restoration](/20260528-20260626/2606.09516v1-swiftvr-real-time-one-step-generative-video-restoration)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：实时生成式视频恢复，一步扩散模型
-10. [SpecLoR: Spectral Lookahead Rectification for Motion-Coherent Text-to-Video Generation](/20260528-20260626/2606.11969v1-speclor-spectral-lookahead-rectification-for-motion-coherent-text-to-video-generation)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：推理时修正生成视频的时空不一致性
-11. [EvTexture++: Event-Driven Texture Enhancement for Video Super-Resolution](/20260528-20260626/2606.13580v1-evtexture-event-driven-texture-enhancement-for-video-super-resolution)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：基于事件驱动的视频超分辨率纹理增强
-12. [RGFVR: Reference-Guided Face Video Restoration with Flow Matching](/20260528-20260626/2606.16401v1-rgfvr-reference-guided-face-video-restoration-with-flow-matching)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：参考引导的人脸视频恢复，适用于生成输出
-13. [Data-Forcing Distillation: Restoring Diversity and Fidelity in Few-Step Video Generation](/20260528-20260626/2606.18478v1-data-forcing-distillation-restoring-diversity-and-fidelity-in-few-step-video-generation)  
-   标签：评分：9.0/10、query:vd
-   evidence：后训练蒸馏用于少步视频生成，恢复多样性
-14. [Data-Forcing Distillation: Restoring Diversity and Fidelity in Few-Step Video Generation](/20260528-20260626/2606.18478v2-data-forcing-distillation-restoring-diversity-and-fidelity-in-few-step-video-generation)  
-   标签：评分：9.0/10、query:vd
-   evidence：后训练蒸馏提升少步视频生成的多样性和保真度
-15. [Bridging Creative Intent and Visual Quality: Creator-Driven Recurrent Video Generation with Agentic Feedback Loops](/20260528-20260626/2606.18591v1-bridging-creative-intent-and-visual-quality-creator-driven-recurrent-video-generation-with-agentic-feedback-loops)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：创作者驱动的迭代视频精炼以提升质量
-16. [Real-Time Generation of Streamable Talking Portrait Video with Reference-Guided Deep Compression VAEs](/20260528-20260626/2606.01620v1-real-time-generation-of-streamable-talking-portrait-video-with-reference-guided-deep-compression-vaes)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：实时流式视频生成，使用因果VAE和自回归去噪
-17. [RhymeFlow: Training-Free Acceleration for Video Generation with Asynchronous Denoising Flow Scheduling](/20260528-20260626/2606.06309v1-rhymeflow-training-free-acceleration-for-video-generation-with-asynchronous-denoising-flow-scheduling)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：通过稀疏注意力调度实现视频生成的无训练加速，与快速生成相关
-18. [Ultra Flash: Scaling Real-Time Streaming Video Generation to High Resolutions](/20260528-20260626/2606.09150v1-ultra-flash-scaling-real-time-streaming-video-generation-to-high-resolutions)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：单GPU实时高分辨率视频生成
-19. [Ultra Flash: Scaling Real-Time Streaming Video Generation to High Resolutions](/20260528-20260626/2606.09150v2-ultra-flash-scaling-real-time-streaming-video-generation-to-high-resolutions)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：单GPU实时高分辨率视频生成
-20. [TetherCache: Stabilizing Autoregressive Long-Form Video Generation with Gated Recall and Trusted Alignment](/20260528-20260626/2606.13035v1-tethercache-stabilizing-autoregressive-long-form-video-generation-with-gated-recall-and-trusted-alignment)  
-   标签：评分：8.0/10、query:video-refine
-   evidence：解决自回归视频生成中的视觉伪影和质量退化
-21. [Sol Video Inference Engine: Agent-Native Full-Stack Acceleration Framework for Efficient Video Generation](/20260528-20260626/2606.23743v1-sol-video-inference-engine-agent-native-full-stack-acceleration-framework-for-efficient-video-generation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：视频生成推理全栈加速
+1. [LiveEdit: Towards Real-Time Diffusion-Based Streaming Video Editing](/202606/27/2606.26740v1-liveedit-towards-real-time-diffusion-based-streaming-video-editing)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：三步蒸馏流水线实现实时流式视频编辑
+2. [Focusing on What Matters: Saliency-Harnessing Accurate Routing for Diffusion MoE](/202606/27/2606.26938v1-focusing-on-what-matters-saliency-harnessing-accurate-routing-for-diffusion-moe)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：针对扩散MoE的显著性感知路由提高效率
+3. [UnityShots: Memory-Driven Multi-Shot Audio-Video Generation with Boundary-Aware Gating](/202606/27/2606.21661v1-unityshots-memory-driven-multi-shot-audio-video-generation-with-boundary-aware-gating)  
+   标签：评分：6.0/10、query:vd
+   evidence：利用存储实现多镜头连贯视频生成，保持主题和场景一致性
+4. [Enlight: Fast Low-Light Image Enhancement via Multi-Objective Optimization and Shadow-Aware Refinement](/202606/27/2606.21674v1-enlight-fast-low-light-image-enhancement-via-multi-objective-optimization-and-shadow-aware-refinement)  
+   标签：评分：6.0/10、query:video-refine
+   evidence：快速无训练的低光照图像增强，可应用于视频后处理恢复
+5. [MVTrack4Gen: Multi-View Point Tracking as Geometric Supervision for 4D Video Generation](/202606/27/2606.26087v1-mvtrack4gen-multi-view-point-tracking-as-geometric-supervision-for-4d-video-generation)  
+   标签：评分：6.0/10、query:vd
+   evidence：多视角点跟踪用于视频生成的运动动力学
+6. [PortraitGen: Exemplar-Driven GRPO with Dual-Reward Guidance for Photorealistic Portrait Generation](/202606/27/2606.26930v1-portraitgen-exemplar-driven-grpo-with-dual-reward-guidance-for-photorealistic-portrait-generation)  
+   标签：评分：6.0/10、query:vd
+   evidence：通过GRPO后训练提升肖像生成的多样性和质量
+7. [Don't Settle at the Mode! Mitigating Diversity Collapse in Pretrained Flow Models via Feature Self-Guidance](/202606/27/2606.27371v1-dont-settle-at-the-mode-mitigating-diversity-collapse-in-pretrained-flow-models-via-feature-self-guidance)  
+   标签：评分：6.0/10、query:vd
+   evidence：通过特征自引导缓解生成模型中的多样性崩溃，可推广至视频
 
 
 <div class="dpr-home-promo-card">

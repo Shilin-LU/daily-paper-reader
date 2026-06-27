@@ -1,0 +1,1324 @@
+LearniBridge: Learnable Calibration of Feature Caching
+for Diffusion Models Acceleration
+Xuyue Huang 1 Zhe Chen 2 Wang Shen 2 Xiao-Ping Zhang 1
+Abstract
+Diffusion Transformers (DiTs) have driven sub-
+stantial progress in image and video generation
+but suffer from prohibitive computational costs.
+Feature caching accelerates inference by reusing
+intermediate representations. Existing methods
+rely on historical features for implementation sim-
+plicity, yet suffer from severe error accumula-
+tion at high acceleration ratios. To address this
+limitation, we investigate the nature of the req-
+uisite feature correction. We demonstrate that
+the optimal calibration update is characterized
+by a shared low-rank subspace across diverse
+prompts. Guided by this structural insight, we
+propose LearniBridge, a learnable calibration
+mechanism for feature caching that bridges multi-
+ple timesteps through lightweight LoRA updates.
+This mechanism enables effective calibration re-
+quiring only 3–5 training samples. Extensive ex-
+periments on image and video generation show
+that LearniBridge achieves up to 5.87×, 5.75×,
+and 4.10× acceleration on FLUX, HunyuanVideo,
+and WAN 2.1, respectively. On WAN 2.1, it im-
+proves VBench by 1.28% over the previous SOTA
+at 4.10× acceleration.
+Our code is available
+at https://github.com/Iiiiiiirene/
+LearniBridge.
+1. Introduction
+Diffusion models (Ho et al., 2020; Dhariwal & Nichol, 2021)
+have rapidly advanced generative modeling, achieving state-
+of-the-art performance in image and video generation (Rom-
+bach et al., 2022; Blattmann et al., 2023). Recent work
+introduces Diffusion Transformers (DiTs) (Peebles & Xie,
+1Shenzhen Ubiquitous Data Enabling Key Laboratory, Shen-
+zhen International Graduate School, Tsinghua University, Shen-
+zhen, China 2Central Media Technology Institute, Huawei Tech-
+nologies Co., Ltd., Shenzhen, China. Correspondence to: Xiao-
+Ping Zhang <xpzhang@ieee.org>.
+Proceedings of the 43 rd International Conference on Machine
+Learning, Seoul, South Korea. PMLR 306, 2026. Copyright 2026
+by the author(s).
+2023; Esser et al., 2024; Chen et al., 2024b) to further en-
+hance generation quality. However, these improvements
+come at the expense of high computational demands, which
+limit the practical applicability.
+Various acceleration strategies (Lu et al., 2022; Li et al.,
+2025) have been proposed to address these challenges.
+Among them, feature caching (Liu et al., 2025a; Zhao et al.,
+2025; Yuan et al., 2024; Zou et al., 2025; Zhou et al., 2025)
+effectively reduces inference costs by reusing intermediate
+representations from earlier timesteps. Methods such as
+DeepCache(Ma et al., 2024) and FORA (Selvaraju et al.,
+2024) exploit the similarity between adjacent timesteps
+for direct reuse. To handle longer caching intervals, Tay-
+lorSeer (Liu et al., 2025b) employs Taylor-series expansions
+over multi-step histories to predict future feature features.
+However, TaylorSeer requires more cached features and re-
+lies on the assumption of smooth, higher-order differentiable
+feature trajectories that may not always hold.
+Existing methods rely on historical features for implemen-
+tation simplicity, yet incur severe error accumulation at
+high acceleration ratios. This raises a critical question: Is
+there an underlying structure within these caching errors
+that enables efficient, learnable correction? In this paper,
+by analyzing the spectral properties of feature correction
+matrices, we observe that the requisite updates consistently
+reside in a low-dimensional subspace. This theoretically jus-
+tifies that the calibration weights are naturally constrained
+by a low-rank structure. Furthermore, we find that these
+low-rank subspaces remain remarkably consistent across
+diverse prompts, demonstrating a robust prompt-invariant
+structure.
+Motivated by these observations, we introduce LearniB-
+ridge, a learnable calibration mechanism for cached features,
+implemented via lightweight LoRA updates that bridge
+multiple timesteps. The method consists of two phases:
+training and inference. In the training phase, we optimize
+LoRA-based calibration weights to align cached features
+with their full-computation representations. In the inference
+phase, full computation at the target timestep is bypassed,
+requiring only the inference of the LoRA-augmented final
+Transformer block. Due to the inherent low-rank nature of
+these calibration weights, our approach is highly parameter-
+1
+arXiv:2606.26778v1  [cs.CV]  25 Jun 2026
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+efficient. Furthermore, the prompt-invariant structure en-
+ables LearniBridge to generalize broadly after training on
+minimal samples. This design enables LearniBridge to
+bridge multiple timesteps with minimal computational over-
+head.
+Our main contributions are summarized as follows:
+• Prompt-Invariant Low-Rank Structure: We demon-
+strate that the optimal calibration updates in DiT linear
+layers reside in a prompt-invariant, low-dimensional
+subspace. This finding provides a principled founda-
+tion for effective calibration.
+• LearniBridge: We propose a LoRA-based frame-
+work that calibrates cached features to reconstruct
+future-step representations. By using only 3-5 training
+prompts and lightweight low-rank updates, it enables
+efficient integration with negligible computational over-
+head.
+• Outstanding performance: LearniBridge achieves up
+to 5.87×, 5.75×, and 4.10× acceleration on FLUX,
+HunyuanVideo, and Wan 2.1, respectively, while main-
+taining high generation quality across image and video
+generation tasks.
+2. Related Work
+Diffusion models (Ho et al., 2020; Sohl-Dickstein et al.,
+2015) have achieved remarkable success in generative
+tasks. Early works predominantly employed U-Net struc-
+tures (Ronneberger et al., 2015), but struggled with scala-
+bility in larger models. This changed with the Diffusion
+Transformers (DiTs) (Peebles & Xie, 2023), which resolved
+these constraints and enabled state-of-the-art performance
+in multiple domains (Chen et al., 2024a;b; Yang et al., 2025;
+Zheng et al., 2024). However, sequential sampling leads
+to persistently high inference costs. To address this, ac-
+celeration strategies have been extensively studied and are
+generally divided into Sampling Timestep Reduction and
+Denoising Network Acceleration.
+2.1. Diffusion Model Acceleration
+Extensive research focuses on accelerating diffusion models
+by either minimizing sampling steps or enhancing per-step
+efficiency. DDIM (Song et al., 2021) introduced a determin-
+istic sampling paradigm that preserves generation fidelity
+with fewer iterations, a framework subsequently refined by
+the DPM-Solver series (Lu et al., 2022) through higher-
+order ODE solvers. Consistency Models (Song et al., 2023)
+further establish self-consistent noise-to-data mappings, en-
+abling one- or few-step generation. Additionally, model
+distillation (Salimans & Ho; Meng et al., 2023) compresses
+multi-step samplers into efficient student models that require
+significantly fewer denoising iterations. To further alleviate
+the per-step computational burden, model quantization (Kim
+et al., 2025; Li et al., 2023; Shang et al., 2023) and struc-
+tural pruning (Fang et al., 2023; Zhu et al., 2024) compress
+the diffusion backbones. Beyond these approaches, feature
+caching represents a highly efficient acceleration paradigm
+due to its minimal training overhead and model-agnostic
+nature.
+2.2. Feature Caching
+Caching-based methods exploit the strong temporal coher-
+ence of intermediate activations to skip redundant compu-
+tation across diffusion timesteps. DeepCache (Song et al.,
+2023) initially developed for U-Net architectures, reuses
+features across multiple steps. Extending this concept to
+Transformer-based architectures, FORA (Selvaraju et al.,
+2024) implements fundamental module-level output caching
+specifically for Diffusion Transformers (DiTs). DiTFas-
+tAttn (Yuan et al., 2024) further reduces costs by sharing
+attention outputs across spatial dimensions, time, and condi-
+tional branches. To maintain synthesis quality, ToCa (Zou
+et al., 2025) incorporates dynamic feature updates to miti-
+gate information loss caused by feature aging. In terms of
+cache decision mechanisms, TeaCache (Liu et al., 2025a)
+introduces a calibrated polynomial estimator to predict out-
+put changes from input differences. TaylorSeer (Liu et al.,
+2025b) advances the paradigm from simple “replication”
+to “prediction” via a Taylor-series-inspired extrapolation
+scheme, significantly enhancing generation quality during
+long-range skipping. Despite these advancements, existing
+methods predominantly rely on historical features for imple-
+mentation simplicity, which inevitably incurs severe error
+accumulation at high acceleration ratios.
+3. Method
+3.1. Preliminary
+Diffusion Models.
+Diffusion models formulate generative
+modeling as learning to invert a gradual noising process.
+Starting from clean data x0 ∼q(x), a forward diffusion
+process constructs a sequence {xt}T
+t=1 by progressively
+adding Gaussian noise:
+xt = √αt xt−1 +
+√
+1 −αt zt,
+zt ∼N(0, I),
+(1)
+where αt ∈(0, 1] controls the signal-to-noise ratio at each
+timestep. For appropriately chosen {αt}T
+t=1, the marginal
+distribution of xT approaches an isotropic Gaussian.
+The generative model parameterizes the reverse process
+using a neural network that defines the conditional distribu-
+tions:
+pθ(xt−1 | xt) = N(xt−1; µθ(xt, t), Σθ(xt, t)) ,
+(2)
+2
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+Figure 1. SVD analysis of the aggregated input matrix Xl
+t across 100 distinct prompts. The singular values
+exhibit a rapid decay, indicating that spectral energy is concentrated in a few principal components. This
+implies that Xl
+t possesses an intrinsic low-rank structure, constraining the optimal correction ∆W l to be
+low-rank.
+Figure 2.
+Small angles
+between updates from dis-
+joint prompt groups verify
+that the correction pattern
+is prompt-invariant.
+and samples are obtained by iteratively applying these re-
+verse transitions from t = T down to t = 1. Since this
+procedure requires evaluating the backbone network at ev-
+ery timestep, diffusion models typically incur substantial
+computational cost during generation.
+Diffusion Transformer Architecture.
+The Diffusion
+Transformers (DiTs) adopts a hierarchical architecture G =
+g1◦· · ·◦gL. Each block is defined as gl = F l
+SA◦F l
+CA◦F l
+MLP,
+indicating that the input is sequentially processed by a
+feedforward (MLP) module, a cross-attention module, and
+a self-attention module.
+Each module is implemented
+in residual form as F l
+α(x) = x + AdaLNl
+α
+ f l
+α(x)
+
+for
+α ∈{SA, CA, MLP}.
+The self-attention module computes the query, key, and
+value projections Q
+=
+xW l
+Q, K
+=
+xW l
+K, and
+V
+= xW l
+V , followed by scaled dot-product attention
+Attn(x) = softmax
+ QK⊤/√dh
+
+V and an output pro-
+jection f l
+SA(x) = Attn(x)W l
+O. The cross-attention module
+follows an identical formulation with its own projection ma-
+trices. The MLP module consists of two linear layers with a
+nonlinear activation, expressed as f l
+MLP(x) = σ
+ xW l
+1
+
+W l
+2.
+Together, these components define the standard DiT back-
+bone that is applied consistently across diffusion timesteps.
+Feature Caching.
+Feature caching reduces computa-
+tional cost by approximating block outputs across diffusion
+timesteps. For block l at timestep t, let F l xl
+t
+
+denote its
+output, and let cl
+s = F l xl
+s
+
+represent the cached output at
+a reference timestep s. Given a set of reference timesteps
+St,k ⊆{t, . . . , t −m} with k ∈{1, . . . , m}, a general
+caching scheme approximates the block output at timestep
+t −k as:
+ˆF l xl
+t−k
+
+= Φl
+cl
+s
+	
+s∈St,k , k
+
+,
+(3)
+where Φl specifies the rule by which cached features are
+combined to construct the approximation. Different caching
+methods instantiate Φl using different strategies, such as
+direct feature reuse or higher-order extrapolation.
+Low-Rank Adaptation.
+Low-Rank Adaptation (LoRA)
+introduces trainable low-rank matrices into linear layers to
+enable parameter-efficient fine-tuning (Hu et al., 2022). For
+a linear transformation with weight W l ∈Rdin×dout, LoRA
+augments the weight with a low-rank update:
+∆W l = BlAl,
+(4)
+where Al
+∈
+Rr×dout and Bl
+∈
+Rdin×r, with r
+≪
+min(din, dout). During adaptation, the effective weight be-
+comes W l + ∆W l, while the base weight W l remains
+frozen. Only the low-rank factors Al and Bl are updated,
+which substantially reduces the number of trainable parame-
+ters and allows the adapted weights to be stored and applied
+in a modular manner.
+3.2. Prompt-Invariant Low-Rank Calibration Update
+Let f l(xl
+t−k) denote the output of a specific linear layer
+at the reference timestep t −k, where xl
+t−k is the corre-
+sponding input. We investigate the feature shift between
+the layer outputs given the previous input xl
+t versus the cur-
+rent input xl
+t−k. For each training sample i, we define the
+cross-timestep residual as:
+el
+t→t−k,i ≜f l xl
+t−k,i
+
+−f l xl
+t,i
+
+.
+(5)
+We aggregate these residuals and the corresponding inputs
+from all N samples into matrices El
+t→t−k and Xl
+t, respec-
+tively:
+El
+t→t−k =
+
+el
+t→t−k,1, . . . , el
+t→t−k,i, . . . , el
+t→t−k,N
+
+,
+(6)
+3
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+Figure 3. Overview of LearniBridge. Our method consists of a training phase and an inference phase. During the training phase, a
+pre-calibration pass performs full computation at all timesteps, recording the final-block input xL
+t and the corresponding ground-truth
+outputs F L(xL
+t−k) for calibrated timesteps. In the LoRA Finetune process, LoRA adapters are trained in the final block to map the cached
+input xL
+t to the corresponding full-computation output F L(xL
+t−k). During the inference phase, full computation at the target timesteps is
+skipped, only infer the LoRA-augmented final Transformer block.
+Xl
+t =
+
+xl
+t,1, . . . , xl
+t,i, . . . , xl
+t,N
+
+.
+(7)
+Let ∆W l represent the adaptive linear correction introduced
+to compensate for this discrepancy. We model the relation-
+ship as El
+t→t−k ≈∆W lXl
+t. Minimizing the reconstruction
+error yields the closed-form solution:
+∆W l = El
+t→t−k(Xl
+t)†,
+(8)
+where (Xl
+t)† denotes the Moore-Penrose pseudo-inverse.
+We next analyze the spectral properties of the input matrix
+Xl
+t via Singular Value Decomposition (SVD):
+Xl
+t = UΣV ⊤,
+(9)
+where U and V are orthogonal matrices, and Σ is a diagonal
+matrix of singular values. Substituting the pseudo-inverse
+expression (Xl
+t)† = V Σ+U ⊤into the solution for ∆W l,
+we obtain:
+∆W l = El
+t→t−kV Σ+U ⊤.
+(10)
+As illustrated in Figure 1, we constructed Xl
+t using sam-
+ples from 100 distinct prompts. The singular values of Xl
+t
+exhibit a rapid decay, indicating that the spectral energy
+is concentrated in a few principal components. This em-
+pirical observation suggests that Xl
+t possesses an intrinsic
+low-rank structure. Given that the rank of a matrix product
+is constrained by the minimum rank of its factors, it follows
+that:
+rank(∆W l) ≤rank((Xl
+t)†) = rank(Xl
+t) ≤r.
+(11)
+This implies that the optimal correction ∆W l is inherently
+low-rank.
+To verify the universality of the update direction, we ran-
+domly partition 100 prompts into 20 disjoint groups and
+compute the optimal ∆W l for each group. For each ∆W l,
+we perform SVD to obtain its principal subspace, and Fig-
+ure 2 visualizes the pairwise angles between these subspaces
+across different prompt groups. The consistently small an-
+gles reveal a strong structural similarity between these up-
+dates, implying that the required feature correction follows a
+universal pattern, independent of the specific input prompts.
+3.3. LoRA-Based Calibration Architectures
+Let F l(xl
+t−k) denote the output of a specific block at the
+reference timestep t −k. Leveraging the low-rank update
+structure, the output at a later timestep can be approximated
+from the input at an earlier timestep as:
+F l xl
+t−k; W l
+≈F l xl
+t; W l + ∆W l
+.
+(12)
+This relation indicates that a suitably parameterized low-
+4
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+Table 1. Quantitative comparison in text-to-image generation on DrawBench with FLUX.1-dev.
+Method
+Acceleration
+Quality Metrics
+FLUX.1-dev
+Latency(s)↓
+Speed↑
+FLOPs(T)↓
+Speed↑
+ImageReward↑
+CLIP↑
+PSNR↑
+SSIM↑
+LPIPS↓
+Original
+27.32
+1.00×
+3719.5
+1.00×
+0.9885
+0.8102
+−
+−
+−
+22% steps
+6.00
+4.55×
+817.5
+4.55×
+0.8669
+0.8130
+25.9587
+0.6720
+0.3691
+ToCA (N=9) (Zou et al., 2025)
+6.88
+3.97×
+854.4
+4.35×
+0.8352
+0.8045
+27.9813
+0.7012
+0.3155
+TeaCache (δ=0.8) (Liu et al., 2025a)
+6.60
+4.14×
+892.0
+4.17×
+0.8975
+0.8103
+28.6508
+0.7350
+0.2538
+TaylorSeer (N=5, O=2) (Liu et al., 2025b)
+6.20
+4.41×
+817.5
+4.55×
+0.9359
+0.8164
+29.8558
+0.7625
+0.2697
+LearniBridge (N=5)
+6.27
+4.36×
+839.6
+4.43×
+0.9590
+0.8128
+30.1525
+0.7879
+0.2682
+ToCA (N=10) (Zou et al., 2025)
+5.78
+4.73×
+714.7
+5.20×
+0.7998
+0.7956
+26.9854
+0.6390
+0.3702
+TeaCache (δ=1) (Liu et al., 2025a)
+5.66
+4.83×
+743.6
+4.89×
+0.8398
+0.8060
+27.0821
+0.6996
+0.3702
+TaylorSeer (N=6, O=2) (Liu et al., 2025b)
+5.47
+4.99×
+745.4
+4.99×
+0.9033
+0.8094
+28.7006
+0.7191
+0.3109
+LearniBridge (N=6)
+5.61
+4.87×
+759.1
+4.90×
+0.9133
+0.8364
+29.7491
+0.7407
+0.3021
+ToCA (N=12) (Zou et al., 2025)
+4.65
+5.87×
+628.3
+5.92×
+0.7019
+0.7826
+26.4802
+0.5856
+0.3928
+TeaCache (δ=1.4) (Liu et al., 2025a)
+4.56
+5.99×
+603.8
+6.16×
+0.7252
+0.8026
+26.5802
+0.6338
+0.3928
+TaylorSeer (N=8, O=2) (Liu et al., 2025b)
+4.48
+6.10×
+596.1
+6.24×
+0.8212
+0.8041
+26.8228
+0.6750
+0.3647
+LearniBridge (N=8)
+4.43
+6.17×
+599.9
+6.20×
+0.8308
+0.8164
+28.3464
+0.6870
+0.3549
+rank adapter can reproduce the skipped-timestep representa-
+tion using only cached features.
+As illustrated in Figure 3, LearniBridge implements this
+insight by applying a lightweight residual correction to the
+final Transformer block gL (composed as gl = F l
+SA ◦F l
+CA ◦
+F l
+MLP). This mechanism compensates for the temporal fea-
+ture shift by modeling it as a learnable update. Restricting
+LoRA to gL minimizes trainable parameters and memory
+footprint while preserving the backbone architecture. Since
+no auxiliary blocks are executed, this design incurs negligi-
+ble inference latency, yielding a plug-and-play calibration
+module.
+For any linear transformation W l, LoRA introduces a low-
+rank update:
+∆W l = BlAl,
+r ≪min(din, dout) ,
+(13)
+and replaces W l with W l + ∆W l while keeping the base
+weight W l itself frozen. LearniBridge applies this param-
+eterization exclusively to the final block gL, introducing
+low-rank updates ∆W L
+Q, ∆W L
+K, ∆W L
+V , ∆W L
+O, ∆W L
+1 , and
+∆W L
+2 to all linear layers within the block.
+Training Phase
+During pre-calibration pass, we collect a small set of
+prompts (3–5) and run full diffusion trajectories. For each
+fully computed timestep t, we record the input to the fi-
+nal block, denoted as xL
+t . For timesteps xL
+t−k that will
+be calibrated during inference, we record corresponding
+ground-truth outputs F L(xL
+t−k).
+During LoRA finetune process, the LoRA parameters in
+gL are trained while keeping all base weights frozen. The
+objective is to ensure that the LoRA-augmented final block,
+when taking the cached feature xL
+t as input, can well ap-
+proximate the target output F L xL
+t−k
+
+obtained under full
+computation. Over all training pairs (t, t−k), we minimize:
+LLearniBridge =
+X
+i
+ ˆF L xL
+t,i
+
+−F L xL
+t−k,i
+
+2
+2 .
+(14)
+Here, ˆF L xL
+t,i
+
+serves as the output of LoRA-augmented
+final block. By modeling the temporal shift, we recon-
+struct representations at skipped timesteps directly from the
+cached features.
+Inference Phase
+During inference, the model periodically executes full com-
+putation at intervals of N timesteps and caches the corre-
+sponding input to the final block, denoted as xL
+t . For a
+target timestep t−k, we retrieve the cached feature xL
+t from
+the nearest full-compute step t. Instead of recomputing all
+blocks g1, . . . , gL−1 at timestep t−k, LearniBridge directly
+feeds this cached feature xL
+t into the LoRA-augmented fi-
+nal block gL, producing an approximation ˆF L xL
+t
+
+of the
+full computation output. This substitution allows the model
+to bypass earlier blocks, relying on the trained low-rank
+correction to recover cross-timestep feature evolution.
+4. Experiments
+4.1. Experiment Settings
+Model Configurations.
+Experiments are conducted on
+three state-of-the-art visual generative models: the text-to-
+image generation model FLUX.1-dev (Black Forest Labs,
+2024), and the text-to-video generation models Hunyuan-
+Video (Kong et al., 2024) and WAN 2.1-1.3B (Wan et al.,
+2025). All images and videos used for both quantitative
+and qualitative evaluation are generated on Ascend 910B
+devices.
+5
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+Table 2. Quantitative comparison in text-to-video generation for HunyuanVideo on VBench.
+Method
+Acceleration
+Quality Metrics
+HunyuanVideo
+Latency(s)↓
+Speed↑
+FLOPs(T)↓
+Speed↑
+VBench(%)
+PSNR↑
+SSIM↑
+LPIPS↓
+Original
+617.79
+1.00×
+29773.0
+1.00×
+80.93
+−
+−
+−
+22% steps
+135.78
+4.55×
+6550.1
+4.55×
+78.88
+15.09
+0.5669
+0.3997
+TeaCache (δ=0.3) (Liu et al., 2025a)
+167.88
+3.68×
+7794.0
+3.82×
+80.07
+18.36
+0.7155
+0.2629
+TaylorSeer (N=4, O=1) (Liu et al., 2025b)
+161.30
+3.83×
+7733.2
+3.85×
+80.74
+19.47
+0.6686
+0.3096
+LearniBridge (N=4)
+164.74
+3.75×
+7876.5
+3.78×
+80.84
+20.55
+0.7508
+0.2314
+ToCa (N=5) (Zou et al., 2025)
+149.94
+4.12×
+7005.4
+4.25×
+79.25
+18.13
+0.6002
+0.3885
+TeaCache (δ=0.4) (Liu et al., 2025a)
+130.89
+4.72×
+6151.5
+4.84×
+79.40
+16.91
+0.6649
+0.3372
+TaylorSeer (N=5, O=1) (Liu et al., 2025b)
+132.86
+4.65×
+5966.5
+4.99×
+80.13
+18.28
+0.6121
+0.3722
+LearniBridge (N=5)
+125.31
+4.93×
+5966.5
+4.99×
+79.93
+18.80
+0.7396
+0.2349
+TaylorSeer (N=7, O=1) (Liu et al., 2025b)
+103.30
+5.98×
+4771.3
+6.24×
+79.14
+17.77
+0.6122
+0.4232
+LearniBridge (N=7)
+100.45
+6.15×
+4794.4
+6.21×
+79.51
+17.84
+0.6504
+0.3780
+Figure 4. Detailed visualization results for different acceleration
+methods on FLUX.1-dev. Existing methods suffer from severe
+content deviation, blurring artifacts, or abnormal color contrast
+at high speedup, whereas LearniBridge maintains high content
+fidelity and superior visual quality even at nearly 6× acceleration.
+Evaluation and Metrics.
+For text-to-image generation,
+we generate 200 images using prompts from the DrawBench
+benchmark (Saharia et al., 2022). Image quality and text–
+image alignment are evaluated using ImageReward (Xu
+et al., 2023) and CLIP Score (Hessel et al., 2021). For
+text-to-video generation, we produce a total of 4,730 videos
+by generating five samples for each of the 946 prompts.
+Model performance is comprehensively evaluated using the
+VBench (Huang et al., 2024) framework. Additionally, the
+fidelity of the generated outputs with respect to the original
+results is quantitatively assessed using PSNR, SSIM (Wang
+et al., 2004), and LPIPS (Zhang et al., 2018).
+4.2. Text-to-Image Generation
+Quantitative Study.
+As shown in Table 1, we compare
+LearniBridge with existing acceleration methods, includ-
+ing ToCa, TeaCache, and TaylorSeer, on the FLUX.1-dev
+model. Under moderate acceleration, LearniBridge achieves
+a 4.36× speedup while maintaining strong semantic and vi-
+sual quality, with IR (0.9590 ↑), CLIP (0.8128 ↑), PSNR
+(30.1525 ↑), and SSIM (0.7879 ↑). It outperforms ToCa,
+TaylorSeer and remains competitive with TeaCache across
+most metrics. At a 4.98× speedup, LearniBridge achieves
+the highest CLIP score (0.8364 ↑) while maintaining strong
+perceptual quality. Even under aggressive acceleration at
+5.87×, LearniBridge preserves highest IR (0.8308 ↑), in-
+dicating superior robustness as the acceleration factor in-
+creases.
+Qualitative Study.
+Figure 4 presents a visual comparison
+between LearniBridge and baseline methods on FLUX.1-
+dev. When the speedup approaches 6×, TeaCache exhibits
+significant content deviation from the original outputs, ac-
+companied by noticeable blurring artifacts. TaylorSeer pro-
+duces results with low similarity to the original images and
+suffers from abnormal color contrast. In contrast, LearniB-
+ridge preserves high content consistency with the original
+outputs while maintaining substantially better visual fidelity,
+demonstrating its effectiveness under large timestep skip-
+ping.
+4.3. Text-to-Video Generation
+Quantitative Study.
+As shown in Table 2, we compare
+LearniBridge with existing acceleration methods, includ-
+ing ToCa, TeaCache, and TaylorSeer, on the HunyuanVideo
+model. Under moderate acceleration, LearniBridge achieves
+a 3.75× speedup with a VBench score of 80.84, outper-
+forming TeaCache and TaylorSeer at comparable speedup
+6
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+Figure 5. Visualization of different acceleration methods on HunyuanVideo. While achieving higher acceleration ratios, other methods
+exhibit issues such as motion detail loss, content deviation, visual quality degrade. In contrast, our method maintains high-quality
+generation without these problems.
+Figure 6. Visualization of different acceleration methods on WAN
+2.1-1.3B. Baseline methods exhibit inconsistent color reproduction,
+degraded motion quality, and visible blurring, while LearniBridge
+maintains high visual quality close to the original video.
+levels. Even under more aggressive acceleration at 5.75×,
+LearniBridge consistently maintains higher VBench scores
+and better perceptual metrics than TaylorSeer.
+As shown in Table 3, we evaluate LearniBridge on the
+WAN 2.1-1.3B model and compare it with EasyCache, Tea-
+Cache, and TaylorSeer. Existing approaches are generally
+limited to approximately 3× speedup and incur substantial
+degradation in output quality. In contrast, LearniBridge
+achieves speedup factors of 3.49× (VBench 81.21) and
+4.10× (VBench 80.51), while consistently outperforming
+all competing methods across all quality metrics. Notably,
+at a 3.49× speedup, LearniBridge preserves strong visual
+fidelity, achieving PSNR (21.26 ↑), SSIM (0.8240 ↑), and
+LPIPS (0.1824 ↓).
+Qualitative Study.
+Figure 5 and Figure 6 present quali-
+tative visual comparisons between LearniBridge and repre-
+sentative baseline methods on HunyuanVideo and WAN 2.1-
+1.3B, respectively. As illustrated in Figure 5, TaylorSeer and
+ToCa often introduce severe content inconsistency across
+frames. For example, the appearance of the fox, the shape
+of the strawberries, and the houses in snowy scenes undergo
+significant and unrealistic changes over time. TeaCache
+mainly suffers from degraded temporal dynamics, leading
+to unsmooth and unnatural motion. In Figure 5, the fox
+exhibits abnormal motion artifacts, such as the emergence
+of an extra leg. Similarly, in Figure 6, the school-of-fish
+scene becomes fragmented, resulting in noticeably discon-
+tinuous motion. EasyCache shows evident visual instabil-
+ity when the acceleration ratio exceeds 3×, manifesting as
+frame-wise flickering and floating artifacts that significantly
+deteriorate visual quality. In contrast, LearniBridge consis-
+tently preserves high fidelity to the original video content
+while maintaining strong temporal coherence, producing
+smoother, more stable, and visually consistent dynamic
+video generation results.
+7
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+Table 3. Quantitative comparison in text-to-video generation for WAN 2.1-1.3B on VBench.
+Method
+Acceleration
+Quality Metrics
+WAN 2.1-1.3B
+Latency(s)↓
+Speed↑
+FLOPs(T)↓
+Speed↑
+VBench(%)
+PSNR↑
+SSIM↑
+LPIPS↓
+Original
+291.55
+1.00×
+13996.0
+1.00×
+81.52
+−
+−
+−
+EasyCache (δ=0.13) (Zhou et al., 2025)
+89.16
+3.27×
+4203.0
+3.33×
+79.61
+13.77
+0.4745
+0.4417
+TaylorSeer (N=4, O=2) (Liu et al., 2025b)
+84.26
+3.46×
+4760.5
+2.94×
+79.17
+14.84
+0.4456
+0.4425
+TeaCache (δ=0.2) (Liu et al., 2025a)
+81.67
+3.57×
+3898.6
+3.59×
+80.04
+18.24
+0.6804
+0.3002
+LearniBridge (N=4)
+83.54
+3.49×
+3802.3
+3.68×
+81.21
+21.26
+0.8240
+0.1824
+TeaCache (δ=0.3) (Liu et al., 2025a)
+73.25
+3.98×
+3364.4
+4.16×
+79.23
+12.82
+0.4691
+0.4327
+LearniBridge (N=5)
+71.11
+4.10×
+3180.9
+4.40×
+80.51
+16.32
+0.6254
+0.3228
+Figure 7. (a) Impact of varying the rank of LoRA adapters. As
+the rank increases, reconstruction quality first improves and then
+degrades, indicating that larger ranks do not necessarily lead to bet-
+ter calibration. (b) Impact of selectively removing LoRA adapters
+from different linear layers. All modules contribute to preserving
+high-fidelity reconstruction after acceleration.
+5. Ablation Studies
+Impact of Varying Rank
+In this section, we evaluate
+the impact of varying the rank of the LoRA adapters on
+acceleration performance, with detailed results presented
+in Figure 7(a). We observe that the reconstruction quality,
+measured by PSNR, improves steadily as the rank increases,
+reaching a peak at r = 64. Beyond this point, further
+increasing the rank yields diminishing returns, indicating
+that a rank of 64 provides sufficient capacity to model the
+feature discrepancy between timesteps. This observation
+confirms that the calibration task can be effectively solved
+with a moderate parameter budget.
+Impact of Varying Module
+In the experiments presented
+in Section 4, LoRA adapters are applied to all linear lay-
+ers, including the query, key, value, and output projections,
+as well as the feed-forward layers, corresponding to ∆Wq,
+∆Wk, ∆Wv, ∆Wo, ∆W1, and ∆W2. We investigate the
+impact of selectively removing individual LoRA adapters
+under different acceleration ratios to analyze how exclud-
+Table 4. Ablation on calibration prompt length.
+Prompt Length
+PSNR↑
+SSIM↑
+LPIPS↓
+Short (0–5 words)
+29.6247
+0.6927
+0.3135
+Medium (10–15 words)
+30.1569
+0.7898
+0.2654
+Long (20–25 words)
+30.0137
+0.7878
+0.2594
+Table 5. Ablation on the number of calibration prompts.
+Number of Prompts
+PSNR↑
+SSIM↑
+LPIPS↓
+1
+27.7913
+0.6771
+0.3829
+3
+29.1079
+0.6970
+0.3184
+5
+30.1623
+0.7799
+0.2681
+10
+30.0728
+0.7765
+0.2635
+20
+30.2297
+0.7679
+0.2746
+30
+30.0814
+0.7642
+0.2699
+ing a specific linear layer affects overall performance, as
+illustraed in Figure 7(b). Reconstruction quality is quanti-
+tatively evaluated using PSNR. Experimental results show
+that removing the LoRA adapters associated with the query,
+key, and value projection layers leads to a slight degradation
+in similarity to the original images. In contrast, excluding
+the adapters corresponding to the output projection (Wo)
+and the feed-forward network layers (W1 and W2) results
+in a more pronounced performance drop. This indicates
+that the dense feature transformations are more critical for
+calibration than the attention routing components.
+Impact of Calibration Prompts
+We further study the in-
+fluence of calibration prompts from two aspects: prompt
+length and prompt number. As shown in Table 4, medium
+and long prompts consistently outperform short prompts,
+with short prompts yielding notably lower SSIM and higher
+LPIPS. This indicates that overly simple inputs provide in-
+sufficient information for learning an effective calibration.
+Table 5 reports the effect of varying the number of calibra-
+tion prompts. Performance improves substantially when
+increasing the number of prompts from 1 to 5, suggesting
+that a small prompt set is sufficient for calibration. Beyond 5
+prompts, the performance largely saturates and only exhibits
+minor fluctuations.
+8
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+6. Conclusion
+In this paper, we present LearniBridge, a LoRA-based cal-
+ibration method for cached features that accelerates diffu-
+sion models. We addressed the computational inefficiencies
+of Diffusion Transformers (DiTs) by investigating the na-
+ture of feature correction in acceleration tasks. Our analy-
+sis revealed that the requisite updates for feature reuse are
+characterized by a shared low-rank subspace across diverse
+prompts. Building on this, we proposed LearniBridge, a
+LoRA-based method that effectively calibrates historical
+features to bridge timestep discrepancies. Extensive experi-
+ments demonstrate that LearniBridge achieves up to 5.87×,
+5.75×, and 4.10× acceleration on FLUX, HunyuanVideo,
+and WAN 2.1, respectively, while preserving high-quality
+generation capabilities.
+Acknowledgment
+This work is supported by the National Natural Science
+Foundation of China under Grant 62388102, by the Shen-
+zhen Ubiquitous Data Enabling Key Lab under Grant
+ZDSYS20220527171406015, and by the Tsinghua Shen-
+zhen International Graduate School-Shenzhen Pengrui En-
+dowed Professorship Scheme of Shenzhen Pengrui Founda-
+tion.
+Impact Statement
+This paper presents work whose goal is to advance the field
+of machine learning. There are many potential societal
+consequences of our work, none of which we feel must be
+specifically highlighted here.
+References
+Black Forest Labs.
+Flux.
+https://github.com/
+black-forest-labs/flux, 2024. GitHub reposi-
+tory, accessed Jan 2025.
+Blattmann, A., Dockhorn, T., Kulal, S., Mendelevitch, D.,
+Kilian, M., Lorenz, D., Levi, Y., English, Z., Voleti, V.,
+Letts, A., et al. Stable video diffusion: Scaling latent
+video diffusion models to large datasets. arXiv preprint
+arXiv:2311.15127, 2023.
+Chen, J., Ge, C., Xie, E., Wu, Y., Yao, L., Ren, X., Wang,
+Z., Luo, P., Lu, H., and Li, Z. Pixart-σ: Weak-to-strong
+training of diffusion transformer for 4k text-to-image
+generation. In European Conference on Computer Vision,
+pp. 74–91. Springer, 2024a.
+Chen, J., YU, J., GE, C., Yao, L., Xie, E., Wang, Z., Kwok,
+J., Luo, P., Lu, H., and Li, Z.
+Pixart-α: Fast train-
+ing of diffusion transformer for photorealistic text-to-
+image synthesis. In The Twelfth International Confer-
+ence on Learning Representations, 2024b. URL https:
+//openreview.net/forum?id=eAKmQPe3m1.
+Dhariwal, P. and Nichol, A. Diffusion models beat gans
+on image synthesis.
+Advances in neural information
+processing systems, 34:8780–8794, 2021.
+Esser, P., Kulal, S., Blattmann, A., Entezari, R., M¨uller, J.,
+Saini, H., Levi, Y., Lorenz, D., Sauer, A., Boesel, F., et al.
+Scaling rectified flow transformers for high-resolution
+image synthesis. In Forty-first international conference
+on machine learning, 2024.
+Fang, G., Ma, X., and Wang, X. Structural pruning for
+diffusion models. In Oh, A., Naumann, T., Globerson, A.,
+Saenko, K., Hardt, M., and Levine, S. (eds.), Advances in
+Neural Information Processing Systems, volume 36, pp.
+16716–16728. Curran Associates, Inc., 2023.
+Hessel, J., Holtzman, A., Forbes, M., Le Bras, R., and
+Choi, Y. Clipscore: A reference-free evaluation metric for
+image captioning. In Proceedings of the 2021 conference
+on empirical methods in natural language processing, pp.
+7514–7528, 2021.
+Ho, J., Jain, A., and Abbeel, P. Denoising diffusion proba-
+bilistic models. Advances in neural information process-
+ing systems, 33:6840–6851, 2020.
+Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang,
+S., Wang, L., Chen, W., et al. Lora: Low-rank adaptation
+of large language models. ICLR, 1(2):3, 2022.
+Huang, Z., He, Y., Yu, J., Zhang, F., Si, C., Jiang, Y., Zhang,
+Y., Wu, T., Jin, Q., Chanpaisit, N., et al. Vbench: Compre-
+hensive benchmark suite for video generative models. In
+9
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+Proceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition, pp. 21807–21818, 2024.
+Kim, S., Lee, H., Cho, W., Park, M., and Ro, W. W. Ditto:
+Accelerating diffusion model via temporal value simi-
+larity. In 2025 IEEE International Symposium on High
+Performance Computer Architecture (HPCA), pp. 338–
+352. IEEE, 2025.
+Kong, W., Tian, Q., Zhang, Z., Min, R., Dai, Z., Zhou, J.,
+Xiong, J., Li, X., Wu, B., Zhang, J., et al. Hunyuan-
+video: A systematic framework for large video generative
+models. arXiv preprint arXiv:2412.03603, 2024.
+Li, M., Lin, Y., Zhang, Z., Cai, T., Guo, J., Li, X., Xie,
+E., Meng, C., Zhu, J.-Y., and Han, S. SVDQuant: Ab-
+sorbing outliers by low-rank component for 4-bit diffu-
+sion models. In The Thirteenth International Confer-
+ence on Learning Representations, 2025. URL https:
+//openreview.net/forum?id=vWR3KuiQur.
+Li, X., Liu, Y., Lian, L., Yang, H., Dong, Z., Kang, D.,
+Zhang, S., and Keutzer, K. Q-diffusion: Quantizing dif-
+fusion models. In Proceedings of the IEEE/CVF Interna-
+tional Conference on Computer Vision, pp. 17535–17545,
+2023.
+Liu, F., Zhang, S., Wang, X., Wei, Y., Qiu, H., Zhao, Y.,
+Zhang, Y., Ye, Q., and Wan, F. Timestep embedding
+tells: It’s time to cache for video diffusion model. In Pro-
+ceedings of the Computer Vision and Pattern Recognition
+Conference, pp. 7353–7363, 2025a.
+Liu, J., Zou, C., Lyu, Y., Chen, J., and Zhang, L. From
+reusing to forecasting:
+Accelerating diffusion mod-
+els with taylorseers. arXiv preprint arXiv:2503.06923,
+2025b.
+Lu, C., Zhou, Y., Bao, F., Chen, J., Li, C., and Zhu, J.
+Dpm-solver: A fast ode solver for diffusion probabilistic
+model sampling in around 10 steps. Advances in neural
+information processing systems, 35:5775–5787, 2022.
+Ma, X., Fang, G., and Wang, X.
+Deepcache: Acceler-
+ating diffusion models for free. In Proceedings of the
+IEEE/CVF conference on computer vision and pattern
+recognition, pp. 15762–15772, 2024.
+Meng, C., Rombach, R., Gao, R., Kingma, D. P., Ermon,
+S., Ho, J., and Salimans, T. On distillation of guided
+diffusion models, 2023. URL https://arxiv.org/
+abs/2210.03142.
+Peebles, W. and Xie, S. Scalable diffusion models with
+transformers. In Proceedings of the IEEE/CVF interna-
+tional conference on computer vision, pp. 4195–4205,
+2023.
+Rombach, R., Blattmann, A., Lorenz, D., Esser, P., and
+Ommer, B. High-resolution image synthesis with latent
+diffusion models. In Proceedings of the IEEE/CVF con-
+ference on computer vision and pattern recognition, pp.
+10684–10695, 2022.
+Ronneberger, O., Fischer, P., and Brox, T. U-net: Convolu-
+tional networks for biomedical image segmentation. In In-
+ternational Conference on Medical image computing and
+computer-assisted intervention, pp. 234–241. Springer,
+2015.
+Saharia, C., Chan, W., Saxena, S., Li, L., Whang, J., Denton,
+E. L., Ghasemipour, K., Gontijo Lopes, R., Karagol Ayan,
+B., Salimans, T., et al. Photorealistic text-to-image dif-
+fusion models with deep language understanding. Ad-
+vances in neural information processing systems, 35:
+36479–36494, 2022.
+Salimans, T. and Ho, J. Progressive distillation for fast sam-
+pling of diffusion models. In International Conference
+on Learning Representations.
+Selvaraju, P., Ding, T., Chen, T., Zharkov, I., and Liang,
+L. Fora: Fast-forward caching in diffusion transformer
+acceleration. arXiv preprint arXiv:2407.01425, 2024.
+Shang, Y., Yuan, Z., Xie, B., Wu, B., and Yan, Y. Post-
+training quantization on diffusion models. In Proceedings
+of the IEEE/CVF conference on computer vision and
+pattern recognition, pp. 1972–1981, 2023.
+Sohl-Dickstein, J., Weiss, E., Maheswaranathan, N., and
+Ganguli, S. Deep unsupervised learning using nonequi-
+librium thermodynamics. In International conference on
+machine learning, pp. 2256–2265. pmlr, 2015.
+Song, J., Meng, C., and Ermon, S. Denoising diffusion
+implicit models. In International Conference on Learning
+Representations, 2021. URL https://openreview.
+net/forum?id=St1giarCHLP.
+Song, Y., Dhariwal, P., Chen, M., and Sutskever, I. Consis-
+tency models. In International Conference on Machine
+Learning, pp. 32211–32252. PMLR, 2023.
+Wan, T., Wang, A., Ai, B., Wen, B., Mao, C., Xie, C.-W.,
+Chen, D., Yu, F., Zhao, H., Yang, J., et al. Wan: Open
+and advanced large-scale video generative models. arXiv
+preprint arXiv:2503.20314, 2025.
+Wang, Z., Bovik, A. C., Sheikh, H. R., and Simoncelli, E. P.
+Image quality assessment: from error visibility to struc-
+tural similarity. IEEE transactions on image processing,
+13(4):600–612, 2004.
+10
+
+
+LearniBridge: Learnable Calibration of Feature Caching for Diffusion Models Acceleration
+Xu, J., Liu, X., Wu, Y., Tong, Y., Li, Q., Ding, M., Tang,
+J., and Dong, Y. Imagereward: Learning and evaluat-
+ing human preferences for text-to-image generation. Ad-
+vances in Neural Information Processing Systems, 36:
+15903–15935, 2023.
+Yang, Z., Teng, J., Zheng, W., Ding, M., Huang, S., Xu,
+J., Yang, Y., Hong, W., Zhang, X., Feng, G., Yin, D.,
+Zhang, Y., Wang, W., Cheng, Y., Xu, B., Gu, X., Dong,
+Y., and Tang, J.
+Cogvideox: Text-to-video diffusion
+models with an expert transformer, 2025. URL https:
+//arxiv.org/abs/2408.06072.
+Yuan, Z., Zhang, H., Pu, L., Ning, X., Zhang, L., Zhao, T.,
+Yan, S., Dai, G., and Wang, Y. Ditfastattn: Attention com-
+pression for diffusion transformer models. Advances in
+Neural Information Processing Systems, 37:1196–1219,
+2024.
+Zhang, R., Isola, P., Efros, A. A., Shechtman, E., and Wang,
+O. The unreasonable effectiveness of deep features as a
+perceptual metric. In Proceedings of the IEEE conference
+on computer vision and pattern recognition, pp. 586–595,
+2018.
+Zhao, X., Jin, X., Wang, K., and You, Y. Real-time video
+generation with pyramid attention broadcast. In The Thir-
+teenth International Conference on Learning Represen-
+tations, 2025. URL https://openreview.net/
+forum?id=hDBrQ4DApF.
+Zheng, Z., Peng, X., Yang, T., Shen, C., Li, S., Liu, H.,
+Zhou, Y., Li, T., and You, Y. Open-sora: Democratiz-
+ing efficient video production for all. arXiv preprint
+arXiv:2412.20404, 2024.
+Zhou, X., Liang, D., Chen, K., Feng, T., Chen, X., Lin, H.,
+Ding, Y., Tan, F., Zhao, H., and Bai, X. Less is enough:
+Training-free video diffusion acceleration via runtime-
+adaptive caching.
+arXiv preprint arXiv:2507.02860,
+2025.
+Zhu, H., Tang, D., Liu, J., Lu, M., Zheng, J., Peng, J., Li, D.,
+Wang, Y., Jiang, F., Tian, L., et al. Dip-go: A diffusion
+pruner via few-step gradient optimization.
+Advances
+in Neural Information Processing Systems, 37:92581–
+92604, 2024.
+Zou, C., Liu, X., Liu, T., Huang, S., and Zhang, L. Ac-
+celerating diffusion transformers with token-wise fea-
+ture caching. In The Thirteenth International Confer-
+ence on Learning Representations, 2025. URL https:
+//openreview.net/forum?id=yYZbZGo4ei.
+11

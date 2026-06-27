@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-06-26T01:43:40.341771+00:00",
-  "updated_date": "20260528-20260626",
+  "generated_at": "2026-06-27T21:34:02.045971+00:00",
+  "updated_date": "20260627",
   "carryover_days": 9,
   "tag_states": {
     "vd": {
-      "updated_date": "20260625",
+      "updated_date": "20260627",
       "carryover_days": 9,
       "items": []
     },
     "fast-gen": {
-      "updated_date": "20260625",
+      "updated_date": "20260627",
       "carryover_days": 9,
       "items": []
     },
     "video-refine": {
-      "updated_date": "20260528-20260626",
+      "updated_date": "20260627",
       "carryover_days": 9,
       "items": []
     }
