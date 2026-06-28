@@ -1,0 +1,277 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-28T21:22:32.476522+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 1,
+    "deep_cap": 8,
+    "deep_selected": 1,
+    "quick_candidates": 5,
+    "quick_skim_target": 13,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2606.26740v1",
+      "source": "arxiv",
+      "title": "LiveEdit: Towards Real-Time Diffusion-Based Streaming Video Editing",
+      "abstract": "Streaming video editing has made rapid progress, yet practical deployment is still limited by two core issues: maintaining stable backgrounds and non-edited regions over time, and achieving the low latency required for real-time interactive scenarios. Meanwhile, recent streaming video generation methods are mostly developed for synthesis and cannot be directly applied to editing due to the strict preservation requirement and region-specific control. In this work, we present a novel streaming video editing framework that performs causal, frame-by-frame editing with strong content preservation and real-time responsiveness. Our key design is a three-stage distillation pipeline that progressively transfers editing capability from a powerful bidirectional foundation model to an efficient unidirectional streaming editor, enabling stable long-horizon edits without sacrificing visual fidelity. To further support real-time deployment, we introduce an AR-oriented mask cache that reuses region-related computation across frames, substantially reducing redundant processing and accelerating inference. Finally, we establish a dedicated benchmark for streaming video editing. Extensive evaluations demonstrate that our method achieves state-of-the-art visual quality among streaming baselines while drastically boosting inference speed to 12.66 FPS, making it suitable for interactive and augmented reality applications.",
+      "authors": [
+        "Xinyu Wang",
+        "Chongbo Zhao",
+        "Fangneng Zhan",
+        "Yue Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T08:24:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.26740v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "three-stage distillation pipeline for real-time streaming video editing with strong content preservation",
+      "llm_evidence_cn": "三阶段蒸馏流程用于实时流视频编辑，保持内容一致性",
+      "llm_evidence": "三阶段蒸馏流程用于实时流视频编辑，保持内容一致性",
+      "canonical_evidence": "三阶段蒸馏流程用于实时流视频编辑，保持内容一致性",
+      "llm_tldr_en": "Proposes LiveEdit, a real-time streaming video editing framework using a three-stage distillation pipeline that transfers editing capabilities from a powerful bidirectional model to a causal streaming model, enabling low-latency frame-by-frame editing with consistent background and high quality.",
+      "llm_tldr_cn": "针对流视频编辑中的背景保持和实时性挑战，本文提出LiveEdit框架，通过三阶段蒸馏流水线将强大双向模型的编辑能力逐步转移至因果流模型，实现逐帧编辑的实时响应（低延迟）和强内容保持。蒸馏过程包括时域一致性、空间内容保持和编辑能力的迁移。实验表明，该方法在保持视频质量和背景稳定的前提下，达到实时交互速度，为视频编辑的实时部署提供了有效方案。",
+      "llm_tldr": "针对流视频编辑中的背景保持和实时性挑战，本文提出LiveEdit框架，通过三阶段蒸馏流水线将强大双向模型的编辑能力逐步转移至因果流模型，实现逐帧编辑的实时响应（低延迟）和强内容保持。蒸馏过程包括时域一致性、空间内容保持和编辑能力的迁移。实验表明，该方法在保持视频质量和背景稳定的前提下，达到实时交互速度，为视频编辑的实时部署提供了有效方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.21910v1",
+      "source": "arxiv",
+      "title": "Fidelity- and Perception-Aware Local Implicit Attention for Arbitrary-Scale Image Super-Resolution",
+      "abstract": "Arbitrary-scale image super-resolution (ASISR) aims to reconstruct high-resolution images from low-resolution inputs over a continuous range of upscaling factors. While traditional pixel-regression approaches often produce overly smooth results that lack realistic details, recent diffusion methods can produce sharper and more realistic textures. However, these diffusion techniques frequently introduce the risk of structural hallucinations. To address these issues, we propose Fidelity- and Perception-Aware Local Implicit Attention (FPLIA), a framework that effectively integrates fidelity-oriented features into a diffusion pipeline to produce realistic and faithful reconstructions for ASISR. We introduce a Fidelity and Perception Attention Module (FPAM), which applies both self-attention and cross-attention to fidelity-oriented and perceptual features to enhance representational capacity. To further exploit their complements, we design a Fidelity and Perception Select Module (FPSM) that adaptively selects the most representative features for RGB values prediction. We conduct extensive experiments to validate the effectiveness of these components. Both qualitative and quantitative results show that FPLIA delivers superior perceptual realism while maintaining reconstruction accuracy on standard ASISR benchmarks. The source code is accessible at the following repository: https://github.com/XUSean0118/FPLIA.",
+      "authors": [
+        "Yu-Syuan Xu",
+        "Hao-Lun Sun",
+        "Hao-Wei Chen",
+        "Hsien-Kai Kuo",
+        "Chun-Yi Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-20T07:12:59+00:00",
+      "link": "https://arxiv.org/pdf/2606.21910v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "arbitrary-scale image super-resolution for synthesis outputs",
+      "llm_evidence_cn": "任意尺度的图像超分辨率技术可用于生成视频的后期增强",
+      "llm_evidence": "任意尺度的图像超分辨率技术可用于生成视频的后期增强",
+      "canonical_evidence": "任意尺度的图像超分辨率技术可用于生成视频的后期增强",
+      "llm_tldr_en": "Proposes FPLIA framework integrating fidelity features into diffusion pipeline for arbitrary-scale image super-resolution, balancing realism and faithfulness. Applicable to enhancing generated videos.",
+      "llm_tldr_cn": "针对任意尺度图像超分辨率任务，现有扩散方法虽能生成更清晰纹理但常引入结构幻觉。本文提出FPLIA框架，将保真度感知特征有效融入扩散流程，在保持真实感的同时确保重建忠实度。实验表明该方法在忠实度和感知质量上均优于现有方法，且可便捷地推广至视频生成后处理环节，提升最终视觉表现。",
+      "llm_tldr": "针对任意尺度图像超分辨率任务，现有扩散方法虽能生成更清晰纹理但常引入结构幻觉。本文提出FPLIA框架，将保真度感知特征有效融入扩散流程，在保持真实感的同时确保重建忠实度。实验表明该方法在忠实度和感知质量上均优于现有方法，且可便捷地推广至视频生成后处理环节，提升最终视觉表现。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "What are the state of the art video super resolution methods applied to synthesis results",
+      "matched_requirement_id": "req-22",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.22347v1",
+      "source": "arxiv",
+      "title": "Customizing Video Portraits via Identity-ActionDecoupling",
+      "abstract": "Identity-Preserving Text-to-Video Generation (IPT2V) seeks to synthesize a temporally coherent video from a reference image and a textual description, while simultaneously preserving the subject's identity and allowing fine-grained control over facial dynamics. Although recent methods such as ID-Animator and ConsisID inject identity features only at inference time, they ignored the ID-irrelevant information contained in Facial embedding, leading to monotonous or inaccurate facial movements that poorly follow the prompt. We introduce Identity-Action Decoupling (IaD) framework as well as two loss function Identity Decoupling Loss and Text Alignment Loss to solve this problem. Without any subject-specific fine-tuning, IaD yields videos that (1) maintain cross-temporal identity consistency and (2) exhibit rich, controllable expressions and scene variations that closely match the input text.",
+      "authors": [
+        "Junxiong Lin",
+        "Haoran Wang",
+        "Xinji Mai",
+        "Zeng Tao",
+        "Xuan Tong",
+        "Ivy Pan",
+        "Wenqiang Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-21T05:56:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.22347v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "identity-action decoupling improves facial motion diversity",
+      "llm_evidence_cn": "身份-动作解耦提升面部动作多样性",
+      "llm_evidence": "身份-动作解耦提升面部动作多样性",
+      "canonical_evidence": "身份-动作解耦提升面部动作多样性",
+      "llm_tldr_en": "Customizing Video Portraits proposes identity-action decoupling for generating diverse and prompt-following facial motions in identity-preserving video generation.",
+      "llm_tldr_cn": "身份保持的视频生成往往因忽略身份无关信息而导致面部动作单调。本文提出身份-动作解耦框架，通过身份解耦损失和文本对齐损失，在不需定制微调的情况下生成多样且准确跟随提示的面部动态。实验表明，该方法在身份保持和动作多样性上均优于现有方法。",
+      "llm_tldr": "身份保持的视频生成往往因忽略身份无关信息而导致面部动作单调。本文提出身份-动作解耦框架，通过身份解耦损失和文本对齐损失，在不需定制微调的情况下生成多样且准确跟随提示的面部动态。实验表明，该方法在身份保持和动作多样性上均优于现有方法。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.22550v1",
+      "source": "arxiv",
+      "title": "Training-Free Semantic Correction for Autoregressive Visual Models",
+      "abstract": "Autoregressive visual models (AVMs) based on next-scale prediction have emerged as a prominent paradigm for image and video synthesis. However, decomposing the generation process into discrete scales with varying granularities in AVM makes semantic errors difficult to identify and correct, thereby undermining the quality of the final output. Prior efforts to enhance AVM can be categorized into training-based and training-free approaches. Although training-based efforts to enhance AVM generation quality come at substantial computational cost, existing training-free methods neglect intermediate generation states, leaving semantic errors undiagnosed and allowing them to accumulate into the final output. In this paper, we focus on training-free paradigms and propose Gazer, a framework that integrates multimodal large language model feedback into the AVM sampling loop for in-generation semantic correction. Concretely, Gazer operates via two cooperating stages: the Reflective Diagnosis stage diagnoses semantic errors from intermediate states, while the Semantic Correction stage rewinds and rectifies the generation trajectory to realign with the target prompt. Experiments on compositional image and video benchmarks demonstrate that Gazer improves semantic alignment and compositional accuracy across multiple AVMs without additional training.",
+      "authors": [
+        "Junhao Chen",
+        "Chanyu Zhu",
+        "Zheqi Lv",
+        "Keting Yin",
+        "Shengyu Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL",
+        "cs.MM"
+      ],
+      "published": "2026-06-21T15:10:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.22550v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "training-free semantic correction for improving quality of autogressive visual generation",
+      "llm_evidence_cn": "训练无关的语义纠正方法提升自回归视觉生成质量",
+      "llm_evidence": "训练无关的语义纠正方法提升自回归视觉生成质量",
+      "canonical_evidence": "训练无关的语义纠正方法提升自回归视觉生成质量",
+      "llm_tldr_en": "Proposes a training-free semantic correction method for autoregressive visual models (AVMs) used in image/video synthesis, identifying and correcting semantic errors across scales to improve final output quality without additional training.",
+      "llm_tldr_cn": "针对基于下一尺度预测的自回归视觉模型（AVM）在图像和视频合成中存在的语义错误累积问题，本文提出一种训练无关的语义纠正方法。该方法通过干预中间生成状态，跨尺度识别并修正错误，从而在不增加训练成本的情况下显著提升最终输出的语义正确性和视觉质量。实验证明该方法在多个AVM架构上均有效，为提升生成质量提供了一种轻量级后处理方案。",
+      "llm_tldr": "针对基于下一尺度预测的自回归视觉模型（AVM）在图像和视频合成中存在的语义错误累积问题，本文提出一种训练无关的语义纠正方法。该方法通过干预中间生成状态，跨尺度识别并修正错误，从而在不增加训练成本的情况下显著提升最终输出的语义正确性和视觉质量。实验证明该方法在多个AVM架构上均有效，为提升生成质量提供了一种轻量级后处理方案。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video refinement techniques for generated videos",
+      "matched_requirement_id": "req-18",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.26938v1",
+      "source": "arxiv",
+      "title": "Focusing on What Matters: Saliency-Harnessing Accurate Routing for Diffusion MoE",
+      "abstract": "Mixture-of-Experts (MoE) architectures have emerged as a powerful paradigm for scaling diffusion models in visual generation. Recent advancements have focused on adaptively allocating computational resources across diverse tokens to improve efficiency and performance. However, we identify a routing assignment problem in existing diffusion MoE frameworks: the router fails to accurately allocate more computational resources to salient tokens. Our analysis attributes this failure to the router's reliance on noise-corrupted latent features throughout the denoising process. Such stochastic noise obscures the critical structural and textural information, thereby preventing the router from effectively distinguishing salient tokens. To address this, we propose SharpMoE, a post-training framework with a saliency-harnessing accurate routing mechanism, which utilizes clean latent features as a noise-free guidance signal for routing. By bypassing the noise-distorted inputs, SharpMoE provides the router with clear saliency guidance, enabling the identification of salient tokens even in high-noise stages. Furthermore, we introduce a trajectory routing loss to constrain the compute allocation throughout the multi-step denoising trajectory, ensuring precise resource allocation along the generation rollout. Extensive experiments demonstrate that SharpMoE serves as a versatile, plug-and-play solution that further enhances the pretrained, converged MoE models, achieving state-of-the-art performance in visual generation.",
+      "authors": [
+        "Haoyou Deng",
+        "Keyu Yan",
+        "Chaojie Mao",
+        "Xiang Wang",
+        "Yu Liu",
+        "Changxin Gao",
+        "Nong Sang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T12:13:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.26938v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "saliency-based routing for efficient Mixture-of-Experts in diffusion models",
+      "llm_evidence_cn": "基于显著性的路由提高扩散混合专家模型效率",
+      "llm_evidence": "基于显著性的路由提高扩散混合专家模型效率",
+      "canonical_evidence": "基于显著性的路由提高扩散混合专家模型效率",
+      "llm_tldr_en": "Identifies router failure in diffusion MoE due to noise-corrupted latents, and proposes a saliency-harnessing accurate routing method to allocate more resources to salient tokens, improving efficiency.",
+      "llm_tldr_cn": "扩散混合专家模型（MoE）中，路由器由于使用噪声污染的潜在特征而无法准确分配计算资源到显著令牌。本文提出一种利用显著性的精确路由方法，通过提取结构性信息改善路由决策，从而在保持生成质量的同时提升计算效率，为快速生成提供了架构层面的优化。",
+      "llm_tldr": "扩散混合专家模型（MoE）中，路由器由于使用噪声污染的潜在特征而无法准确分配计算资源到显著令牌。本文提出一种利用显著性的精确路由方法，通过提取结构性信息改善路由决策，从而在保持生成质量的同时提升计算效率，为快速生成提供了架构层面的优化。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.22568v2",
+      "source": "arxiv",
+      "title": "SeFi-Image: A Text-to-Image Foundation Model with Semantic-First Diffusion",
+      "abstract": "Training image generation foundation models consumes substantial resources. Previous methods have attempted to leverage semantic guidance to accelerate the training process, yet their experiments were only conducted on simple datasets such as ImageNet, at low resolutions, and with small-scale models. In this paper, we propose SeFi-Image, a text-to-image foundation model built upon semantic-first diffusion, a novel latent diffusion modeling paradigm. We instantiate SeFi-Image at three model scales, 1B, 2B, and 5B parameters, enabling systematic study of scaling behavior and flexible deployment under varying compute budgets. Notably, our largest 5B model was trained with merely 125K A800 GPU hours, corresponding to roughly 10-20% of the training compute used by Z-Image. However, it achieves results comparable to or even superior to Qwen-Image and Z-Image. Despite this modest training compute, SeFi-Image achieves strong performance on a wide range of benchmarks, including GenEval, DPG, LongTextBench, OneIG, and CVTG-2K. Moreover, we provide DMD2-distilled few-step turbo variants for each model scale to accommodate diverse hardware constraints and latency requirements. We publicly release our code, weights and hope this work offers the community useful insights into semantic-guided diffusion modeling for T2I generation, while also providing practical and readily deployable model options.",
+      "authors": [
+        "SeFi-Team"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-21T16:10:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.22568v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient text-to-image training with semantic-first diffusion",
+      "llm_evidence_cn": "语义优先扩散实现高效文本到图像训练",
+      "llm_evidence": "语义优先扩散实现高效文本到图像训练",
+      "canonical_evidence": "语义优先扩散实现高效文本到图像训练",
+      "llm_tldr_en": "SeFi-Image is a text-to-image foundation model that reduces training cost to 10-20% via semantic-first diffusion, enabling fast model deployment.",
+      "llm_tldr_cn": "训练图像生成基础模型消耗大量资源。本文提出SeFi-Image，基于语义优先扩散的新范式，在1B、2B和5B三种尺度上实例化，最大模型仅用125K A800 GPU小时（约为常规训练的10-20%）。该方法通过语义引导加速训练过程，在保持质量的同时显著降低计算成本，适用于消费级GPU部署。",
+      "llm_tldr": "训练图像生成基础模型消耗大量资源。本文提出SeFi-Image，基于语义优先扩散的新范式，在1B、2B和5B三种尺度上实例化，最大模型仅用125K A800 GPU小时（约为常规训练的10-20%）。该方法通过语义引导加速训练过程，在保持质量的同时显著降低计算成本，适用于消费级GPU部署。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

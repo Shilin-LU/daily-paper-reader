@@ -1,0 +1,335 @@
+Title: Customizing Video Portraits via Identity-ActionDecoupling
+
+URL Source: https://arxiv.org/pdf/2606.22347v1
+
+Published Time: Tue, 23 Jun 2026 02:00:44 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# Customizing Video Portraits via Identity-Action Decoupling 
+
+# Junxiong Lin 1, Haoran Wang 1, Xinji Mai 1, Zeng Tao 1,Xuan Tong 1, Ivy Pan 3, Wenqiang Zhang 1,2 
+
+> 1
+
+College of Intelligent Robotics and Advanced Manufacturing, Fudan University 
+
+> 2
+
+College of Computer Science and Artificial Intelligence, Fudan University 
+
+> 3
+
+The University of Hong Kong 
+
+Abstract 
+
+Identity-Preserving Text-to-Video Generation (IPT2V) seeks to synthesize a temporally coherent video from a reference im-age and a textual description, while simultaneously preserving the subject’s identity and allowing fine-grained control over fa-cial dynamics. Although recent methods such as ID-Animator and ConsisID inject identity features only at inference time, they ignored the ID-irrelevant information contained in Fa-cial embedding, leading to monotonous or inaccurate facial movements that poorly follow the prompt. We introduce Iden-tity–Action Decoupling (IaD) framework as well as two loss function Identity Decoupling Loss LID and Text Alignment Loss LT A to solve this problem. Without any subject-specific fine-tuning, IaD yields videos that (1) maintain cross-temporal identity consistency and (2) exhibit rich, controllable expres-sions and scene variations that closely match the input text. 
+
+# Introduction 
+
+Identity-Preserving Text-to-Video Generation (IPT2V) seeks to synthesize video sequences conditioned on a single refer-ence image and an accompanying textual description, while simultaneously preserving the subject’s identity across all frames and enabling fine-grained control over facial dynam-ics (Chefer et al. 2024; Yuan et al. 2024; Kim et al. 2025; He et al. 2024). By simultaneously ensuring cross-temporal identity consistency and enabling fine-grained facial control, IPT2V holds substantial potential for a wide range of appli-cations, such as personalized digital humans and immersive virtual try-on systems (Song et al. 2024; Li et al. 2024; Wang et al. 2024b; Tong et al. 2025; Wang et al. 2026; Tao et al. 2024; Qiu et al. 2024). Benefiting from the expressive power of large-scale, pre-trained video diffusion models and parameter-efficient adap-tation techniques such as LoRA (Hu et al. 2022) and Tex-tual Inversion (Gal et al. 2022), recent approaches such as Still-Moving (Chefer et al. 2024) can already synthesize high-quality, personalized videos after fine-tuning on only a hand-ful of user-provided reference images. However, these meth-ods continue to depend on subject-specific training at test time, rendering the deployment pipeline both cumbersome and computationally expensive (Fei et al. 2025; Deng et al. 2025; Mai et al. 2026, 2025). As a result, research is shift-ing away from per-case fine-tuning toward unified, subject-agnostic adaptation strategies: for instance, ID-Animator (He et al. 2024) and ConsisID (Yuan et al. 2024) inject identity features solely during inference through lightweight modifi-cations to the diffusion model. Although ID-Animator and ConsisID have made progress in preserving identity, they overlook controllability of facial motions within the video sequence. As a result, the generated expressions are often monotonous, fail to respond flexibly to text prompts, or even duplicate the static face from the reference image across frames. The root cause is that the face embedding extracted by the Face Encoder inevitably en-tangles identity-irrelevant information—such as expressions and actions. When these irrelevant attributes are fed into the diffusion model, they interfere with the text prompt’s guid-ance over details, ultimately limiting both the diversity and accuracy of facial movements. To tackle this problem, we propose the Identity-Action Decoupling for video generation (IaD) framework. IaD in-troduces two key innovations: 1) Further feature disentangle-ment within the face embedding to extract a purely identity-related feature while stripping away expression and motion components that are irrelevant to identity. 2) The disentan-gled non-identity features are modulated by the text prompt and fed into the diffusion model, thereby enabling tempo-rally fine-grained and controllable dynamic driving of facial expressions and overall video content. To realize these goals, we design two new loss functions: 1) Identity Decoupling Loss: enforces the purity of the iden-tity embedding during disentanglement, preventing motion information from leaking back into the identity embedding. 2) Text Alignment Loss: encourages an one-to-one corre-spondence between the Facial-Action embedding and the text prompt, ensuring the generated video responds accu-rately over time to the prompt’s descriptions of actions and emotions. With the IaD framework, the model not only faithfully in-herits the identity feature from the reference image, but also exhibits rich, controllable facial movements and scene varia-tions throughout the entire video. In summary, our principal contributions are as follows: • We introduce the IaD framework, which achieves fine-grained, text-driven control over facial expressions and actions while preserving cross-temporal identity consis-tency. The framework is inference-friendly, requiring no additional fine-tuning for new identities. 
+
+> arXiv:2606.22347v1 [cs.CV] 21 Jun 2026
+
+Figure 1: Examples of identity-preserving video generation (IPT2V) by our IaD. Given a reference image, IaD can generate customized videos based on the text prompt while preserving the identity of reference image. • We design two novel losses: Identity Decoupling Loss, which purifies the identity embedding by removing identity-irrelevant information, and Text Alignment Loss, which aligns the Facial-Action embedding with textual semantics to ensure that the generated video responds precisely to the prompts. • We conduct extensive data analyses and experiments that validate the scientific validity and effectiveness of IaD. All code, model weights, and experimental scripts will be released to facilitate reproduction and further research by the community. 
+
+# Related Work 
+
+Identity-Preserving Image Generation 
+
+In the field of Identity - Preserving Image Generation, early methods such as Textual Inversion (Gal et al. 2022), Dream-Booth (Ruiz et al. 2023), and LoRA (Hu et al. 2022) have already achieved notable progress in customizing outputs for specific IDs (Bao et al. 2018; Xiao et al. 2022; Peng et al. 2024; Chen et al. 2023). However, these approaches require the model to be fine -tuned for every new ID, which is time -consuming, hampers real -time performance, and makes large -scale deployment difficult. Recent research is breaking free from test - time training, shifting the core challenge to how to flexibly and efficiently extract and fuse identity fea-tures (Kim et al. 2024). IP -Adapter (Ye et al. 2023) uses CLIP (Radford et al. 2021) to extract facial image features and intro-duces a disentangled cross - attention mechanism to fuse text and image representations. Nevertheless, the CLIP encoder’s discriminative power for identity -preservation tasks is limited, so facial - detail fidelity remains constrained. InstantID (Wang et al. 2024a) is the first to incorporate a pre -trained ArcFace (Deng et al. 2019) encoder to capture facial features and, together with IdentityNet, explicitly encodes reference - face features, significantly enhancing identity consistency. Sub-sequent work commonly adopts a framework that pairs an ArcFace encoder (focusing on facial regions) with a CLIP encoder (covering broader visual semantics) to obtain richer and more fine - grained identity representations (Chen et al. 2024; Wu et al. 2024). 
+
+Identity-Preserving Video Generation 
+
+Compared with image generation, the core challenge of Identity - Preserving Video Generation is two - fold: maintain-ing identity consistency across time while achieving pre-cise control over facial motions (Guo et al. 2024; He et al. 2026). Early work such as Still - moving (Chefer et al. 2024) made an initial exploration without relying on any video data; DreamVideo (Wei et al. 2024) split the customization process into subject learning and motion learning; MoVideo (Liang et al. 2024) went further by proposing explicit motion mod-eling and utilization strategies. However, these methods still require test - time training, continuing the paradigms of Tex-tual Inversion, DreamBooth, and LoRA. To reduce the high cost at inference, ID -Animator (He et al. 2024) was the first to introduce and open - source a “zero -training” framework that can be used out of the box. ConsisID (Yuan et al. 2024) then improved identity stability by injecting the high - and low -frequency facial information into different layers of DiT. Even so, the above studies focus too heavily on identity con-sistency and pay insufficient attention to the potential of text prompts for controlling facial expressions and movements, thereby limiting the diversity of the generated videos in terms of expressions and actions. 
+
+# Preliminary 
+
+Before introducing our method, we briefly review video dif-fusion models (Ho, Jain, and Abbeel 2020; Song, Meng, and Ermon 2020). A diffusion model learns the data distribu-tion through a forward noise-adding process and a reverse denoising process. Given a clean image x0 ∈ RH×W ×C ,the forward process gradually injects Gaussian noise over T
+
+steps. 
+
+q(xt | xt−1) = N xt; p1 − βt xt−1, β tI, t = 1 , . . . , T 
+
+(1) Let αt = 1 − βt and ¯αt = Qti=1 αi, we can get: 
+
+q(xt | x0) = N xt; √¯αt x0, (1 − ¯αt)I (2) The objective of the reverse process is to learn pθ (xt−1 |
+
+xt) so that it approximates the true posterior q(xt−1 | xt, x0).It can be written as: 
+
+pθ (xt−1 | xt) = N xt−1; μθ (xt, t ), σ 2 
+
+> t
+
+I (3) The training objective of the model is: 
+
+Limg = Ex0,t,ε 
+
+∥ε − εθ (√¯αtx0 + √1 − ¯αtε, t )∥22
+
+ (4) Extending to video diffusion models (Ho et al. 2022), a video sample is represented as v0 ∈ RF ×H×W ×C , where 
+
+F denotes the number of frames. The forward and reverse distributions are transferred verbatim to the spatio-temporal domain: 
+
+q(vt | v0) = N vt; √¯αt v0, (1 − ¯αt)I (5) 
+
+pθ (vt−1 | vt) = N vt−1; μθ (vt, t ), σ 2 
+
+> t
+
+I. (6) The training objective of the model is: 
+
+Lvideo = Ev0,t,ε 
+
+∥ε − εθ (√¯αtv0 + √1 − ¯αtε, t )∥22
+
+ (7) In video generation work, MM-DiT (Esser et al. 2024) is the most mainstream backbone. 
+
+# Method 
+
+Overview 
+
+Figure 2 illustrates the framework of IaD. Given a reference face, IaD can generate a video that conforms to textual de-scription. Concretely, a Facial Encoder first extracts a Facial embedding from the reference image; the MLP then splits this embedding into an Identity embedding and a Facial-Action embedding. The Identity embedding retains only identity in-formation, whereas the Facial-Action embedding encodes dynamic attributes such as expressions and motions that are independent of identity. We fuse the Facial-Action embed-ding with the text tokens, concatenate the result with the Identity embedding, and feed the combined representation into the MM-DiT (Esser et al. 2024) blocks to synthesize the final video sequence. As fore Facial encoder, we couple an ArcFace encoder, which focuses on local facial details, with a CLIP encoder that captures broader visual semantics. This hybrid scheme precisely captures fine-grained facial features while provid-ing a rich identity representation. However, it also injects considerable identity-irrelevant information into the facial embedding; if passed directly to the diffusion model, these extraneous cues would dilute the identity signal and weaken the prompt’s control. Consequently, we impose two targets: • The Identity embedding and Facial-Action embedding, obtained by splitting the Facial embedding, should be as orthogonal as possible so that they do not interfere with each other. • The Facial-Action embedding must remain highly respon-sive to text prompts, enabling precise expression and mo-tion control simply by editing the input text. Therefore, we design two novel losses: Identity Decou-pling Loss and Text Alignment Loss. 
+
+Identity Decoupling Loss 
+
+Given a reference image ximg , the Facial embedding is de-noted as ef ace ∈ RNq ×2D .
+
+ef ace = EF ace (ximg ) (8) Here, EF ace denotes the Facial Encoder, Nq is the number of query tokens and 2D is the dimension of ef ace . The MLP is applied to ef ace to split it into the identity embedding eid k ∈
+
+RNq ×D and the facial-action embedding eF A k ∈ RNq ×D .To ensure that the Facial-Action embedding contains only identity-irrelevant information, we enforce orthogonality be-tween the two representations in the embedding space: 
+
+⟨ˆeid q , ˆeF A q ⟩ = 0 , q = 1 . . . N q (9) In this step, all vectors are L2 normalized. This normaliza-tion process serves to constrain the vectors to a unit sphere, which helps to prevent overfitting by reducing the complexity of the model. 
+
+ˆe = e
+
+∥e∥2 + ε (10) Reference 
+
+Face 
+
+Facial Encoder 
+
+Text Encoder 
+
+> “A girl adorned with a
+> delicate flower
+> crown…her eyes
+> sparkle with a serene
+> gaze…”
+
+Text token 
+
+Identiy 
+
+embedding 
+
+Facial Action 
+
+embedding 
+
+Q-Former 
+
+MLP 
+
+Text token 
+
+Attention 
+
+Cross 
+
+FNN 
+
+MM DiT Blocks 
+
+×N
+
+Facial 
+
+embedding 
+
+C
+
+Identiy embedding 
+
+Facial Action embedding  Facial embedding 
+
+Text token 
+
+> 𝑥
+> 𝑦
+> 𝑧
+
+Data Flow  Input Text 
+
+C Concat 
+
+ℒ𝐼𝑑𝐷 
+
+ℒ𝑇𝐴 
+
+ℒ𝐼𝑑𝐷 
+
+ℒ𝑇𝐴 Figure 2: The framework of IaD. By decoupling the Facial embedding into an Identity embedding and a Facial-Action embedding, IaD is able to synthesize videos that preserve identity consistency while allowing precise control over facial dynamics. We compute the Identity Decoupling Loss by taking the absolute dot product between the two normalized embeddings for every token in every batch sample, then averaging the result: 
+
+LIdD = 1
+
+BN qBX
+
+> b=1
+> Nq
+
+X
+
+> q=1
+
+  ⟨ ˆeid b,q , ˆeF A b,q ⟩2 (11) where B is the batch size. When LIdD → 0, the two sub-spaces become nearly orthogonal, eid and eF A are effectively disentangled. 
+
+Text Alignment Loss 
+
+After disentangling the Facial-Action embedding from the Identity embedding, we want the Facial-Action embedding to respond sensitively and controllably to text prompts. To achieve this, we adopt a contrastive-learning scheme: for each sample, we pull its Facial-Action embedding toward its own text representation while pushing it away from the text representations of other samples, thereby establishing a Facial-Action to text alignment. Given eF A k , we first average its Nq query tokens and then apply L2 normalization: 
+
+zi = 1
+
+> Nq
+
+X
+
+> q
+
+eF A iq , ˆzi = zi
+
+∥zi∥2 + ε (12) For each text prompt, we feed it into a text encoder to obtain text token, project them to a D-dimensional space, then average over the sequence length T and apply L2 nor-malization. Q-Former (Li et al. 2023) is a commonly used lightweight module for bridging different modalities. We use it here to integrate textual information with eF A k .
+
+ci = 1
+
+> T
+
+X
+
+> t
+
+Etext (prompt it ), ˆci = ci
+
+∥ci∥2 + ε (13) According to (Oord, Li, and Vinyals 2018), we get Equa-tion 14, where τ is the temperature coefficient. 
+
+LT A = 1
+
+B
+
+> B
+
+X
+
+> i=1
+
+h
+
+− log exp( ⟨zi, c i⟩/τ )
+
+PBj=1 exp( ⟨zi, c j ⟩/τ )
+
+i
+
+(14) 
+
+Training Strategy 
+
+To avert convergence issues such as gradient explosion or vanishing gradients, we adopt a staged, progressive training strategy. The core idea is to preserve the discriminative power of the pre-trained modules as much as possible in the early phase, thereby providing a stable optimization baseline for subsequent end-to-end fine-tuning. All parameters of Text Encoder and Facial Encoder are frozen throughout training; they act solely as feature extrac-tors, retaining the robust representations learned from large-scale text and face corpora. First, we freeze the MM-DiT blocks (denoted DMM ) and update only the MLP parame-ters ΘMLP and the Q-Former parameters ΘQ as shown in Equation 15. 
+
+min  
+
+> ΘMLP ,ΘQ
+
+L Ef ace , Etext , D MM ; Θ MLP , ΘQ
+
+ (15) where L is the total loss function. This phase lets the MLP and Q-Former learn the initial cross-modal disentanglement and fusion mechanisms without interference from the high-dimensional transformer blocks. Once L plateaus at a stable threshold, we unfreeze DMM and optimize the entire param-eter set Θ = {ΘDMM , ΘMLP , ΘQ} jointly: 
+
+min  
+
+> Θ
+
+L Ef ace , Etext ; Θ) (16) With global back-propagation now enabled, the network can fine-tune the synergy among the modality-specific sub-networks, leading to deeper feature complementarity and stronger task alignment. 
+
+Figure 3: Word cloud of prompts. 
+
+# Experiment 
+
+Experiment Setup 
+
+Implementation details. We adopt CogVideoX-5B (Yang et al. 2024) as the baseline model. During the first training stage, the learning rate is set to 1 × 10 −6 and is raised to 
+
+3 × 10 −6 in the second stage. The temperature coefficient in Equation 14 is fixed at τ = 0 .7. Optimization is performed with AdamW, whose hyper-parameters are β1 = 0 .9 and 
+
+β2 = 0 .95 , together with a cosine-annealing scheduler with restarts. Concretely, we apply a warm-up of 500 steps be-fore the main training phase. During gradient updates, we clip the norm to ∥g∥2 ≤ 1.0 to enhance stability. Train-ing is conducted in bf16 mixed precision, reducing memory consumption and accelerating computation. Following the pipeline provided by ConsisID, we construct a training set comprising 47,868 samples. 
+
+Comparison With Existing Methods 
+
+To verify the effectiveness of IaD, we compare it with the state-of-the-art open-source methods ID-Animator and Con-sisID. Specifically, we select 50 images that are not included in the training set and create 60 diverse, fine-grained prompts for evaluation. Identity preservation is assessed with FaceSim-Arc (Deng et al. 2019) and FaceSim-Cur (Yuan et al. 2024), whereas video quality is measured using FID (Heusel et al. 2017) and CLIPScore (Hessel et al. 2021). 
+
+Quantitative Comparison. As shown in Table 1, IaD out-performs all existing baselines across the four objective met-rics. Its FaceSim-Arc reaches 0.67 , marking an improve-ment of roughly 116% over ID-Animator ( 0.31 ) and 17 .5% 
+
+over ConsisID ( 0.57 ). Likewise, FaceSim-Cur rises to 0.71 ,up from 0.34 (ID-Animator) and 0.54 (ConsisID), corre-sponding to gains of approximately 108% and 31% , respec-tively—highlighting superior identity preservation. CLIP-Score climbs to 28 .75 , exceeding the scores of ID-Animator (24 .13 ) and ConsisID ( 27 .15 ) by 19 .2% and 5.9% , indicating tighter semantic alignment between the textual prompt and the generated sequence. Meanwhile, FID drops to 114 .67 ,representing reductions of 11 .3% and 20 .6% relative to ID-Animator ( 129 .26 ) and ConsisID ( 144 .35 ), evidencing markedly improved visual realism. We attribute these advan-tages to the proposed identity–action disentanglement archi-tecture, which simultaneously preserves identity features and flexibly controls facial dynamics, yielding balanced and sig-nificant gains in identity consistency, semantic relevance, and overall visual quality. 
+
+Qualitative Comparisons. As illustrated in Figure 4, IaD shows a clear advantage over ID-Animator and ConsisID on the identity-preserving video-generation task. First, IaD adheres more faithfully to the textual prompt. In the female-subject example, the prompt stresses “sparkling eyes” and “a joyful smile.” IaD’s output strictly follows these cues, maintaining the smile while reproducing fine-grained details such as eye highlights and subtle expression changes. In the male-subject example, the prompt notes that “he oc-casionally glances sideways while speaking.” IaD generates a natural facial performance that matches this description, accurately reproducing the sideways glance—demonstrating its ability to capture and realize complex, prompt-specified facial behaviors. Second, IaD produces a richer spectrum of facial mo-tions and expressions. For the female subject, the expression evolves from a gentle smile to more animated dynamics, con-veying nuanced emotional shifts that the competing methods fail to deliver. For the male subject, IaD not only renders the sideways glance but also additional details such as mouth movements, resulting in a more lifelike and expressive video, whereas the baselines exhibit limited diversity and subtlety in facial motion. In summary, IaD preserves identity while more precisely following prompt instructions and generating videos with di-verse, fine-grained facial actions and expressions, underscor-ing its superiority in identity-preserving video generation. Figure 4: Visual comparison with ID-Animator and ConsisID. Compared with ID-Animator and ConsisID, IaD generates videos with richer facial motions and expressions while exhibiting closer adherence to the prompts. 
+
+Ablation Study 
+
+Ablation on LIdD and LT A . As shown in Table 2, when both losses are disabled, the model’s identity preservation, semantic alignment, and visual quality are all at their lowest (FaceSim-Arc/Cur only 0.50 /0.48 , CLIPScore 23 .73 , FID 
+
+126 .65 ). Activating only the identity-disentanglement loss LIdD 
+
+raises FaceSim-Arc to 0.56 and FaceSim-Cur to 0.52 , con-firming its effectiveness in strengthening identity features; however, without semantic constraints, CLIPScore increases only to 25 .33 , and FID even climbs to 138 .64 , indicating some degradation of the image distribution. Conversely, using only the text–action alignment loss LT A 
+
+yields a slight CLIPScore gain to 25 .56 , yet identity metrics fall (FaceSim-Arc 0.52 ) and FID worsens to 140 .97 , showing that better semantic alignment alone cannot secure identity consistency or overall realism. When LIdD and LT A are combined, all four metrics reach their best values: FaceSim-Arc/Cur rise to 0.67 /0.71 , CLIP-Score climbs to 28 .75 , and FID drops to 114 .67 . These results demonstrate that the two losses are complementary: 
+
+LIdD consolidates identity and image details, while LT A 
+
+reinforces text-driven action semantics. Working together, they simultaneously enhance identity consistency, semantic relevance, and visual realism, markedly improving the overall quality of the generated sequences. 
+
+Cosine-similarity Comparison. Figure 5 presents the cosine-similarity values between the Identity embedding and the Facial-Action embedding under three training variants. By comparing IaD(a),IaD(b) and IaD, we can clearly observe the respective contributions of the two loss functions LIdD 
+
+and LT A .Table 1: Quantitive comparison ID-Animator and ConsisID . Higher FaceSim-Arc, FaceSim-Cur and CLIPScore values indicate better result, while lower FID scores signify better quality. Bold indicates the best performance. 
+
+FaceSim-Arc ↑ FaceSim-Cur ↑ CLIPScore ↑ FID ↓
+
+ID-Animator 0.31 0.34 24.13 129.26 ConsisID 0.57 0.54 27.15 144.35 IaD (Ours) 0.67 0.71 28.75 114.67 
+
+Table 2: Ablation on LIdD and LT A . Bold indicates the best performance. 
+
+LIdD LT A FaceSim-Arc ↑ FaceSim-Cur ↑ CLIPScore ↑ FID ↓
+
+✗ ✗ 0.50 0.48 23.73 126.65 
+
+✓ ✗ 0.56 0.52 25.33 138.64 
+
+✗ ✓ 0.52 0.53 25.56 140.97 
+
+✓ ✓ 0.67 0.71 28.75 114.67 
+
+Under the IaD(a) condition, LIdD was not introduced dur-ing training, resulting in consistently high cosine similarity values. This indicates a high correlation between Identity em-bedding and Facial-Action embedding, suggesting that using 
+
+LT A alone struggles to effectively distinguish identity-related features. In contrast, under the IaD(b) condition, LT A was excluded during training, leading to a significant reduction in cosine similarity values compared to IaD(a). This demon-strates that LIdD effectively enables Identity embedding and Facial-Action embedding to achieve orthogonality in the fea-ture space, thereby separating identity-related features. Under the IaD condition, both LIdD and LT A were com-bined during training. In this case, the cosine similarity values under IaD(b) training conditions closely align with those of IaD, indicating that the addition of LT A did not significantly improve cosine similarity. From the shaded regions in the figure, it can be observed that the scatter points for IaD and IaD(b) are relatively concentrated, suggesting stable results. In contrast, the scatter points for IaD(a) are more dispersed, indicating greater fluctuations in cosine similarity values when LIdD is not used. In summary, the LIdD loss function plays a pivotal role in decoupling identity information from action information. Moreover, the LIdD and LT A loss functions are not conflict-ing in their optimization objectives and can be compatibly integrated into the training process to jointly enhance model performance. 
+
+# Conclusion 
+
+We have introduced Identity–Action Decoupling (IaD), a uni-fied framework for identity-preserving text-to-video genera-tion that explicitly separates static identity cues from dynamic action cues in latent space. The proposed Identity-Decoupling Loss LIdD enforces cross-temporal identity consistency, while the Text-Alignment Loss LT A guides motion and ex-pression toward the semantics of the input prompt. Working together, the two losses resolve the long-standing conflict between faithfully maintaining a subject’s appearance and producing vivid, prompt-driven facial dynamics—achieving superior identity fidelity, semantic alignment and visual re-
+
+Figure 5: The cosine similarity value between Identity embed-ding and Facial-Action embedding, the horizontal axis rep-resents Nq index. IaD (a) represents training without LIdD ,IaD (b) represents training without LT A , and IaD represents training with both. alism over prior approaches such as ID-Animator and Con-sisID, all without any subject-specific fine-tuning. Qualitative comparisons show that IaD prevents identity drift when ex-pressions change, and ablation studies confirm that LIdD 
+
+and LT A are complementary: disabling either term notice-ably harms both perceptual quality and prompt adherence, whereas their combination produces the most coherent re-sults. While IaD substantially improves the controllabil-ity–fidelity trade-off, certain challenges remain, including handling extreme poses, long video durations and multi-person scenarios. Future work will explore further to enhance temporal consistency and expressive richness. We believe the decoupling paradigm put forward in this paper offers a solid foundation for the next generation of personalized, prompt-driven video synthesis systems. References 
+
+Bao, J.; Chen, D.; Wen, F.; Li, H.; and Hua, G. 2018. Towards open-set identity preserving face synthesis. In Proceedings of the IEEE conference on computer vision and pattern recogni-tion , 6713–6722. Chefer, H.; Zada, S.; Paiss, R.; Ephrat, A.; Tov, O.; Rubin-stein, M.; Wolf, L.; Dekel, T.; Michaeli, T.; and Mosseri, I. 2024. Still-moving: Customized video generation with-out customized video data. ACM Transactions on Graphics (TOG) , 43(6): 1–11. Chen, H.; Zhang, Y.; Wu, S.; Wang, X.; Duan, X.; Zhou, Y.; and Zhu, W. 2023. Disenbooth: Identity-preserving disen-tangled tuning for subject-driven text-to-image generation. 
+
+arXiv preprint arXiv:2305.03374 .Chen, Z.; Fang, S.; Liu, W.; He, Q.; Huang, M.; and Mao, Z. 2024. DreamIdentity: enhanced editability for efficient face-identity preserved image generation. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 38, 1281–1289. Deng, J.; Guo, J.; Xue, N.; and Zafeiriou, S. 2019. Arcface: Additive angular margin loss for deep face recognition. In 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 4690–4699. Deng, Y.; Guo, X.; Wang, Y.; Fang, J. Z.; Wang, A.; Yuan, S.; Yang, Y.; Liu, B.; Huang, H.; and Ma, C. 2025. CINEMA: Coherent Multi-Subject Video Generation via MLLM-Based Guidance. arXiv preprint arXiv:2503.10391 .Esser, P.; Kulal, S.; Blattmann, A.; Entezari, R.; Müller, J.; Saini, H.; Levi, Y.; Lorenz, D.; Sauer, A.; Boesel, F.; et al. 2024. Scaling rectified flow transformers for high-resolution image synthesis. In Forty-first international conference on machine learning .Fei, Z.; Li, D.; Qiu, D.; Yu, C.; and Fan, M. 2025. Ingredients: Blending Custom Photos with Video Diffusion Transformers. 
+
+arXiv preprint arXiv:2501.01790 .Gal, R.; Alaluf, Y.; Atzmon, Y.; Patashnik, O.; Bermano, A. H.; Chechik, G.; and Cohen-Or, D. 2022. An image is worth one word: Personalizing text-to-image generation using textual inversion. arXiv preprint arXiv:2208.01618 .Guo, H.; Nie, S.; Du, C.; Pang, T.; Sun, H.; and Li, C. 2024. Real-time identity defenses against malicious personalization of diffusion models. arXiv preprint arXiv:2412.09844 .He, M.; Guo, H.; Lin, J.; and Yu, Y. 2026. Video Generation Models as World Models: Efficient Paradigms, Architectures and Algorithms. arXiv preprint arXiv:2603.28489 .He, X.; Liu, Q.; Qian, S.; Wang, X.; Hu, T.; Cao, K.; Yan, K.; and Zhang, J. 2024. Id-animator: Zero-shot identity-preserving human video generation. arXiv preprint arXiv:2404.15275 .Hessel, J.; Holtzman, A.; Forbes, M.; Bras, R. L.; and Choi, Y. 2021. Clipscore: A reference-free evaluation metric for image captioning. arXiv preprint arXiv:2104.08718 .Heusel, M.; Ramsauer, H.; Unterthiner, T.; Nessler, B.; and Hochreiter, S. 2017. Gans trained by a two time-scale update rule converge to a local nash equilibrium. Advances in neural information processing systems , 30. Ho, J.; Jain, A.; and Abbeel, P. 2020. Denoising diffusion probabilistic models. Advances in neural information pro-cessing systems , 33: 6840–6851. Ho, J.; Salimans, T.; Gritsenko, A.; Chan, W.; Norouzi, M.; and Fleet, D. J. 2022. Video diffusion models. Advances in Neural Information Processing Systems , 35: 8633–8646. Hu, E. J.; Shen, Y.; Wallis, P.; Allen-Zhu, Z.; Li, Y.; Wang, S.; Wang, L.; Chen, W.; et al. 2022. Lora: Low-rank adaptation of large language models. ICLR , 1(2): 3. Kim, C.; Lee, J.; Joung, S.; Kim, B.; and Baek, Y.-M. 2024. Instantfamily: Masked attention for zero-shot multi-id image generation. arXiv preprint arXiv:2404.19427 .Kim, D.; Zhang, J.; Jin, W.; Cho, S.; Dai, Q.; Park, J.; and Luo, C. 2025. Subject-driven Video Generation via Disentangled Identity and Motion. arXiv preprint arXiv:2504.17816 .Li, H.; Qiu, H.; Zhang, S.; Wang, X.; Wei, Y.; Li, Z.; Zhang, Y.; Wu, B.; and Cai, D. 2024. PersonalVideo: High ID-Fidelity Video Customization without Dynamic and Semantic Degradation. arXiv preprint arXiv:2411.17048 .Li, J.; Li, D.; Savarese, S.; and Hoi, S. 2023. Blip-2: Boot-strapping language-image pre-training with frozen image encoders and large language models. In International confer-ence on machine learning , 19730–19742. PMLR. Liang, J.; Fan, Y.; Zhang, K.; Timofte, R.; Van Gool, L.; and Ranjan, R. 2024. Movideo: Motion-aware video generation with diffusion model. In European Conference on Computer Vision , 56–74. Springer. Mai, S.; Zhai, Y.; Chen, Z.; Chen, C.; Zou, A.; Tao, S.; Liu, Z.; and Ding, B. 2025. CuES: A Curiosity-driven and Environment-grounded Synthesis Framework for Agentic RL. 
+
+arXiv preprint arXiv:2512.01311 .Mai, X.; Xu, H.; Wang, W.; Zhang, Y.; Zhang, W.; et al. 2026. Agentic RL scaling law: Spontaneous code execu-tion for mathematical problem solving. Advances in Neural Information Processing Systems , 38: 7325–7340. Oord, A. v. d.; Li, Y.; and Vinyals, O. 2018. Representation learning with contrastive predictive coding. arXiv preprint arXiv:1807.03748 .Peng, X.; Zhu, J.; Jiang, B.; Tai, Y.; Luo, D.; Zhang, J.; Lin, W.; Jin, T.; Wang, C.; and Ji, R. 2024. Portraitbooth: A versa-tile portrait model for fast identity-preserved personalization. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 27080–27090. Qiu, D.; Chen, Z.; Wang, R.; Fan, M.; Yu, C.; Huang, J.; and Wen, X. 2024. MovieCharacter: A Tuning-Free Framework for Controllable Character Video Synthesis. arXiv preprint arXiv:2410.20974 .Radford, A.; Kim, J. W.; Hallacy, C.; Ramesh, A.; Goh, G.; Agarwal, S.; Sastry, G.; Askell, A.; Mishkin, P.; Clark, J.; et al. 2021. Learning transferable visual models from nat-ural language supervision. In International conference on machine learning , 8748–8763. PmLR. Ruiz, N.; Li, Y.; Jampani, V.; Pritch, Y.; Rubinstein, M.; and Aberman, K. 2023. Dreambooth: Fine tuning text-to-image diffusion models for subject-driven generation. In 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 22500–22510. Song, J.; Meng, C.; and Ermon, S. 2020. Denoising diffusion implicit models. arXiv preprint arXiv:2010.02502 .Song, Y.; Yang, P.; Ci, H.; and Shou, M. Z. 2024. IDProtector: An Adversarial Noise Encoder to Protect Against ID-Preserving Image Generation. arXiv preprint arXiv:2412.11638 .Tao, Z.; Yang, T.; Lin, J.; Mai, X.; Wang, H.; Wang, B.; Zhou, E.; Wang, Y.; and Zhang, W. 2024. Lcgen: Mining in low-certainty generation for view-consistent text-to-3d. Advances in Neural Information Processing Systems , 37: 20276–20303. Tong, X.; Chang, Y.; Zhao, Q.; Yu, J.; Wang, B.; Lin, J.; Lin, Y.; Mai, X.; Wang, H.; Tao, Z.; et al. 2025. Component-aware Unsupervised Logical Anomaly Generation for Industrial Anomaly Detection. In 2025 IEEE International Conference on Robotics and Automation (ICRA) , 16722–16729. IEEE. Wang, H.; Mai, X.; Tao, Z.; Lin, J.; Tong, X.; Pan, I.; Yan, S.; Wang, Y.; and Gao, S. 2026. Hi-ef: Benchmarking emotion forecasting in human-interaction. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 40, 2110–2118. Wang, Q.; Bai, X.; Wang, H.; Qin, Z.; Chen, A.; Li, H.; Tang, X.; and Hu, Y. 2024a. Instantid: Zero-shot identity-preserving generation in seconds. arXiv preprint arXiv:2401.07519 .Wang, Y.; Yang, D.; Bremond, F.; and Dantcheva, A. 2024b. LIA: Latent Image Animator. IEEE Transactions on Pattern Analysis and Machine Intelligence .Wei, Y.; Zhang, S.; Qing, Z.; Yuan, H.; Liu, Z.; Liu, Y.; Zhang, Y.; Zhou, J.; and Shan, H. 2024. Dreamvideo: Composing your dream videos with customized subject and motion. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vi-sion and Pattern Recognition , 6537–6549. Wu, Y.; Li, Z.; Zheng, H.; Wang, C.; and Li, B. 2024. Infinite-ID: Identity-preserved Personalization via ID-semantics De-coupling Paradigm. In European Conference on Computer Vision , 279–296. Springer. Xiao, J.; Aggarwal, L.; Banerjee, P.; Aggarwal, M.; and Medioni, G. 2022. Identity preserving loss for learned image compression. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 517–526. Yang, Z.; Teng, J.; Zheng, W.; Ding, M.; Huang, S.; Xu, J.; Yang, Y.; Hong, W.; Zhang, X.; Feng, G.; et al. 2024. CogVideoX: Text-to-Video Diffusion Models with An Expert Transformer. arXiv preprint arXiv:2408.06072 .Ye, H.; Zhang, J.; Liu, S.; Han, X.; and Yang, W. 2023. Ip-adapter: Text compatible image prompt adapter for text-to-image diffusion models. arXiv preprint arXiv:2308.06721 .Yuan, S.; Huang, J.; He, X.; Ge, Y.; Shi, Y.; Chen, L.; Luo, J.; and Yuan, L. 2024. Identity-Preserving Text-to-Video Generation by Frequency Decomposition. arXiv preprint arXiv:2411.17440 .
