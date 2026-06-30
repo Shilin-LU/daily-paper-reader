@@ -1,0 +1,2096 @@
+Title: MAVIN: Multi-Shot Audio-Visual Generation with Narrative Control
+
+URL Source: https://arxiv.org/pdf/2606.29473v1
+
+Published Time: Tue, 30 Jun 2026 01:33:57 GMT
+
+Number of Pages: 30
+
+Markdown Content:
+## MAVIN: Multi-Shot Audio-Visual Generation with Customized Narrative Control 
+
+Kaiqi Liu 1,2∗, Yunyao Mao 2∗, Ziqi Cai 1, Zheng Geng 3, Jing Wang 4,Qiulin Wang 2, Xintao Wang 2, Pengfei Wan 2, Kun Gai 2,Shuchen Weng 1†, and Boxin Shi 1† 
+
+> 1
+
+Peking University  
+
+> 2
+
+Kling Team, Kuaishou Technology  
+
+> 3
+
+Institute of Automation, Chinese Academy of Sciences  
+
+> 4
+
+Sun Yat-sen University 
+
+liukq04@gmail.com, shuchenweng@pku.edu.cn, shiboxin@pku.edu.cn 
+
+Abstract. While recent generative models produce high-fidelity videos, they struggle with the complex narrative control required for coherent multi-shot audio-visual generation. Existing methods suffer from tem-poral misalignment, limited controllability, and incomplete scripting. In this paper, we propose MAVIN, the first framework for multi-shot audio-visual generation with customized narrative control. To resolve tempo-ral misalignment, we propose boundary-aware attention, which lever-ages hierarchical captions and boundary-aware token routing to render audio-visual elements within their respective temporal boundaries. To improve the controllability for multi-subject scenarios, we propose ID-aware propagation, utilizing identity embeddings and an identity-aware mask to bind specific identities to consistent visual appearances and vocal timbres. To provide comprehensive audio-visual narratives, we present a multi-agent scripting pipeline to transform free-form user inputs into hi-erarchical captions. Furthermore, we construct MAVINSet, a multi-shot audio-visual dataset for robust training and evaluation. Extensive exper-iments demonstrate that MAVIN achieves state-of-the-art performance, opening up a new avenue for integrating generative models into profes-sional filmmaking workflows. 
+
+Keywords: Audio-Visual Generation · Video Diffusion Models 
+
+1 Introduction 
+
+Recent video generation models [16, 25, 63, 72, 82] have achieved remarkable progress in generating high-fidelity videos. With data engineering and archi-tectural adaptation, they are widely explored in specialized scenarios, enabling precise camera movement [69, 87], long-duration generation [37, 58], and physi-cal dynamics simulation [48, 81]. Towards an immersive experience, researchers increasingly focus on integrating synchronized original audio [21, 46, 59].  
+
+> ∗
+
+Equal contribution. † Corresponding authors. 
+
+> arXiv:2606.29473v1 [cs.CV] 28 Jun 2026
+
+2 K. Liu et al. Multi-Subjective Identity Customization 
+
+Ref Image Ref Audio 
+
+Ref Image & Audio 
+
+Boundary-Aware Temporal Alignment                 
+
+> This shot spans from 0.0s to 8.9s , ID2 says, “... —” ... ID1 leans forward, moving closer to the camera ... ... ID2 continues say ing, “— ... ”fro m8.9s to 10.2s ...
+> Shot2 Shot3
+> 8.9s 0.0s 8.9s
+
+`               
+
+> Scripting
+> Global Caption
+> Background :Alien planet sur face ...
+> Story :ID1 and ID2 land on a
+> strange glowing planet and step ...
+> Music :Low ambient sci-fi tone ...
+> Style :
+> Realistic cinematic sci-fi
+> style, dramatic lighting, ...
+> Role Caption
+> ID1 :
+> Appearance :
+> White astronaut suit with ...
+> Voice :
+> Calm female voice; medium ...
+> ID2 :
+> Appearance :...; Voice :...
+> Shot Caption
+> Shot 1 (0.0–3.2s)
+> A spacecraft slowly descends onto
+> the glowing surface of an alien
+> planet. The landing lights ...
+> Shot 2 —(3.2–10.2s)
+> ID1 pauses, looks around in awe, and
+> says (6.6–8.1s): “We made it. ”
+
+Hierarchical Captions      
+
+> Shot1
+> 10.2s
+> Shot2 Shot3
+> Shot Transitions Dialogue Intervals
+> ID1 ID2
+> ID1
+> ID2
+> ID1 ID2
+
+User Input:      
+
+> A spaceship lands on a
+> strange glowing
+> planet …An astronaut
+> looks around and says,
+> “We made it. ”Divide
+> it into five shots.
+> Ref Audios
+> ID1 ID2
+> (Optional)
+> Ref Images
+> ID1 ID2
+> (Optional)
+
+Multi-Agent Scripting Pipeline  
+
+> Voice-over
+> 12.1s 14.2s
+> Narrative Events
+
+Fig. 1: Illustration of our MAVIN framework. First row: Leveraging boundary-aware attention, MAVIN enables precise temporal alignment for shot transitions, dialogue intervals, and narrative events. Second row: Through ID-aware propagation, MAVIN allows users to customize multiple subjects via reference images and audio, maintain-ing identity consistency across complex cinematic narratives. Third row: With the multi-agent scripting pipeline, MAVIN translates user inputs into hierarchical captions, providing decoupled narrative semantics for multi-shot audio-visual generation. 
+
+However, these clip-level models rely solely on a single text prompt for gen-eration, rendering them impractical for real-world creative workflows ( e.g ., pro-fessional multi-shot filmmaking). In practice, creators depend on storyboards and structured scripts to precisely dictate the video content. To further em-power filmmakers, recent efforts have focused on developing agents for story planning [76] and synthesizing keyframes for shot transitions [23, 84], aiming to align with traditional human filmmaking workflows. Despite the stronger controllability offered by these multi-shot video gener-ation models, previous approaches primarily focus on the video-only modality, struggling with the challenges of audio-visual joint generation across complex narrative timelines for immersive filmmaking: (i) Temporal misalignment : With-out explicit temporal boundaries, models struggle to synchronize specific visual elements ( e.g ., a character) with their audio events ( e.g ., speech) at the correct timestamps. (ii) Limited controllability : While current models effectively specify the visual appearance of subjects, their audio specifications ( e.g ., vocal timbre) remain largely unexplored, especially in multi-subject scenarios. (iii) Incomplete scripting : Prior scripting agents often omit audio-related narratives ( e.g ., human speech and sound effects), lacking time-stamped audio cues to guide the joint generation process. MAVIN: Multi-Shot Audio-Visual Generation 3
+
+To address these challenges, we propose MAVIN , the first framework for 
+
+Multi-Shot Audio-Visual generation with Custom Ized Narrative control. We build our framework upon OVI [46] to leverage its priors for joint audio-visual representation and feature alignment. To avoid temporal misalignment, we pro-pose boundary-aware attention, which partitions the latent space and routes corresponding tokens to strictly render audio and visual elements within their respective temporal boundaries (Fig. 1, first row). We further design an ID-aware propagation mechanism to accurately customize user-intended subjects, where ID tokens specify the target characters, and the audio-visual token context is leveraged to control the planned audio-visual attributes (Fig. 1, second row). Finally, a lightweight multi-agent scripting pipeline is introduced to translate free-form prompts into comprehensive audio-visual narratives, providing tempo-ral and structural cues for the joint generation process (Fig. 1, third row). To facilitate model training and evaluation, we introduce MAVINSet , a multi-shot audio-visual dataset with hierarchical captions, constructed from di-verse datasets. The training set comprises 800K samples, where each sample ranges from 3–15 seconds in duration and contains 1–6 shots, rendered at 24 fps and 480p resolution. We further provide comprehensive hierarchical anno-tations at the global, shot, and role levels. These annotations explicitly specify the overall storyline, plot progression, dialogue intervals, action events, charac-ter appearance, and vocal timbre. Finally, we establish an evaluation set of 1K manually verified samples to benchmark relevant methods. Our contributions can be summarized as follows: 
+
+– We propose the first framework for multi-shot audio-visual generation with customized narrative control, and introduce a multi-agent scripting pipeline to provide comprehensive audio-visual narratives as guidance. 
+
+– We design boundary-aware attention to render audio-visual elements within their respective temporal boundaries, and present an ID-aware propagation mechanism to specify target characters with planned audio-visual attributes. 
+
+– We construct a multi-shot audio-visual dataset with customized narrative annotations to facilitate model training, and establish a manually verified benchmark to rigorously evaluate the performance of relevant methods. 
+
+2 Related Work 
+
+2.1 Joint Audio-Visual Generation 
+
+Early audio-visual generation predominantly followed cascaded pipelines ( e.g ., video-to-audio [47, 89] or audio-to-video [3]), suffering from accumulated cross-modal errors and weak temporal synchronization. Recent research has increas-ingly shifted toward joint audio-visual generation. Beyond early coupled-diffusion formulations such as MM-Diffusion [52], methods like Seeing and Hearing [79] bridge pretrained audio and video generators through latent alignment. Concur-rently, MM-LDM [57] and AV-DiT [67] move toward more unified latent and 4 K. Liu et al. 
+
+transformer-based architectures. More recent DiT-based systems, including Uni-Form [86], JavisDiT [41], JavisDiT++ [42] and OVI [46], further strengthen cross-modal fusion and fine-grained synchronization through shared or twin-backbone designs. Adjacent cross-modal works such as AV-Link [22], MMAu-dio [9], and VinTAGe [33] demonstrate that temporally aligned multimodal conditioning is central even in V2A-centric settings. However, these methods largely assume a single contiguous event guided by global prompt condition. Consequently, they still offer limited support for narrative-level planning and multi-shot semantic transitions. 
+
+2.2 Multi-Shot and Narrative Video Generation 
+
+To move beyond single-event clips, recent video generation research has begun to explicitly model multi-scene and long-horizon narratives. Planning-oriented methods such as VideoDirectorGPT [38] and VideoStudio [44] leverage LLMs, spatial layouts, or reference images to decompose a global prompt into mul-tiple scenes while preserving cross-scene consistency. Hierarchical frameworks like MovieDreamer [85] further combine long-range autoregressive planning with diffusion rendering for coherent storytelling. At the generation level, Stream-ingT2V [24] propagates context across extended sequences, while multi-shot models such as ShotAdapter [31] and EchoShot [65] introduce explicit shot-aware conditioning to improve cross-shot controllability and identity preserva-tion. Notably, Mind the Time [78] utilizes temporally localized captions with explicit start and end timestamps, enabling fine-grained control over the du-ration and ordering of multiple events. Nevertheless, these approaches remain fundamentally video-only, neglecting audio specifications ( e.g ., vocal timbre) for joint audio-visual generation. 
+
+2.3 Controllable Video Generation 
+
+Video controllability has rapidly evolved from basic structural conditioning to richer motion, camera, and identity control. Earlier ControlVideo [87], MotionC-trl [69], and Generative Rendering [2] focus on injecting structural, trajectory, or 4D guidance. Subsequent research extends this paradigm toward stronger motion and subject control. Frameworks including MotionBooth [5], Motion Prompt-ing [18], AnimateAnything [34], and MagicMotion [36] support fine-grained ob-ject and camera motion specification under increasingly flexible control formats. In parallel, identity-oriented generation has advanced through multi-subject per-sonalization methods such as Video Alchemist [7], improving visual subject fi-delity in multi-entity scenes. Since existing models primarily customize the visual appearance, we propose MAVIN for audio-visual customized narrative, overcom-ing temporal misalignment, limited controllability, and incomplete scripting. MAVIN: Multi-Shot Audio-Visual Generation 5`
+
+(a) Data Slicing and Filtering (b) Hierarchical Narrative Annotation 
+
+> Raw Video
+> Shot 5
+> Shot 6
+> Shot 4
+> Shot 3
+> Shot 1
+> Shot 2
+
+TransNet v2 Shot Grouping     
+
+> Scene 2
+> Shot 5
+> Shot 6
+> Scene 1
+> Shot 5
+> Shot 1
+> Shot 2
+> Shot 3
+> Shot 4
+> 0.0s
+> 2.5s
+> 4.2s
+> 10.8s
+> 15.2s  0.0s
+> 3.2s
+> 4.8s
+> “On the open deck of the Titanic at sunset, ID1 stands behind ID2 ... ”
+
+Global Caption 
+
+> SAM-Audio
+
+(c) Role Reference Annotation 
+
+Role Caption ID1      
+
+> “ID1 is a young man with neatly
+> styled brown hair ...
+> His voice is warm and youthful,
+> with a natural ... ”
+
+ID2      
+
+> “ID2 is a young woman with
+> flowing red hair and a ...
+> Her voice is clear and gently
+> melodic. It carries ... ”
+
+Appearance Voice  
+
+> ID1 ID2
+
+Shot Caption Shot1     
+
+> “ID1 leans on
+> the railing,
+> looking distant as
+> the wind
+> blows. From 0.8s
+> to 1.6s ,ID2 calls
+> softly, ‘Hello,
+> Jack.
+> ’... ”
+
+Shot2      
+
+> “ID1 steps closer
+> and reaches out
+> his hand toward
+> ID2. From 2.5s to
+> 3.6s ,ID1 says
+> gently, ‘Give me
+> your hand. ’... ”
+
+Shot3        
+
+> “ID1 stands behind ID2 ,
+> holding her as she spreads
+> her arms into the wind.
+> From 4.5s to 5.4s ,ID1 asks
+> softly, ‘Do you trust me? ’
+> From 5.6s to 6.3s ,ID2
+> replies calmly, ‘I trust you. ’
+> ... ”
+
+Shot4     
+
+> “The
+> Titanic
+> sails
+> forward
+> into the
+> golden
+> horizon.
+> ... ”
+> 0.0s 2.5s 4.2s 10.8s 15.2s
+
+Whisper 
+
+“Do you trust me? ” “I trust you. ”       
+
+> 4.5s 4.7s 4.9s 5.2s 5.4s 5.8s 6.1s 6.3s
+> 5.6s
+
+Fig. 2: Overview of our automatic data curation pipeline. (a) Shot grouping and filtering. We collect videos from diverse open-source datasets and online platforms. Raw videos are segmented into shots, grouped into multi-shot cinematic clips, and filtered for audio-visual aesthetics and clarity. (b) Hierarchical caption annotation. 
+
+We generate multi-level captions to capture global storylines, shot-level events, and role-level descriptions, alongside dialogue boundaries with decisecond-level timestamps. 
+
+(c) Role reference annotation. To establish consistent identity anchors, we extract audio-visual cues for each role and synthesize perturbed reference images and audio, decoupling identity from exact replication. 
+
+3 Dataset 
+
+Existing audio-visual datasets [4, 17] mainly focus on single-shot events without structural annotations, leaving a data gap for complex storytelling. To train and evaluate MAVIN and establish a new benchmark for multi-shot generation, we propose MAVINSet, a large-scale dataset annotated with explicit temporal boundaries, dialogue intervals, and multiple audio-visual role references. 
+
+Data sources. To ensure both realism and diversity, MAVINSet is built upon diverse in-the-wild resources, including Condensed Movies [1], Short-Films-20K [19], MovieBench [75], VGGSound [4], and OpenHumanVid [35] datasets, and publicly available online videos on YouTube. 
+
+Shot unit grouping. As shown in Fig. 2 (a), we process raw videos by enforc-ing a minimum 480p resolution, removing black borders, and standardizing to 24 fps. We use TransNet V2 [56] for shot boundary detection and apply scene con-sistency representation learning [74] to group shots belonging to the same scene segment. Each grouped unit includes 1–6 distinct shots spanning 3–15 seconds. 
+
+Audio-visual quality filtering. We evaluate grouping candidates using the optical flow from RAFT [60] to discard near-static segments. We then enforce perceptual quality thresholds across modalities, assessing video aesthetics with an aesthetic predictor [53] and audio quality with Audiobox-Aesthetics [61]. To 6 K. Liu et al. 
+
+ensure clear identity representation, we use Qwen3-Omni [80] and SAM2 [51] to discard clips with more than three individuals. We also apply Scribe [14] for speaker diarization, excluding clips with interfering multi-speaker audio. 
+
+Hierarchical caption annotation. As shown in Fig. 2 (b), we employ Gemini-2.5 [11] to generate hierarchical captions, where the global level captures the overall storyline and plot progression, the role level details character appear-ance and vocal timbre, and the shot level describes action events and dialogue intervals. Notably, we additionally utilize Whisper [50] to extract timestamps for precise dialogue boundaries. If a dialogue extends beyond a single shot, we append a “—” to indicate continuation. 
+
+Role reference annotation. As shown in Fig. 2 (c), for each multi-shot clip group, we extract visual and audio cues using Qwen3-Omni [80] and SAM-Audio [55]. We further synthesize perturbed visual references using Qwen-Image-Edit [73] for altered poses or actions, and audio references using Qwen3-TTS [26] for varying spoken content. This decouples identity from exact replication, en-abling the model to generate dynamic actions and speech strictly guided by the narrative script. 
+
+Manual benchmark verification. We create a 1K-sample high-fidelity bench-mark from MAVINSet for evaluation. We conduct manual verification to discard samples exhibiting identity drift, temporal misalignment, or structural inconsis-tencies that are beyond the reach of automatic metrics. We further recruit two independent annotators to assess whether each sample should be preserved. This process yielded a high inter-annotator agreement (Cohen’s κ = 0 .77 ), strongly demonstrating the benchmark’s reliability. 
+
+4 Method 
+
+In this section, we detail our proposed MAVIN framework. We first provide an overview of the model architecture and optimization process (Sec. 4.1). Next, we introduce the boundary-aware attention mechanism to address temporal mis-alignment across complex narratives (Sec. 4.2). To achieve precise identity and vocal timbre customization, we further detail the ID-aware propagation strategy (Sec. 4.3). Finally, we describe the multi-agent scripting pipeline to transform free-form user prompts into the hierarchical captions (Sec. 4.4). The overall pipeline is shown in Fig. 3. 
+
+4.1 Overview 
+
+In this section, we present an overview of our MAVIN framework. 
+
+Audio and video compression. MAVIN employs pretrained Variational Au-toencoders (VAEs) to compress audio and video modalities into their latent spaces. Given a video xv and its accompanying audio xa, the respective VAE en-coders compress them into compact latent codes zv 
+
+> 0
+
+= Ev (xv ) and za 
+
+> 0
+
+= Ea(xa).
+
+Model architecture. Following previous works [21, 46, 59], we design our pre-diction network as a dual-tower diffusion Transformer framework. Given com-MAVIN: Multi-Shot Audio-Visual Generation 7Multi-Agent 
+
+Scripting Pipeline 
+
+1. Structure Parser 
+
+> Parses the prompt into structured
+> shots, characters, and dialogue.
+
+2. Identity Aligner 
+
+> Grounds characters with
+> appearance and voice references.
+
+3. Narrative Refiner   
+
+> Enriches shots actions, camera
+> language, and dialogue.
+> Video VAE
+> Encoder
+> Audio VAE
+> Encoder
+> Timbre
+> Encoder
+> Ref Images (Optional)
+> ID1 ID2
+
+Video Clips 
+
+Audio Clips 
+
+DiT Blocks × N
+
+Global Caption     
+
+> Background :
+> Indoor room, dim ...
+> Story :
+> ID1 and ID2 are
+> having a serious
+> discussion ...
+> Music :
+> Low ambient tone ...
+> Style :
+> Realistic, cinematic,
+> dramatic lighting.
+
+Role Caption 
+
+> ID1 :
+> Appearance :
+> shoulder-length
+> dark hair; ...
+> Voice :
+> Clear female
+> voice; medium
+> pitch; calm but ...
+> ID2 :
+> Appearance : ...
+> Voice : ...
+
+Shot Caption                 
+
+> Shot 1 (0.0–2.5s)
+> Both seated across a
+> table ... ID2 says (0.2-
+> 1.4s) : ”... ”.ID1 replies
+> (1.9-2.5s): ”You
+> knew —”
+> Shot 2 —(2.5–5.0s)
+> ID1 leans forward and
+> continues saying
+> (2.5–3.5s) : ”—this
+> would happen. ”...
+
+Hierarchical Captions  
+
+> Global
+> Caption
+> Shot1
+> Caption
+> Shot2
+> Caption
+> ID1
+> Visual
+> ID2
+> Visual
+> ID1
+> Vocal
+> ID2
+> Vocal
+> Ref1
+> Image
+> Ref2
+> Image
+> Ref1
+> Audio
+> Ref2
+> Audio
+> Shot1 Shot2
+> Dialogue Interval
+> Video Tower
+> Ref Audio
+> (Optional)
+> ID1 ID2
+
+User Input: 
+
+Text: A man and a woman are 
+
+engaged in a serious conversation 
+
+about a difficult issue. The woman 
+
+turns to the man and says, “…” 
+
+... . The video has five shots.    
+
+> Ref Images Ref Audio
+> ID1 ID2 ID1 ID2
+> (Optional) (Optional)
+> Concat Concat  Audio Tower
+> Onscreen  Speaker
+
+ID-Aware Propagation 
+
+Multi-shot 
+
+Video 
+
+Temporal 
+
+Aligned Audio 
+
+> Self-Attention
+> Hierarchical
+> Text-Attention
+> CrossAttention
+> with Audio
+> Self-Attention
+> Hierarchical
+> Text-Attention
+> CrossAttention
+> with Video
+> Video VAE
+> Decoder
+> Audio VAE
+> Decoder
+
+Caption 
+
+> Norm + FFN Norm + FFN
+
+Hierarchical Caption s   
+
+> Identity
+> Embeddings
+> Video Tokens Audio Tokens
+> Ref Image Tokens
+> Shot2
+> Speech1 Speech2
+> Shot1
+> Self-Attention Cross-Attention
+> Ref Audio Tokens
+> Optional Optional
+
+Boundary-Aware Attention 
+
+Fig. 3: Given free-form user inputs (purple block) , we first employ a multi-agent scripting pipeline (red block) to transform them into hierarchical captions (blue block) , detailing complex narrative timelines with precise shot boundaries and dia-logue intervals. Within the ID-aware propagation, input video clips and optional image references are compressed by a Video VAE into latent tokens (orange block) . The audio tower follows a similar process, but its optional audio references are additionally processed by a pretrained timbre encoder to extract clean timbre embeddings (green block) . After concatenating with learnable identity embeddings, these tokens are fed into a dual-tower diffusion Transformer (cyan block) . We adapt the self-attention and text-attention layers to be compatible with customized identities (yellow block) .Furthermore, we integrate boundary-aware attention into these text-attention layers to enforce strict temporal alignment across complex multi-shot narratives (gray block) .Finally, the VAE decoders produce the synchronized multi-shot video and audio results. 
+
+pressed latent codes zvt and zat at timestep t, hierarchical captions CT, and op-tional role references CR, the framework is equipped with stacked Transformer blocks. These include self-attention layers to extract audio-visual features, hi-erarchical text-attention layers to decouple multi-level narrative semantics, and cross-attention layers for fine-grained audio-visual synchronization. The frame-work conducts joint prediction of the audio-visual velocity fields. 
+
+Optimization process. The framework is optimized via flow matching [39], where independent Gaussian priors ϵv , ϵa ∼ N (0 , I ) are transformed into the target audio-visual latent codes. The linear interpolation paths are defined as 
+
+zvt = (1 − t)zv
+
+0 + tϵv and zat = (1 − t)za
+
+0 + tϵa for t ∼ U (0 , 1) . Specifically, the 8 K. Liu et al. 
+
+model is optimized to regress the vector fields using the following objective: 
+
+LFM = Et, zv   
+
+> 0,za
+> 0,ϵv,ϵa
+
+h
+
+vvθ (zvt , t, CT, CR) − (ϵv − zv 
+
+> 0
+
+) 22 +
+
+vaθ (zat , t, CT, CR) − (ϵa − za 
+
+> 0
+
+) 22
+
+i
+
+, (1) where vvθ (. . . ) and vaθ (. . . ) are the velocity fields predicted by the video and audio towers, respectively. During inference, the network synthesizes the final synchronized multi-shot audio-visual sequence by solving the probability flow Ordinary Differential Equation (ODE) defined by the predicted velocity fields. 
+
+4.2 Boundary-Aware Attention 
+
+Clip-level video generation models typically adopt a single text prompt to guide the generation process, where all text tokens are visible to all latent positions. However, for multi-shot generation, this implicit cross-attention inevitably leads to semantic leakage from one shot into another. To address this, we adopt hierar-chical captions to decouple global, shot, and role-level narrative semantics, while routing tokens to render elements within their respective temporal boundaries, as presented in Fig. 3 bottom right. 
+
+Hierarchical caption formulation. For a multi-shot narrative, we formulate the input caption into a hierarchical format with three levels: (i) Global caption 
+
+(Cglobal = {g}) presents the overall storyline and plot progress across the entire generated sequence [0 , T ], where g denotes the global narrative context; (ii) Shot caption (Cshot  
+
+> i
+
+= {(si, T s 
+
+> i
+
+)}) guides dialogue intervals and action events, strictly anchored to the defined timestamps of the i-th cinematic shot, where si is the description of shot i within the shot interval T s 
+
+> i
+
+; (iii) Role caption (Crole  
+
+> j
+
+=
+
+{(dv 
+
+> j
+
+, da 
+
+> j
+
+, T r 
+
+> j
+
+)}) provides fine-grained identity anchoring. The visual appearance descriptor dv 
+
+> j
+
+is activated only when role j is present in the shot, while the audio specification descriptor da 
+
+> j
+
+is presented within their dialogue intervals T r 
+
+> j
+
+. As a result, the hierarchical caption C is formulated as: 
+
+C =
+
+n
+
+{g}, {(si, T s 
+
+> i
+
+)}Si=1 , {(dv 
+
+> j
+
+, da 
+
+> j
+
+, T r 
+
+> j
+
+)}j∈R 
+
+o
+
+, (2) where S denotes the number of shots and R specifies the set of characters. 
+
+Latent boundary partition. Since videos and audio are presented with dis-tinct physical natures, we propose an asymmetric boundary partition strategy for the latent tokens to construct overlapping segments. Since video frames are continuous, we partition its latent codes Zv 
+
+> i
+
+from the video latent space Zv
+
+according to shot transitions as Zv 
+
+> i
+
+= {zv 
+
+> k
+
+| τ (k) ∈ T s 
+
+> i
+
+}. In contrast, since char-acter speech is typically sparse and event-driven, we partition its latent codes 
+
+Za 
+
+> j
+
+from the audio latent space Za based on the dialogue interval T r 
+
+> j
+
+of role j as 
+
+Za 
+
+> j
+
+= zak | τ (k) ∈ T r 
+
+> j
+
+.
+
+Boundary-aware token routing. To strictly generate multi-shot videos fol-lowing this structured input, we replace the standard cross-attention layer with the hierarchical text-attention layer. Denoting a binary routing matrix M ∈MAVIN: Multi-Shot Audio-Visual Generation 9
+
+{0, 1}N ×L, where N is the latent sequence length and L is the text token length, the attention calculation is reformulated as: 
+
+Z = softmax 
+
+ QK ⊤C
+
+√d + log M
+
+
+
+VC , (3) where Q is derived from the latent codes, KC and VC are projected from the hierarchical captions C, d is the head dimension, and the routing matrix M
+
+computes visibility dynamically based on the partitioned temporal boundaries. For a video latent token k at time τ (k) and a textual token c from the hierarchical caption C, the visibility is defined as: 
+
+Mv(k, c ) = 
+
+
+
+1 if c ∈ C global ,
+
+1 if c ∈ C shot  
+
+> i
+
+∧ τ (k) ∈ T s 
+
+> i
+
+,
+
+1 if c ∈ C role  
+
+> j
+
+∧ τ (k) ∈ T s 
+
+> i
+
+∧ j ∈ R i,
+
+0 otherwise ,
+
+(4) where Ri means the set of characters presented in i-th shot. Similarly, for au-dio latent codes, the role-level audio specification descriptor da 
+
+> j
+
+is routed to 
+
+Ma(k, c ) = 1 only if τ (k) ∈ T r 
+
+> j
+
+. Finally, we denote the boundary-aware atten-tion mechanism as the collection of latent boundary partition and boundary-aware token routing, enabling rendering audio and visual elements within their respective temporal boundaries. 
+
+4.3 ID-Aware Propagation 
+
+To improve the controllability of audio-visual generation and enable customized generation for multi-subject scenarios ( i.e ., binding roles to specific visual ap-pearances and vocal timbres), we introduce identity embeddings for appearance and timbre modulation, and identity-aware injection for customized token con-ditioning during generation, as presented in Fig. 3 middle. 
+
+Identity embeddings. We design identity embeddings for the cases where the user specifies customized roles, each accompanied by optional reference images and audio clips. In this case, for each customized role j, we feed its reference inputs into its respective VAE encoders to obtain tokens representing the visual appearance Zv,ref  
+
+> j
+
+and audio specifications Za,ref  
+
+> j
+
+. Since reference audio inher-ently entangles timbre with semantics, emotion, and prosody, we additionally employ a pretrained timbre encoder [30] to extract a clean timbre embedding 
+
+ej . To explicitly prevent identity collapse among similar roles, we modulate these extracted features with learnable role ID embeddings pv 
+
+> j
+
+, pa 
+
+> j
+
+∈ Rd as: 
+
+ˆZv,ref  
+
+> j
+
+= Zv,ref  
+
+> j
+
++ pv 
+
+> j
+
+, ˆZa,ref  
+
+> j
+
+= Za,ref  
+
+> j
+
++ pa 
+
+> j
+
++ ej . (5) These augmented identity anchors serve as customized tokens and are concate-nated with their respective target latent codes ( Za 
+
+> j
+
+and Zv 
+
+> i
+
+), anchoring identity priors to the target characters before the diffusion Transformer. If no customized role is specified, this concatenation is omitted. 10 K. Liu et al. 
+
+Identity-aware mask. To prevent the reference images and audio from inter-fering with the original audio-visual generation process, we apply an additional visibility mask within each attention layer during customization. (i) Video self-attention layer: Video tokens Zv 
+
+> i
+
+for the i-th shot can only interact with them-selves, or with the visual anchors ˆZv,ref  
+
+> j
+
+of the roles j present in the same shot. 
+
+(ii) Audio self-attention layer: Audio tokens Za 
+
+> j
+
+can only attend to themselves, or the vocal anchors ˆZa,ref  
+
+> j
+
+speaking within their timestamp intervals T r 
+
+> j
+
+. (iii) Text-attention layer: Role-level text prompts strictly attend to their correspond-ing visual and vocal anchors ( i.e ., Crole  
+
+> j
+
+↔ { ˆZv,ref  
+
+> j
+
+, ˆZa,ref  
+
+> j
+
+}) to propagate accurate role identity. (iv) Cross-attention layer: Only tokens belonging to the visual and vocal anchors of the same role are permitted to interact ( ˆZa,ref  
+
+> j
+
+↔ ˆZv,ref  
+
+> j
+
+). With this carefully designed masking strategy, our model is elegantly adapted for audio-visual role customization. 
+
+4.4 Multi-Agent Scripting Pipeline 
+
+In our multi-shot audio-visual generation model, the narrative script with hierar-chical captions directly decides the final generation quality. Since user-provided prompts P are typically free-form, lacking fine-grained details for scenario de-scriptions or role traits, we introduce a lightweight multi-agent scripting pipeline with an off-the-shelf LLM [80] to transform P into the hierarchical captions C,as presented in Fig. 3 left. Specifically, we implement this caption augmentation through three special-ized agents. First, the structure parser takes the user-provided prompt P and utilizes predefined templates to extract global scene attributes, decomposing each shot boundary {T s 
+
+> i
+
+}Si=1 , identifying the discrete set of characters R, and extracting their dialogue intervals {T r 
+
+> j
+
+}j∈R . Next, the identity aligner grounds these roles by integrating optional user-provided visual and audio references. Fi-nally, the narrative refiner enriches the shot-level action events, camera language, and dialogues, producing the final captions C = Cglobal , {C shot  
+
+> i
+
+}Si=1 , {C role  
+
+> j
+
+}j∈R ,which are tailored for the formulation of our generative framework. 
+
+5 Experiments 
+
+5.1 Implementation Details Basic setup. We adopt OVI [46] as the backbone for our joint audio-visual generation, supporting variable clip lengths of 3 to 15 seconds at 24 fps with 480p resolution. Training is performed within a joint latent space encoded by 3D video and audio VAEs. To handle variable sequence lengths, we employ dynamic resolution bucket-cropping and precise temporal alignment strategies. 
+
+Multi-stage progressive training. To prevent optimization conflicts caused by diverse conditioning signals ( i.e ., multi-level narrative semantics, customized visual appearances and vocal timbres), we adopt a progressive alignment training MAVIN: Multi-Shot Audio-Visual Generation 11 
+
+Table 1: Quantitative comparison of our framework with state-of-the-art audio-visual generation methods. Throughout the paper, ↑ (↓) indicates higher (lower) is better. The best results are highlighted with bold , and ‘-’ indicates the metric is inapplicable.                                                                                                                                                                       
+
+> Method Quality Semantics AV-Alignment Multi-shot Consistency
+> FVD ↓FAD ↓TVS ↑TAS ↑WER ↓Sync ↑AV-IB ↑TAMS ↑SC ↑BC ↑CISC ↑BISC ↑STA ↑
+> - Cascaded Generation Models: Multi-shot T2V + V2A
+> VideoGen-of-Thought [88] 418.7 13.2 0.1537 0.1939 -2.278 0.184 -0.9593 0.9578 0.6195 0.7802 -MovieAgent [76] 395.3 15.9 0.1271 0.1995 -1.913 0.179 -0.9656 0.9298 0.4872 0.6744 -EchoShot [65] 276.3 12.3 0.2072 0.2191 -2.095 0.207 -0.9532 0.9572 0.6104 0.7599 0.6002 CineTrans [77] 254.2 11.9 0.2013 0.2098 -1.892 0.201 -0.9425 0.9543 0.6073 0.7603 0.5820 IC-LoRA [27] + Wan [63] 268.5 12.7 0.2193 0.2012 -2.103 0.192 -0.9512 0.9626 0.5286 0.7519 -StoryDiff. [90] + Wan [63] 304.6 13.3 0.2124 0.1978 -2.013 0.191 -0.9487 0.9654 0.5613 0.7993 -
+> - Joint Generation Models: T2AV
+> JavisDiT [41] 512.6 21.3 0.163 0.1937 0.305 3.734 0.239 0.1012 0.9512 0.9567 ---UniVerse-1 [64] 356.9 11.2 0.182 0.1720 0.199 3.851 0.193 0.2892 0.9499 0.9601 ---OVI [46] 318.4 8.3 0.1983 0.2203 0.093 4.231 0.227 0.4432 0.9565 0.9578 0.6121 0.7789 0.4992 LTX-2 [21] 289.7 8.6 0.2001 0.2287 0.097 4.365 0.203 0.5343 0.9593 0.9553 0.6015 0.7812 0.5733
+> Ours (MAVIN) 231.6 6.8 0.2471 0.2392 0.048 6.032 0.263 0.8104 0.9695 0.9657 0.6319 0.8013 0.9897
+
+schedule. We sequentially optimize for text-driven generation (Stage 1), intro-duce single-modality identity anchors for visual and audio references (Stage 2), and finally perform joint training integrating all conditions (Stage 3). 
+
+5.2 Evaluation Metrics 
+
+We comprehensively evaluate MAVIN from the following perspectives: 
+
+Perceptual quality. We measure the fidelity of generated video and audio using Fréchet Video Distance (FVD) [62] and Fréchet Audio Distance (FAD) [32]. 
+
+Semantic consistency. We employ ViCLIP [68] and CLAP [15] to measure Text-Video Similarity (TVS) and Text-Audio Similarity (TAS), respectively. Additionally, we compute the Word Error Rate (WER) evaluated via Whisper-large-v3 [50] to assess the accuracy of the spoken words. 
+
+Audio-visual alignment. We assess lip synchronization via SyncNet [10] and overall cross-modal semantic similarity using ImageBind [20]. We further intro-duce the Time Alignment Metric for Speech (TAMS) to quantify the synchro-nization between the synthesized speech and the designated temporal boundaries (i.e ., dialogue intervals). 
+
+Multi-shot consistency. We compute Subject Consistency (SC) and Back-ground Consistency (BC) following VBench [28] to assess intra-shot temporal stability. Furthermore, we calculate Character and Background Inter-shot Con-sistency (CISC, BISC) scores utilizing ViCLIP [68] features. Finally, we intro-duce Shot Transition Accuracy (STA) to evaluate the model’s precision in exe-cuting shot transitions based on the narrative scripts. 
+
+5.3 Comparison with State-of-the-Art Methods Baselines. We evaluate MAVIN against two primary paradigms of audio-visual generation on our 1K-sample high-fidelity benchmark. For a fair comparison, all models are evaluated without providing role references. 12 K. Liu et al. 
+
+Table 2: Quantitative ablation study. Removing modules consistently degrades quality. Variant Quality Semantics AV-Alignment Multi-shot Consistency FVD ↓ FAD ↓ TVS ↑ TAS ↑ WER ↓ Sync ↑ AV-IB ↑ TAMS ↑ SC ↑ BC ↑ CISC ↑ BISC ↑ STA ↑                                                            
+
+> w/o BTR 268.4 7.6 0.2310 0.2214 0.062 5.830 0.241 0.582 0.9631 0.9592 0.5520 0.7410 0.5580 w/o IM 256.9 7.3 0.2398 0.2301 0.055 5.970 0.252 0.787 0.9642 0.9617 0.5710 0.7680 0.8010 w/o PTE 242.5 7.0 0.2453 0.2368 0.051 6.010 0.258 0.792 0.9681 0.9643 0.6240 0.7920 0.9460 w/o MAP 261.1 7.5 0.2336 0.2248 0.058 5.910 0.244 0.569 0.9653 0.9618 0.5900 0.7700 0.6230
+> MAVIN 241.9 6.9 0.2463 0.2391 0.049 6.057 0.266 0.793 0.9682 0.9653 0.6397 0.7996 0.9886
+
+Cascaded generation models. We first evaluate multi-shot Text-to-Video (T2V) models ( i.e ., VideoGen-of-Thought [88], MovieAgent [76], EchoShot [65], CineTrans [77], IC-LoRA [27], and StoryDiffusion [90]), followed by a Video-to-Audio (V2A) model (Hunyuan-Foley [54]) to generate the accompanying au-dio tracks. Notably, since IC-LoRA [27] and StoryDiffusion [90] only generate keyframes, we equip them with Wan2.2 [63] for generating the video frames. 
+
+Joint generation models. We compare MAVIN with end-to-end joint Text-to-Audio-Visual (T2AV) generation models ( i.e ., JavisDiT [41], UniVerse-1 [64], OVI [46], and LTX-2 [21]), under the same inference settings as ours. 
+
+Quantitative results. As shown in Tab. 1, MAVIN outperforms all state-of-the-art baselines across 13 metrics. (i) Cascaded generation models. While these models [27, 65, 76, 77, 88, 90] achieve strong visual consistency (SC, BC) via ded-icated T2V networks, their decoupled pipeline restricts the downstream V2A model to rigidly fit the generated videos. Since existing T2V models lack fine-grained lip motion, the downstream V2A models fail to generate intelligible speech, making WER and TAMS inapplicable. (ii) Joint generation models. Ex-isting joint models [21, 41, 46, 64] improve basic audio-visual alignment but lack explicit mechanisms for hard cuts and long-term spatial correlations. Conse-quently, they suffer from character and background drifting (lower CISC/BISC) and fail to execute precise scene transitions (STA < 0.60 ). In contrast, our frame-work leverages boundary-aware attention to achieve a remarkable STA of 0.9897 and a CISC of 0.6319. Additionally, our framework achieves a state-of-the-art TAMS score of 0.8104, effectively ensuring that characters speak strictly within their designated temporal boundaries. 
+
+Qualitative results. In Fig. 4, we present qualitative comparisons. (i) Cas-caded generation models generate visually plausible individual shots but suffer from severe cross-modal misalignment, including lip synchronization failures and abrupt audio discontinuities at transition boundaries. (ii) Joint generation mod-els improve audio-visual coherence, but most of them still struggle with spa-tiotemporal consistency for multi-shot scenes, leading to noticeable character drifting and background inconsistency after cinematic cuts. Instead, our frame-work consistently preserves visual appearance and vocal timbre across shots with precise temporal alignment. MAVIN: Multi-Shot Audio-Visual Generation 13 JavisDiT       
+
+> At night in a cold, snowy forest, a young red-haired woman and a bearded man wearing heavy fur coats have a brief conversation. Shot in shaky, cinematic close-ups with
+> shallow depth of field, the woman first looks down and says, “As near as I can remember. ”The camera cuts to the man, who looks up and replies, “Thank you, Sansa. ”The
+> shot returns to the woman as she answers, “You ’re welcome, ”then turns and walks away while snow continues to fall in the dim, cool-toned atmosphere.
+
+User 
+
+Prompt 
+
+> UniVerse-1
+> Ovi
+> LTX-2
+
+(a) Multi-Shot Video Generation Models 
+
+(b) Audio-Video Joint Generation Models 
+
+> Ours
+> (MAVIN)  IC-LoRA
+> +Wan
+> MovieAgent  VideoGen -of-
+> Thought
+> EchoShot StoryDiffusion
+> +Wan
+> CineTrans
+
+Fig. 4: Qualitative comparison with state-of-the-art relevant generation models. 
+
+5.4 Ablation Study 
+
+As presented in Tab. 2, we ablate key components of our framework to eval-uate their individual contributions and report these quantitative results. Since some ablations target customized generation capabilities, we conduct these ex-periments with explicit video and audio references. 
+
+W/o BTR (Boundary-aware Token Routing). Removing BTR allows to-kens to interact freely across designated temporal boundaries, leading to seman-tic leakage between shots. This uncontrolled interaction significantly degrades multi-shot consistency metrics (CISC, BISC, and STA). 
+
+W/o IM (Identity-aware Mask). Disabling IM allows identity anchors to in-teract freely across different shots and roles. This results in inter-subject crosstalk and identity blending in both visual appearance and vocal timbre, damaging character inter-shot consistency (CISC). 
+
+W/o PTE (Pretrained Timbre Encoder). Without the specialized PTE, the model struggles to decouple vocal timbre from other acoustic cues ( e.g ., lin-guistic semantics, emotion, and prosody). This entanglement impacts the overall cross-modal synchronization (Sync, AV-IB). 
+
+W/o MAP (Multi-agent Scripting Pipeline). Directly feeding free-form prompts without MAP fails to provide the decoupled narrative semantics. Con-14 K. Liu et al. 
+
+Table 3: Percentage (%) of user preference in the subjective evaluation.                                                            
+
+> - Cascaded Generation Models: Multi-shot T2V + V2A - Joint Generation Models: T2AV
+> Method AVQ MIC ANA VNA Method AVQ MIC ANA VNA VideoGen-of-Thought [88] 5.6 8.0 3.2 3.4 JavisDiT [41] 3.4 3.0 2.0 2.2 MovieAgent [76] 4.8 4.6 2.6 2.8 UniVerse-1 [64] 4.6 4.0 2.8 3.0 EchoShot [65] 8.2 7.0 5.2 5.4 OVI [46] 7.8 7.6 4.6 4.4 CineTrans [77] 9.4 6.6 5.0 5.2 LTX-2 [21] 6.6 7.2 2.4 2.4 IC-LoRA [27] + Wan [63] 6.6 4.8 2.8 3.2 Ours (MAVIN) 36.8 42.2 66.4 64.6
+> StoryDiff. [90] + Wan [63] 6.2 5.0 3.0 3.4
+
+sequently, the model struggles with executing precise scene transitions (STA) and maintaining temporal alignment (TAMS). 
+
+5.5 User Study Generation quality. To further assess subjective human preference, we conduct a user study across three key dimensions: (i) Audio-Visual Quality (AVQ) ,evaluating the perceptual fidelity of generated videos and their accompanying audio; (ii) Multi-shot Identity Consistency (MIC) , measuring the stabil-ity of role attributes across shot boundaries without identity blending; and (iii) 
+
+Audio/Video Narrative Adherence (ANA/VNA) , assessing the precise alignment between generated audio/video events and the structured scripting. In each experiment, participants are presented with generated audio-visual re-sults from MAVIN and baseline methods, alongside the input free-form prompts. They are asked to select the result that best aligns with each evaluation dimen-sion. We conduct the user study on Amazon Mechanical Turk (AMT) using 20 samples randomly selected from the MAVINSet dataset, with results polled from 25 volunteers. As shown in Tab. 3, our framework consistently achieves the highest preference scores across all dimensions, demonstrating superior human subjective performance. 
+
+Agent quality. To evaluate whether the multi-agent scripting pipeline effec-tively produces reliable hierarchical captions for downstream inference, we con-duct an additional user study to measure the alignment between generated cap-tions and intended narrative semantics. We ask 25 volunteers to evaluate 20 random samples and categorize the generated caption quality as “Failed”, “Bor-derline”, “Acceptable”, or “Perfect”. The resulting distribution is 1.2%, 4.2%, 10.4%, and 84.2%, respectively. With 94% of the ratings being “Acceptable” or higher, demonstrating the robustness and reliability of our scripting pipeline. 
+
+6 Conclusion 
+
+In this paper, we present MAVIN, the first framework for multi-shot audio-visual generation with customized narrative control. To resolve the challenge of tempo-ral misalignment across complex timelines, we introduce boundary-aware atten-tion, which enforces temporal alignment for shot transitions, dialogue intervals, MAVIN: Multi-Shot Audio-Visual Generation 15 
+
+and narrative events. Furthermore, we propose ID-aware propagation to over-come the limitations of multi-subject controllability, maintaining precise charac-ter consistency via image and audio references. To tackle incomplete scripting, we design a multi-agent scripting pipeline that translates free-form user inputs into hierarchical captions. Finally, we construct the MAVINSet dataset to facil-itate robust training and evaluation. We believe our framework opens up a new avenue for integrating generative models into professional filmmaking workflows. 
+
+Limitation. Our model can produce videos of up to 15 seconds with a maxi-mum of 3 customized characters. In its current state, deploying our framework for practical filmmaking workflows still requires iterative prompting and manual post-processing. For future exploration, by integrating stronger foundation mod-els and scaling up the parameters, its practical utility could be further improved. Supplementary Material of MAVIN: Multi-Shot Audio-Visual Generation with Customized Narrative Control 
+
+A Applications 
+
+Beyond standard audio-visual generation, our framework supports several highly practical creative workflows. We present representative application scenarios in Fig. S1, details as follows. Please refer to the supplementary video for compre-hensive results. 
+
+Speaking pacing control. Our framework enables explicitly specifying dia-logue intervals by providing shot-level prompts ( e.g ., “C1 replies 1.9–2.5s: ‘You knew–” ’). As presented in Fig. S1 (a), this makes it possible for users to intu-itively adjust the speaking pace simply by shortening or prolonging these dia-logue intervals. 
+
+Scripting narrative editing. Since the narrative script is text-based and di-rectly accessible to users, once the script is generated by the multi-agent script-ing pipeline, users can flexibly modify it according to their creative intentions (e.g ., steering the story’s progression in a different direction). As presented in Fig. S1 (b), this effectively lowers the barrier to professional filmmaking. 
+
+Customized identity manipulation. With the proposed ID-aware propaga-tion, users can provide image and audio references, freely assigning specific visual appearances and vocal timbres to characters within the cinematic narrative ( e.g ., assigning the same character different vocal styles across scenes). As presented in Fig. S1 (c), this makes the generation process highly flexible and creative. 
+
+Intelligent script planning. Our multi-agent scripting pipeline effectively transforms users’ free-form prompts ( e.g ., a single sentence) into comprehensive audio-visual narratives ( i.e ., hierarchical captions with decoupled global, shot, and role-level narrative semantics). As presented in Fig. S1 (d), this significantly simplifies script planning for professional filmmaking workflows. 
+
+B Additional Experiments 
+
+We provide additional comparison baselines to comprehensively evaluate our framework’s superiority. 
+
+B.1 Additional Comparison with Cascaded Models 
+
+We further extend the quantitative evaluation with cascaded Text-to-Audio (T2A) and Audio-to-Video (A2V) pipelines, where an audio track is first gener-ated and subsequently used to drive video generation models. The quantitative results are presented in Tab. S1. MAVIN: Multi-Shot Audio-Visual Generation 17 (a) Speaking Pacing Control 
+
+Slow Pace (12s) 
+
+Middle Pace (8s) 
+
+Fast Pace (6s) 
+
+<Story><ID1> aggressively interrogates <ID2> about “the cinnamon ” in a tense industrial room...</Story><Role>2 characters. <ID1>: Caucasian man, late 30s, short dark hair, stubble, dark suit, sharp American accent... <ID2>: Caucasian man, 30s, long wavy hair, beard, nose ring, 
+
+grey shirt and vest, fearful American accent...</Role><Background>Dim industrial room with blue-toned lighting, fluorescent light behind <ID1>, ambient hum...</Background><style>Realistic cinematic scene with cool lighting and tense atmosphere...</style><Scene>4 shots. <shot_1 
+
+start="..." end="..."><speech speaker="<ID1>">What about the cinnamon?</speech></shot_1> <shot_2 start="..." end="..."><speech speaker="<ID2>">I have no idea what you're talking about.</speech></shot_2> <shot_3 start="..." end="..."><speech speaker="<ID1>">You must 
+
+know... What about the cinnamon?</speech></shot_3> <shot_4 start="..." end="...">...</shot_4></Scene> 
+
+Global Prompt 
+
+Shot1 Shot2 Shot3 Shot4 
+
+Shot1 Shot2 Shot3 Shot4 
+
+Shot1 Shot2 Shot3 Shot4 
+
+(c) Customized Identity Manipulation 
+
+(b) Scripting Narrative Editing 
+
+<shot_2 start="2.2" end="4.8"><section>...snow falls between <ID1> 
+
+and <ID2>...</section></shot_2><shot_3 start="4.8" 
+
+end="7.0"><section>...<speech speaker="<ID2>">Do you still 
+
+believe that?</speech></section></shot_3> 
+
+Edited Storyboard2 
+
+Prompt1 (Voice Sharing) 
+
+Prompt2 (Voice Switching) 
+
+<Story><ID1> and <ID2> talk in a snowy night...</Story><Role>2 characters. <ID1>: red-haired woman, fur coat, English accent... 
+
+<ID2>: bearded man, fur coat, Northern English accent...</Role><Background>Dark snowy outdoor scene with cool lighting, falling 
+
+snow, blurred woods...</Background><style>Realistic cinematic scene with cool tones and tense mood...</style><Scene>3 shots. 
+
+<shot_1 start="0.0" end="3.7"><speech speaker="<ID1>">As near as I can remember.</speech></shot_1> ...</Scene> 
+
+<shot_2 start="3.7" end="6.4"><section>...<speech 
+
+speaker="<ID2>">That was the first night we 
+
+met.</speech></section></shot_2><shot_3 start="6.4" 
+
+end="8.7"><section>...<speech speaker="<ID1>">I think I knew 
+
+then.</speech></section></shot_3> 
+
+Edited Storyboard1 
+
+Shot1 
+
+<Story><ID1> and <ID2> discuss a doomed cause...</Story><Role>2 characters. <ID1>: listening... <ID2>: speaking...</Role><Background>Windy outdoor...</Background><style>Realistic scene...</style><Scene>4 shots. <shot_1 start="0.0" end="1.6"><section>...<speech 
+
+start="0.0" end="1.5" speaker="<ID2>">No matter how righteous...</speech></section></shot_1> <shot_2 start="1.6" end="3.1"><section>...<speech start="1.6" end="3.0" speaker="<ID2>">...doomed...</speech></section></shot_2> <shot_3 start="3.1" 
+
+end="4.4"><section>...</section></shot_3> <shot_4 start="4.4" end="10.8"><section>...<speech start="4.4" end="9.6" speaker="<ID2>">We've done all we could... it's over...</speech></section></shot_4></Scene> 
+
+(d) Intelligent Script Planning 
+
+A man seriously tells another, “No matter how righteous, it 
+
+was doomed from the start. We've done all we could, but 
+
+now it's over. I'll not have my kin die for nothing, ” while the 
+
+other listens silently. 
+
+User ’s Input 
+
+Structured Prompt 
+
+<Scene duration="12s"><shot_1 start="0" end="3.4">...</shot_1><shot_2 start="3.4" end="8.1">...</shot_2><shot_3 start="8.1" end="10.5">...</shot_3><shot_4 start="10.5" end="12">...</shot_4></Scene> 
+
+<Scene duration="8s"><shot_1 start="0" end="2.2">...</shot_1><shot_2 start="2.2" end="5.1">...</shot_2><shot_3 start="5.1" end="7.2">...</shot_3><shot_4 start="7.2" end="8">...</shot_4></Scene> 
+
+<Scene duration="6s"><shot_1 start="0" end="1.4">...</shot_1><shot_2 start="1.4" end="3.1">...</shot_2><shot_3 start="3.1" end="5.3">...</shot_3><shot_4 start="5.3" end="6">...</shot_4></Scene> 
+
+Shared Storyboard 
+
+Shot2 
+
+Shot2 
+
+Shot3 
+
+Shot3 
+
+Shot1 Shot2 Shot3 Shot4 
+
+...<Scene>3 shots. <shot_1><section>...<speech 
+
+speaker="<ID1>" voice_id="shared_voice_01">I 
+
+agree.</speech></section></shot_1> ... 
+
+...<shot_2 start="3.4" end="7.0"><section>...<speech 
+
+speaker="<ID1>">... switch s to another 
+
+voice.</speech></section></shot_2>... 
+
+Shot1 Shot2 Shot3 
+
+Shot1 Shot2 
+
+Fig. S1: Representative application scenarios. Our proposed MAVIN framework en-ables highly practical and controllable creative workflows for professional filmmaking. 
+
+Metrics. We conduct this evaluation using the same metrics detailed in Sec. 5.2 of the main paper, including quality (FVD and FAD), semantics (TVS, TAS, and WER), AV-alignment (Sync, AV-IB, and TAMS), and multi-shot consistency (SC, BC, CISC, BISC, and STA). 
+
+Baselines. Following common practice in prior audio-visual generation works [42, 49,66], we construct representative cascaded baselines by separately pairing Au-dioLDM2 [40] with TempoTokens [83] and MTV [70]. 
+
+Analysis. For visual quality, MAVIN significantly outperforms the baseline methods [70, 83], demonstrating superior FVD and TVS scores. Furthermore, since current T2A models ( e.g ., AudioLDM2 [40]) struggle to generate intelli-gible speech, the WER and TAMS metrics are inapplicable to these baselines. Moreover, MAVIN achieves significantly stronger lip synchronization (Sync). 18 K. Liu et al. 
+
+Table S1: Additional quantitative comparison with cascaded T2A and A2V baselines. Method Quality Semantics AV-Alignment Multi-shot Consistency FVD ↓ FAD ↓ TVS ↑ TAS ↑ WER ↓ Sync ↑ AV-IB ↑ TAMS ↑ SC ↑ BC ↑ CISC ↑ BISC ↑ STA ↑                                       
+
+> - Cascaded Generation Models: T2A+A2V
+> TempoTokens [83] 802.4 17.3 0.097 0.1793 –2.35 0.117 –0.9601 0.9621 0.3137 0.4005 –MTV [70] 382.9 17.3 0.185 0.1793 –3.890 0.220 –0.9592 0.9586 0.5862 0.7325 –
+> - Joint Generation Models: T2AV
+> Ours (MAVIN) 231.6 6.8 0.2471 0.2392 0.048 6.032 0.263 0.8104 0.9695 0.9657 0.6319 0.8013 0.9897
+
+Table S2: Additional quantitative comparison with personalized methods. Method Quality Semantics AV-Alignment Multi-shot Consistency Personalization FVD ↓ FAD ↓ TVS ↑ TAS ↑ WER ↓ Sync ↑ AV-IB ↑ TAMS ↑ SC ↑ BC ↑ CISC ↑ BISC ↑ STA ↑ VC ↑ AC ↑                                                                           
+
+> - Cascaded: Image-Referenced Video Generation + V2A
+> Phantom [43] 275.3 11.7 0.2318 0.2189 –2.396 0.202 –0.9663 0.9546 0.6026 0.7149 –0.6285 –VACE [29] 253.4 12.3 0.2296 0.2293 –2.513 0.212 –0.9677 0.9574 0.5834 0.6997 –0.6049 –
+> - Cascaded: Audio-Referenced Speech Generation + A2V
+> CosyVoice [13] 324.2 7.2 0.2014 0.2205 0.053 3.821 0.235 –0.9583 0.9584 0.5739 0.7572 ––0.5002 F5-TTS [8] 336.4 7.5 0.2099 0.2186 0.046 3.804 0.229 –0.9591 0.9589 0.5813 0.7669 ––0.5610
+> - Joint: Identity-Referenced AV Generation
+> Ours (MAVIN) 241.9 6.9 0.2463 0.2391 0.049 6.057 0.266 0.793 0.9682 0.9653 0.6397 0.7996 0.9886 0.6259 0.4716
+
+B.2 Additional Comparison with Personalized Methods 
+
+We additionally compare our MAVIN with personalized generation baselines to evaluate its capability for identity customization using reference images and audio. The qualitative and quantitative results are presented in Fig. S2 and Tab. S2, respectively. 
+
+Metrics. For personalized evaluation, we use ArcFace [12] to extract visual features from the reference portrait images and the generated face crops, calcu-lating the cosine similarity to measure Visual Consistency (VC). Similarly, we use WavLM [6] to extract audio features from the reference vocal track and the generated speech segments of the same identity, calculating the cosine similarity to measure Audio Consistency (AC). 
+
+Baselines. To enable a fair comparison, we complement the audio and video modalities for each baseline method. Specifically, image-referenced video genera-tion methods [29,43] are paired with a V2A model ( i.e ., Hunyuan-Foley [54]) for downstream audio generation. Conversely, audio-referenced speech generation methods [8, 13] are paired with a A2V model ( i.e ., MTV [70]) for downstream video generation. 
+
+Analysis. As shown in Tab. S2, image-referenced video generation methods [29, 43] typically lack fine-grained lip synchronization, causing downstream V2A models to fail at generating intelligible speech. Consequently, the WER and TAMS metrics are inapplicable for these methods. On the other hand, while audio-referenced speech generation methods [8, 13] provide customized vocals, they typically ignore ambient sound effects. Furthermore, the limited capabili-ties of downstream A2V models degrade the overall visual quality, resulting in inferior AV-IB and FVD scores. MAVIN: Multi-Shot Audio-Visual Generation 19 <Story>Young man and woman converse indoors.</Story><Role>2 characters. <ID1>: young woman... calm tone. <ID2>: young man... calm tone.</Role><Background>Indoor room... soft 
+
+> lighting...</Background><style>Realistic... neutral...</style><Scene>The video contains 3 shots.<shot_1>[2.4 seconds]: <section><ID1> faces <ID2>... speaks. <speech start="0.0" end="2.2"
+> speaker="<ID1>">...</speech></section><shot_2>[2.1 seconds]: <section><ID2> faces <ID1>... speaks. <speech start="2.9" end="4.2" speaker="<ID2>">...</speech></section><shot_3>[2.3
+> seconds]: <section><ID1> faces <ID2>... speaks. <speech start="5.5" end="6.8" speaker="<ID1>">...</speech></section></Scene>
+
+User 
+
+Prompt 
+
+(b) Audio-Referenced Speech Generation + A2V 
+
+(a) Image-Referenced Video Generation + V2A   
+
+> Phantom Ours
+> Shot1 Prompt Shot2 Prompt Shot3 Prompt
+
+(c) Identity-Referenced AV Generation 
+
+> VACE CosyVoice F5-TTS
+
+Fig. S2: Qualitative comparison with personalized methods. Given the same image and audio references, MAVIN achieves superior identity preservation. 
+
+C Additional Details 
+
+To ensure reproducible results and a transparent workflow, we provide compre-hensive details for the pipeline, metrics, and dataset. 
+
+C.1 Multi-Agent Scripting Pipeline Details 
+
+As introduced in Sec. 4.4 of the main paper, we employ a multi-agent scripting pipeline to transform free-form user prompts into hierarchical captions. A de-tailed example is illustrated in Fig. S3, and the specific components are described as follows. 
+
+Input validation. We first perform an initial input validation process. We uti-lize a VLM [80] to detect temporal, spatial, logical, and role-level conflicts ( e.g ., inconsistent shot order, contradictory actions, and ambiguous speaker assign-ments). The model attempts to resolve these conflicts by reorganizing the user input, while being strictly prohibited from introducing any information not pro-vided by the user. If the conflicts persist, the input is considered invalid, and the process is terminated. 
+
+Structure parser. The structure parser converts the validated prompt into a temporally grounded shot plan. It decomposes the narrative into cinematic shots with explicit temporal boundaries {T s
+
+i }Si=1 , identifies the role set R, and extracts 20 K. Liu et al. 
+
+dialogue spans {T r 
+
+> j
+
+}j∈R for each role. This step establishes the shot structure utilized by our boundary-aware attention mechanism. 
+
+Identity aligner. When the user provides optional image or audio references, the identity aligner binds these references to the corresponding characters. It summarizes stable appearance cues, speaking traits, and identity tags into role-level descriptions, which subsequently serve as the explicit conditioning signals for our ID-aware propagation. 
+
+Narrative refiner. Given the established shot structure and role bindings, the narrative refiner enriches the script with shot-level actions, camera language, ambient audio, and dialogue phrasing, while strictly preserving the previously determined timestamps and identities. The final output is a hierarchical caption: 
+
+C =
+
+n
+
+Cglobal , {(Cshot  
+
+> i
+
+, T si )}Si=1 , {(Crole  
+
+> j
+
+, T rj )}j∈R 
+
+o
+
+. (S1) 
+
+C.2 Additional Implementation Details 
+
+While the primary training configurations are presented in Sec. 5.1 of the main paper, we provide further implementation details as follows. 
+
+Optimization. We optimize the framework using the AdamW [45] optimizer (β1 = 0 .9, β2 = 0 .95 , ϵ = 1 × 10 −8). In practice, the flow matching losses for the video and audio branches are assigned weights of 0.85 and 0.15, respectively. During progressive training, the model is trained for 60K, 20K, and 15K steps across the respective stages. All stages are conducted with a learning rate of 
+
+5 × 10 −5. The total training takes approximately 120 hours on 40 GPUs to reach convergence. During inference, it takes 289 seconds to generate an audio-visual result on a single GPU. 
+
+Dynamic resolution and duration. To be compatible with diverse aspect ratios and clip lengths, we adopt a bucket-based dynamic sampling strategy. Each training sample is assigned to a predefined 480p resolution bucket with a specific aspect ratio and is center-cropped before VAE encoding. All bucket resolutions are strictly divisible by the model patch size to ensure compatible latent tokenization. Video clips have durations between 3 and 15 seconds. The frame count is adjusted to the maximum possible value that satisfies the temporal downsampling constraint of 4k + 1 . Audio segments are synchronously trimmed within the same temporal window to maintain strict audio-visual alignment. 
+
+C.3 Evaluation Metrics Details 
+
+As illustrated in Sec. 5.2 of the main paper, we adopt comprehensive metrics for evaluating our framework. Among these, all standard metrics ( i.e ., FVD, FAD, TVS, TAS, WER, Sync, and AV-IB) follow their original implementations. Since previous works lack specific metrics for multi-shot evaluation, we additionally introduce four novel metrics. The detailed formulations are provided as follows. 
+
+Time Alignment Metric for Speech (TAMS). To evaluate whether the generated speech occurs within the corresponding temporal segments, we intro-duce a time alignment metric based on the temporal Intersection-over-Union MAVIN: Multi-Shot Audio-Visual Generation 21 
+
+(IoU) between predicted speech activity and ground-truth speech intervals. For each sample, we obtain the ground-truth speech segments from annotated times-tamps G = SMi=1 gi and the predicted speech segments using a voice activity detector [71] P = SNj=1 pj , where gi and pj denote the i-th ground-truth and 
+
+j-th predicted speech intervals, and M and N represent the total number of intervals, respectively. TAMS is then defined as the temporal IoU between the predicted and ground-truth speech intervals: 
+
+TAMS = |G ∩ P| |G ∪ P| , (S2) where | · | denotes the total temporal duration of an interval set. This metric penalizes both missing speech (false negatives) and speech occurring outside the designated intervals (false positives), thereby measuring whether the generated speech aligns precisely with the intended timestamps. 
+
+Character and Background Inter-shot Consistency (CISC/BISC). To measure visual consistency across different shots, a straightforward approach is to extract ViCLIP [68] features for each shot and compute the global cosine sim-ilarity between them. However, different shots may intentionally depict different characters or scenes, and directly comparing all shots may ignore such diversity and lead to biased measurements. To obtain a more reliable estimate, we group shots according to shared identities. Specifically, let Pchar and Pbg denote the sets of all predicted shot pairs (i, j ) that are annotated to share the same character and background scene, respectively. For each shot i, we extract its visual feature 
+
+pi using a pre-trained ViCLIP model. The final Character Inter-shot Consistency (CISC) and Background Inter-shot Consistency (BISC) are formally defined as the average cosine similarity over these matched pairs: 
+
+CISC = 1
+
+|P char |
+
+X
+
+> (i,j )∈P char
+
+cos( pi, p j ), BISC = 1
+
+|P bg |
+
+X
+
+> (i,j )∈P bg
+
+cos( pi, p j ), (S3) where cos( pi, p j ) = pi·pj  
+
+> ∥pi∥2∥pj∥2
+
+, and |·| denotes the total number of predicted pairs in the respective set. Higher CISC and BISC scores indicate better preservation of identity and background consistency across complex multi-shot narratives. 
+
+Shot Transition Accuracy (STA). To evaluate whether the generated video follows the prescribed shot-transition structure, we introduce Shot Transition Accuracy (STA), which jointly measures the correctness of the number of tran-sitions and the temporal precision of their locations. Given the ground-truth transition frame set G = {g1, g 2, . . . , g M } and the predicted transition frame set 
+
+P = {p1, p 2, . . . , p N } obtained by applying TransNetV2 [56] to the generated video, we first perform one-to-one matching between G and P to minimize the overall temporal deviation. For each matched pair (p, g ), the alignment error is measured by the absolute frame difference |p − g|. Unmatched ground-truth and predicted transitions are collectively treated as unaligned transitions, and are assigned a fixed penalty δ. Let N denote the set of matched pairs, and let 22 K. Liu et al. 
+
+Nunmat denote the total number of unmatched transitions. We then define: 
+
+STA = exp −
+
+P 
+
+> (p,g )∈N
+
+|p − g| + δ · Nunmat 
+
+Ntotal 
+
+!
+
+, (S4) where Ntotal is the total number of frames in the video. STA ranges in (0 , 1] ,with a higher score indicating better agreement between the generated transition structure and the target timeline. 
+
+C.4 Dataset Samples 
+
+As introduced in Sec. 3 of the main paper, we propose MAVINSet tailored for multi-shot audio-visual generation. To provide an intuitive understanding of the data structure, we randomly select samples and present them in Fig. S4, show-casing the detailed hierarchical captions paired with their corresponding audio-visual shots. MAVIN: Multi-Shot Audio-Visual Generation 23 Prompts for Agents 
+
+You are a Consistency Validator. Your task is to minimally revise a user-
+
+provided narrative prompt so that everything remains identical to the original 
+
+except for genuinely contradictory portions, which must be resolved by 
+
+preserving the more detailed, specific, or logically consistent version already 
+
+present in the input. 
+
+Analyze the narrative for inconsistencies in: 
+
+1) Temporal conflicts (story order or incompatible time descriptions). 
+
+2) Spatial conflicts (characters appearing in incompatible locations). 
+
+3) Character conflicts (identity, roles, or participant counts). 
+
+4) Logical conflicts (causal contradictions). 
+
+5) Physical conflicts (violations of basic physical plausibility). 
+
+If conflicts exist, reconcile them using only information already present in the 
+
+input. 
+
+Resolution principles: 
+
+- Make the smallest possible change; keep all non-contradictory content 
+
+unchanged. 
+
+- Prefer more specific and detailed descriptions over vague ones. 
+
+- If a brief statement conflicts with a more detailed one, update the brief 
+
+statement to match the detailed version. 
+
+- Reconcile statements when possible instead of deleting one. 
+
+- Preserve the original narrative intent. 
+
+If no inconsistencies are found, return the input unchanged. 
+
+Output format: 
+
+{\"refined_input\": \"the revised narrative prompt after validation\", 
+
+\"review_report\": \"a concise explanation of detected conflicts and 
+
+resolutions\", \"has_contradictions\": true or false } 
+
+Constraints: 
+
+- Do not introduce new characters, storys, or narrative elements. 
+
+- Do not expand the story beyond the input. 
+
+- Only adjust existing content to ensure internal consistency. 
+
+- Output only the JSON object. 
+
+You are a Structure Parser in a video generation pipeline. Convert a narrative 
+
+prompt into structured narrative captions using the schema below. Extract and 
+
+organize only information explicitly present in the input without adding new 
+
+facts. 
+
+Global rules: 
+
+1) Extract only information explicitly stated in the input. 
+
+2) If a field is not mentioned, leave it as an empty string. 
+
+3) Do NOT infer: number of characters, number of shots, shot timestamps, or 
+
+dialogue timing. 
+
+4) Do NOT introduce new characters or storys. 
+
+5) Always preserve the full JSON schema exactly. 
+
+6) character_caption and shot_caption must always appear. 
+
+7) Fill shot_caption only if the input explicitly provides shot-level structure 
+
+(e.g., \"shot1\", \"first shot\", or clearly separated shot descriptions). 
+
+8) If no explicit shot-level structure exists: put all narrative content into 
+
+global_caption.Story, set shot_caption.num_shots to \"\", and use a single 
+
+placeholder shot. 
+
+9) A continuous narrative paragraph does NOT count as shot structure unless 
+
+explicitly labeled. 
+
+10) Do NOT split storys into multiple shots unless the input explicitly does so. 
+
+Output schema (one-line JSON example): 
+
+{\"global_caption\":{\"Story\":\"\",\"Background\":\"\",\"Style\":\"\",\"Music\":\ 
+
+"\"},\"character_caption\":{\"num_characters\":\"\",\"characters\":[{\"id\":\"<ID 
+
+1>\",\"appearance\":\"\",\"voice\":\"\"}]},\"shot_caption\":{\"num_shots\":\"\",\" 
+
+shots\":[{\"start_time\":\"\",\"end_time\":\"\",\"description\":\"\"}]}} 
+
+Field guidance: 
+
+- Story: main narrative; if no shot structure exists, store the entire narrative here. 
+
+- Background: environment, location, weather, atmosphere. 
+
+- Style: visual or cinematic style. 
+
+- Music: background music or sound atmosphere if mentioned. 
+
+- num_characters and num_shots: fill only if explicitly stated. 
+
+- characters: appearance = physical traits mentioned; voice = vocal traits 
+
+mentioned. 
+
+- shots: preserve list structure; only include explicitly described shot 
+
+information. 
+
+Output requirements: 
+
+- Return a valid JSON object only. 
+
+- Do not change field names or hierarchy. 
+
+- Do not add explanations. 
+
+Step1: Input Validation 
+
+Step2: Structure Parser 
+
+Multi-Agent Scripting Pipeline 
+
+t
+
+prompt="You are a Narrative Refiner in a video generation pipeline. 
+
+Your task is to complete and refine structured narrative captions for 
+
+multi-shot audio-visual generation. 
+
+Input: 
+
+{
+
+global_caption, 
+
+character_caption, 
+
+shot_caption 
+
+}
+
+Some fields may be empty. 
+
+Goal: 
+
+Fill missing fields, refine existing descriptions, and expand shots 
+
+while preserving the original narrative intent and core facts. 
+
+Core rules: 
+
+1) Do NOT change the core story, character relationships, or storyline. 
+
+2) Do NOT introduce new main characters or contradictory storys. 
+
+3) Preserve the JSON schema exactly. 
+
+4) Keep all original information; you may elaborate with cinematic, 
+
+atmospheric, or character detail if consistent with the input. 
+
+5) You may expand shots from global_caption.Story but must not 
+
+remove any story facts. 
+
+6) Outside dialogue text, all character references must use normalized 
+
+IDs such as <ID1>, <ID2>. 
+
+7) Output must be strict valid JSON using ASCII double quotes. 
+
+Field rules: 
+
+- Empty fields may be generated from context. 
+
+- Non-empty fields must keep their original meaning while being 
+
+refined. 
+
+- Do not delete valid input information. 
+
+Character rules: 
+
+- num_characters may be inferred from the characters list. 
+
+- appearance and voice may be refined or elaborated but must preserve 
+
+original identity cues. 
+
+- appearance focuses on stable visual traits (face, hair, build, posture). 
+
+- voice focuses on stable vocal traits (pitch, pace, timbre, resonance). 
+
+Shot rules: 
+
+- If shots are missing or incomplete, design them from 
+
+global_caption.Story. 
+
+- If shots exist, expand them without removing story information. 
+
+- You may generate: num_shots, shot order, descriptions, start_time, 
+
+end_time. 
+
+- Timing must be continuous and non-overlapping. 
+
+Refinement focus: 
+
+- Strengthen actions, expressions, and interactions. 
+
+- Add camera language (close-up, medium, wide, pans, cuts) when 
+
+useful. 
+
+- Add lighting, weather, and environmental detail when helpful. 
+
+- Refine dialogue slightly without changing meaning. 
+
+Dialogue annotation: 
+
+If dialogue appears, use exactly this format: 
+
+<ID_X> says, <speech start=\"a.b\" end=\"c.d\" 
+
+speaker=\"<ID_X>\">spoken text</speech> 
+
+Speech rules: 
+
+1) Every speech must use the exact format above. 
+
+2) Each <speech> tag must have one opening and one closing 
+
+</speech>. 
+
+3) Speaker before \"says\" must match speaker=\"<ID_X>\". 
+
+4) Speech text must contain only spoken words. 
+
+5) Multiple speeches must be separate units. 
+
+6) start and end must fall within the shot and satisfy start < end. 
+
+7) Speech duration must match dialogue length. 
+
+8) Do not invent unrelated dialogue. 
+
+9) If speech exists, add timing; if none exists, do not add dialogue. 
+
+Refinement scope: 
+
+- global_caption: refine Story, Background, Style, Music. 
+
+- character_caption: complete num_characters and refine 
+
+appearance/voice. 
+
+- shot_caption: create or expand shots, enrich descriptions, add 
+
+timestamps, and annotate dialogue when needed. 
+
+Output: 
+
+Return a valid JSON object only. 
+
+Do not change field names or hierarchy. 
+
+Step4: Narrative Refiner 
+
+You are an Image Identity Aligner in a video generation pipeline. Your task is 
+
+to align character identity using structured narrative captions and a reference 
+
+image. 
+
+Your goal is to supplement missing appearance attributes while keeping 
+
+character identity consistent with the captions. 
+
+Global rules: 
+
+1) Treat the input captions as the primary source of truth. 
+
+2) Use the reference image to supplement missing appearance information. 
+
+3) If any part of the reference image conflicts with the existing caption, keep 
+
+the caption for the conflicting part. 
+
+4) Non-conflicting appearance details from the reference image may still be 
+
+added normally. 
+
+5) Do NOT introduce new characters. 
+
+6) Preserve the exact JSON schema. 
+
+Appearance rules: 
+
+- Use the existing appearance description in the caption as the primary 
+
+description. 
+
+- Supplement only the missing appearance attributes. 
+
+- Appearance should describe stable visual identity traits only, such as: 
+
+- facial features; 
+
+- head shape; 
+
+- face shape; 
+
+- hairstyle ;
+
+- hair color ;
+
+- skin tone; 
+
+- body type / build 
+
+- other stable visible identity traits supported by the inputs 
+
+- Do not include actions, scene context, shot information, temporary pose, or 
+
+motion state. 
+
+- Do not speculate about attributes that are not clearly supported by the 
+
+caption or the reference image. 
+
+Output requirements: 
+
+- Preserve the exact JSON schema. 
+
+- Update only the appearance-related identity information supported by the 
+
+inputs. 
+
+- Return only the JSON object. 
+
+Step3: Identity Aligner 
+
+3.1 Image 
+
+You are an Audio Identity Aligner in a video generation pipeline. Your task is 
+
+to align character identity using structured narrative captions and a reference 
+
+audio signal. 
+
+Your goal is to supplement missing voice attributes while keeping character 
+
+identity consistent with the captions. 
+
+Global rules: 
+
+1) Treat the input captions as the primary source of truth. 
+
+2) Use the reference audio to supplement missing voice information. 
+
+3) If any part of the reference audio conflicts with the existing caption, keep 
+
+the caption for the conflicting part. 
+
+4) Non-conflicting voice details from the reference audio may still be added 
+
+normally. 
+
+5) Do NOT introduce new characters. 
+
+6) Preserve the exact JSON schema. 
+
+Voice rules: 
+
+- Use the existing voice description in the caption as the primary description. 
+
+- Supplement only the missing voice attributes. 
+
+- Voice should describe stable vocal identity traits only, such as: 
+
+- pitch; 
+
+- speaking rate; 
+
+- timbre; 
+
+- tone quality; 
+
+- resonance; 
+
+- vocal texture ;
+
+- other stable voice traits supported by the inputs 
+
+- Do not include dialogue content, timing information, or momentary 
+
+performance details unless explicitly described as stable identity traits in the 
+
+caption. 
+
+- Do not speculate about attributes that are not clearly supported by the 
+
+caption or the reference audio. 
+
+Output requirements: 
+
+- Preserve the exact JSON schema. 
+
+- Update only the voice-related identity information supported by the inputs. 
+
+- Return only the JSON object. 
+
+3.2 Voice 
+
+User Input: 
+
+Ref Audios  
+
+> ID1 ID2
+> (Optional)
+
+Ref Images  
+
+> ID1 ID2
+> (Optional)
+
+1. Input Validation 
+
+Detects internal contradictions in the narrative (temporal, spatial, character, logical, or physical) and minimally revises the prompt 
+
+by prioritizing the more detailed and logically consistent description. 
+
+2. Structure Parser 
+
+Hierarchical Caption: 
+
+A spaceship lands on a strange glowing 
+
+planet during the day. The sky above the 
+
+planet is pitch black and filled with bright 
+
+stars. Two astronauts look around and say, 
+
+“We made it. ” Divide it into five shots. 
+
+Result: 
+
+{
+
+"refined_input": "A spaceship lands on a strange glowing planet at night. The sky above the planet is pitch black and filled with bright 
+
+stars. An astronaut looks around and says, \"We made it.\" Divide it into five shots.", 
+
+"review_report": "A temporal contradiction was detected: the narrative first stated the landing happened during the day, but later 
+
+described the sky as pitch black and filled with stars. The more detailed description of the sky was preserved, and the earlier brief 
+
+statement was revised to 'at night' to maintain consistency.", 
+
+"has_contradictions": true 
+
+}
+
+Converts a validated narrative prompt into a structured caption schema by extracting explicitly stated narrative, environment, 
+
+character, and shot information without adding new details. 
+
+"global_caption": {"Story": "A 
+
+spaceship lands on a strange glowing ...", 
+
+"Background": "a strange glowing planet 
+
+at night; the sky is pitch ...", 
+
+"Style": "", "Music": ""} 
+
+"character_caption": { 
+
+"num_characters": "2", 
+
+"characters": [ 
+
+{"id": "< ID1> ", "appearance": "", "voice": ""}, 
+
+{"id": "< ID2> ", "appearance": "", "voice": ""} 
+
+]} 
+
+"shot_caption": { 
+
+"num_shots": "", 
+
+"shots": [ 
+
+{"start_time": "", "end_time": "", 
+
+"description": ""} 
+
+]} 
+
+3. Identity Aligner (Image) 
+
+Adds missing visual identity 
+
+traits from a reference image. 
+
+{
+
+"character_caption": 
+
+{"num_characters": "2", 
+
+"characters": [ 
+
+{"id": "<ID1>", "appearance": 
+
+"human astronaut; round face; 
+
+short dark hair...", "voice": ""}, 
+
+{"id": "<ID2>", "appearance": 
+
+"human astronaut; oval face; 
+
+short brown hair...", "voice": ""} 
+
+]} 
+
+}
+
+3. Identity Aligner (Voice) 
+
+Adds missing vocal identity traits 
+
+from the reference au dio. 
+
+{
+
+"character_caption": 
+
+{"num_characters": "2", 
+
+"characters": [ 
+
+{"id": "<ID1>", "appearance": 
+
+"", "voice": "medium pitch; calm 
+
+tone... rate"}, 
+
+{"id": "<ID2>", "appearance": 
+
+"", "voice": "slightly low pitch; 
+
+steady tone; warm timbre; slow 
+
+speaking ..."} 
+
+]} 
+
+}
+
+4. Narrative Refiner 
+
+Completes and enriches structured captions by filling missing fields and expanding the narrative into coherent multi-shot scenes. 
+
+"global_caption": {"Story": "A spaceship lands 
+
+on a strange glowing planet at night. Two 
+
+astronauts exit the spacecraft and observe the 
+
+alien environment. One astronaut realizes they 
+
+have successfully reached their destination and 
+
+says \"We made it.\"", 
+
+"Background": "a glowing alien planet under a 
+
+pitch-black sky filled with bright stars; faint 
+
+turquoise light radiates from the planet's 
+
+surface", 
+
+"Style": "cinematic science fiction; 
+
+atmospheric space exploration visuals", 
+
+"Music": "slow ambient sci-fi soundtrack with 
+
+soft synthesizer pads"} 
+
+"character_caption": {"num_characters": "2", 
+
+"characters": [ 
+
+{"id": "< ID1> ", 
+
+"appearance": "human astronaut; round face; 
+
+short dark hair; light skin tone; average build; calm 
+
+posture", 
+
+"voice": "medium pitch; calm tone; clear timbre; 
+
+moderate speaking rate"}, 
+
+{"id": "< ID2> ", 
+
+"appearance": "human astronaut; oval face; short 
+
+brown hair; medium skin tone; slim build; ...", 
+
+"voice": "slightly low pitch; steady tone; warm 
+
+timbre; slow speaking rate"} 
+
+]} 
+
+"shot_caption": {"num_shots": "5", 
+
+"shots": [ 
+
+{"start_time": "0.0", "end_time": "3.0", 
+
+"description": "Wide shot: a spaceship descends 
+
+through the star-filled night sky ..."}, 
+
+{"start_time": "3.0", "end_time": "6.0", 
+
+"description": "Medium shot: the spacecraft 
+
+hatch opens and < ID1> and < ID2> step ..."}, ... 
+
+{"start_time": "12.0", "end_time": "15.0", 
+
+"description": "< ID1> looks around the new world 
+
+and says, < speech start=\"12.4\" end=\"13.6\" 
+
+speaker=\"< ID1> \"> We made it.< /speech> "} 
+
+]} 
+
+Hard-coded JSON-to-XML conversion for 
+
+video generation. 
+
+<Story>Ship lands... <ID1>, <ID2> arrive... 
+
+"We made it."</Story> 
+
+<Role><ID1>, <ID2> astronauts...</Role> 
+
+<Background>Alien ... night...</Background> 
+
+<style>Sci-fi...</style><Scene>5 shots... 
+
+<shot_1 start="0.0" end="3.0">ship 
+
+lands...</shot_1> 
+
+<shot_2 start="3.0" end="6.0"><ID1>, <ID2> 
+
+exit...</shot_2> ... 
+
+<shot_5 start="12.0" end="15.0"><ID1> 
+
+<speech start="12.4" end="13.6" 
+
+speaker="<ID1>">We made 
+
+it.</speech></shot_5> 
+
+</Scene> 
+
+Fig. S3: An example of our multi-agent scripting pipeline. 24 K. Liu et al. <Story><ID1>, <ID2>, and <ID3> have a serious conversation in a cafe... <ID2> later answers a 
+
+phone call while <ID1> watches with concern.</Story> 
+
+<Role>There are 3 main characters. <ID1>: A middle-aged Caucasian man with short dark hair 
+
+wearing a dark suit, white shirt and blue tie... speaks with a standard American accent. <ID2>: A 
+
+middle-aged Caucasian woman with long reddish-brown hair wearing a maroon blazer and 
+
+patterned blouse... speaks with a standard American accent. <ID3>: A younger Caucasian man 
+
+with short dark wavy hair wearing a grey suit and light blue shirt...</Role> 
+
+<Background>The scene takes place in an indoor cafe... blurred wall with light green sections, 
+
+colorful artwork, window blinds showing faint street views, and indistinct patrons with ambient 
+
+cafe chatter.</Background> 
+
+<style>The video is realistic like a TV or film scene... soft diffused lighting, muted colors, natural 
+
+skin tones, medium saturation and contrast emphasizing dialogue and character 
+
+interaction.</style> 
+
+<Scene>The video contains 4 shots. <shot_1 start="0.0" end="3.3"><section>Close-up of <ID1> 
+
+speaking seriously toward <ID2> off-screen... <speech start="1.0" end="2.1" 
+
+speaker="<ID1>">I'd like to buy him a drink.</speech></section></shot_1> <shot_2 start="3.3" 
+
+end="4.5"><section>Reverse close-up of <ID2> listening with a slight smile while <ID1> appears 
+
+partially in frame... <speech start="3.6" end="4.5" 
+
+speaker="<ID2>">That's...</speech></section></shot_2> <shot_3 start="4.5" 
+
+end="5.9"><section>Close-up of <ID3> listening seriously while <ID2> continues speaking off-
+
+screen... <speech start="4.5" end="5.3" speaker="<ID2>">...that's...</speech></section></shot_3> 
+
+<shot_4 start="5.9" end="10.6"><section>Cut back to <ID1> and <ID2>... <ID2> answers a phone 
+
+call while <ID1> looks concerned. <speech start="6.1" end="10.1" speaker="<ID2>">Okay. 
+
+Brennan. Hi, Angela.</speech></section></shot_4></Scene> 
+
+Example1 
+
+<Story>In a dim dining room, <ID1>, <ID2>, and <ID3> have a serious conversation … <ID2> 
+
+suddenly reacts with shock.</Story> 
+
+<Role>There are 3 main objects in the video. <ID1>: A middle-aged Caucasian woman with 
+
+shoulder-length dark brown hair, wearing a black and white houndstooth jacket over a black top 
+
+and a small pendant necklace. She sits at a dining table holding a coupe glass with a dark drink. 
+
+<ID2>: An elderly Caucasian man with white hair and a white goatee, wearing a dark suit jacket 
+
+over a light blue collared shirt. He speaks with a standard American accent. <ID3>: A middle-
+
+aged Caucasian man with short dark hair, wearing a dark brown textured sweater. He speaks 
+
+with a standard American accent.</Role> 
+
+<Background>The scene takes place in a dimly lit dining room at night. A large window with 
+
+white frames shows darkness outside, with a patterned curtain nearby. A table with a light 
+
+tablecloth sits in the foreground, and objects such as a glass decanter appear behind <ID1>. Warm 
+
+blurred lights and a dark blue abstract painting are visible in the background.</Background> 
+
+<style>The video is realistic and resembles a dramatic TV or film scene. Warm artificial lighting 
+
+creates a subdued tone that emphasizes character expressions and dialogue. Colors are slightly 
+
+muted with medium saturation, subtle contrast and neutral color temperature.</style> 
+
+<Scene>The video contains 3 shots. <shot_1 start="0.0" end="2.8"><section>Eye-level medium 
+
+close-up of <ID1> sitting at the dining table holding a glass. She stares forward with a serious 
+
+expression while the camera slowly moves. <ID2> speaks off-screen, <speech start="0.0" 
+
+end="2.8" speaker="<ID2>">We're going to be the number one...</speech></section></shot_1> 
+
+<shot_2 start="2.8" end="6.4"><section>Cut to a close-up of <ID2> speaking. His expression 
+
+quickly shifts to wide-eyed shock and disbelief. <speech start="2.8" end="5.8" 
+
+speaker="<ID2>">...media conglomerate in the world.</speech></section></shot_2> <shot_3 
+
+start="6.4" end="8.2"><section>Cut to <ID3> seated and reacting with concern, looking slightly 
+
+to the side. <speech start="6.9" end="7.9" speaker="<ID3>">That's great, 
+
+Dad.</speech></section></shot_3></Scene> 
+
+Example2 
+
+<Story><ID1> and <ID2> talk seriously indoors … <ID2> questions something while <ID1> answers 
+
+calmly.</Story> 
+
+<Role>2 objects. <ID1>: young Caucasian man … dark wavy hair … tweed blazer, bow tie … British 
+
+accent. <ID2>: young Caucasian woman … long reddish hair … red top, bracelet … British 
+
+accent.</Role> 
+
+<Background>Warm indoor room … beige walls … intimate atmosphere.</Background> 
+
+<style>Realistic dialogue scene … warm lighting, muted colors.</style> 
+
+<Scene>4 shots. <shot_1 start="0.0" end="2.7"><section><ID1> speaks animatedly to <ID2>. 
+
+<speech start="0.0" end="2.4" speaker="<ID1>">I can run away from anything I like. Time is not 
+
+the boss of me.</speech></section></shot_1> <shot_2 start="2.7" end="4.1"><section><ID2> looks 
+
+concerned and asks a question. <speech start="2.8" end="4.0" speaker="<ID2>">Hang on, is that a 
+
+planet out there?</speech></section></shot_2> <shot_3 start="4.1" end="6.0"><section><ID1> 
+
+smiles reassuringly and replies. <speech start="4.3" end="5.6" speaker="<ID1>">Yes, of course it's 
+
+a planet.</speech><ID2> continues saying. <speech start="4.3" end="5.6" 
+
+speaker="<ID2>">...</speech> </section></shot_3> <shot_4 start="6.0" end="9.4"><section><ID2> 
+
+insists seriously. <speech start="6.0" end="9.0" speaker="<ID2>">You promised me a planet. Five 
+
+minutes?</speech></section></shot_4></Scene> 
+
+Example4 
+
+<Story><ID1> and <ID2> argue seriously in an office … switching between close-up shots.</Story> 
+
+<Role>2 objects. <ID1>: middle-aged man … dark hair … suit, striped tie … American accent. 
+
+<ID2>: young woman … reddish-blonde hair … grey blouse, necklace … American accent.</Role> 
+
+<Background>Modern office … desks and workers behind <ID1> … windows and office partitions 
+
+behind <ID2>.</Background> 
+
+<style>Realistic TV dialogue … bright professional lighting.</style> 
+
+<Scene>4 shots. <shot_1 start="0.0" end="1.7"><section>Close-up <ID1> speaking seriously. 
+
+<speech start="1.1" end="1.7" speaker="<ID2>">It wasn't all...</speech></section></shot_1> 
+
+<shot_2 start="1.7" end="4.1"><section>Reverse shot <ID2> listening with concern. <speech 
+
+start="1.9" end="2.8" speaker="<ID2>">...softballs?</speech></section></shot_2> <shot_3 
+
+start="4.1" end="7.0"><section><ID1> continues firmly. <speech start="4.3" end="7.0" 
+
+speaker="<ID1>">You were being hit in the face with a softball. I mean, just how inside this are 
+
+you?</speech></section></shot_3> <shot_4 start="7.0" end="9.3"><section><ID2> listens 
+
+worried as <ID1> continues off-screen. <speech start="7.0" end="9.1" 
+
+speaker="<ID1>">Because there isn't a world out there in which I get hung out to 
+
+dry.</speech></section></shot_4></Scene> 
+
+Example3 
+
+Fig. S4: Data samples from our proposed MAVINSet, illustrating the alignment be-tween hierarchical captions and multi-shot audio-visual sequences. MAVIN: Multi-Shot Audio-Visual Generation 25 
+
+References 
+
+1. Bain, M., Nagrani, A., Brown, A., Zisserman, A.: Condensed movies: Story based retrieval with contextual embeddings. In: Asian Conference on Computer Vision (2020) 2. Cai, S., Ceylan, D., Gadelha, M., Huang, C.H.P., Wang, T.Y., Wetzstein, G.: Generative rendering: Controllable 4D-guided video generation with 2D diffusion models. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2024) 3. Chatterjee, M., Cherian, A.: Sound2Sight: Generating visual dynamics from sound and context. In: European Conference on Computer Vision (2020) 4. Chen, H., Xie, W., Vedaldi, A., Zisserman, A.: VGGSound: A large-scale audio-visual dataset. IEEE International Conference on Acoustics, Speech and Signal Processing (2020) 5. Chen, K., Li, X., Li, Y., Tong, Y., Wu, J., Zeng, Y., Zhang, J., Zhou, Q.: Mo-tionBooth: Motion-aware customized text-to-video generation. Advances in Neural Information Processing Systems (2024) 6. Chen, S., Wang, C., Chen, Z., Wu, Y., Liu, S., Chen, Z., Li, J., Kanda, N., Yoshioka, T., Xiao, X., et al.: WavLM: Large-scale self-supervised pre-training for full stack speech processing. IEEE Journal of Selected Topics in Signal Processing (2022) 7. Chen, T.S., Siarohin, A., Menapace, W., Fang, Y., Lee, K.S., Skorokhodov, I., Aberman, K., Zhu, J.Y., Yang, M.H., Tulyakov, S.: Multi-subject open-set person-alization in video generation. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 8. Chen, Y., Niu, Z., Ma, Z., Deng, K., Wang, C., JianZhao, J., Yu, K., Chen, X.: F5-TTS: A fairytaler that fakes fluent and faithful speech with flow matching. In: Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) (2025) 9. Cheng, H.K., Ishii, M., Hayakawa, A., Shibuya, T., Schwing, A., Mitsufuji, Y.: MMAudio: Taming multimodal joint training for high-quality video-to-audio syn-thesis. IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 10. Chung, J.S., Zisserman, A.: Out of time: automated lip sync in the wild. In: Asian Conference on Computer Vision (2016) 11. Comanici, G., Bieber, E., Schaekermann, M., Pasupat, I., Sachdeva, N., Dhillon, I., Blistein, M., Ram, O., Zhang, D., Rosen, E., et al.: Gemini 2.5: Pushing the frontier with advanced reasoning, multimodality, long context, and next generation agentic capabilities. arXiv preprint arXiv:2507.06261 (2025) 12. Deng, J., Guo, J., Xue, N., Zafeiriou, S.: ArcFace: Additive angular margin loss for deep face recognition. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2019) 13. Du, Z., Chen, Q., Zhang, S., Hu, K., Lu, H., Yang, Y., Hu, H., Zheng, S., Gu, Y., Ma, Z., et al.: CosyVoice: A scalable multilingual zero-shot text-to-speech synthe-sizer based on supervised semantic tokens. arXiv preprint arXiv:2407.05407 (2024) 14. ElevenLabs: Introducing Scribe v2. https://elevenlabs.io/blog/introducing-scribe-v2 (2026), accessed: 2026-03-05 15. Elizalde, B., Deshmukh, S., Al Ismail, M., Wang, H.: CLAP: learning audio con-cepts from natural language supervision. In: IEEE International Conference on Acoustics, Speech and Signal Processing (2023) 16. Gao, Y., Guo, H., Hoang, T., Huang, W., Jiang, L., Kong, F., Li, H., Li, J., Li, L., Li, X., et al.: Seedance 1.0: Exploring the boundaries of video generation models. arXiv preprint arXiv:2506.09113 (2025) 26 K. Liu et al. 17. Gemmeke, J.F., Ellis, D.P., Freedman, D., Jansen, A., Lawrence, W., Moore, R.C., Plakal, M., Ritter, M.: Audio set: An ontology and human-labeled dataset for audio events. In: IEEE international conference on acoustics, speech and signal processing (2017) 18. Geng, D., Herrmann, C., Hur, J., Cole, F., Zhang, S., Pfaff, T., Lopez-Guevara, T., Aytar, Y., Rubinstein, M., Sun, C., Wang, O., Owens, A., Sun, D.: Motion Prompt-ing: Controlling video generation with motion trajectories. IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 19. Ghermi, R., Wang, X., Kalogeiton, V., Laptev, I.: Long Story Short: Story-level video understanding from 20k short films. arXiv preprint arXiv:2406.10221 (2025) 20. Girdhar, R., El-Nouby, A., Liu, Z., Singh, M., Alwala, K.V., Joulin, A., Misra, I.: Imagebind: One embedding space to bind them all. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2023) 21. HaCohen, Y., Brazowski, B., Chiprut, N., Bitterman, Y., Kvochko, A., Berkowitz, A., Shalem, D., Lifschitz, D., Moshe, D., Porat, E., et al.: LTX-2: Efficient joint audio-visual foundation model. arXiv preprint arXiv:2601.03233 (2026) 22. Haji-Ali, M., Menapace, W., Siarohin, A., Skorokhodov, I., Canberk, A., Lee, K.S., Ordonez, V., Tulyakov, S.: AV-Link: Temporally-aligned diffusion features for cross-modal audio-video generation. In: International Conference on Computer Vision (2025) 23. He, J., Liu, H., Li, J., Huang, Z., Yu, Q., Ouyang, W., Liu, Z.: Cut2next: Generating next shot via in-context tuning. In: ACM SIGGRAPH Asia Conference Papers (2025) 24. Henschel, R., Khachatryan, L., Poghosyan, H., Hayrapetyan, D., Tadevosyan, V., Wang, Z., Navasardyan, S., Shi, H.: Streamingt2v: Consistent, dynamic, and ex-tendable long video generation from text. IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 25. Hong, W., Ding, M., Zheng, W., Liu, X., Tang, J.: CogVideo: Large-scale pretrain-ing for text-to-video generation via transformers. In: International Conference on Learning Representations (2023) 26. Hu, H., Zhu, X., He, T., Guo, D., Zhang, B., Wang, X., Guo, Z., Jiang, Z., Hao, H., Guo, Z., et al.: Qwen3-TTS technical report. arXiv preprint arXiv:2601.15621 (2026) 27. Huang, L., Wang, W., Wu, Z.F., Shi, Y., Dou, H., Liang, C., Feng, Y., Liu, Y., Zhou, J.: In-context lora for diffusion transformers. arXiv preprint arXiv:2410.23775 (2024) 28. Huang, Z., He, Y., Yu, J., Zhang, F., Si, C., Jiang, Y., Zhang, Y., Wu, T., Jin, Q., Chanpaisit, N., et al.: VBench: Comprehensive benchmark suite for video genera-tive models. In: IEEE/CVF Conference on Computer Vision and Pattern Recog-nition (2024) 29. Jiang, Z., Han, Z., Mao, C., Zhang, J., Pan, Y., Liu, Y.: VACE: All-in-one video creation and editing. In: Proceedings of the IEEE/CVF International Conference on Computer Vision (2025) 30. Ju, Z., Wang, Y., Shen, K., Tan, X., Xin, D., Yang, D., Liu, Y., Leng, Y., Song, K., Tang, S., et al.: NaturalSpeech 3: Zero-shot speech synthesis with factorized codec and diffusion models. arXiv preprint arXiv:2403.03100 (2024) 31. Kara, O., Singh, K.K., Liu, F., Ceylan, D., Rehg, J.M., Hinz, T.: Shotadapter: Text-to-multi-shot video generation with diffusion models. IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) MAVIN: Multi-Shot Audio-Visual Generation 27 32. Kilgour, K., Zuluaga, M., Roblek, D., Sharifi, M.: Fr \’echet audio distance: A met-ric for evaluating music enhancement algorithms. arXiv preprint arXiv:1812.08466 (2018) 33. Kushwaha, S.S., Tian, Y.: VinTAGe: Joint video and text conditioning for holistic audio generation. IEEE/CVF Conference on Computer Vision and Pattern Recog-nition (2025) 34. Lei, G., Wang, C., Zhang, R., Wang, Y., Li, H., Xu, W.: AnimateAnything: Con-sistent and controllable animation for video generation. IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 35. Li, H., Xu, M., Zhan, Y., Mu, S., Li, J., Cheng, K., Chen, Y., Chen, T., Ye, M., Wang, J., Zhu, S.: Openhumanvid: A large-scale high-quality dataset for enhancing human-centric video generation. IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 36. Li, Q., Xing, Z., Wang, R., Zhang, H., Dai, Q., Wu, Z.: MagicMotion: Control-lable video generation with dense-to-sparse trajectory guidance. In: International Conference on Computer Vision (2025) 37. Li, Z., Rahmani, H., Ke, Q., Liu, J.: LongDiff: Training-free long video generation in one go. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 38. Lin, H., Zala, A., Cho, J., Bansal, M.: VideoDirectorGPT: Consistent multi-scene video generation via llm-guided planning. In: Conference on Language Modeling (2024) 39. Lipman, Y., Chen, R.T., Ben-Hamu, H., Nickel, M., Le, M.: Flow matching for generative modeling. arXiv preprint arXiv:2210.02747 (2022) 40. Liu, H., Chen, Z., Yuan, Y., Mei, X., Liu, X., Mandic, D., Wang, W., Plumbley, M.D.: AudioLDM: Text-to-audio generation with latent diffusion models. arXiv preprint arXiv:2301.12503 (2023) 41. Liu, K., Li, W., Chen, L., Wu, S., Zheng, Y., Ji, J., Zhou, F., Luo, J., Liu, Z., Fei, H., Chua, T.S.: JavisDiT: Joint audio-video diffusion transformer with hierarchical spatio-temporal prior synchronization. arXiv preprint arXiv:2503.23377 (2025) 42. Liu, K., Zheng, Y., Wang, K., Wu, S., Zhang, R., Luo, J., Hatzinakos, D., Liu, Z., Fei, H., Chua, T.S.: JavisDiT++: Unified modeling and optimization for joint audio-video generation. arXiv preprint arXiv:2602.19163 (2026) 43. Liu, L., Ma, T., Li, B., Chen, Z., Liu, J., Li, G., Zhou, S., He, Q., Wu, X.: Phantom: Subject-consistent video generation via cross-modal alignment. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 44. Long, F., Qiu, Z., Yao, T., Mei, T.: VideoStudio: Generating consistent-content and multi-scene videos. European Conference on Computer Vision (2024) 45. Loshchilov, I., Hutter, F.: Decoupled weight decay regularization. arXiv preprint arXiv:1711.05101 (2017) 46. Low, C., Wang, W., Katyal, C.: Ovi: Twin backbone cross-modal fusion for audio-video generation. arXiv (2025) 47. Luo, S., Yan, C., Hu, C., Zhao, H.: Diff-Foley: Synchronized video-to-audio syn-thesis with latent diffusion models. Advances in Neural Information Processing Systems (2023) 48. Montanaro, A., Savant Aira, L., Aiello, E., Valsesia, D., Magli, E.: Motioncraft: Physics-based zero-shot video generation. Advances in Neural Information Pro-cessing Systems (2024) 49. Qiang, C., Wang, J., Wang, X., Yin, K., Guo, Y.: MM-Sonate: Multimodal controllable audio-video generation with zero-shot voice cloning. arXiv preprint arXiv:2601.01568 (2026) 28 K. Liu et al. 50. Radford, A., Kim, J.W., Xu, T., Brockman, G., McLeavey, C., Sutskever, I.: Robust speech recognition via large-scale weak supervision. In: International Conference on Machine Learning (2023) 51. Ravi, N., Gabeur, V., Hu, Y.T., Hu, R., Ryali, C., Ma, T., Khedr, H., Rädle, R., Rolland, C., Gustafson, L., et al.: SAM 2: Segment anything in images and videos. arXiv preprint arXiv:2408.00714 (2024) 52. Ruan, L., Ma, Y., Yang, H., He, H., Liu, B., Fu, J., Yuan, N.J., Jin, Q., Guo, B.: MM-Diffusion: Learning multi-modal diffusion models for joint audio and video generation. IEEE/CVF Conference on Computer Vision and Pattern Recognition (2023) 53. Schuhmann, C.: Improved aesthetic predictor. https : / / github . com / christophschuhmann/improved-aesthetic-predictor (2022) 54. Shan, S., Li, Q., Cui, Y., Yang, M., Wang, Y., Yang, Q., Zhou, J., Zhong, Z.: HunyuanVideo-foley: Multimodal diffusion with representation alignment for high-fidelity foley audio generation. arXiv preprint arXiv:2508.16930 (2025) 55. Shi, B., Tjandra, A., Hoffman, J., Wang, H., Wu, Y.C., Gao, L., Richter, J., Le, M., Vyas, A., Chen, S., et al.: SAM Audio: Segment anything in audio. arXiv preprint arXiv:2512.18099 (2025) 56. Soucek, T., Lokoc, J.: Transnet V2: an effective deep network architecture for fast shot transition detection. In: Cai, J., Kankanhalli, M.S., Prabhakaran, B., Boll, S., Subramanian, R., Zheng, L., Singh, V.K., César, P., Xie, L., Xu, D. (eds.) ACM International Conference on Multimedia (2024) 57. Sun, M., Wang, W., Qiao, Y., Sun, J., Qin, Z., Guo, L., Zhu, X., Liu, J.: Mm-ldm: Multi-modal latent diffusion model for sounding video generation. ACM Interna-tional Conference on Multimedia (2024) 58. Tan, Z., Yang, X., Liu, S., Wang, X.: Video-infinity: Distributed long video gener-ation. arXiv preprint arXiv:2406.16260 (2024) 59. Team, O., Yu, D., Chen, M., Chen, Q., Luo, Q., Wu, Q., Cheng, Q., Li, R., Liang, T., Zhang, W., et al.: MOVA: Towards scalable and synchronized video-audio gen-eration. arXiv preprint arXiv:2602.08794 (2026) 60. Teed, Z., Deng, J.: RAFT: Recurrent all-pairs field transforms for optical flow. In: European Conference on Computer Vision (2020) 61. Tjandra, A., Wu, Y.C., Guo, B., Hoffman, J., Ellis, B., Vyas, A., Shi, B., Chen, S., Le, M., Zacharov, N., Wood, C., Lee, A., Hsu, W.N.: Meta Audiobox Aesthetics: Unified automatic quality assessment for speech, music, and sound. arXiv preprint arXiv:2502.05139 (2025) 62. Unterthiner, T., Van Steenkiste, S., Kurach, K., Marinier, R., Michalski, M., Gelly, S.: Towards accurate generative models of video: A new metric & challenges. arXiv preprint arXiv:1812.01717 (2018) 63. Wan, T., Wang, A., Ai, B., Wen, B., Mao, C., Xie, C.W., Chen, D., Yu, F., Zhao, H., Yang, J., et al.: Wan: Open and advanced large-scale video generative models. arXiv preprint arXiv:2503.20314 (2025) 64. Wang, D., Zuo, W., Li, A., Chen, L.H., Liao, X., Zhou, D., Yin, Z., Dai, X., Jiang, D., Yu, G.: Universe-1: Unified audio-video generation via stitching of experts. arXiv preprint arXiv:2509.06155 (2025) 65. Wang, J., Sheng, H., Cai, S., Zhang, W., Yan, C., Feng, Y., Deng, B., Ye, J.: EchoShot: Multi-shot portrait video generation. In: Advances in Neural Informa-tion Processing Systems (2025) 66. Wang, J., Qiang, C., Guo, Y., Wang, Y., Zeng, X., Deng, F.: Apollo: Unified multi-task audio-video joint generation. arXiv e-prints pp. arXiv–2601 (2026) MAVIN: Multi-Shot Audio-Visual Generation 29 67. Wang, K., Deng, S., Shi, J., Hatzinakos, D., Tian, Y.: Av-dit: Taming image diffu-sion transformers for efficient joint audio and video generation. ACM International Conference on Multimedia (2025) 68. Wang, Y., He, Y., Li, Y., Li, K., Yu, J., Ma, X., Li, X., Chen, G., Chen, X., Wang, Y., et al.: InternVid: A large-scale video-text dataset for multimodal understanding and generation. arXiv preprint arXiv:2307.06942 (2023) 69. Wang, Z., Yuan, Z., Wang, X., Li, Y., Chen, T., Xia, M., Luo, P., Shan, Y.: Mo-tionCtrl: A unified and flexible motion controller for video generation. ACM SIG-GRAPH Conference Papers (2024) 70. Weng, S., Zheng, H., Chang, Z., Li, S., Shi, B., Wang, X.: Audio-sync video gen-eration with multi-stream temporal control. In: Advances in Neural Information Processing Systems (2025) 71. wiseman: py-webrtcvad. https://github.com/wiseman/py-webrtcvad (2016) 72. Wu, B., Zou, C., Li, C., Huang, D., Yang, F., Tan, H., Peng, J., Wu, J., Xiong, J., Jiang, J., et al.: HunyuanVideo 1.5 technical report. arXiv preprint arXiv:2511.18870 (2025) 73. Wu, C., Li, J., Zhou, J., Lin, J., Gao, K., Yan, K., ming Yin, S., Bai, S., Xu, X., Chen, Y., Chen, Y., Tang, Z., Zhang, Z., Wang, Z., Yang, A., Yu, B., Cheng, C., Liu, D., Li, D., Zhang, H., Meng, H., Wei, H., Ni, J., Chen, K., Cao, K., Peng, L., Qu, L., Wu, M., Wang, P., Yu, S., Wen, T., Feng, W., Xu, X., Wang, Y., Zhang, Y., Zhu, Y., Wu, Y., Cai, Y., Liu, Z.: Qwen-image technical report (2025), 
+
+https://arxiv.org/abs/2508.02324 
+
+74. Wu, H., Chen, K., Luo, Y., Qiao, R., Ren, B., Liu, H., Xie, W., Shen, L.: Scene consistency representation learning for video scene segmentation. IEEE/CVF Con-ference on Computer Vision and Pattern Recognition (2022) 75. Wu, W., Liu, M., Zhu, Z., Xia, X., Feng, H., Wang, W., Lin, K.Q., Shen, C., Shou, M.Z.: Moviebench: A hierarchical movie level dataset for long video generation. IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 76. Wu, W., Zhu, Z., Shou, M.Z.: Automated movie generation via multi-agent CoT planning. arXiv preprint arXiv:2503.07314 (2025) 77. Wu, X., Gao, B., Qiao, Y., Wang, Y., Chen, X.: CineTrans: Learning to gener-ate videos with cinematic transitions via masked diffusion models. arXiv preprint arXiv:2508.11484 (2025) 78. Wu, Z., Siarohin, A., Menapace, W., Skorokhodov, I., Fang, Y., Chordia, V., Gilitschenski, I., Tulyakov, S.: Mind the time: Temporally-controlled multi-event video generation. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 79. Xing, Y., He, Y., Tian, Z., Wang, X., Chen, Q.: Seeing and hearing: Open-domain visual-audio generation with diffusion latent aligners. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (2024) 80. Xu, J., Guo, Z., Hu, H., Chu, Y., Wang, X., He, J., Wang, Y., Shi, X., He, T., Zhu, X., et al.: Qwen3-Omni technical report. arXiv preprint arXiv:2509.17765 (2025) 81. Yang, X., Li, B., Zhang, Y., Yin, Z., Bai, L., Ma, L., Wang, Z., Cai, J., Wong, T.T., Lu, H., et al.: VLIPP: Towards physically plausible video generation with vision and language informed physical prior. In: International Conference on Computer Vision (2025) 82. Yang, Z., Teng, J., Zheng, W., Ding, M., Huang, S., Xu, J., Yang, Y., Hong, W., Zhang, X., Feng, G., et al.: CogVideoX: Text-to-video diffusion models with an expert transformer. In: International Conference on Learning Representations (2025) 30 K. Liu et al. 83. Yariv, G., Gat, I., Benaim, S., Wolf, L., Schwartz, I., Adi, Y.: Diverse and aligned audio-to-video generation via text-to-video model adaptation. In: Association for the Advancement of Artificial Intelligence (2024) 84. Zhang, P., Jia, Z., Liu, K., Weng, S., Li, S., Shi, B.: STAGE: Storyboard-anchored generation for cinematic multi-shot narrative. arXiv preprint arXiv:2512.12372 (2025) 85. Zhao, C., Liu, M., Wang, W., Chen, W., Wang, F., Chen, H., Zhang, B., Shen, C.: MovieDreamer: Hierarchical generation for coherent long visual sequence. arXiv preprint arXiv:2407.16655 (2024) 86. Zhao, L., Feng, L., Ge, D., Yi, F., Zhang, C., Zhang, X.L., Li, X.: Uniform: A unified diffusion transformer for audio-video generation. arXiv e-prints (2025) 87. Zhao, M., Wang, R., Bao, F., Li, C., Zhu, J.: ControlVideo: conditional control for one-shot text-driven video editing and beyond. Science China Information Sciences (2025) 88. Zheng, M., Xu, Y., Huang, H., Ma, X., Liu, Y., Shu, W., Pang, Y., Tang, F., Chen, Q., Yang, H., et al.: VideoGen-of-Thought: Step-by-step generating multi-shot video with minimal manual intervention. arXiv preprint arXiv:2412.02259 (2024) 89. Zhou, Y., Wang, Z., Fang, C., Bui, T., Berg, T.L.: Visual to sound: Generating natural sound for videos in the wild. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2018) 90. Zhou, Y., Zhou, D., Cheng, M.M., Feng, J., Hou, Q.: StoryDiffusion: Consistent self-attention for long-range image and video generation. Advances in Neural In-formation Processing Systems (2024)
