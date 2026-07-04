@@ -6,58 +6,69 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-30
-- 运行时间：2026-06-30 22:23:01 UTC
+- 最新运行日期：2026-07-04
+- 运行时间：2026-07-04 21:37:49 UTC
 - 运行状态：成功
-- 本次总论文数：12
-- 精读区：6
-- 速读区：6
+- 本次总论文数：15
+- 精读区：5
+- 速读区：10
 
 ### 今日简报（AI）
-今日推荐12篇论文，聚焦视频修复与图像生成，两篇9.0分精读亮眼。  
-最值得关注SATR-VR的SNR感知轨迹混合训练（少步视频修复）与DTI动态轨迹初始化（人脸视频超分）。  
-建议普通读者优先精读这两篇，掌握少步扩散和动态初始化的实用方法。
-- 详情：[/202606/30/README](/202606/30/README)
+今天推送15篇，聚焦视频超分辨率和扩散模型量化，精读5篇含2篇高分。
+
+最值得关注的方向：任意尺度视频超分辨率（AVSR-Diff）和图像/视频扩散Transformer量化（OrbitQuant），两者均为9.0分，是前沿且实用的技术突破。
+
+建议优先精读这两篇高分论文，了解如何在不牺牲时间一致性的前提下提升视频分辨率，以及如何高效压缩扩散模型。
+- 详情：[/202607/04/README](/202607/04/README)
 
 ### 精读区论文标签
-1. [SATB-VR: Training Few-Step Video Restoration Diffusion Model using SNR-Aware Trajectory Blending](/202606/30/2606.28677v1-satb-vr-training-few-step-video-restoration-diffusion-model-using-snr-aware-trajectory-blending)  
+1. [AVSR-Diff: Scale-Agnostic Diffusion Priors for Temporally Consistent Arbitrary-Scale Video Super-Resolution](/202607/04/2607.00987v1-avsr-diff-scale-agnostic-diffusion-priors-for-temporally-consistent-arbitrary-scale-video-super-resolution)  
    标签：评分：9.0/10、query:video-refine
-   evidence：少步视频修复扩散模型用于生成视频的细化
-2. [DTI: Dynamic Trajectory Initialization for Generative Face Video Super-Resolution](/202606/30/2606.29198v1-dti-dynamic-trajectory-initialization-for-generative-face-video-super-resolution)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：提出快速生成式人脸视频超分辨率方法，提升保真度和推理速度
-3. [CSD: Content-aware Speculative Decoding for Efficient Image Generation](/202606/30/2606.27829v1-csd-content-aware-speculative-decoding-for-efficient-image-generation)  
+   evidence：扩散模型视频超分辨率，直接提升生成视频质量
+2. [OrbitQuant: Data-Agnostic Quantization for Image and Video Diffusion Transformers](/202607/04/2607.02461v1-orbitquant-data-agnostic-quantization-for-image-and-video-diffusion-transformers)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：视频扩散模型的后训练量化
+3. [MASS: Motion-Aligned Selective Scan for Refinement in Flow-Based Video Frame Interpolation](/202607/04/2606.27718v1-mass-motion-aligned-selective-scan-for-refinement-in-flow-based-video-frame-interpolation)  
+   标签：评分：8.0/10、query:video-refine
+   evidence：运动对齐选择性扫描用于视频帧插值细化，可应用于生成视频的后处理精炼
+4. [CSD: Content-aware Speculative Decoding for Efficient Image Generation](/202607/04/2606.27829v1-csd-content-aware-speculative-decoding-for-efficient-image-generation)  
    标签：评分：8.0/10、query:fast-gen
    evidence：内容感知推测解码加速自回归图像生成
-4. [Semantic-Aware, Physics-Informed, Geometry-Grounded Weather Video Synthesis](/202606/30/2606.29020v1-semantic-aware-physics-informed-geometry-grounded-weather-video-synthesis)  
-   标签：评分：8.0/10、query:vd
-   evidence：通过语义、物理和几何线索增强视频生成中的多样性和运动动态
-5. [MAVIN: Multi-Shot Audio-Visual Generation with Narrative Control](/202606/30/2606.29473v1-mavin-multi-shot-audio-visual-generation-with-narrative-control)  
-   标签：评分：8.0/10、query:vd
-   evidence：改善多镜头视频生成中的时间对齐与叙事控制
-6. [EcoVideo: Entropy-Orchestrated Video Generation Paradigm in Cloud-Edge Dynamics](/202606/30/2606.30557v1-ecovideo-entropy-orchestrated-video-generation-paradigm-in-cloud-edge-dynamics)  
+5. [SyncCache: Exploiting Asymmetric Dynamics for Fast Audio-Driven Portrait Animation](/202607/04/2606.30849v1-synccache-exploiting-asymmetric-dynamics-for-fast-audio-driven-portrait-animation)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：云边协同框架实现快速视频生成
+   evidence：无需训练的缓存加速音频驱动视频生成
 
 ### 速读区论文标签
-1. [Mural: Transferring LLM knowledge to image generation via Mixture-of-Transformers](/202606/30/2606.29013v1-mural-transferring-llm-knowledge-to-image-generation-via-mixture-of-transformers)  
+1. [TempAct: Advancing Temporal Plausibility in Autoregressive Video Generation via Planner-Executor RL](/202607/04/2606.28016v1-tempact-advancing-temporal-plausibility-in-autoregressive-video-generation-via-planner-executor-rl)  
+   标签：评分：7.0/10、query:vd
+   evidence：指出自回归视频生成中蒸馏的局限性，提出RL替代方案以提升时间合理性
+2. [TempAct: Advancing Temporal Plausibility in Autoregressive Video Generation via Planner-Executor RL](/202607/04/2606.28016v2-tempact-advancing-temporal-plausibility-in-autoregressive-video-generation-via-planner-executor-rl)  
+   标签：评分：7.0/10、query:vd
+   evidence：利用强化学习对自回归视频生成进行后训练微调
+3. [Towards Memory-Efficient Autoregressive Video Generation via Instance-Specific Parametric Absorption](/202607/04/2607.00712v1-towards-memory-efficient-autoregressive-video-generation-via-instance-specific-parametric-absorption)  
    标签：评分：7.0/10、query:fast-gen
-   evidence：通过共享注意力将LLM知识迁移到图像生成
-2. [HorizonRelight: Relighting Long-horizon Videos Consistently via Diffusion Transformers](/202606/30/2606.29095v1-horizonrelight-relighting-long-horizon-videos-consistently-via-diffusion-transformers)  
-   标签：评分：7.0/10、query:video-refine
-   evidence：通过一致性重光照进行视频细化
-3. [D$^{2}$R$^{2}$OSR: Degradation-Disentangled Representation for Real-World Omnidirectional Image Super-Resolution](/202606/30/2606.29314v1-d2r2osr-degradation-disentangled-representation-for-real-world-omnidirectional-image-super-resolution)  
-   标签：评分：7.0/10、query:video-refine
-   evidence：全向图像超分辨率，可应用于视频帧增强
-4. [FDM-MFVT: Few-step Sampling Diffusion Model for Mask-Free Virtual Try-On](/202606/30/2606.29319v1-fdm-mfvt-few-step-sampling-diffusion-model-for-mask-free-virtual-try-on)  
+   evidence：实例特定参数吸收将全注意力转换为局部注意力，实现内存高效的自回归视频生成
+4. [TrajLoc: Trajectory-Attention Localization for Multi-Object Motion Control](/202607/04/2607.00861v1-trajloc-trajectory-attention-localization-for-multi-object-motion-control)  
    标签：评分：7.0/10、query:vd
-   evidence：少步扩散模型用于高效图像生成
-5. [Your Data Manifold is Secretly a Reward Model: Shell-LCC for Text-to-Video Generation](/202606/30/2606.30248v1-your-data-manifold-is-secretly-a-reward-model-shell-lcc-for-text-to-video-generation)  
+   evidence：图像到视频生成中的多目标运动控制，改善运动动态
+5. [Optimizing Visual Generative Models via Distribution-wise Rewards](/202607/04/2607.02291v1-optimizing-visual-generative-models-via-distribution-wise-rewards)  
    标签：评分：7.0/10、query:vd
-   evidence：基于流形奖励的后训练视频生成方法
-6. [GRINQH: Graded Input-based Quantization Hierarchy for Efficient LLM Generation](/202606/30/2606.23419v1-grinqh-graded-input-based-quantization-hierarchy-for-efficient-llm-generation)  
+   evidence：分布奖励提升视觉生成模型的多样性
+6. [Representation Distribution Matching for One-Step Visual Generation](/202607/04/2607.02375v1-representation-distribution-matching-for-one-step-visual-generation)  
+   标签：评分：7.0/10、query:vd
+   evidence：通过分布匹配的知识蒸馏实现一步图像生成
+7. [World Narrative Model for Highly Controllable Video Generation: A Paradigm Shift from Pixel Sampling to Physical World Orchestration](/202607/04/2606.31946v1-world-narrative-model-for-highly-controllable-video-generation-a-paradigm-shift-from-pixel-sampling-to-physical-world-orchestration)  
+   标签：评分：6.0/10、query:vd
+   evidence：通过物理世界编排提升视频生成的多样性和可控性
+8. [Post-Training Pruning for Diffusion Transformers](/202607/04/2607.00927v1-post-training-pruning-for-diffusion-transformers)  
+   标签：评分：6.0/10、query:vd
+   evidence：扩散Transformer的后训练剪枝方法，可迁移至视频生成
+9. [Multi-Resolution Flow Matching: Training-Free Diffusion Acceleration via Staged Sampling](/202607/04/2607.01642v1-multi-resolution-flow-matching-training-free-diffusion-acceleration-via-staged-sampling)  
    标签：评分：6.0/10、query:fast-gen
-   evidence：后训练量化框架用于高效LLM生成
+   evidence：无训练的多分辨率加速流匹配模型，实现快速图像生成
+10. [QWERTY: Training-Free Motion Control via Query-Warped Video Diffusion Transformers](/202607/04/2607.01869v1-qwerty-training-free-motion-control-via-query-warped-video-diffusion-transformers)  
+   标签：评分：6.0/10、query:vd
+   evidence：无需训练的视频扩散变换器运动控制
 
 
 <div class="dpr-home-promo-card">

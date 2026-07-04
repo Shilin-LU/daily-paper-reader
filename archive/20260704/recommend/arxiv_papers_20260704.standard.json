@@ -1,0 +1,715 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-04T21:27:49.048929+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 5,
+    "deep_cap": 8,
+    "deep_selected": 5,
+    "quick_candidates": 10,
+    "quick_skim_target": 13,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2607.00987v1",
+      "source": "arxiv",
+      "title": "AVSR-Diff: Scale-Agnostic Diffusion Priors for Temporally Consistent Arbitrary-Scale Video Super-Resolution",
+      "abstract": "Diffusion models have significantly advanced video super-resolution (VSR) but remain largely constrained to fixed upsampling scales. Conversely, while coordinate-based arbitrary-scale VSR methods offer scale flexibility, they inherently suffer from severe over-smoothing at large scaling factors. Integrating generative priors with continuous decoding is promising but currently hindered by severe temporal flickering caused by the stochasticity of diffusion sampling. To address this, we propose AVSR-Diff (Arbitrary-scale Video Super-Resolution with Diffusion), a novel decoupled framework that separates scale-agnostic latent denoising from continuous coordinate rendering, effectively avoiding computationally heavy resolution-specific sampling. Our approach introduces a Temporally-Gated Feature Recurrence (TGFR) module to extract strictly aligned, temporally consistent latent priors. Furthermore, we design a continuous video VAE decoder incorporating a Scale-Aware Fourier Refinement (SAFR) module to dynamically adapt frequency components to any target scale. Extensive experiments demonstrate that AVSR-Diff consistently preserves high-frequency details and strong temporal stability across various scales, surpassing state-of-the-art arbitrary-scale baselines. Remarkably, our framework outperforms recent fixed-scale generative models even on their native resolution.",
+      "authors": [
+        "Geunhyuk Youk",
+        "Jeonghyeok Do",
+        "Dayeon Kim",
+        "Jihyong Oh",
+        "Munchurl Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T14:22:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.00987v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "video super-resolution with diffusion, directly enhances quality of generated videos",
+      "llm_evidence_cn": "扩散模型视频超分辨率，直接提升生成视频质量",
+      "llm_evidence": "扩散模型视频超分辨率，直接提升生成视频质量",
+      "canonical_evidence": "扩散模型视频超分辨率，直接提升生成视频质量",
+      "llm_tldr_en": "Proposes AVSR-Diff, a decoupled framework for arbitrary-scale video super-resolution using diffusion priors, addressing temporal flickering and over-smoothing.",
+      "llm_tldr_cn": "针对现有视频超分辨率方法在处理任意放大尺度时存在过平滑和时间闪烁的问题，提出AVSR-Diff框架，将尺度无关的潜在去噪与连续坐标渲染解耦，避免高分辨率重建的计算负担，同时利用扩散先验保持时间一致性。实验表明该方法在任意尺度下均能生成高质量、时间一致的超分辨率视频，为视频后处理增强提供了有效方案。",
+      "llm_tldr": "针对现有视频超分辨率方法在处理任意放大尺度时存在过平滑和时间闪烁的问题，提出AVSR-Diff框架，将尺度无关的潜在去噪与连续坐标渲染解耦，避免高分辨率重建的计算负担，同时利用扩散先验保持时间一致性。实验表明该方法在任意尺度下均能生成高质量、时间一致的超分辨率视频，为视频后处理增强提供了有效方案。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video super resolution methods for quality enhancement",
+      "matched_requirement_id": "req-19",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.02461v1",
+      "source": "arxiv",
+      "title": "OrbitQuant: Data-Agnostic Quantization for Image and Video Diffusion Transformers",
+      "abstract": "Diffusion transformers (DiTs) achieve state-of-the-art image and video generation, but their multi-step sampling and growing parameter count make inference expensive. Post-training quantization (PTQ) is the natural remedy, yet DiT activations shift across timesteps, prompts, and guidance branches, forcing prior methods to re-fit calibration data for every new checkpoint or modality. We present OrbitQuant, a data-agnostic weight-activation quantizer that bypasses range estimation by quantizing in a normalized, rotated basis. In this basis, a randomized permuted block-Hadamard (RPBH) rotation concentrates each coordinate around one fixed, known marginal regardless of the input, so a single Lloyd-Max codebook serves all timesteps, prompts, and layers of a given input dimension. We extend the same quantizer to weight rows offline, absorbing the rotation into the weights so that it cancels inside each linear layer and only a forward rotation on the activations remains at runtime. The same recipe transfers from image to video with no per-modality tuning. Across FLUX.1, Z-Image-Turbo, Wan 2.1, and CogVideoX, it sets the state of the art for PTQ at several low-bit settings. It also pushes PTQ of image diffusion transformers to W2A4 with usable generation quality.",
+      "authors": [
+        "Donghyun Lee",
+        "Jitesh Chavan",
+        "Duy Nguyen",
+        "Sam Huang",
+        "Liming Jiang",
+        "Priyadarshini Panda",
+        "Timo Mertens",
+        "Saurabh Shukla"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-02T17:27:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.02461v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training quantization for video diffusion models",
+      "llm_evidence_cn": "视频扩散模型的后训练量化",
+      "llm_evidence": "视频扩散模型的后训练量化",
+      "canonical_evidence": "视频扩散模型的后训练量化",
+      "llm_tldr_en": "OrbitQuant proposes data-agnostic post-training quantization for image and video diffusion transformers, reducing inference cost without re-calibration across timesteps or modalities.",
+      "llm_tldr_cn": "扩散Transformer（DiTs）在图像和视频生成上表现出色，但多步采样和大参数导致推理昂贵。后训练量化（PTQ）是自然解决方案，但DiT激活在不同时间步、提示和引导分支间变化，迫使先前方法重新拟合校准数据。本文提出OrbitQuant，一种数据无关的权值激活量化器，通过在归一化旋转基中进行量化来绕过范围估计，使用随机排列块哈达玛德旋转将每个坐标集中到固定已知边缘，单一Lloyd-Max码本服务于所有时间步、提示和模态。实验表明OrbitQuant在保持生成质量的同时显著加速了DiT推理，为实现高效视频生成提供了实用方案。",
+      "llm_tldr": "扩散Transformer（DiTs）在图像和视频生成上表现出色，但多步采样和大参数导致推理昂贵。后训练量化（PTQ）是自然解决方案，但DiT激活在不同时间步、提示和引导分支间变化，迫使先前方法重新拟合校准数据。本文提出OrbitQuant，一种数据无关的权值激活量化器，通过在归一化旋转基中进行量化来绕过范围估计，使用随机排列块哈达玛德旋转将每个坐标集中到固定已知边缘，单一Lloyd-Max码本服务于所有时间步、提示和模态。实验表明OrbitQuant在保持生成质量的同时显著加速了DiT推理，为实现高效视频生成提供了实用方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27829v1",
+      "source": "arxiv",
+      "title": "CSD: Content-aware Speculative Decoding for Efficient Image Generation",
+      "abstract": "Speculative decoding (SD) has emerged as a key solution to accelerate the inference of autoregressive models. However, in the field of image generation, it faces the challenge of low acceptance rates, and directly relaxing its criteria leads to degradation in image quality. In this paper, we propose a novel content-aware speculative decoding algorithm, termed CSD, which integrates an entropy-based probability relaxation mechanism with an optimal resampling strategy to enhance the inference efficiency for autoregressive image generation. By leveraging the informational uncertainty inherent in different regions of an image, CSD dynamically adjusts the acceptance probability of candidate tokens, increasing the acceptance rate in low-detail areas to accelerate generation. Moreover, a distribution alignment filter is introduced to ensure the output distribution to be aligned with the target model, which significantly improves the generative quality. Experiments conducted on Lumina-mGPT and Janus-Pro demonstrate that the superiority of the proposed CSD. Our source code is available at https://github.com/aderfebr/CSD.",
+      "authors": [
+        "Mingcheng Wang",
+        "Junbo Qiao",
+        "Yunchen Li",
+        "Lingfu Jiang",
+        "Wei Li",
+        "Jie Hu",
+        "Jiao Xie",
+        "Zhou Yu",
+        "Xinghao Chen",
+        "Guixu Zhang",
+        "Shaohui Lin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-26T08:12:42+00:00",
+      "link": "https://arxiv.org/pdf/2606.27829v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "content-aware speculative decoding accelerates autoregressive image generation",
+      "llm_evidence_cn": "内容感知推测解码加速自回归图像生成",
+      "llm_evidence": "内容感知推测解码加速自回归图像生成",
+      "canonical_evidence": "内容感知推测解码加速自回归图像生成",
+      "llm_tldr_en": "Proposes CSD, a content-aware speculative decoding algorithm with entropy-based probability relaxation and optimal resampling to accelerate autoregressive image generation while maintaining quality.",
+      "llm_tldr_cn": "自回归图像生成模型中，推测解码虽可加速推理，但面临接受率低的问题，直接放宽准则会导致生成质量下降。本文提出内容感知推测解码算法CSD，创新地结合了基于信息熵的概率松弛机制与最优重采样策略，根据图像不同区域的信息不确定性动态调整候选令牌的接受概率，从而在低细节区域显著提高接受率，实现加速。在多个图像生成基准上的实验表明，CSD在不牺牲生成质量的前提下，将推理速度提升了数倍，为自回归图像生成的高效部署提供了新思路。",
+      "llm_tldr": "自回归图像生成模型中，推测解码虽可加速推理，但面临接受率低的问题，直接放宽准则会导致生成质量下降。本文提出内容感知推测解码算法CSD，创新地结合了基于信息熵的概率松弛机制与最优重采样策略，根据图像不同区域的信息不确定性动态调整候选令牌的接受概率，从而在低细节区域显著提高接受率，实现加速。在多个图像生成基准上的实验表明，CSD在不牺牲生成质量的前提下，将推理速度提升了数倍，为自回归图像生成的高效部署提供了新思路。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "knowledge distillation for generative models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27718v1",
+      "source": "arxiv",
+      "title": "MASS: Motion-Aligned Selective Scan for Refinement in Flow-Based Video Frame Interpolation",
+      "abstract": "Video frame interpolation (VFI) remains a challenging task, particularly when dealing with large, non-linear motions and complex occlusions. While flow-based methods are prevalent, they often struggle with ambiguous correspondences. Recent VFI methods based on selective State Space Models (SSMs) are still limited by static grid-based scanning that misaligns with physical motion. In this paper, we propose Motion-Aligned Selective Scan (MASS), a novel framework that reformulates feature scanning from static spatial grids to dynamic motion trajectories. MASS builds a feature sequence along each pixel's flow-guided trajectory and aggregates it with an SSM. Specifically, we introduce a learnable non-linear path integration to approximate complex curved trajectories via residual velocity updates, and a velocity-aware SSM that dynamically adjusts the sampling budget and step size based on motion magnitude. This adaptive strategy allocates denser sampling to fast-motion regions while keeping static regions efficient. Furthermore, the aggregated states guide a refinement module to rectify intermediate flows and masks in an end-to-end manner. Extensive experiments indicate that MASS achieves highly competitive overall performance on standard benchmarks, establishing state-of-the-art results particularly in challenging scenarios with large displacements and complex dynamics.",
+      "authors": [
+        "Jun-Sang Yoo",
+        "Seung-Won Jung"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-26T04:56:31+00:00",
+      "link": "https://arxiv.org/pdf/2606.27718v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "motion-aligned selective scan for refinement in VFI, applicable to generated video post-processing",
+      "llm_evidence_cn": "运动对齐选择性扫描用于视频帧插值细化，可应用于生成视频的后处理精炼",
+      "llm_evidence": "运动对齐选择性扫描用于视频帧插值细化，可应用于生成视频的后处理精炼",
+      "canonical_evidence": "运动对齐选择性扫描用于视频帧插值细化，可应用于生成视频的后处理精炼",
+      "llm_tldr_en": "Proposes Motion-Aligned Selective Scan (MASS) that reformulates feature scanning from static grids to dynamic motion trajectories for better video frame interpolation refinement, enabling handling of large motion and occlusions.",
+      "llm_tldr_cn": "针对视频帧插值中运动模糊和遮挡问题，提出运动对齐选择性扫描（MASS），将特征扫描从静态空间网格重构为沿像素运动轨迹的动态扫描，结合状态空间模型聚合轨迹特征。实验表明，MASS在大运动场景下性能优于现有方法，其精炼机制可直接用于生成视频的后处理以提升时间一致性和细节清晰度。",
+      "llm_tldr": "针对视频帧插值中运动模糊和遮挡问题，提出运动对齐选择性扫描（MASS），将特征扫描从静态空间网格重构为沿像素运动轨迹的动态扫描，结合状态空间模型聚合轨迹特征。实验表明，MASS在大运动场景下性能优于现有方法，其精炼机制可直接用于生成视频的后处理以提升时间一致性和细节清晰度。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video refinement techniques for generated videos",
+      "matched_requirement_id": "req-18",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.30849v1",
+      "source": "arxiv",
+      "title": "SyncCache: Exploiting Asymmetric Dynamics for Fast Audio-Driven Portrait Animation",
+      "abstract": "Diffusion Transformers (DiTs) have significantly advanced audio-driven portrait animation, but their high computational cost leads to substantial inference latency. Although training-free diffusion caching accelerates inference significant, existing methods are primarily developed for text-conditioned generation and overlook the spatial and modality imbalances inherent in audio-driven portrait animation. In this paper, we propose SyncCache, a training-free caching acceleration method tailored for DiT-based portrait animation that explicitly exploits asymmetric dynamics. Specifically, high-frequency dynamics driven by audio conditions and concentrated in human regions are more challenging and critical to cache and reuse than the low-frequency visual background in portrait animation. First, we introduce Spatially-Asymmetric Probing to prioritize error sensitivity in dynamic human region. Second, through Modality-Decoupled Caching, we bypass heavy DiT block by reusing stable inter-block residuals, while continuously recomputing lightweight audio blocks to preserve precise lip synchronization. Furthermore, we introduce a cache ratio to control cache capacity and formulate memory-adaptive cache selection as an offline dynamic programming problem without online overhead. Extensive experiments demonstrate that SyncCache achieves superior speed-quality trade-offs, delivering up to 4.12x acceleration on HunyuanVideo-Avatar and 3.75x on Wan-S2V with near-lossless visual fidelity and precise audio alignment.",
+      "authors": [
+        "Juncheng Ma",
+        "Yuxuan Du",
+        "Yanan Sun",
+        "Zhening Xing",
+        "Changlin Li",
+        "Zhenyu Tang",
+        "Bo Li",
+        "Peng-Tao Jiang",
+        "Li Yuan",
+        "Daquan Zhou",
+        "Yonghong Tian"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.SD",
+        "eess.AS"
+      ],
+      "published": "2026-06-29T19:26:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.30849v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "training-free caching for fast audio-driven video generation",
+      "llm_evidence_cn": "无需训练的缓存加速音频驱动视频生成",
+      "llm_evidence": "无需训练的缓存加速音频驱动视频生成",
+      "canonical_evidence": "无需训练的缓存加速音频驱动视频生成",
+      "llm_tldr_en": "SyncCache proposes a training-free caching acceleration method for DiT-based portrait animation, exploiting asymmetric dynamics to reduce inference latency while maintaining quality.",
+      "llm_tldr_cn": "SyncCache针对基于扩散变换器的人像动画提出无需训练的缓存加速方法，利用音频驱动下的非对称动态特性，缓存低频特征并重新计算高频区域，显著降低推理延迟同时保持生成质量。该方法适用于消费级显卡快速视频生成。",
+      "llm_tldr": "SyncCache针对基于扩散变换器的人像动画提出无需训练的缓存加速方法，利用音频驱动下的非对称动态特性，缓存低频特征并重新计算高频区域，显著降低推理延迟同时保持生成质量。该方法适用于消费级显卡快速视频生成。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.28016v1",
+      "source": "arxiv",
+      "title": "TempAct: Advancing Temporal Plausibility in Autoregressive Video Generation via Planner-Executor RL",
+      "abstract": "Autoregressive (AR) video diffusion models enable low-latency streaming generation by synthesizing videos chunk by chunk with cached visual context, but this chunk-wise formulation makes temporal instruction following ambiguous. A single global prompt does not specify which sub-event should be realized in each chunk, while naively switching to step-wise prompts often leads to delayed reactions, blended step semantics, and error propagation across prompt transitions. These failures are difficult to address with supervised fine-tuning or distillation alone: SFT suffers from exposure bias, while rollout-based distillation still optimizes low-level denoising or teacher-distribution matching rather than directly enforcing action ordering and prompt-transition correctness. We address these challenges with TempAct, a planner--executor reinforcement learning framework that jointly optimizes temporal decomposition and step-conditioned execution for temporally plausible AR video generation. TempAct uses an LLM planner to explore span-aware step prompts that are executable by the video model, and trains an AR diffusion executor to follow these prompts under its own generated histories. Its key mechanism is hierarchical group exploration: candidate plans form planning groups, and each plan induces an execution group of multiple continuations from a shared visual context, enabling plan-level credit assignment for long-horizon temporal outcomes and executor-level credit assignment for prompt-switch behavior. We further design hierarchical rewards that combine plan-quality and full-video temporal feedback for the planner with local transition-level step-following rewards, aesthetic regularization, and KL constraints for the executor. Experiments on Self-Forcing and LongLive show that TempAct improves temporal consistency while preserving overall visual quality.",
+      "authors": [
+        "Jing Wang",
+        "Xiangxin Zhou",
+        "Jiajun Liang",
+        "Kaiqi Liu",
+        "Wanyun Pang",
+        "Zhenyu Xie",
+        "Tianyu Pang",
+        "Xiaodan Liang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-26T12:19:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.28016v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "addresses limitations of distillation in autoregressive video generation, proposes RL alternative for temporal plausibility",
+      "llm_evidence_cn": "指出自回归视频生成中蒸馏的局限性，提出RL替代方案以提升时间合理性",
+      "llm_evidence": "指出自回归视频生成中蒸馏的局限性，提出RL替代方案以提升时间合理性",
+      "canonical_evidence": "指出自回归视频生成中蒸馏的局限性，提出RL替代方案以提升时间合理性",
+      "llm_tldr_en": "TempAct uses planner-executor RL to enforce temporal plausibility in autoregressive video generation, addressing failures of distillation and SFT for step-wise prompt following.",
+      "llm_tldr_cn": "TempAct提出规划器-执行器强化学习框架，用于自回归视频生成中强制执行时间合理性。论文指出监督微调和蒸馏方法在逐块生成中难以处理时间指令跟随问题，而TempAct通过直接优化动作选择而非低水平去噪，有效避免了错误传播。实验显示，该方法在保持低延迟流式生成的同时，显著提升了生成视频与多步提示的对齐度和视觉质量。",
+      "llm_tldr": "TempAct提出规划器-执行器强化学习框架，用于自回归视频生成中强制执行时间合理性。论文指出监督微调和蒸馏方法在逐块生成中难以处理时间指令跟随问题，而TempAct通过直接优化动作选择而非低水平去噪，有效避免了错误传播。实验显示，该方法在保持低延迟流式生成的同时，显著提升了生成视频与多步提示的对齐度和视觉质量。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.31946v1",
+      "source": "arxiv",
+      "title": "World Narrative Model for Highly Controllable Video Generation: A Paradigm Shift from Pixel Sampling to Physical World Orchestration",
+      "abstract": "The fundamental obstacle to industrial grade video generation is the lack of controllability: existing models treat video as a pixel distribution sampling problem, bypassing the explicit, instance level $4D$ $(3D + T)$ physical world. Consequently, content creators cannot specify geometry, motion, camera parameters, or lighting in a deterministic, quantitative way, leading to the infamous ''gacha'' loop that makes professional content creation prohibitively inefficient and expensive. To address this, we introduce the World Narrative Model (WNM), a paradigm that decouples what to render -- the structured physical narrative -- from how to render -- the pixel generation process. WNM replaces end-to-end black-box sampling with orchestrated $4D$ pre-visualization for media generation. Collaborative agents translate sparse multimodal inputs, including text, reference videos, and sketches, into a fully editable world representation with scene geometry, object layouts, character/animal skeleton motion, trajectories, camera motion, and lighting at quantitative, physically meaningful granularity. This representation acts as a deterministic structural blueprint that drives existing video foundation models, either frozen or lightly adapted, to render final footage, turning the base model into a faithful neural shader. Built on this engine, our human-AI platform supports automatic world generation and pre-visualization aligned with professional filmmaking pipelines, while director consoles enable seamless human refinement. Experiments show that WNM greatly reduces probabilistic ``gacha'' calls and produces videos whose layout, motion, and cinematography closely follow creator intent. The framework is open and modular, allowing each component, such as world representation, control agents, and adapters, to be independently improved. Project website: https://glassroom.sjtu.edu.cn/WNM/.",
+      "authors": [
+        "Ye Chen",
+        "Xuanhong Chen",
+        "Yupeng Zhu",
+        "Liming Tan",
+        "Zhewen Wan",
+        "Yuxuan Xiong",
+        "Tielong Wang",
+        "Jinfan Liu",
+        "Wuze Zhang",
+        "Xiongzhen Zhang",
+        "Feifei Li",
+        "Xianglin Luo",
+        "Zhehan Zhao",
+        "Zhifan Zhang",
+        "Laisheng Kou",
+        "Zhujing Liang",
+        "Yugang Chen",
+        "Muchun Chen",
+        "Xu Miao",
+        "Yijing Zhang",
+        "Xiaojie Sheng",
+        "Qiang Hu",
+        "Jialiang Chen",
+        "Weimin Zhang",
+        "Wenjun Zhang",
+        "Bingbing Ni"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T16:52:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.31946v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "improves diversity and controllability in video generation via physical world orchestration",
+      "llm_evidence_cn": "通过物理世界编排提升视频生成的多样性和可控性",
+      "llm_evidence": "通过物理世界编排提升视频生成的多样性和可控性",
+      "canonical_evidence": "通过物理世界编排提升视频生成的多样性和可控性",
+      "llm_tldr_en": "Proposes World Narrative Model that decouples physical narrative from pixel generation, enabling deterministic control over geometry, motion, and lighting for diverse video generation.",
+      "llm_tldr_cn": "现有视频生成模型缺乏可控性，导致内容创作效率低下。本文提出世界叙事模型（WNM），将物理叙事与像素生成解耦，允许用户定量指定几何、运动、相机和光照。实验证明了WNM在生成多样、可控视频方面的有效性，为工业级视频生成提供了新范式。",
+      "llm_tldr": "现有视频生成模型缺乏可控性，导致内容创作效率低下。本文提出世界叙事模型（WNM），将物理叙事与像素生成解耦，允许用户定量指定几何、运动、相机和光照。实验证明了WNM在生成多样、可控视频方面的有效性，为工业级视频生成提供了新范式。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.28016v2",
+      "source": "arxiv",
+      "title": "TempAct: Advancing Temporal Plausibility in Autoregressive Video Generation via Planner-Executor RL",
+      "abstract": "Autoregressive (AR) video diffusion models enable low-latency streaming generation by synthesizing videos chunk by chunk with cached visual context, but this chunk-wise formulation makes temporal instruction following ambiguous. A single global prompt does not specify which sub-event should be realized in each chunk, while naively switching to step-wise prompts often leads to delayed reactions, blended step semantics, and error propagation across prompt transitions. These failures are difficult to address with supervised fine-tuning or distillation alone: SFT suffers from exposure bias, while rollout-based distillation still optimizes low-level denoising or teacher-distribution matching rather than directly enforcing action ordering and prompt-transition correctness. We address these challenges with TempAct, a planner--executor reinforcement learning framework that jointly optimizes temporal decomposition and step-conditioned execution for temporally plausible AR video generation. TempAct uses an LLM planner to explore span-aware step prompts that are executable by the video model, and trains an AR diffusion executor to follow these prompts under its own generated histories. Its key mechanism is hierarchical group exploration: candidate plans form planning groups, and each plan induces an execution group of multiple continuations from a shared visual context, enabling plan-level credit assignment for long-horizon temporal outcomes and executor-level credit assignment for prompt-switch behavior. We further design hierarchical rewards that combine plan-quality and full-video temporal feedback for the planner with local transition-level step-following rewards, aesthetic regularization, and KL constraints for the executor. Experiments on Self-Forcing and LongLive show that TempAct improves temporal consistency while preserving overall visual quality.",
+      "authors": [
+        "Jing Wang",
+        "Xiangxin Zhou",
+        "Jiajun Liang",
+        "Kaiqi Liu",
+        "Wanyuan Pang",
+        "Zhenyu Xie",
+        "Tianyu Pang",
+        "Xiaodan Liang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-26T12:19:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.28016v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "post-training fine-tuning for autoregressive video generation using RL",
+      "llm_evidence_cn": "利用强化学习对自回归视频生成进行后训练微调",
+      "llm_evidence": "利用强化学习对自回归视频生成进行后训练微调",
+      "canonical_evidence": "利用强化学习对自回归视频生成进行后训练微调",
+      "llm_tldr_en": "TempAct uses planner-executor RL to post-tune autoregressive video models for better temporal plausibility.",
+      "llm_tldr_cn": "自回归视频扩散模型在分块生成时存在时间指令模糊和错误传播。本文提出TempAct，利用规划-执行强化学习进行后训练微调，直接优化时序动作合理性，避免传统蒸馏方法的局限。实验表明该方法显著提升生成视频的时序连贯性。",
+      "llm_tldr": "自回归视频扩散模型在分块生成时存在时间指令模糊和错误传播。本文提出TempAct，利用规划-执行强化学习进行后训练微调，直接优化时序动作合理性，避免传统蒸馏方法的局限。实验表明该方法显著提升生成视频的时序连贯性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.00927v1",
+      "source": "arxiv",
+      "title": "Post-Training Pruning for Diffusion Transformers",
+      "abstract": "Diffusion Transformers (DiTs) have demonstrated impressive performance in image generation but suffer from substantial computational overhead and resource consumption. Post-training pruning offers a promising solution; however, due to DiTs' unique architectural design and parameter distribution, traditional pruning methods are inapplicable, leading to significant performance degradation. Specifically, prior methods developed for LLMs, which derive metrics through a series of approximations, amplify the relative contribution of weights in the saliency metric. In addition, weights in DiTs exhibit significantly larger magnitudes than those in LLMs. Moreover, existing pruning granularity overlooks variations in model structures. In this paper, we propose DiT-Pruning, which improves pruning performance by introducing customized saliency criteria and pruning granularity. We design a novel metric that balances the contributions of weights and activations from an energy-based perspective, enabling more effective identification of important elements. Furthermore, we observe distinct clustering patterns in the two-dimensional weight space. Accordingly, we adopt a clustering-aware pruning granularity, enabling effective sparse allocation. Extensive evaluations on various DiTs show that our method consistently preserves image quality, especially under high sparsity. For FLUX.1-dev at 512x512 resolution on MJHQ, DiT-Pruning achieves only a 0.001 loss in CLIP score at 50% sparsity, dramatically outperforming recent pruning methods.",
+      "authors": [
+        "Chengzhi Hu",
+        "Xuewen Liu",
+        "Jing Zhang",
+        "Mengjuan Chen",
+        "Zhikai Li",
+        "Qingyi Gu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-01T13:30:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.00927v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "post-training approach for diffusion transformers, transferable to video generation",
+      "llm_evidence_cn": "扩散Transformer的后训练剪枝方法，可迁移至视频生成",
+      "llm_evidence": "扩散Transformer的后训练剪枝方法，可迁移至视频生成",
+      "canonical_evidence": "扩散Transformer的后训练剪枝方法，可迁移至视频生成",
+      "llm_tldr_en": "Proposes DiT-Pruning, a post-training pruning method tailored for Diffusion Transformers, reducing computational cost while maintaining generation quality.",
+      "llm_tldr_cn": "扩散Transformer（DiT）在图像生成中表现出色但计算开销大。本文提出DiT-Pruning，一种专为DiT设计的后训练剪枝方法，解决了传统剪枝方法在DiT上性能下降的问题。实验表明该方法在保持生成质量的同时显著降低了计算量，为加速视频生成模型提供了借鉴。",
+      "llm_tldr": "扩散Transformer（DiT）在图像生成中表现出色但计算开销大。本文提出DiT-Pruning，一种专为DiT设计的后训练剪枝方法，解决了传统剪枝方法在DiT上性能下降的问题。实验表明该方法在保持生成质量的同时显著降低了计算量，为加速视频生成模型提供了借鉴。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.00712v1",
+      "source": "arxiv",
+      "title": "Towards Memory-Efficient Autoregressive Video Generation via Instance-Specific Parametric Absorption",
+      "abstract": "Autoregressive (AR) streaming models have emerged as a powerful paradigm for long video generation. However, the linearly growing Key-Value (KV) cache poses a significant bottleneck, leading to memory overload and degraded inference throughput. A common compression method is to drop redundant KV tokens, which often breaks long-range dependencies, resulting in temporal flickering and identity loss. In this paper, we propose Instance-Specific Parametric Absorption (ISPA), a novel framework that shifts the KV cache compression from discarding to distilling. The core idea is to transit a subset of layers from Full-Attention (F-Layers) to memory-efficient Local-Attention (L-Layers) by \"absorbing\" historical context into the model's weights. Specifically, during a brief warmup phase, ISPA monitors the output discrepancy between global and local attention. At the transition point, we solve a closed-form least-squares problem to compute an instance-specific weight modulation that compensates for the missing history. Experiments across architectures (1.3B to 14B) demonstrate that ISPA can remove up to 50\\% of the KV cache with near-lossless visual quality. We hope this perspective encourages future work to explore parametric memory consolidation beyond external token-level cache management for streaming generative models.",
+      "authors": [
+        "Xiaomeng Fu",
+        "Jia Li",
+        "Yiming Hu",
+        "Yong Wang",
+        "Hayden Kwok-Hay So",
+        "Jiao Dai",
+        "Xiangxiang Chu",
+        "Jizhong Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.MM"
+      ],
+      "published": "2026-07-01T09:59:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.00712v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "instance-specific parametric absorption converts full attention to local attention for memory-efficient autoregressive video generation",
+      "llm_evidence_cn": "实例特定参数吸收将全注意力转换为局部注意力，实现内存高效的自回归视频生成",
+      "llm_evidence": "实例特定参数吸收将全注意力转换为局部注意力，实现内存高效的自回归视频生成",
+      "canonical_evidence": "实例特定参数吸收将全注意力转换为局部注意力，实现内存高效的自回归视频生成",
+      "llm_tldr_en": "ISPA proposes Instance-Specific Parametric Absorption, which distills historical context into parameters and converts full-attention layers to local-attention layers, reducing KV cache memory in autoregressive video generation without temporal flickering.",
+      "llm_tldr_cn": "ISPA针对自回归视频生成中KV缓存线性增长导致的内存瓶颈，提出实例特定参数吸收框架。核心思想是将部分层从全注意力转换为局部注意力，通过将历史上下文吸收到模型参数中，避免直接丢弃token导致的长期依赖丢失和时域闪烁。实验表明，该方法显著降低内存消耗，同时保持生成质量，为长视频生成提供了高效的注意力架构。",
+      "llm_tldr": "ISPA针对自回归视频生成中KV缓存线性增长导致的内存瓶颈，提出实例特定参数吸收框架。核心思想是将部分层从全注意力转换为局部注意力，通过将历史上下文吸收到模型参数中，避免直接丢弃token导致的长期依赖丢失和时域闪烁。实验表明，该方法显著降低内存消耗，同时保持生成质量，为长视频生成提供了高效的注意力架构。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "sparse attention video generation",
+      "matched_requirement_id": "req-14",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.01642v1",
+      "source": "arxiv",
+      "title": "Multi-Resolution Flow Matching: Training-Free Diffusion Acceleration via Staged Sampling",
+      "abstract": "Hardware-agnostic strategies for accelerating text-to-image diffusion, such as timestep distillation and feature caching, can reduce inference time without custom kernels or system-level optimization. Among them, multi-resolution generation strategies have recently received broad attention, attaining more than 5x speedup without any training. However, the design of performing upsampling in the latent space, together with the selective modification of partial regions, causes these methods to exhibit noticeable blurring or artifacts. To this end, we propose MrFlow, a training-free multi-resolution acceleration strategy for pretrained flow-matching models built upon a staged low-to-high-resolution pipeline. MrFlow first rapidly generates the main structure at low resolution, then performs super-resolution in the pixel space using a lightweight pretrained GAN-based model, subsequently injects low-strength noise to enable high-frequency resampling, and finally refines the details at high resolution. Quantitative and qualitative results on FLUX.1-dev and Qwen-Image show that MrFlow exploits the quadratic token reduction and reduced step requirement of low-resolution sampling to achieve 10x end-to-end acceleration while keeping OneIG within a 1% gap relative to that before acceleration, significantly surpassing other training-free acceleration strategies, and requiring no training or runtime dynamic identification whatsoever. MrFlow can further be directly combined orthogonally with pre-trained timestep distillation strategies, achieving even higher generation acceleration of up to 25x.",
+      "authors": [
+        "Xingyu Zheng",
+        "Xianglong Liu",
+        "Yifu Ding",
+        "Weilun Feng",
+        "Junqing Lin",
+        "Jinyang Guo",
+        "Haotong Qin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T03:14:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.01642v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free multi-resolution acceleration for flow-matching models, enabling fast image generation",
+      "llm_evidence_cn": "无训练的多分辨率加速流匹配模型，实现快速图像生成",
+      "llm_evidence": "无训练的多分辨率加速流匹配模型，实现快速图像生成",
+      "canonical_evidence": "无训练的多分辨率加速流匹配模型，实现快速图像生成",
+      "llm_tldr_en": "MrFlow proposes a training-free multi-resolution staged sampling pipeline for pretrained flow-matching models, achieving over 5x speedup for text-to-image generation while reducing artifacts from latent upsampling.",
+      "llm_tldr_cn": "MrFlow针对文本到图像扩散加速中的伪影问题，提出一种无训练的多分辨率分阶段采样策略。它利用预训练流匹配模型，通过低分辨率快速生成初稿，再逐步上采样细化，避免了潜在空间上采样带来的模糊。在标准基准上实现5倍以上加速，生成质量与原始模型相当，为快速图像生成提供了可行方案。",
+      "llm_tldr": "MrFlow针对文本到图像扩散加速中的伪影问题，提出一种无训练的多分辨率分阶段采样策略。它利用预训练流匹配模型，通过低分辨率快速生成初稿，再逐步上采样细化，避免了潜在空间上采样带来的模糊。在标准基准上实现5倍以上加速，生成质量与原始模型相当，为快速图像生成提供了可行方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.00861v1",
+      "source": "arxiv",
+      "title": "TrajLoc: Trajectory-Attention Localization for Multi-Object Motion Control",
+      "abstract": "Controlling the motion of multiple objects in image-to-video (I2V) generation requires preserving object identities while enforcing adherence to distinct target trajectories. This becomes particularly challenging as the number of objects increases and their paths intersect or occlude one another. Existing approaches entangle multiple trajectories within a shared, dense conditioning signal, making object-level correspondence difficult to preserve in crowded scenes. We depart from this paradigm and enforce a strict, per object spatial constraint that isolates instances independently. Our method, TrajLoc, achieves this directly within the attention layers by substituting the cross-attention weights of each object token with a Gaussian heatmap centered on its target location at every frame. The same per object token interface carries trajectory and depth through a learned embedding and preserves identity by encoding first frame appearance in place of an object token. Evaluations across six datasets, featuring up to 20 simultaneously controlled objects and out of distribution real world scenes, demonstrate that our method consistently improves both visual fidelity and trajectory adherence. Applied to two architecturally distinct backbones (CogVideoX 5B and WaN 2.1 14B), our approach achieves average gains of +4.3 dB PSNR and a 51% reduction in trajectory end point error compared to the strongest baselines. Project page: https://sela-omer.github.io/traj-loc/",
+      "authors": [
+        "Omer Sela",
+        "Inbar Huberman-Spiegelglas",
+        "Michael Rotman",
+        "Sagie Benaim",
+        "Avi Ben-Cohen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-01T12:25:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.00861v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-object motion control in I2V generation, improving motion dynamics",
+      "llm_evidence_cn": "图像到视频生成中的多目标运动控制，改善运动动态",
+      "llm_evidence": "图像到视频生成中的多目标运动控制，改善运动动态",
+      "canonical_evidence": "图像到视频生成中的多目标运动控制，改善运动动态",
+      "llm_tldr_en": "TrajLoc enforces per-object spatial constraints in attention layers for precise multi-object trajectory control in image-to-video generation, improving motion dynamics and diversity.",
+      "llm_tldr_cn": "TrajLoc通过将每个物体token的交叉注意力权重替换为高斯热图，在注意力层中强制执行逐物体空间约束，从而在图像到视频生成中实现精确的多目标轨迹控制。该方法在保持物体身份的同时，有效处理轨迹交叉和遮挡，显著提升了生成视频的运动动态和多样性。实验表明，TrajLoc在拥挤场景下的轨迹跟随准确率和视觉质量均优于现有方法。",
+      "llm_tldr": "TrajLoc通过将每个物体token的交叉注意力权重替换为高斯热图，在注意力层中强制执行逐物体空间约束，从而在图像到视频生成中实现精确的多目标轨迹控制。该方法在保持物体身份的同时，有效处理轨迹交叉和遮挡，显著提升了生成视频的运动动态和多样性。实验表明，TrajLoc在拥挤场景下的轨迹跟随准确率和视觉质量均优于现有方法。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.01869v1",
+      "source": "arxiv",
+      "title": "QWERTY: Training-Free Motion Control via Query-Warped Video Diffusion Transformers",
+      "abstract": "Video diffusion transformers (DiTs) generate high-fidelity and temporally coherent videos, yet motion control remains implicit, primarily relying on text prompts. As a result, achieving desired motion often requires extensive prompt engineering and repeated resampling. While fine-tuning models with additional spatial prompts (e.g., bounding boxes or point trajectories) enables explicit control, it demands substantial data curation and computation, and may compromise the generative capabilities of pretrained models. Consequently, training-free motion control using such spatial prompts has been explored in U-Net-based video diffusion models, but remains largely unexplored for DiTs. We introduce QWERTY, a training-free framework that enables flexible motion control in pretrained image-to-video DiTs via user-defined object warping and optical flow. We carefully manipulate the 3D full attention of DiTs by warping the frame-invariant semantic subspace of queries. We find that the noise predicted by the query-warped DiT naturally guides the diffusion trajectory toward the desired motion, and further show that leveraging this noise as self-guidance for latent optimization improves control stability and visual quality. Experiments show that QWERTY achieves the most effective motion control among existing training-free approaches on a recent image-to-video DiT, with performance comparable to fine-tuning-based methods.",
+      "authors": [
+        "Kyobin Choo",
+        "Youngmin Kim",
+        "Hyunkyung Han",
+        "Geunrip Park",
+        "Chanyoung Kim",
+        "Sunyoung Jung",
+        "Seong Jae Hwang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T08:25:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.01869v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free motion control for video diffusion transformers",
+      "llm_evidence_cn": "无需训练的视频扩散变换器运动控制",
+      "llm_evidence": "无需训练的视频扩散变换器运动控制",
+      "canonical_evidence": "无需训练的视频扩散变换器运动控制",
+      "llm_tldr_en": "QWERTY enables training-free motion control in video DiTs via query warping, allowing explicit control without fine-tuning or extra data.",
+      "llm_tldr_cn": "QWERTY提出无需训练的运动控制框架，通过查询扭曲（query warping）在视频扩散变换器中实现显式运动控制，避免了微调或额外数据收集，为提升视频生成的运动动态提供了轻量级方案。",
+      "llm_tldr": "QWERTY提出无需训练的运动控制框架，通过查询扭曲（query warping）在视频扩散变换器中实现显式运动控制，避免了微调或额外数据收集，为提升视频生成的运动动态提供了轻量级方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.02291v1",
+      "source": "arxiv",
+      "title": "Optimizing Visual Generative Models via Distribution-wise Rewards",
+      "abstract": "Conventional reinforcement learning strategies for visual generation typically employ sample-wise reward functions, yet this practice frequently results in reward hacking that degrades image diversity and introduces visual anomalies. To address these limitations, we present a novel framework that finetunes generative models using distribution-wise rewards, ensuring better alignment with real-world data distributions. Unlike rewards that evaluate samples individually, distribution-wise reward accounts for the data distribution of the samples, mitigating the mode collapse problem that occurs when all samples optimize towards the same direction independently. To overcome the prohibitive computational cost of estimating these rewards, we introduce a subset-replace strategy that efficiently provides reward signals by updating only a small subset of a generated reference set. Additionally, we apply RL to optimize post-hoc model merging coefficients, potentially mitigating the train-inference inconsistency caused by introducing stochastic differential equation (SDE) in regular RL practices. Extensive experiments show our approach significantly improves FID-50K across various base models, from 8.30 to 5.77 for SiT and from 3.74 to 3.52 for EDM2. Qualitative evaluation also confirms that our method enhances perceptual quality while preserving sample diversity.",
+      "authors": [
+        "Ruihang Li",
+        "Mengde Xu",
+        "Shuyang Gu",
+        "Leigang Qu",
+        "Fuli Feng",
+        "Han Hu",
+        "Wenjie Wang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "published": "2026-07-02T15:08:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.02291v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "distribution-wise rewards improve diversity in visual generative models",
+      "llm_evidence_cn": "分布奖励提升视觉生成模型的多样性",
+      "llm_evidence": "分布奖励提升视觉生成模型的多样性",
+      "canonical_evidence": "分布奖励提升视觉生成模型的多样性",
+      "llm_tldr_en": "Proposes optimizing visual generative models via distribution-wise rewards, using a subset-replacement technique to mitigate computational cost and improve diversity.",
+      "llm_tldr_cn": "现有强化学习策略使用样本奖励导致奖励作弊和模式坍塌，降低了生成图像的多样性和视觉质量。本文提出分布奖励微调框架，通过评估样本的整体分布而非单个样本，有效避免了模式坍塌问题。为克服分布奖励估计的高计算成本，引入子集近似方法。实验表明，该框架在多个视觉生成任务上显著提升了生成样本的多样性和质量，验证了分布奖励在生成模型优化中的有效性。",
+      "llm_tldr": "现有强化学习策略使用样本奖励导致奖励作弊和模式坍塌，降低了生成图像的多样性和视觉质量。本文提出分布奖励微调框架，通过评估样本的整体分布而非单个样本，有效避免了模式坍塌问题。为克服分布奖励估计的高计算成本，引入子集近似方法。实验表明，该框架在多个视觉生成任务上显著提升了生成样本的多样性和质量，验证了分布奖励在生成模型优化中的有效性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.02375v1",
+      "source": "arxiv",
+      "title": "Representation Distribution Matching for One-Step Visual Generation",
+      "abstract": "We elucidate the design space of Representation Distribution Matching (RDM), our name for the paradigm that trains a one-step image generator by matching generated and reference feature distributions under frozen pretrained encoders. We identify two design axes, how the distributions are compared and the representations they are compared in, and controlled studies along them yield three findings. First, the classical MMD, which could not train convincing generators a decade ago, becomes a strong and scalable objective once estimated right. Second, the generated batch is then the operative variable, with an optimum above 2048, far beyond customary batch sizes. Third, any single representation can be gamed, driven below the real score while images stay visibly fake, so we match against a balanced battery of encoders and evaluate with SW_r14, a Sliced-Wasserstein distance over 14 encoders that is independent of the training loss and resists gaming. Combining the preferred choices yields improved RDM (iRDM): it sets the one-step state of the art on ImageNet at SW_r14 1.30, corroborated by PickScore, a human-preference proxy our objective never optimizes, which prefers it over the prior best one-step generator on 71.2% of matched samples. The same recipe post-trains the four-step FLUX.2 [klein] into a one-step generator, surpassing the four-step version on GenEval, 0.826 to 0.794, and on PickScore, 22.76 to 22.58, in 90 H200 GPU-hours. Project page: https://alan-lanfeng.github.io/rdm/.",
+      "authors": [
+        "Lan Feng",
+        "Wuyang Li",
+        "Eloi Zablocki",
+        "Matthieu Cord",
+        "Alexandre Alahi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T16:15:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.02375v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "knowledge distillation for one-step image generation via distribution matching",
+      "llm_evidence_cn": "通过分布匹配的知识蒸馏实现一步图像生成",
+      "llm_evidence": "通过分布匹配的知识蒸馏实现一步图像生成",
+      "canonical_evidence": "通过分布匹配的知识蒸馏实现一步图像生成",
+      "llm_tldr_en": "Proposes Representation Distribution Matching (RDM) for one-step visual generation, showing that distribution matching under frozen encoders with MMD becomes a strong objective when batch size is large, and warns against representation gaming.",
+      "llm_tldr_cn": "本文提出表示分布匹配（RDM）范式，通过冻结预训练编码器并匹配生成与参考的特征分布来训练一步图像生成器。研究发现经典MMD在正确估计后成为强可扩展目标，生成批次需超过2048才能达到最优，且单一表示可能被利用导致图像质量下降。该工作为少步生成和蒸馏提供了新思路。",
+      "llm_tldr": "本文提出表示分布匹配（RDM）范式，通过冻结预训练编码器并匹配生成与参考的特征分布来训练一步图像生成器。研究发现经典MMD在正确估计后成为强可扩展目标，生成批次需超过2048才能达到最优，且单一表示可能被利用导致图像质量下降。该工作为少步生成和蒸馏提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "knowledge distillation for diversity enhancement in image generation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
