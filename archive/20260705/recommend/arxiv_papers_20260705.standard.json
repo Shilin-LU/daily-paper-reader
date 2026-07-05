@@ -1,0 +1,245 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-05T21:29:24.569554+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 0,
+    "deep_cap": 8,
+    "deep_selected": 0,
+    "quick_candidates": 5,
+    "quick_skim_target": 13,
+    "quick_selected": 5
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.29964v1",
+      "source": "arxiv",
+      "title": "Variance Reduction on the Camera Axis: Multi-View Score Distillation for 3D",
+      "abstract": "Score distillation turns a pretrained 2D diffusion model into a 3D generator, but the per-step gradient is estimated from a single randomly chosen view: it is high-variance and blind to global shape consistency. Prior work addresses this by retraining the diffusion prior on multi-view data; this improves consistency but makes the sampling contribution inseparable from prior quality. We instead isolate the sampling axis. The per-step gradient is one noisy sample of an expectation over views; aggregating K samples per step at a fixed total UNet budget reduces variance without touching the prior. We introduce Multi-View Aggregated Score Distillation (MV-SDI), which aggregates gradients from K views per step via gradient accumulation, keeping peak memory unchanged and the 2D prior frozen, and draws views as antithetic antipodal pairs, a prior-independent geometric property, for balanced angular coverage. At a fixed 10,000-UNet-call budget, K=2 raises CLIP R-Precision from 74.8% to 83.8% and CLIP score from 0.297 to 0.312, with consistent gains on HPSv2 and ImageReward and a 0.0% divergence rate on the 43-prompt benchmark; optimization steps halve as a consequence. K=4 gives a fourfold step reduction at R-Precision 86.9% and CLIP 0.307, still well above the single-view baseline on every alignment metric. MV-SDI is compatible with gradient-based score-distillation pipelines, including Score Distillation via Inversion, and requires no retraining and no multi-view data.",
+      "authors": [
+        "Marian Lupascu",
+        "Mihai Sorin Stupariu",
+        "Ionut Mironica"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-29T08:41:42+00:00",
+      "link": "https://arxiv.org/pdf/2606.29964v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "knowledge distillation for generative models via multi-view score distillation",
+      "llm_evidence_cn": "通过多视角分数蒸馏实现生成模型的知识蒸馏",
+      "llm_evidence": "通过多视角分数蒸馏实现生成模型的知识蒸馏",
+      "canonical_evidence": "通过多视角分数蒸馏实现生成模型的知识蒸馏",
+      "llm_tldr_en": "Proposes Multi-View Aggregated Score Distillation (MV-SDI) to reduce variance in score distillation for 3D generation from 2D diffusion models, improving consistency without prior retraining.",
+      "llm_tldr_cn": "现有的分数蒸馏方法因单视角梯度估计方差大，导致3D生成不连贯。本文提出多视角聚合分数蒸馏（MV-SDI），在固定UNet预算下聚合多个视角的梯度，有效降低方差，无需重新训练先验模型。实验表明该方法在保持效率的同时显著提升了生成质量。",
+      "llm_tldr": "现有的分数蒸馏方法因单视角梯度估计方差大，导致3D生成不连贯。本文提出多视角聚合分数蒸馏（MV-SDI），在固定UNet预算下聚合多个视角的梯度，有效降低方差，无需重新训练先验模型。实验表明该方法在保持效率的同时显著提升了生成质量。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "knowledge distillation for generative models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.01642v1",
+      "source": "arxiv",
+      "title": "Multi-Resolution Flow Matching: Training-Free Diffusion Acceleration via Staged Sampling",
+      "abstract": "Hardware-agnostic strategies for accelerating text-to-image diffusion, such as timestep distillation and feature caching, can reduce inference time without custom kernels or system-level optimization. Among them, multi-resolution generation strategies have recently received broad attention, attaining more than 5x speedup without any training. However, the design of performing upsampling in the latent space, together with the selective modification of partial regions, causes these methods to exhibit noticeable blurring or artifacts. To this end, we propose MrFlow, a training-free multi-resolution acceleration strategy for pretrained flow-matching models built upon a staged low-to-high-resolution pipeline. MrFlow first rapidly generates the main structure at low resolution, then performs super-resolution in the pixel space using a lightweight pretrained GAN-based model, subsequently injects low-strength noise to enable high-frequency resampling, and finally refines the details at high resolution. Quantitative and qualitative results on FLUX.1-dev and Qwen-Image show that MrFlow exploits the quadratic token reduction and reduced step requirement of low-resolution sampling to achieve 10x end-to-end acceleration while keeping OneIG within a 1% gap relative to that before acceleration, significantly surpassing other training-free acceleration strategies, and requiring no training or runtime dynamic identification whatsoever. MrFlow can further be directly combined orthogonally with pre-trained timestep distillation strategies, achieving even higher generation acceleration of up to 25x.",
+      "authors": [
+        "Xingyu Zheng",
+        "Xianglong Liu",
+        "Yifu Ding",
+        "Weilun Feng",
+        "Junqing Lin",
+        "Jinyang Guo",
+        "Haotong Qin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T03:14:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.01642v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free multi-resolution acceleration for diffusion models, applicable to fast image generation",
+      "llm_evidence_cn": "无训练的多分辨率加速，适用于快速图像生成",
+      "llm_evidence": "无训练的多分辨率加速，适用于快速图像生成",
+      "canonical_evidence": "无训练的多分辨率加速，适用于快速图像生成",
+      "llm_tldr_en": "Proposes MrFlow, a training-free multi-resolution acceleration strategy for flow-matching models, achieving over 5x speedup for text-to-image generation.",
+      "llm_tldr_cn": "提出了MrFlow，一种无需训练的多分辨率加速策略，用于预训练的流匹配模型。该策略通过分阶段低到高分辨率流水线，在文本到图像生成中实现5倍以上加速，同时减少模糊和伪影。该方法硬件无关，可推广到视频生成加速。",
+      "llm_tldr": "提出了MrFlow，一种无需训练的多分辨率加速策略，用于预训练的流匹配模型。该策略通过分阶段低到高分辨率流水线，在文本到图像生成中实现5倍以上加速，同时减少模糊和伪影。该方法硬件无关，可推广到视频生成加速。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.00927v1",
+      "source": "arxiv",
+      "title": "Post-Training Pruning for Diffusion Transformers",
+      "abstract": "Diffusion Transformers (DiTs) have demonstrated impressive performance in image generation but suffer from substantial computational overhead and resource consumption. Post-training pruning offers a promising solution; however, due to DiTs' unique architectural design and parameter distribution, traditional pruning methods are inapplicable, leading to significant performance degradation. Specifically, prior methods developed for LLMs, which derive metrics through a series of approximations, amplify the relative contribution of weights in the saliency metric. In addition, weights in DiTs exhibit significantly larger magnitudes than those in LLMs. Moreover, existing pruning granularity overlooks variations in model structures. In this paper, we propose DiT-Pruning, which improves pruning performance by introducing customized saliency criteria and pruning granularity. We design a novel metric that balances the contributions of weights and activations from an energy-based perspective, enabling more effective identification of important elements. Furthermore, we observe distinct clustering patterns in the two-dimensional weight space. Accordingly, we adopt a clustering-aware pruning granularity, enabling effective sparse allocation. Extensive evaluations on various DiTs show that our method consistently preserves image quality, especially under high sparsity. For FLUX.1-dev at 512x512 resolution on MJHQ, DiT-Pruning achieves only a 0.001 loss in CLIP score at 50% sparsity, dramatically outperforming recent pruning methods.",
+      "authors": [
+        "Chengzhi Hu",
+        "Xuewen Liu",
+        "Jing Zhang",
+        "Mengjuan Chen",
+        "Zhikai Li",
+        "Qingyi Gu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-01T13:30:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.00927v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "post-training pruning for diffusion transformers to reduce computation",
+      "llm_evidence_cn": "扩散Transformer的后训练剪枝以减少计算开销",
+      "llm_evidence": "扩散Transformer的后训练剪枝以减少计算开销",
+      "canonical_evidence": "扩散Transformer的后训练剪枝以减少计算开销",
+      "llm_tldr_en": "Proposes DiT-Pruning, a post-training pruning method tailored for Diffusion Transformers, addressing unique weight distribution and architecture to achieve efficient image generation.",
+      "llm_tldr_cn": "扩散Transformer（DiT）在图像生成中计算开销大，现有剪枝方法因忽略DiT独特的参数分布和架构而失效。本文提出DiT-Pruning，针对DiT设计专用剪枝策略，考虑权重大小和结构差异。实验表明该方法在保持生成质量的同时显著降低计算量，为扩散模型后训练加速提供新思路。",
+      "llm_tldr": "扩散Transformer（DiT）在图像生成中计算开销大，现有剪枝方法因忽略DiT独特的参数分布和架构而失效。本文提出DiT-Pruning，针对DiT设计专用剪枝策略，考虑权重大小和结构差异。实验表明该方法在保持生成质量的同时显著降低计算量，为扩散模型后训练加速提供新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.01962v1",
+      "source": "arxiv",
+      "title": "NeoMap: Training-free Novel-View Synthesis from Single Images and Videos",
+      "abstract": "We study the challenging problem of novel view video synthesis from single images or monocular videos. Existing methods, which operate under the assumption that pre-trained video models lack native novel view synthesis capability and enforce view alignment via camera conditioning, task-specific fine-tuning, or stepwise hard denoising guidance, often suffer from artifacts and compromised global scene consistency. In this paper, we introduce NeoMap, a novel training-free framework designed to locate high-fidelity, view-consistent novel view solutions from general pre-trained video models. The key to our approach is the core insight that promising novel view solutions are inherently encoded within the natural video data manifold learned by pre-trained models, and the core challenge is simply to locate this optimal solution. We solve this via our core mechanism: convergent manifold alternating projection iterations that optimize the initial noise. Extensive experiments demonstrate that NeoMap significantly outperforms all existing methods across 3 standard novel view synthesis benchmarks, including the challenging Tanks-and-Temples, LLFF and DAVIS datasets, achieving state-of-the-art generation fidelity and top-tier view consistency.",
+      "authors": [
+        "Jinxi Li",
+        "Tianyi Zhang",
+        "Yafei Yang",
+        "Zihui Zhang",
+        "Peng Huang",
+        "Koon Wing Macgyver Lin",
+        "Bo Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-07-02T09:56:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.01962v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free novel view synthesis enabling fast generation from pre-trained video models",
+      "llm_evidence_cn": "无需训练的新视角合成，实现快速视频生成",
+      "llm_evidence": "无需训练的新视角合成，实现快速视频生成",
+      "canonical_evidence": "无需训练的新视角合成，实现快速视频生成",
+      "llm_tldr_en": "Proposes a training-free framework that extracts novel view solutions from pre-trained video models, achieving high-fidelity and view-consistent results without additional fine-tuning.",
+      "llm_tldr_cn": "该论文提出无需训练的新视角视频合成框架NeoMap，利用预训练视频模型自然编码的视频数据流行，定位高保真、视角一致的新视角解。无需任务特定微调或硬去噪引导，即可从单张图像或单目视频生成新视角视频，实现了快速且一致的视频生成。",
+      "llm_tldr": "该论文提出无需训练的新视角视频合成框架NeoMap，利用预训练视频模型自然编码的视频数据流行，定位高保真、视角一致的新视角解。无需任务特定微调或硬去噪引导，即可从单张图像或单目视频生成新视角视频，实现了快速且一致的视频生成。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.01202v1",
+      "source": "arxiv",
+      "title": "World from Motion: Generative Dynamic Gaussian Reconstruction from Monocular Video",
+      "abstract": "We present World from Motion, a method for generating freely renderable dynamic 3D Gaussian representations from monocular videos. Our approach conditions a video model on dense, pixel-aligned renderings that encode appearance, geometry, and 3D scene motion along both input and target camera trajectories to correct rendering artifacts and fill in missing regions from an initial reconstruction. To train this model, we construct a dataset of aligned multiview video pairs and dynamic 3DGS representations, with simulated artifacts characteristic of monocular reconstruction. At test time, we distill the model's generations, including newly observed regions and motions, back into a single consistent, high-quality dynamic 3DGS, improving both novel-view synthesis and the underlying 3D motion. Our method sets a new state of the art in 4D reconstruction and seamlessly generalizes to in-the-wild videos with large viewpoint changes and dynamic motions.",
+      "authors": [
+        "Liyuan Zhu",
+        "Shengyu Huang",
+        "Amrita Mazumdar",
+        "Tianye Li",
+        "Zan Gojcic",
+        "Gordon Wetzstein",
+        "Iro Armeni",
+        "Shalini De Mello",
+        "Alex Trevithick"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR"
+      ],
+      "published": "2026-07-01T17:41:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.01202v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "distillation for improving diversity and motion dynamics in video generation",
+      "llm_evidence_cn": "通过蒸馏提升视频生成的多样性和运动动态",
+      "llm_evidence": "通过蒸馏提升视频生成的多样性和运动动态",
+      "canonical_evidence": "通过蒸馏提升视频生成的多样性和运动动态",
+      "llm_tldr_en": "Proposes a method to generate dynamic 3D Gaussians from monocular video by conditioning a video model on dense renderings and distilling generations back for consistency and quality.",
+      "llm_tldr_cn": "该论文提出从单目视频生成动态3D高斯表示的方法。通过将视频模型条件于密集的像素对齐渲染（编码外观、几何和3D场景运动），并构建带有模拟伪影的多视角视频对数据集进行训练。在测试时，将模型的生成结果蒸馏回一致的动态3D高斯，从而改善渲染伪影并填补缺失区域，提升视频生成的运动动态和多样性。",
+      "llm_tldr": "该论文提出从单目视频生成动态3D高斯表示的方法。通过将视频模型条件于密集的像素对齐渲染（编码外观、几何和3D场景运动），并构建带有模拟伪影的多视角视频对数据集进行训练。在测试时，将模型的生成结果蒸馏回一致的动态3D高斯，从而改善渲染伪影并填补缺失区域，提升视频生成的运动动态和多样性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for improving diversity and motion dynamics in few step video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
