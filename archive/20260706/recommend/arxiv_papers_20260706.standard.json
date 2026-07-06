@@ -1,0 +1,232 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-06T21:01:28.554562+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 3,
+    "deep_cap": 8,
+    "deep_selected": 3,
+    "quick_candidates": 2,
+    "quick_skim_target": 13,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.29287v1",
+      "source": "arxiv",
+      "title": "Beyond Trajectory Matching: Reflow with Marginal Distribution Alignment",
+      "abstract": "Diffusion and continuous-flow generative models achieve high-quality generation, and their deterministic sampling can be formulated as solving learned ODE dynamics. However, accurate ODE discretization often requires many steps, making efficient few-step generation a key challenge. Among acceleration strategies, reflow-based distillation simplifies teacher ODE trajectories so that a student model can approximate the teacher transport with fewer steps. We identify a theoretical limitation of this paradigm, namely that trajectory matching can under-determine the distribution induced by the student model. In particular, two student models can attain the same trajectory-matching loss while inducing different endpoint marginal distributions, which may lead to different generation quality. To address this limitation, we introduce a marginal-alignment regularizer that penalizes the discrepancy between the student-induced marginal and the corresponding teacher marginal at the endpoint of each distillation interval. The regularizer is computed by tracking log-density changes along the ODE induced by the student model and evaluating scores from the frozen teacher model, without requiring auxiliary trainable networks or adversarial optimization. The resulting framework applies uniformly to the reflow family, including vanilla reflow and piecewise reflow. We further prove a telescoping total-variation bound showing that local marginal alignment controls the final-time discrepancy between the student-induced and teacher-induced distributions. Experiments on benchmark backbones demonstrate the effectiveness of the proposed method for few-step generation.",
+      "authors": [
+        "Chen Wang",
+        "Peiran Yun",
+        "Pan Xie",
+        "Ke Deng"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "published": "2026-06-28T09:19:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.29287v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:vd"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "reflow-based distillation for few-step generation with marginal distribution alignment",
+      "llm_evidence_cn": "基于reflow的蒸馏实现少步生成，通过边际分布对齐",
+      "llm_evidence": "基于reflow的蒸馏实现少步生成，通过边际分布对齐",
+      "canonical_evidence": "基于reflow的蒸馏实现少步生成，通过边际分布对齐",
+      "llm_tldr_en": "This paper identifies a limitation of trajectory matching in reflow distillation and proposes marginal distribution alignment to improve few-step generation quality and diversity.",
+      "llm_tldr_cn": "本文发现了reflow蒸馏中轨迹匹配的理论缺陷：仅匹配轨迹不能保证学生模型的边际分布与教师一致。为此提出边际分布对齐方法，在蒸馏过程中额外对齐分布，从而在少步生成中同时提升质量和多样性。实验表明，该方法在多个生成任务上优于现有轨迹匹配方法，为加速扩散模型生成提供了新思路。",
+      "llm_tldr": "本文发现了reflow蒸馏中轨迹匹配的理论缺陷：仅匹配轨迹不能保证学生模型的边际分布与教师一致。为此提出边际分布对齐方法，在蒸馏过程中额外对齐分布，从而在少步生成中同时提升质量和多样性。实验表明，该方法在多个生成任务上优于现有轨迹匹配方法，为加速扩散模型生成提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step diffusion models for video generation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.29337v1",
+      "source": "arxiv",
+      "title": "W4A4 Quantization for Inference on Wan2.2-I2V-A14B",
+      "abstract": "We summarize our submission to Sub-Challenge 1: W4A4 Quantization for Inference (HiF4 / MXFP4) of the ICME 2026 Low-Bit-width Large-Model Quantization Challenge. The sub-challenge targets 4-bit weight and 4-bit activation inference on Wan-AI/Wan2.2-I2V-A14B under HiF4 or MXFP4 numerical formats. We adapt two complementary ideas from LLM quantization, MixQ-style mixed precision for sparse activation outliers and SmoothQuant-style per-channel smoothing, together with block-wise HiF4 packing for Wan2.2 feed-forward linear layers. Calibration on representative OpenS2V-5M batches identifies heavy-tailed activation channels; smoothing rebalances dynamic range before W4A4 rounding; and a dual-branch GEMM preserves outlier columns in higher precision while the bulk of channels use strict W4A4. On official VBench I2V metrics, our pipeline stays within 2-3.5 percent of FP16 on most quality axes and improves motion smoothness, outperforming a native HiFloat4 baseline that degrades roughly 5 percent relative to FP16 across all reported scores.",
+      "authors": [
+        "Yidong Chen",
+        "Chengyu Shi",
+        "Jiahao Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.DC"
+      ],
+      "published": "2026-06-28T11:12:52+00:00",
+      "link": "https://arxiv.org/pdf/2606.29337v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:video-refine",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "W4A4 quantization for video generation model inference",
+      "llm_evidence_cn": "视频生成模型推理的W4A4量化",
+      "llm_evidence": "视频生成模型推理的W4A4量化",
+      "canonical_evidence": "视频生成模型推理的W4A4量化",
+      "llm_tldr_en": "This work applies 4-bit weight and 4-bit activation quantization to Wan2.2 image-to-video model, using mixed precision and smoothing for efficient inference.",
+      "llm_tldr_cn": "本工作总结了在Wan2.2图像到视频生成模型上实现W4A4量化推理的方法，采用混合精度处理稀疏激活异常值，并利用逐通道平滑重平衡动态范围，通过分块HiF4打包格式降低存储和计算。校准识别重尾通道，双分支GEMM保留异常列高精度。该方案在保持生成质量的同时大幅减少资源消耗，适用于消费级GPU部署。",
+      "llm_tldr": "本工作总结了在Wan2.2图像到视频生成模型上实现W4A4量化推理的方法，采用混合精度处理稀疏激活异常值，并利用逐通道平滑重平衡动态范围，通过分块HiF4打包格式降低存储和计算。校准识别重尾通道，双分支GEMM保留异常列高精度。该方案在保持生成质量的同时大幅减少资源消耗，适用于消费级GPU部署。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.01642v1",
+      "source": "arxiv",
+      "title": "Multi-Resolution Flow Matching: Training-Free Diffusion Acceleration via Staged Sampling",
+      "abstract": "Hardware-agnostic strategies for accelerating text-to-image diffusion, such as timestep distillation and feature caching, can reduce inference time without custom kernels or system-level optimization. Among them, multi-resolution generation strategies have recently received broad attention, attaining more than 5x speedup without any training. However, the design of performing upsampling in the latent space, together with the selective modification of partial regions, causes these methods to exhibit noticeable blurring or artifacts. To this end, we propose MrFlow, a training-free multi-resolution acceleration strategy for pretrained flow-matching models built upon a staged low-to-high-resolution pipeline. MrFlow first rapidly generates the main structure at low resolution, then performs super-resolution in the pixel space using a lightweight pretrained GAN-based model, subsequently injects low-strength noise to enable high-frequency resampling, and finally refines the details at high resolution. Quantitative and qualitative results on FLUX.1-dev and Qwen-Image show that MrFlow exploits the quadratic token reduction and reduced step requirement of low-resolution sampling to achieve 10x end-to-end acceleration while keeping OneIG within a 1% gap relative to that before acceleration, significantly surpassing other training-free acceleration strategies, and requiring no training or runtime dynamic identification whatsoever. MrFlow can further be directly combined orthogonally with pre-trained timestep distillation strategies, achieving even higher generation acceleration of up to 25x.",
+      "authors": [
+        "Xingyu Zheng",
+        "Xianglong Liu",
+        "Yifu Ding",
+        "Weilun Feng",
+        "Junqing Lin",
+        "Jinyang Guo",
+        "Haotong Qin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T03:14:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.01642v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "training-free multi-resolution acceleration for diffusion models",
+      "llm_evidence_cn": "扩散模型的无训练多分辨率加速",
+      "llm_evidence": "扩散模型的无训练多分辨率加速",
+      "canonical_evidence": "扩散模型的无训练多分辨率加速",
+      "llm_tldr_en": "MrFlow proposes a training-free multi-resolution staged sampling strategy for pretrained flow-matching models, achieving >5x speedup in text-to-image generation without quality loss.",
+      "llm_tldr_cn": "MrFlow 提出一种无需训练的多分辨率分阶段采样策略，用于预训练流匹配模型。现有多分辨率加速方法存在模糊和伪影，MrFlow 通过低到高分辨率流水线逐步细化，在文本到图像生成中实现5倍以上加速且保持高质量。该方法无需定制内核或系统优化，可直接应用于现有模型，是快速图像生成的有效方案。",
+      "llm_tldr": "MrFlow 提出一种无需训练的多分辨率分阶段采样策略，用于预训练流匹配模型。现有多分辨率加速方法存在模糊和伪影，MrFlow 通过低到高分辨率流水线逐步细化，在文本到图像生成中实现5倍以上加速且保持高质量。该方法无需定制内核或系统优化，可直接应用于现有模型，是快速图像生成的有效方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.29400v1",
+      "source": "arxiv",
+      "title": "Learning to Adaptively Allocate Gaussians for Arbitrary-Scale Image Super-Resolution",
+      "abstract": "In computer graphics, visual content is continuously warped, zoomed and resampled. This occurs when engines upscale frames, users zoom into 3D scenes, or foveated VR applies varying scaling. Handling these transformations requires Arbitrary-Scale Super-Resolution (ASR). Traditional models, designed for fixed scales, typically predict at a lower integer scale (e.g., x4) and rely on sub-optimal interpolation for continuous resolutions, compromising quality. Furthermore, most methods process pixels uniformly. Since fine details are sparse, this creates overhead; efficiency dictates concentrating resources only where structural complexity demands it. While implicit models and Gaussian Splatting (GS) enable continuous representation, GS is advantageous due to adaptive densification. However, transitioning GS into a feed-forward model for ASR is non-trivial. Standard GS optimization needs high-resolution gradients to drive primitive growth, which are unavailable during inference. Thus, the network must autonomously predict GS densification from low-resolution inputs. To solve this, we propose QuADA-GS. After encoding inputs into a latent space, a Neural Routing Architecture evaluates local complexity to distribute a global budget, assigning specific upsampling factors to features to avoid redundant processing. Features are dynamically densified based on these factors, forming an irregular topology decoded into 2D Gaussian primitives. To coordinate features before decoding, we introduce Hierarchical Pointer Convolution. This non-grid operator achieves O(1) neighbor lookup complexity, facilitating efficient spatial communication and bypassing dense bottlenecks. Experiments show QuADA-GS achieves state-of-the-art ASR performance, maintaining low latency and a lean memory footprint.",
+      "authors": [
+        "Giulio Federico",
+        "Giuseppe Amato",
+        "Claudio Gennaro",
+        "Fabio Carrara",
+        "Marco Di Benedetto"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR"
+      ],
+      "published": "2026-06-28T13:47:43+00:00",
+      "link": "https://arxiv.org/pdf/2606.29400v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "arbitrary-scale super-resolution for images, applicable to video SR",
+      "llm_evidence_cn": "任意尺度图像超分辨率，可应用于视频超分",
+      "llm_evidence": "任意尺度图像超分辨率，可应用于视频超分",
+      "canonical_evidence": "任意尺度图像超分辨率，可应用于视频超分",
+      "llm_tldr_en": "Proposes adaptive Gaussian allocation for arbitrary-scale image super-resolution, achieving high quality and efficiency by focusing on structurally complex regions.",
+      "llm_tldr_cn": "传统超分模型仅支持固定尺度，且均匀处理像素导致计算冗余。本文提出自适应高斯分配方法，利用高斯泼溅的连续表示能力，根据图像局部结构复杂度动态分配计算资源。实验表明该方法在任意尺度下均能取得优于固定尺度方法的超分质量，同时保持高效。该技术可推广到视频超分领域，提升生成视频的视觉质量。",
+      "llm_tldr": "传统超分模型仅支持固定尺度，且均匀处理像素导致计算冗余。本文提出自适应高斯分配方法，利用高斯泼溅的连续表示能力，根据图像局部结构复杂度动态分配计算资源。实验表明该方法在任意尺度下均能取得优于固定尺度方法的超分质量，同时保持高效。该技术可推广到视频超分领域，提升生成视频的视觉质量。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "What are the state of the art video super resolution methods applied to synthesis results",
+      "matched_requirement_id": "req-22",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.31050v1",
+      "source": "arxiv",
+      "title": "Learning Video Dynamics with Predictive Differentiable Rendering",
+      "abstract": "How to accurately predict a high-fidelity future world? While the visual world is inherently continuous, existing deterministic video prediction models operate in discrete pixel space and are mainly optimized with pixel-wise mean squared error (MSE), which often leads to over-smoothed predictions and a lack of fine-grained visual details. To address these limitations, we propose Predictive Differentiable Rendering (PDR), a novel end-to-end video prediction paradigm that bridges the gap between discrete and continuous representations. Inspired by recent progress in 3D reconstruction with 3D Gaussian Splatting, we introduce PredGS, a lightweight and plug-and-play adapter based on 2D Gaussian representation, which could be seamlessly integrated with existing pixel space predictors, significantly improving spatial detail preservation with negligible computational overhead. Furthermore, we develop predgsplat, a CUDA-accelerated differentiable 2D Gaussian renderer supporting arbitrary channels. Each Gaussian is defined by 5 + C learnable parameters (position, scale, rotation, and C channel amplitudes) and achieves up to 10x faster rendering than the baseline. Optimized by a combined L1 and SSIM loss, PDR overcomes the inherent blurring tendencies of MSE Loss, significantly enhancing the prediction performance. Extensive experiments on diverse real-world benchmarks, including TaxiBJ, WeatherBench, KTH, and Human3.6M, demonstrate that PDR consistently surpasses existing methods, delivering superior detail preservation, visual fidelity, and predictive accuracy.",
+      "authors": [
+        "Yujin Tang",
+        "Tian Zhou",
+        "Xin Lin",
+        "Cheng Tan",
+        "Yifan Hu",
+        "Rong Jin",
+        "SouYoung Jin",
+        "Liang Sun"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-30T02:36:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.31050v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improves video prediction details and dynamics",
+      "llm_evidence_cn": "改善视频预测细节与动态",
+      "llm_evidence": "改善视频预测细节与动态",
+      "canonical_evidence": "改善视频预测细节与动态",
+      "llm_tldr_en": "Proposes Predictive Differentiable Rendering (PDR) with PredGS adapter for high-fidelity video prediction, overcoming MSE-induced over-smoothing.",
+      "llm_tldr_cn": "针对现有视频预测模型使用像素级MSE导致预测过度平滑、缺乏精细细节的问题，提出预测可微渲染（PDR）范式，引入基于2D高斯表示的PredGS适配器，连接离散和连续表示。实验表明该方法能生成高保真未来帧，有效改善动态质量和视觉细节，为视频生成中的运动动态提升提供了新途径。",
+      "llm_tldr": "针对现有视频预测模型使用像素级MSE导致预测过度平滑、缺乏精细细节的问题，提出预测可微渲染（PDR）范式，引入基于2D高斯表示的PredGS适配器，连接离散和连续表示。实验表明该方法能生成高保真未来帧，有效改善动态质量和视觉细节，为视频生成中的运动动态提升提供了新途径。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

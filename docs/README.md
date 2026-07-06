@@ -6,38 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-05
-- 运行时间：2026-07-05 21:31:46 UTC
+- 最新运行日期：2026-07-06
+- 运行时间：2026-07-06 21:04:23 UTC
 - 运行状态：成功
 - 本次总论文数：5
-- 精读区：0
-- 速读区：5
+- 精读区：3
+- 速读区：2
 
 ### 今日简报（AI）
-1) 今日速读3篇7分论文，聚焦3D生成、扩散模型剪枝与动态场景重建。
-2) 最值得关注：多视角分数蒸馏提升3D生成质量，以及单目视频生成动态高斯场景的新方法。
-3) 建议深入阅读这两篇的消融实验和细节对比，有助于理解当前生成与重建的实用技术。
-- 详情：[/202607/05/README](/202607/05/README)
+今日精读两篇高分论文：生成模型分布对齐新方法超越轨迹匹配，以及Wan2.2视频模型实现W4A4极致量化推理。最值得关注《Beyond Trajectory Matching》提出的边际分布对齐思路，它能有效改善生成多样性；另一篇《W4A4 Quantization》则展示了低比特量化在不牺牲效果下的巨大加速潜力。建议优先消化这两篇关于高效生成与推理的技术，它们直接关系到当前多模态大模型的落地性能。
+- 详情：[/202607/06/README](/202607/06/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Beyond Trajectory Matching: Reflow with Marginal Distribution Alignment](/202607/06/2606.29287v1-beyond-trajectory-matching-reflow-with-marginal-distribution-alignment)  
+   标签：评分：9.0/10、query:vd
+   evidence：基于reflow的蒸馏实现少步生成，通过边际分布对齐
+2. [W4A4 Quantization for Inference on Wan2.2-I2V-A14B](/202607/06/2606.29337v1-w4a4-quantization-for-inference-on-wan22-i2v-a14b)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：视频生成模型推理的W4A4量化
+3. [Multi-Resolution Flow Matching: Training-Free Diffusion Acceleration via Staged Sampling](/202607/06/2607.01642v1-multi-resolution-flow-matching-training-free-diffusion-acceleration-via-staged-sampling)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：扩散模型的无训练多分辨率加速
 
 ### 速读区论文标签
-1. [Variance Reduction on the Camera Axis: Multi-View Score Distillation for 3D](/202607/05/2606.29964v1-variance-reduction-on-the-camera-axis-multi-view-score-distillation-for-3d)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：通过多视角分数蒸馏实现生成模型的知识蒸馏
-2. [Post-Training Pruning for Diffusion Transformers](/202607/05/2607.00927v1-post-training-pruning-for-diffusion-transformers)  
+1. [Learning to Adaptively Allocate Gaussians for Arbitrary-Scale Image Super-Resolution](/202607/06/2606.29400v1-learning-to-adaptively-allocate-gaussians-for-arbitrary-scale-image-super-resolution)  
+   标签：评分：7.0/10、query:video-refine
+   evidence：任意尺度图像超分辨率，可应用于视频超分
+2. [Learning Video Dynamics with Predictive Differentiable Rendering](/202607/06/2606.31050v1-learning-video-dynamics-with-predictive-differentiable-rendering)  
    标签：评分：7.0/10、query:vd
-   evidence：扩散Transformer的后训练剪枝以减少计算开销
-3. [World from Motion: Generative Dynamic Gaussian Reconstruction from Monocular Video](/202607/05/2607.01202v1-world-from-motion-generative-dynamic-gaussian-reconstruction-from-monocular-video)  
-   标签：评分：7.0/10、query:vd
-   evidence：通过蒸馏提升视频生成的多样性和运动动态
-4. [Multi-Resolution Flow Matching: Training-Free Diffusion Acceleration via Staged Sampling](/202607/05/2607.01642v1-multi-resolution-flow-matching-training-free-diffusion-acceleration-via-staged-sampling)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：无训练的多分辨率加速，适用于快速图像生成
-5. [NeoMap: Training-free Novel-View Synthesis from Single Images and Videos](/202607/05/2607.01962v1-neomap-training-free-novel-view-synthesis-from-single-images-and-videos)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：无需训练的新视角合成，实现快速视频生成
+   evidence：改善视频预测细节与动态
 
 
 <div class="dpr-home-promo-card">
