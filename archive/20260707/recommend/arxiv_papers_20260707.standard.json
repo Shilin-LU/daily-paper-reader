@@ -1,0 +1,648 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-07T21:38:48.605424+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 9,
+    "deep_cap": 8,
+    "deep_selected": 8,
+    "quick_candidates": 6,
+    "quick_skim_target": 13,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2607.03118v1",
+      "source": "arxiv",
+      "title": "Vidu S1: A Real-Time Interactive Video Generation Model",
+      "abstract": "We introduce Vidu S1, a real-time interactive video generation model supporting voice control of digital characters. Users can control video generation content at any moment through voice instructions. Vidu S1 supports infinite-length real-time video generation without blurring, drift, or visual distortion. Built with TurboDiffusion and TurboServe, Vidu S1 outputs 540p real-time videos at up to 42 FPS on regular consumer GPUs. Users can upload custom images of real people, anime, and pets, and choose different voice tones for personalized experiences. Experiments show that Vidu S1 achieves the best performance across all test metrics while fully meeting real-time inference requirements. A playable online demo is available at https://vidu.com/vidu-stream.",
+      "authors": [
+        "Jintao Zhang",
+        "Kai Jiang",
+        "Jintao Chen",
+        "Xu Wang",
+        "Yang Luo",
+        "Yuji Wang",
+        "Dechuang Chen",
+        "Jungang Li",
+        "Chengyang Ye",
+        "Marco Chen",
+        "Hongzhou Zhu",
+        "Min Zhao",
+        "Yuxuan Jiang",
+        "Zhengkun Huang",
+        "Chendong Xiang",
+        "Kaiwen Zheng",
+        "Haoxu Wang",
+        "Xiaohang Wang",
+        "Qi Jia",
+        "Xin Chen",
+        "Yimin Chen",
+        "Youhe Jiang",
+        "Fangcheng Fu",
+        "Zhijie Deng",
+        "Fan Bao",
+        "Jianfei Chen",
+        "Jun Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-03T08:58:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.03118v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "real-time interactive video generation on consumer GPUs",
+      "llm_evidence_cn": "在消费级GPU上实现实时交互视频生成",
+      "llm_evidence": "在消费级GPU上实现实时交互视频生成",
+      "canonical_evidence": "在消费级GPU上实现实时交互视频生成",
+      "llm_tldr_en": "Vidu S1 achieves real-time 540p video generation at 42 FPS on consumer GPUs with TurboDiffusion and TurboServe, supporting infinite length and voice control.",
+      "llm_tldr_cn": "Vidu S1提出了一种基于TurboDiffusion和TurboServe的实时交互视频生成模型，可在普通消费级GPU上以42 FPS输出540p视频，支持无限长度生成和语音控制，在各项指标上达到最优性能，满足实时推理需求。",
+      "llm_tldr": "Vidu S1提出了一种基于TurboDiffusion和TurboServe的实时交互视频生成模型，可在普通消费级GPU上以42 FPS输出540p视频，支持无限长度生成和语音控制，在各项指标上达到最优性能，满足实时推理需求。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.02584v1",
+      "source": "arxiv",
+      "title": "RotateAttention: RoPE-Aware Rotation and Range Rectification for INT4 Quantized Attention in Video Generation",
+      "abstract": "In \\textbf{DiT-based video generation models equipped with 3D Rotary Position Embeddings (3D RoPE)}, the attention mechanism remains a primary computational bottleneck due to its quadratic complexity with respect to sequence length. While quantized \\textbf{FlashAttention} offers a promising path toward hardware acceleration, existing low-bit quantization methods overlook two critical challenges in this setting: \\textbf{1)} applying online rotation matrices -- a widely used technique for mitigating outliers in Queries ($Q$) and Keys ($K$) -- is difficult to reconcile with \\textbf{RoPE}; and \\textbf{2)} the non-negative attention matrix $P = \\exp(QK - \\max(QK))$ makes symmetric quantization waste half of the 4-bit dynamic range. In this work, we observe that the outlier distributions of $Q$ and $K$ are strongly affected by the dimensional partitioning of \\textbf{3D RoPE}. Based on this finding, we propose \\textbf{RotateAttention}, an efficient \\textbf{mixed-precision INT4 FlashAttention} framework tailored for \\textbf{DiT-based video generation models with 3D RoPE}, using selective \\textbf{FP16 fallback} for accuracy-sensitive attention blocks and denoising steps. RotateAttention introduces two core techniques: \\textbf{1) RoPE-aware Rotation}, which employs either mergeable rotation matrices that can be fused into RoPE or negligible-overhead matrices to mitigate RoPE-induced outliers in $Q$ and $K$; and \\textbf{2) Range-optimized $P$ Quantization}, which uses fixed scales and zero-points to fully exploit the \\textbf{INT4 numerical range} with minimal computational overhead. Experiments show that \\textbf{RotateAttention} preserves video generation quality nearly identical to full-precision baselines while achieving up to 1.68$\\times$ end-to-end speedup and 2.2$\\times$ kernel-level acceleration.",
+      "authors": [
+        "Yaofu Liu",
+        "Wanli Lan",
+        "Jinxi Li",
+        "Binhang Yuan",
+        "Harry Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T02:44:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.02584v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "INT4 quantized attention for DiT video generation, addressing RoPE compatibility",
+      "llm_evidence_cn": "针对DiT视频生成模型的INT4量化注意力，解决RoPE兼容性问题",
+      "llm_evidence": "针对DiT视频生成模型的INT4量化注意力，解决RoPE兼容性问题",
+      "canonical_evidence": "针对DiT视频生成模型的INT4量化注意力，解决RoPE兼容性问题",
+      "llm_tldr_en": "RotateAttention proposes RoPE-aware rotation and range rectification to enable INT4 quantized FlashAttention for video generation, reducing attention computation without quality loss.",
+      "llm_tldr_cn": "RotateAttention针对DiT视频生成模型中3D RoPE与量化注意力的冲突，提出RoPE感知的旋转矩阵适配和范围修正方法，实现INT4量化FlashAttention，在不降低生成质量的前提下显著加速注意力计算，解决视频生成中的计算瓶颈。",
+      "llm_tldr": "RotateAttention针对DiT视频生成模型中3D RoPE与量化注意力的冲突，提出RoPE感知的旋转矩阵适配和范围修正方法，实现INT4量化FlashAttention，在不降低生成质量的前提下显著加速注意力计算，解决视频生成中的计算瓶颈。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03524v1",
+      "source": "arxiv",
+      "title": "Perceptual Flow Matching for Few-Step Generative Modeling",
+      "abstract": "We propose Perceptual Flow Matching (PFM), a simple yet effective framework for few-step generation in flow-matching models. Rather than performing velocity regression in the conventional VAE latent space, PFM supervises flow matching in a perceptual feature space using pretrained perceptual models. This simple change substantially improves the few-step generation capability of flow-matching models, reducing the number of sampling steps from 35-50 to 4-8 while preserving generation quality. Unlike existing acceleration and distillation approaches, PFM requires neither teacher models nor auxiliary score networks and can be integrated into standard flow-matching training pipelines with minimal modifications. Extensive experiments on image generation, video generation, and image editing tasks demonstrate that PFM consistently produces high-quality results while producing fewer artifacts than existing distillation-based methods. We further show that perceptual supervision shifts the regression minimizer from mean-seeking to mode-seeking, biasing predictions toward on-manifold modes that remain accurate under coarse few-step integration. Our results reveal that standard flow-matching training can naturally yield high-quality few-step generators when supervised in an appropriate representation space. We hope this insight inspires future research into representation-aware objectives for efficient generative modeling.",
+      "authors": [
+        "Chuyang Zhao",
+        "Yifei Song",
+        "Hongfa Wang",
+        "Jianlong Yuan",
+        "Yuan Zhang",
+        "Siming Fu",
+        "Zhineng Chen",
+        "Huilin Deng",
+        "Haoyang Huang",
+        "Nan Duan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-03T17:55:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.03524v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "few-step generation for video models using perceptual feature supervision",
+      "llm_evidence_cn": "使用感知特征监督实现视频模型的少步生成",
+      "llm_evidence": "使用感知特征监督实现视频模型的少步生成",
+      "canonical_evidence": "使用感知特征监督实现视频模型的少步生成",
+      "llm_tldr_en": "Proposes Perceptual Flow Matching (PFM) that supervises flow matching in a perceptual feature space, reducing sampling steps from 35-50 to 4-8 for image and video generation without teacher models.",
+      "llm_tldr_cn": "提出感知流匹配(PFM)框架，在感知特征空间进行流匹配监督，无需教师模型即可将采样步数从35-50步减少到4-8步，在图像和视频生成上保持质量，显著加速生成过程。",
+      "llm_tldr": "提出感知流匹配(PFM)框架，在感知特征空间进行流匹配监督，无需教师模型即可将采样步数从35-50步减少到4-8步，在图像和视频生成上保持质量，显著加速生成过程。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03803v1",
+      "source": "arxiv",
+      "title": "CineMobile: On-Device Image-to-Video Diffusion for Cinematic Camera Motion Generation",
+      "abstract": "The growing demand for image-to-video creation on mobile devices has increasingly focused on cinematic motion effects like bullet time, dolly zoom, slow motion, etc. While Diffusion Transformers (DiTs) exhibit strong performance in video generation, their large parameter sizes and multi-step iterative denoising processes lead to substantial computational overhead, making efficient generation on mobile devices challenging. We propose CineMobile to bridge the gap. In particular, CineMobile adopts a three-fold optimization strategy: (1) leveraging a distillation-guided pruning approach to derive a compact yet efficient model that retains the essential video generation capabilities required for cinematic effects; (2) optimizing the compressed model into a 4-step generator via a combination of diffusion distillation and reinforcement learning; (3) employing a hybrid post-training quantization strategy to compress the model footprint to under 1 GB. Experimental results show that compared to the teacher model with the Wan 2.1 architecture, CineMobile achieves a 40x speedup in generation while maintaining comparable visual quality. Specifically, CineMobile generates 49-frame 480p videos with a per-step denoising latency of 0.6s on an NVIDIA H200 GPU and 20s on the MediaTek Dimensity 8400 Ultimate 5G platform, with a peak memory usage of 1.8 GB, demonstrating its practical applicability for mobile-based image-to-video creation.",
+      "authors": [
+        "Xuyao Huang",
+        "Zelai Deng",
+        "Xu Wang",
+        "Xizhong Xiao",
+        "Zhijie Deng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-04T10:24:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.03803v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "distillation-guided pruning for on-device image-to-video diffusion",
+      "llm_evidence_cn": "蒸馏引导剪枝实现移动端图像到视频扩散",
+      "llm_evidence": "蒸馏引导剪枝实现移动端图像到视频扩散",
+      "canonical_evidence": "蒸馏引导剪枝实现移动端图像到视频扩散",
+      "llm_tldr_en": "CineMobile enables efficient image-to-video generation on mobile devices by combining distillation-guided pruning and model compression for cinematic camera motion effects.",
+      "llm_tldr_cn": "该论文针对移动设备上的图像到视频生成任务，提出CineMobile方法。采用蒸馏引导的剪枝策略压缩扩散变换器，保留视频生成能力的同时降低计算量。优化后的模型可在移动端实时产生电影级相机运动效果，显著提升效率。",
+      "llm_tldr": "该论文针对移动设备上的图像到视频生成任务，提出CineMobile方法。采用蒸馏引导的剪枝策略压缩扩散变换器，保留视频生成能力的同时降低计算量。优化后的模型可在移动端实时产生电影级相机运动效果，显著提升效率。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03960v1",
+      "source": "arxiv",
+      "title": "Reward Lightning: Fast Video Generation via Homologous Preference Distillation",
+      "abstract": "Achieving simultaneous preference alignment and distillation acceleration in video diffusion models remains an open challenge. Existing methods optimize the two objectives over mismatched representation spaces, where improving one objective often compromises the other. To overcome this, we propose Reward Lightning, a unified framework that aligns and accelerates a video diffusion model within a single shared representation. Its central principle is homology: both objectives are evaluated on identical latent features, which mitigates the gradient conflicts that arise when they are optimized over disjoint representations. As a foundational component, we first introduce a latent reward model (LRM) that scores videos directly in the latent space, without decoding back to the pixel space. Building on the LRM, homologous preference distillation (HPD) reuses this shared backbone to perform adversarial distillation and preference alignment jointly, yielding few-step generators that remain faithful and well aligned. Extensive experiments demonstrate that the LRM surpasses pixel-level and latent-level reward baselines by $11.0\\%$ and $14.7\\%$ in preference accuracy, and that Reward Lightning generates high-fidelity videos in merely $1$ to $4$ steps, improving the average VBench score by $2.1\\%$ while leading in text alignment, motion quality, and visual quality. Project page: https://reward-lightning.github.io.",
+      "authors": [
+        "Jiaxiang Cheng",
+        "Bing Ma",
+        "Xuhua Ren",
+        "Kai Yu",
+        "Peng Zhang",
+        "Tianxiang Zheng",
+        "Qinglin Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T17:32:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.03960v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "distillation for fast video generation",
+      "llm_evidence_cn": "蒸馏加速视频生成",
+      "llm_evidence": "蒸馏加速视频生成",
+      "canonical_evidence": "蒸馏加速视频生成",
+      "llm_tldr_en": "Proposes Reward Lightning, a unified framework for simultaneous preference alignment and distillation acceleration in video diffusion models via homologous preference distillation.",
+      "llm_tldr_cn": "视频扩散模型中对齐偏好与蒸馏加速两个目标通常在不相交表示空间优化导致梯度冲突。Reward Lightning提出同构偏好蒸馏框架，在共享潜在空间中对齐和加速，并引入潜在奖励模型（LRM）直接在潜在空间评分视频。实验表明，该方法在保持高质量的同时显著加速采样，实现了对齐与加速的协同提升。",
+      "llm_tldr": "视频扩散模型中对齐偏好与蒸馏加速两个目标通常在不相交表示空间优化导致梯度冲突。Reward Lightning提出同构偏好蒸馏框架，在共享潜在空间中对齐和加速，并引入潜在奖励模型（LRM）直接在潜在空间评分视频。实验表明，该方法在保持高质量的同时显著加速采样，实现了对齐与加速的协同提升。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03012v1",
+      "source": "arxiv",
+      "title": "HyperVAttention: Efficient Sparse Attention with Spatio-Temporal Clustering for Video Diffusion",
+      "abstract": "Video Diffusion Transformers (VDiTs) have demonstrated significant capabilities in high-fidelity video generation. However, their ability to produce long-duration videos is fundamentally constrained by the quadratic complexity of the self-attention mechanism. Recent clustering-based sparse attention methods improve the quality-speed trade-off by grouping semantically similar tokens, but their practical efficiency remains limited by two bottlenecks: substantial clustering overhead and low CTA utilization caused by irregular cluster-induced blocks. We propose HyperVAttention (HVA), a training-free sparse attention framework that addresses both bottlenecks jointly. To reduce clustering overhead, we introduce 3D local-window clustering, which exploits the spatio-temporal locality of video tokens to restrict centroid search to fixed local neighborhoods, and implement it with a custom Triton kernel for efficient execution. We further propose a hybrid clustering strategy that performs full clustering only at anchor steps and updates only subset tokens at intermediate steps, leveraging the temporal stability of cluster assignments across denoising steps. To improve CTA utilization, we present hardware-aware cluster merging that minimizes CTA-aligned execution cost through parallel agglomerative merging, improving block density and approximation fidelity by utilizing idle tile capacity. Together, these components reduce clustering overhead, avoid redundant updates, and better align sparse attention with the fixed tile structure of modern GPU kernels. Experiments on Text-to-Video generation show that HVA establishes a new Pareto frontier for training-free sparse attention in video diffusion, reducing end-to-end latency by up to $2.13\\times$ while improving fidelity over existing training-free sparse attention baselines.",
+      "authors": [
+        "Dongyeun Lee",
+        "Amir Zandieh",
+        "Vahab Mirrokni",
+        "Junmo Kim",
+        "Insu Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-03T06:46:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.03012v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "sparse attention for video diffusion",
+      "llm_evidence_cn": "视频扩散中的稀疏注意力",
+      "llm_evidence": "视频扩散中的稀疏注意力",
+      "canonical_evidence": "视频扩散中的稀疏注意力",
+      "llm_tldr_en": "Proposes HyperVAttention, a training-free sparse attention framework for video diffusion transformers that reduces clustering overhead and improves GPU utilization, enabling efficient long video generation.",
+      "llm_tldr_cn": "视频扩散Transformer因自注意力二次复杂度限制了长视频生成能力。HyperVAttention提出一种无需训练的稀疏注意力框架，通过3D局部窗口聚类显著减少聚类开销，并优化GPU计算模式提升利用率。在多个视频生成数据集上，该方法实现了显著加速，同时保持生成质量几乎无损。这为长视频的高效生成提供了一种实用方案。",
+      "llm_tldr": "视频扩散Transformer因自注意力二次复杂度限制了长视频生成能力。HyperVAttention提出一种无需训练的稀疏注意力框架，通过3D局部窗口聚类显著减少聚类开销，并优化GPU计算模式提升利用率。在多个视频生成数据集上，该方法实现了显著加速，同时保持生成质量几乎无损。这为长视频的高效生成提供了一种实用方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "sparse attention video generation",
+      "matched_requirement_id": "req-14",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.02798v1",
+      "source": "arxiv",
+      "title": "Track the Noise, Move the World:3D-Grounded Motion-Consistent Noise for Controllable Video Generation",
+      "abstract": "Modern image-and-text-to-video diffusion models can synthesize highly realistic videos by iteratively denoising an initial Gaussian noise tensor conditioned on reference image and text inputs. However, existing approaches still lack precise and unified controllability over both object motion and camera motion within a single generation process. We present UniCaMo, a unified framework that enables simultaneous control of object trajectories and camera viewpoints by directly constructing the input noise of the diffusion model. Specifically, UniCaMo builds a shared 3D-grounded motion-consistent noise space across latent video frames. Sparse 3D point tracks are used to warp the Gaussian noise of the reference frame along desired object trajectories, while a virtual spherical noise representation provides globally consistent noise values for newly revealed scene regions under camera motion. By combining local track-guided noise warping with global sphere-based noise sampling, UniCaMo maintains geometric and temporal consistency under both object movement and viewpoint changes. Because UniCaMo modifies only the input noise, it requires no auxiliary adapters, control branches, or architectural changes to the underlying video diffusion model. With lightweight LoRA fine-tuning on large pretrained video diffusion models, including Wan 2.1 (14B), UniCaMo achieves state-of-the-art results in both video quality and motion controllability on standard controllable video generation benchmarks.",
+      "authors": [
+        "Long Vu",
+        "Tan Ngo",
+        "Animesh Karnewar",
+        "Amir Habibian",
+        "Binh-Son Hua",
+        "Hung Bui",
+        "Minh Hoai Nguyen",
+        "Phong Nguyen-Ha"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-02T22:17:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.02798v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Improves motion dynamics control in video generation through 3D-grounded noise",
+      "llm_evidence_cn": "通过3D基础噪声提升视频生成中的运动动态控制",
+      "llm_evidence": "通过3D基础噪声提升视频生成中的运动动态控制",
+      "canonical_evidence": "通过3D基础噪声提升视频生成中的运动动态控制",
+      "llm_tldr_en": "UniCaMo enables simultaneous control of object trajectories and camera viewpoints in video diffusion models by constructing 3D-grounded motion-consistent noise, enhancing motion dynamics and diversity.",
+      "llm_tldr_cn": "现有扩散视频生成模型缺乏对目标运动和摄像机运动的统一控制。本文提出UniCaMo，通过构建3D基础的运动一致噪声空间，实现对对象轨迹和摄像机视角的同步控制。该方法利用稀疏3D点轨迹变形参考帧的高斯噪声，生成可控视频。实验表明，该方法在保持高保真度的同时显著增强了运动动态可控性，为视频生成提供了更丰富的运动模式。",
+      "llm_tldr": "现有扩散视频生成模型缺乏对目标运动和摄像机运动的统一控制。本文提出UniCaMo，通过构建3D基础的运动一致噪声空间，实现对对象轨迹和摄像机视角的同步控制。该方法利用稀疏3D点轨迹变形参考帧的高斯噪声，生成可控视频。实验表明，该方法在保持高保真度的同时显著增强了运动动态可控性，为视频生成提供了更丰富的运动模式。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03509v1",
+      "source": "arxiv",
+      "title": "Flex-Forcing: Towards a Unified Autoregressive and Bidirectional Video Diffusion Model",
+      "abstract": "Recent progress in large-scale generative models has substantially advanced video generation, yet existing methods remain constrained by a rigid inference paradigm. Bidirectional diffusion models excel at global coherence and visual fidelity but suffer from slow inference, while autoregressive models offer efficient and streaming generation at the cost of long-range consistency and exposure bias. We introduce Flex-Forcing, a unified training and inference framework that enables a video diffusion model to seamlessly operate under both bidirectional and autoregressive generation regimes. The core idea is a flexible chunking mechanism jointly defined over the temporal axis and denoising steps. This design allows the model to (1) perform flexible chunking according to different device budgets, (2) perform bidirectional inference across chunks for global structure planning, while generating frames autoregressively within each chunk for efficient and fine-grained synthesis, and (3) perform any-order, any-timestep autoregressive generation without the strict causal constraint. Extensive experiments on multiple video generation benchmarks demonstrate that Flex-Forcing achieves consistently better video quality, long-video stability than strong baselines with a rigid inference schedule, while offering faster inference.",
+      "authors": [
+        "Xinyin Ma",
+        "Julius Berner",
+        "Chao Liu",
+        "Arash Vahdat",
+        "Weili Nie",
+        "Xinchao Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-03T17:34:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.03509v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "unified framework enabling efficient streaming generation for video diffusion",
+      "llm_evidence_cn": "统一框架实现视频扩散的高效流式生成",
+      "llm_evidence": "统一框架实现视频扩散的高效流式生成",
+      "canonical_evidence": "统一框架实现视频扩散的高效流式生成",
+      "llm_tldr_en": "Proposes Flex-Forcing, a unified training and inference framework for video diffusion models that combines autoregressive and bidirectional regimes for efficient and consistent generation.",
+      "llm_tldr_cn": "该论文提出Flex-Forcing，一种统一的训练和推理框架，使视频扩散模型能同时支持双向和自回归生成，利用灵活分块机制平衡全局一致性与推理速度，在加速视频生成的同时保持质量。",
+      "llm_tldr": "该论文提出Flex-Forcing，一种统一的训练和推理框架，使视频扩散模型能同时支持双向和自回归生成，利用灵活分块机制平衡全局一致性与推理速度，在加速视频生成的同时保持质量。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.03256v1",
+      "source": "arxiv",
+      "title": "A Decomposable Probe for Few-Step Diffusion Models: Prompt, Latent, and Score Selectivity across Backbone Families and Distillation Paradigms",
+      "abstract": "Few-step distilled diffusion students cut text-to-image inference from ~50 to 1-8 network evaluations, but the quality gap is usually summarised by a single FID/CLIP scalar that cannot say which axis of the conditioning response changed, nor whether a behaviour comes from the architecture, the distillation objective, or simply from being a diffusion model. We replace the scalar with a decomposable probe that injects controlled perturbations along three layers (prompt encoder, denoiser input, denoiser output) under three modes (mean, variance, scale) and six strengths, reporting a bootstrap-median Bures W2^2 selectivity ratio on Inception features. Under a single matched estimator across 23 models -- five teachers and 18 distilled students spanning five backbone families (SDXL, SD1.5, SD3.5, PixArt-alpha, FLUX), three architecture classes (UNet, DiT, MMDiT), and five distillation paradigms -- the three layers read three empirically separable factors: the prompt layer is a universal prompt-mean response (a sanity channel, not a discriminator), the latent layer reads the prediction type, and the score layer reads the distillation objective. Our main result: within this sweep, the latent layer is a near-binary detector of rectified-flow backbones. Its ratio exceeds 1 across a sustained low-to-mid band only for rectified-flow models (SD3.5, FLUX); no epsilon-prediction model qualifies. A matched epsilon-prediction control (PixArt-alpha) rules out wide-T5 conditioning, and the fingerprint survives adversarial (ADD) distillation as both teacher and student. Two secondary score-layer findings hold under narrower scopes: a canonical 4-step ADD-vs-rest contrast on the UNet families with a non-ADD baseline, and a CI-separated trajectory-rollout early-strength score spike on both UNet and DiT. All ratios are CI-citable under one estimator; we release the per-cell tables and the estimator.",
+      "authors": [
+        "Patrick Mu Haojie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-03T12:18:24+00:00",
+      "link": "https://arxiv.org/pdf/2607.03256v1",
+      "tags": [
+        "keyword:vd"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "decomposable probe for few-step diffusion models and distillation paradigms",
+      "llm_evidence_cn": "用于少步扩散模型和蒸馏范式的可分解探针",
+      "llm_evidence": "用于少步扩散模型和蒸馏范式的可分解探针",
+      "canonical_evidence": "用于少步扩散模型和蒸馏范式的可分解探针",
+      "llm_tldr_en": "Introduces a decomposable probe to analyze few-step distilled diffusion models across architectures and distillation objectives, revealing selectivity axes.",
+      "llm_tldr_cn": "少步蒸馏扩散模型的质量评估通常依赖单一指标，难以诊断行为来源。本文提出可分解探针，对提示编码器、去噪器输入/输出注入控制扰动，报告Bures W2^2选择性比率，系统分析了不同骨干网络和蒸馏范式的响应特异性，为理解与改进少步生成提供了诊断工具。",
+      "llm_tldr": "少步蒸馏扩散模型的质量评估通常依赖单一指标，难以诊断行为来源。本文提出可分解探针，对提示编码器、去噪器输入/输出注入控制扰动，报告Bures W2^2选择性比率，系统分析了不同骨干网络和蒸馏范式的响应特异性，为理解与改进少步生成提供了诊断工具。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step diffusion models for video generation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.30811v1",
+      "source": "arxiv",
+      "title": "AVTok: 1D Unified Tokenization for Holistic Audio-Video Generation",
+      "abstract": "Audio-video generation has recently gained unprecedented research attention, aiming to synthesize high-quality sounding video content with fine-grained synchronization and semantic alignment between the auditory and visual components. The preceding methods predominantly adopt a dual-branch design with separate tokenization and generation modules per modality, neglecting the representation gap while necessitating intensive computational resources for proper training. Inspired by recent advancements in one-dimensional visual tokenization, we present \\textbf{AVTok}, a novel unified tokenizer designated for holistic audio-video generation. AVTok features a dual-stream transformer-based architecture with shared encoder-decoder and modal-specific learnable queries to efficiently and effectively encode an audio-video pair into a compact one-dimensional latent representation with a unified codebook. To cope with the heterogeneous information imbalance that hinders AVTok from exploiting aligned audio-visual information, we devise a hierarchical training strategy to progressively realize reconstruction capabilities for each modality. Extensive experiments demonstrate that AVTok excels both in audio-video reconstruction and when integrated into downstream pipelines for audio-to-video, video-to-audio, and class-conditional joint audio-video generation. AVTok paves the way for the challenge of joint audio-video tokenization and provides a potential direction to build unified large multimodal models for audio-video generation.",
+      "authors": [
+        "Kien T. Pham",
+        "I Chieh Chen",
+        "Qifeng Chen",
+        "Long Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.MM",
+        "cs.SD",
+        "eess.AS"
+      ],
+      "published": "2026-06-29T18:35:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.30811v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes a unified tokenizer for audio-video generation, enabling holistic generation with shared encoder-decoder",
+      "llm_evidence_cn": "提出用于音视频生成的统一标记化，实现共享编码器-解码器的整体生成",
+      "llm_evidence": "提出用于音视频生成的统一标记化，实现共享编码器-解码器的整体生成",
+      "canonical_evidence": "提出用于音视频生成的统一标记化，实现共享编码器-解码器的整体生成",
+      "llm_tldr_en": "Introduces AVTok, a unified 1D tokenizer for audio and video using dual-stream transformer with shared encoder-decoder and modal-specific queries, enabling efficient holistic generation.",
+      "llm_tldr_cn": "针对现有音视频生成采用双分支设计导致表征间隙和计算开销大的问题，该论文提出AVTok统一标记化方法，采用双流变压器架构，共享编码器-解码器并利用模态特定可学习查询。在音视频生成任务上，该方法在保持高质量的同时降低了计算复杂度，为统一音视频生成提供了新思路。",
+      "llm_tldr": "针对现有音视频生成采用双分支设计导致表征间隙和计算开销大的问题，该论文提出AVTok统一标记化方法，采用双流变压器架构，共享编码器-解码器并利用模态特定可学习查询。在音视频生成任务上，该方法在保持高质量的同时降低了计算复杂度，为统一音视频生成提供了新思路。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.02517v1",
+      "source": "arxiv",
+      "title": "WorldDirector: Building Controllable World Simulators with Persistent Dynamic Memory",
+      "abstract": "We present WorldDirector, a highly controllable video world model framework designed for persistent dynamic object memory and unrestricted viewpoint exploration. Unlike existing world models that entangle physical dynamics with pixel rendering and rely on continuous visual observation to sustain motion, our framework explicitly decouples semantic motion orchestration from visual generation. By leveraging an LLM to coordinate 3D trajectories with camera movements and subsequently employing these orchestrated trajectories as control signals for video generation, our approach ensures strict physical logic and appearance stability, successfully preserving the exact visual identities of dynamic entities even when they re-enter the scene after prolonged periods out of view. Experimental results demonstrate that our method supports the synthesis of complex and extended events with unprecedented controllability and persistent dynamic object memory. Project Page: https://worlddirector.github.io/",
+      "authors": [
+        "Hanlin Wang",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Wen Wang",
+        "Qingyan Bai",
+        "Ka Leong Cheng",
+        "Yue Yu",
+        "Yixuan Li",
+        "Yihao Meng",
+        "Zichen Liu",
+        "Yanhong Zeng",
+        "Yujun Shen",
+        "Qifeng Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T17:59:59+00:00",
+      "link": "https://arxiv.org/pdf/2607.02517v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "controllable video world model with persistent dynamic object memory",
+      "llm_evidence_cn": "具有持久动态对象记忆的可控视频世界模型",
+      "llm_evidence": "具有持久动态对象记忆的可控视频世界模型",
+      "canonical_evidence": "具有持久动态对象记忆的可控视频世界模型",
+      "llm_tldr_en": "WorldDirector decouples semantic motion orchestration from visual generation, using LLM-coordinated 3D trajectories for controllable video generation with persistent dynamic memory.",
+      "llm_tldr_cn": "WorldDirector提出将语义运动编排与视觉生成解耦，利用大语言模型协调3D轨迹和相机运动作为控制信号，实现持久动态对象记忆和自由视角探索的视频世界模型，在物理逻辑和外观稳定性上显著优于现有方法。",
+      "llm_tldr": "WorldDirector提出将语义运动编排与视觉生成解耦，利用大语言模型协调3D轨迹和相机运动作为控制信号，实现持久动态对象记忆和自由视角探索的视频世界模型，在物理逻辑和外观稳定性上显著优于现有方法。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.03788v1",
+      "source": "arxiv",
+      "title": "Tensor-Train Joint Modeling for Few-Step Discrete Diffusion",
+      "abstract": "Discrete diffusion promises orders-of-magnitude faster generation than autoregressive (AR) models for sequential discrete data, yet its full potential of few-step generation has remained out of reach due to a fundamental structural limitation. The conditional-independence assumption underlying current discrete diffusion models introduces a systematic parallelization bias that compounds with the number of tokens unmasked per step, becoming severe in the few-step regime that fast generation requires. We address this with the first framework for explicit joint distribution modeling in discrete diffusion via tensor decomposition, which represents the conditional clean distribution as a low-rank tensor with controllable expressivity. The framework supports both Canonical Polyadic (CPD) and Tensor-Train (TTD) decompositions, and we identify a structural bias of TTD toward dependencies between nearby tokens, formalized through Oseledets' theorem relating TT-rank to unfolding-matrix rank, which is well-suited to sequential data such as natural language and line notations for molecular data. To enable efficient generation, we present an iterative marginal inference procedure with specialization for predetermined position schedules. Our framework integrates into pretrained MDMs through lightweight fine-tuning, yielding substantial improvements in few-step generation at a fraction of the cost of training from scratch.",
+      "authors": [
+        "Byoungkwon Kim",
+        "Minhyuk Sung"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-04T09:32:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.03788v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes tensor-train joint modeling for few-step discrete diffusion, addressing parallelization bias in few-step sampling",
+      "llm_evidence_cn": "提出张量列联合建模用于少步离散扩散，解决了少步采样中的并行化偏差",
+      "llm_evidence": "提出张量列联合建模用于少步离散扩散，解决了少步采样中的并行化偏差",
+      "canonical_evidence": "提出张量列联合建模用于少步离散扩散，解决了少步采样中的并行化偏差",
+      "llm_tldr_en": "Proposes tensor-train decomposition to jointly model conditional distributions in discrete diffusion, enabling high-quality few-step generation for sequential discrete data.",
+      "llm_tldr_cn": "该论文针对离散扩散模型在少步生成时因条件独立性假设导致的并行化偏差问题，提出利用张量列分解显式建模条件联合分布。通过低秩张量表示控制表达能力，支持规范化和非规范化建模。实验表明该方法在少步离散数据生成任务上显著优于现有离散扩散模型，为加速序列离散数据生成提供了新范式。",
+      "llm_tldr": "该论文针对离散扩散模型在少步生成时因条件独立性假设导致的并行化偏差问题，提出利用张量列分解显式建模条件联合分布。通过低秩张量表示控制表达能力，支持规范化和非规范化建模。实验表明该方法在少步离散数据生成任务上显著优于现有离散扩散模型，为加速序列离散数据生成提供了新范式。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step diffusion models for video generation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.03732v1",
+      "source": "arxiv",
+      "title": "ProxyUp: Training-Free Proxy-Conditioned Video Generation for Controllable Dynamics",
+      "abstract": "Precise control over complex dynamics remains challenging for modern video generative models, as text prompts alone often cannot specify physically plausible, fine-grained motion and interactions. We introduce $\\textit{proxy-conditioned video generation}$, where a coarse proxy video from physics-based simulation or real-world recording serves as a dynamics carrier to control foreground object motion. Given a proxy video and a text prompt, the goal is to synthesize a new video that preserves the proxy dynamics while generating novel content and plausible interactions aligned with the prompt. Since paired proxy-target videos are difficult to obtain, we propose $\\textbf{ProxyUp}$, a training-free framework built on pretrained video generative models. ProxyUp first inverts the proxy video into an intermediate latent representation and applies $\\textbf{region-wise latent noising}$, preserving motion-critical proxy latents while injecting noise into regions intended for text-driven regeneration. To mitigate the distribution mismatch and weak foreground-background coupling introduced by this heuristic latent composition, we further propose $\\textbf{Stochastic Flow Relaxation (SFR)}$, which progressively relaxes the composed latent toward the model's learned distribution before ODE sampling. Experiments on both simulation and real-world proxies show that ProxyUp outperforms strong video editing and motion transfer baselines in dynamic fidelity and text alignment.",
+      "authors": [
+        "Zanwei Zhou",
+        "Jiazhong Cen",
+        "Jiemin Fang",
+        "Yumeng He",
+        "Chen Yang",
+        "Sikuang Li",
+        "Fanpeng Meng",
+        "Zhikuan Bao",
+        "Wei Shen",
+        "Qi Tian"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T06:39:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.03732v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "proxy-conditioned video generation for controllable dynamics",
+      "llm_evidence_cn": "代理条件视频生成用于可控动态",
+      "llm_evidence": "代理条件视频生成用于可控动态",
+      "canonical_evidence": "代理条件视频生成用于可控动态",
+      "llm_tldr_en": "ProxyUp enables training-free proxy-conditioned video generation to precisely control foreground motion while preserving proxy dynamics, improving motion controllability without fine-tuning.",
+      "llm_tldr_cn": "视频生成中实现精细运动控制仍然困难。本文提出ProxyUp，一种基于代理视频的条件生成框架，通过无训练的方式利用预训练模型合成新视频，保留代理动态并生成与提示对齐的新内容。实验证明该方法能有效控制物体运动，提升生成视频的运动真实感和可控性，为视频生成提供了新的控制范式。",
+      "llm_tldr": "视频生成中实现精细运动控制仍然困难。本文提出ProxyUp，一种基于代理视频的条件生成框架，通过无训练的方式利用预训练模型合成新视频，保留代理动态并生成与提示对齐的新内容。实验证明该方法能有效控制物体运动，提升生成视频的运动真实感和可控性，为视频生成提供了新的控制范式。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.05376v1",
+      "source": "arxiv",
+      "title": "MV-Forcing: Long Multi-View Video Generation via 4D-Grounded Spatio-Temporal Self-Forcing",
+      "abstract": "Recent advances in video diffusion models have enabled either long single-view generation through temporal autoregression, or short multi-view synthesis through bidirectional attention. However, generating long, multi-view consistent videos of dynamic scenes remains unsolved. In this work, we present MV-Forcing, a framework that composes temporal and view-wise autoregression within a single diffusion model by introducing a 4D geometric bridge between sequentially generated views. Our key insight is that an autoregressive 3D reconstruction model naturally interfaces between autoregressively generated views. Given a completed source view, we reconstruct its 3D structure and render a geometric prior of the next target viewpoint, which the diffusion model refines into a high-quality video. To extend generation beyond the teacher's fixed temporal window, we introduce a joint denoising regime where both view slots are initialized from noise during training, enabling temporally unbounded generation. We distill the model via Distribution Matching Distillation with Spatio-Temporal Self-Forcing, closing the train-inference exposure bias gap for both temporal and view-sequential autoregression. Extensive experiments on both synthetic and real-world data demonstrate that MV-Forcing produces geometrically consistent multi-view videos of dynamic scenes at arbitrary lengths and viewpoint counts using a single few-step student model.",
+      "authors": [
+        "Gal Fiebelman",
+        "Hadar Averbuch-Elor",
+        "Sagie Benaim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-06T17:54:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.05376v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "long multi-view video generation with 4D geometric bridge, enhances motion dynamics",
+      "llm_evidence_cn": "基于4D几何桥的长多视图视频生成，提升运动动态",
+      "llm_evidence": "基于4D几何桥的长多视图视频生成，提升运动动态",
+      "canonical_evidence": "基于4D几何桥的长多视图视频生成，提升运动动态",
+      "llm_tldr_en": "Proposes MV-Forcing, a framework generating long multi-view videos via temporal and view-wise autoregression with a 4D geometric bridge, achieving consistent dynamic scenes.",
+      "llm_tldr_cn": "该论文提出MV-Forcing框架，通过时间与视图的自回归结合4D几何桥，生成长序列、多视角一致的动态视频，解决了动态场景中长视频生成的一致性问题。",
+      "llm_tldr": "该论文提出MV-Forcing框架，通过时间与视图的自回归结合4D几何桥，生成长序列、多视角一致的动态视频，解决了动态场景中长视频生成的一致性问题。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

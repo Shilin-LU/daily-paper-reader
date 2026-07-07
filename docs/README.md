@@ -6,35 +6,64 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-06
-- 运行时间：2026-07-06 21:04:23 UTC
+- 最新运行日期：2026-07-07
+- 运行时间：2026-07-07 21:48:38 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：3
-- 速读区：2
+- 本次总论文数：14
+- 精读区：8
+- 速读区：6
 
 ### 今日简报（AI）
-今日精读两篇高分论文：生成模型分布对齐新方法超越轨迹匹配，以及Wan2.2视频模型实现W4A4极致量化推理。最值得关注《Beyond Trajectory Matching》提出的边际分布对齐思路，它能有效改善生成多样性；另一篇《W4A4 Quantization》则展示了低比特量化在不牺牲效果下的巨大加速潜力。建议优先消化这两篇关于高效生成与推理的技术，它们直接关系到当前多模态大模型的落地性能。
-- 详情：[/202607/06/README](/202607/06/README)
+今天推荐14篇论文，精读8篇，重点关注视频生成与量化优化。  
+最值得看的高分精读：Vidu S1实时交互视频生成模型（10分）和RotateAttention针对视频生成中INT4量化注意力的优化（9分）。  
+普通读者可优先关注Vidu S1的实时交互能力，以及RotateAttention在降低计算成本的同时保持视频生成质量的技术思路。
+- 详情：[/202607/07/README](/202607/07/README)
 
 ### 精读区论文标签
-1. [Beyond Trajectory Matching: Reflow with Marginal Distribution Alignment](/202607/06/2606.29287v1-beyond-trajectory-matching-reflow-with-marginal-distribution-alignment)  
-   标签：评分：9.0/10、query:vd
-   evidence：基于reflow的蒸馏实现少步生成，通过边际分布对齐
-2. [W4A4 Quantization for Inference on Wan2.2-I2V-A14B](/202607/06/2606.29337v1-w4a4-quantization-for-inference-on-wan22-i2v-a14b)  
+1. [Vidu S1: A Real-Time Interactive Video Generation Model](/202607/07/2607.03118v1-vidu-s1-a-real-time-interactive-video-generation-model)  
+   标签：评分：10.0/10、query:fast-gen
+   evidence：在消费级GPU上实现实时交互视频生成
+2. [RotateAttention: RoPE-Aware Rotation and Range Rectification for INT4 Quantized Attention in Video Generation](/202607/07/2607.02584v1-rotateattention-rope-aware-rotation-and-range-rectification-for-int4-quantized-attention-in-video-generation)  
    标签：评分：9.0/10、query:fast-gen
-   evidence：视频生成模型推理的W4A4量化
-3. [Multi-Resolution Flow Matching: Training-Free Diffusion Acceleration via Staged Sampling](/202607/06/2607.01642v1-multi-resolution-flow-matching-training-free-diffusion-acceleration-via-staged-sampling)  
+   evidence：针对DiT视频生成模型的INT4量化注意力，解决RoPE兼容性问题
+3. [Perceptual Flow Matching for Few-Step Generative Modeling](/202607/07/2607.03524v1-perceptual-flow-matching-for-few-step-generative-modeling)  
+   标签：评分：9.0/10、query:vd
+   evidence：使用感知特征监督实现视频模型的少步生成
+4. [CineMobile: On-Device Image-to-Video Diffusion for Cinematic Camera Motion Generation](/202607/07/2607.03803v1-cinemobile-on-device-image-to-video-diffusion-for-cinematic-camera-motion-generation)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：蒸馏引导剪枝实现移动端图像到视频扩散
+5. [Reward Lightning: Fast Video Generation via Homologous Preference Distillation](/202607/07/2607.03960v1-reward-lightning-fast-video-generation-via-homologous-preference-distillation)  
+   标签：评分：9.0/10、query:vd
+   evidence：蒸馏加速视频生成
+6. [Track the Noise, Move the World:3D-Grounded Motion-Consistent Noise for Controllable Video Generation](/202607/07/2607.02798v1-track-the-noise-move-the-world3d-grounded-motion-consistent-noise-for-controllable-video-generation)  
+   标签：评分：8.0/10、query:vd
+   evidence：通过3D基础噪声提升视频生成中的运动动态控制
+7. [HyperVAttention: Efficient Sparse Attention with Spatio-Temporal Clustering for Video Diffusion](/202607/07/2607.03012v1-hypervattention-efficient-sparse-attention-with-spatio-temporal-clustering-for-video-diffusion)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：扩散模型的无训练多分辨率加速
+   evidence：视频扩散中的稀疏注意力
+8. [Flex-Forcing: Towards a Unified Autoregressive and Bidirectional Video Diffusion Model](/202607/07/2607.03509v1-flex-forcing-towards-a-unified-autoregressive-and-bidirectional-video-diffusion-model)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：统一框架实现视频扩散的高效流式生成
 
 ### 速读区论文标签
-1. [Learning to Adaptively Allocate Gaussians for Arbitrary-Scale Image Super-Resolution](/202607/06/2606.29400v1-learning-to-adaptively-allocate-gaussians-for-arbitrary-scale-image-super-resolution)  
-   标签：评分：7.0/10、query:video-refine
-   evidence：任意尺度图像超分辨率，可应用于视频超分
-2. [Learning Video Dynamics with Predictive Differentiable Rendering](/202607/06/2606.31050v1-learning-video-dynamics-with-predictive-differentiable-rendering)  
+1. [A Decomposable Probe for Few-Step Diffusion Models: Prompt, Latent, and Score Selectivity across Backbone Families and Distillation Paradigms](/202607/07/2607.03256v1-a-decomposable-probe-for-few-step-diffusion-models-prompt-latent-and-score-selectivity-across-backbone-families-and-distillation-paradigms)  
+   标签：评分：8.0/10、query:vd
+   evidence：用于少步扩散模型和蒸馏范式的可分解探针
+2. [AVTok: 1D Unified Tokenization for Holistic Audio-Video Generation](/202607/07/2606.30811v1-avtok-1d-unified-tokenization-for-holistic-audio-video-generation)  
    标签：评分：7.0/10、query:vd
-   evidence：改善视频预测细节与动态
+   evidence：提出用于音视频生成的统一标记化，实现共享编码器-解码器的整体生成
+3. [Tensor-Train Joint Modeling for Few-Step Discrete Diffusion](/202607/07/2607.03788v1-tensor-train-joint-modeling-for-few-step-discrete-diffusion)  
+   标签：评分：7.0/10、query:vd
+   evidence：提出张量列联合建模用于少步离散扩散，解决了少步采样中的并行化偏差
+4. [WorldDirector: Building Controllable World Simulators with Persistent Dynamic Memory](/202607/07/2607.02517v1-worlddirector-building-controllable-world-simulators-with-persistent-dynamic-memory)  
+   标签：评分：6.0/10、query:vd
+   evidence：具有持久动态对象记忆的可控视频世界模型
+5. [ProxyUp: Training-Free Proxy-Conditioned Video Generation for Controllable Dynamics](/202607/07/2607.03732v1-proxyup-training-free-proxy-conditioned-video-generation-for-controllable-dynamics)  
+   标签：评分：6.0/10、query:vd
+   evidence：代理条件视频生成用于可控动态
+6. [MV-Forcing: Long Multi-View Video Generation via 4D-Grounded Spatio-Temporal Self-Forcing](/202607/07/2607.05376v1-mv-forcing-long-multi-view-video-generation-via-4d-grounded-spatio-temporal-self-forcing)  
+   标签：评分：6.0/10、query:vd
+   evidence：基于4D几何桥的长多视图视频生成，提升运动动态
 
 
 <div class="dpr-home-promo-card">
