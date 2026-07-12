@@ -6,64 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-07
-- 运行时间：2026-07-07 21:48:38 UTC
+- 最新运行日期：2026-07-12
+- 运行时间：2026-07-12 20:43:58 UTC
 - 运行状态：成功
-- 本次总论文数：14
-- 精读区：8
-- 速读区：6
+- 本次总论文数：17
+- 精读区：7
+- 速读区：10
 
 ### 今日简报（AI）
-今天推荐14篇论文，精读8篇，重点关注视频生成与量化优化。  
-最值得看的高分精读：Vidu S1实时交互视频生成模型（10分）和RotateAttention针对视频生成中INT4量化注意力的优化（9分）。  
-普通读者可优先关注Vidu S1的实时交互能力，以及RotateAttention在降低计算成本的同时保持视频生成质量的技术思路。
-- 详情：[/202607/07/README](/202607/07/README)
+今日聚焦移动端视频扩散与高效视频生成两大突破。
+最值得精读《MobileWan》与《Dynamic-in-Few-Step》，分别解决移动视频质量差距和快速生成效率问题。
+普通读者可关注移动视频创作与实时生成技术的发展，建议试用手持设备编辑工具。
+- 详情：[/202607/12/README](/202607/12/README)
 
 ### 精读区论文标签
-1. [Vidu S1: A Real-Time Interactive Video Generation Model](/202607/07/2607.03118v1-vidu-s1-a-real-time-interactive-video-generation-model)  
-   标签：评分：10.0/10、query:fast-gen
-   evidence：在消费级GPU上实现实时交互视频生成
-2. [RotateAttention: RoPE-Aware Rotation and Range Rectification for INT4 Quantized Attention in Video Generation](/202607/07/2607.02584v1-rotateattention-rope-aware-rotation-and-range-rectification-for-int4-quantized-attention-in-video-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：针对DiT视频生成模型的INT4量化注意力，解决RoPE兼容性问题
-3. [Perceptual Flow Matching for Few-Step Generative Modeling](/202607/07/2607.03524v1-perceptual-flow-matching-for-few-step-generative-modeling)  
+1. [MobileWan: Closing the Quality Gap for Mobile Video Diffusion](/202607/12/2607.06173v1-mobilewan-closing-the-quality-gap-for-mobile-video-diffusion)  
    标签：评分：9.0/10、query:vd
-   evidence：使用感知特征监督实现视频模型的少步生成
-4. [CineMobile: On-Device Image-to-Video Diffusion for Cinematic Camera Motion Generation](/202607/07/2607.03803v1-cinemobile-on-device-image-to-video-diffusion-for-cinematic-camera-motion-generation)  
-   标签：评分：9.0/10、query:fast-gen
-   evidence：蒸馏引导剪枝实现移动端图像到视频扩散
-5. [Reward Lightning: Fast Video Generation via Homologous Preference Distillation](/202607/07/2607.03960v1-reward-lightning-fast-video-generation-via-homologous-preference-distillation)  
+   evidence：使用递归蒸馏框架在移动设备上高效部署视频扩散模型
+2. [Dynamic-in-Few-Step: Unifying Dynamic Computation and Few-Step Distillation for Efficient Video Generation](/202607/12/2607.06631v1-dynamic-in-few-step-unifying-dynamic-computation-and-few-step-distillation-for-efficient-video-generation)  
    标签：评分：9.0/10、query:vd
-   evidence：蒸馏加速视频生成
-6. [Track the Noise, Move the World:3D-Grounded Motion-Consistent Noise for Controllable Video Generation](/202607/07/2607.02798v1-track-the-noise-move-the-world3d-grounded-motion-consistent-noise-for-controllable-video-generation)  
-   标签：评分：8.0/10、query:vd
-   evidence：通过3D基础噪声提升视频生成中的运动动态控制
-7. [HyperVAttention: Efficient Sparse Attention with Spatio-Temporal Clustering for Video Diffusion](/202607/07/2607.03012v1-hypervattention-efficient-sparse-attention-with-spatio-temporal-clustering-for-video-diffusion)  
+   evidence：视频扩散模型的后训练蒸馏，结合动态稀疏化
+3. [DiffCVE: Diffusion-based Compressed Video Enhancement](/202607/12/2607.07195v1-diffcve-diffusion-based-compressed-video-enhancement)  
+   标签：评分：9.0/10、query:video-refine
+   evidence：基于扩散的压缩视频增强用于伪影去除和质量提升
+4. [OPSD-V: On-Policy Self-Distillation for Post-Training Few-Step Autoregressive Video Generators](/202607/12/2607.08766v1-opsd-v-on-policy-self-distillation-for-post-training-few-step-autoregressive-video-generators)  
+   标签：评分：9.0/10、query:vd
+   evidence：在线策略自蒸馏用于后训练少步自回归视频生成器
+5. [ELiTeFormer: An Efficient Transformer for FPGAs](/202607/12/2607.03652v1-eliteformer-an-efficient-transformer-for-fpgas)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：视频扩散中的稀疏注意力
-8. [Flex-Forcing: Towards a Unified Autoregressive and Bidirectional Video Diffusion Model](/202607/07/2607.03509v1-flex-forcing-towards-a-unified-autoregressive-and-bidirectional-video-diffusion-model)  
+   evidence：线性注意力和三元量化实现高效Transformer，可应用于快速生成
+6. [Wan-Streamer v0.2: Higher Resolution, Same Latency](/202607/12/2607.04443v2-wan-streamer-v02-higher-resolution-same-latency)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：统一框架实现视频扩散的高效流式生成
+   evidence：实时视频流模型，低延迟高分辨率
+7. [FADRA: Frequency-Aware Diffusion with Residual Adaptation for Video Face Restoration](/202607/12/2607.06389v1-fadra-frequency-aware-diffusion-with-residual-adaptation-for-video-face-restoration)  
+   标签：评分：8.0/10、query:video-refine
+   evidence：频率感知扩散用于视频人脸修复，使用适配器
 
 ### 速读区论文标签
-1. [A Decomposable Probe for Few-Step Diffusion Models: Prompt, Latent, and Score Selectivity across Backbone Families and Distillation Paradigms](/202607/07/2607.03256v1-a-decomposable-probe-for-few-step-diffusion-models-prompt-latent-and-score-selectivity-across-backbone-families-and-distillation-paradigms)  
-   标签：评分：8.0/10、query:vd
-   evidence：用于少步扩散模型和蒸馏范式的可分解探针
-2. [AVTok: 1D Unified Tokenization for Holistic Audio-Video Generation](/202607/07/2606.30811v1-avtok-1d-unified-tokenization-for-holistic-audio-video-generation)  
+1. [Flash-BoN: Instant Drafts for Inference-Time Scaling in Diffusion Models](/202607/12/2607.04461v1-flash-bon-instant-drafts-for-inference-time-scaling-in-diffusion-models)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：扩散模型推理时间缩放，提升生成速度
+2. [SparseCtrl-HOI: Sparse Temporal Control for Human-Object Interaction Video Generation](/202607/12/2607.05994v1-sparsectrl-hoi-sparse-temporal-control-for-human-object-interaction-video-generation)  
    标签：评分：7.0/10、query:vd
-   evidence：提出用于音视频生成的统一标记化，实现共享编码器-解码器的整体生成
-3. [Tensor-Train Joint Modeling for Few-Step Discrete Diffusion](/202607/07/2607.03788v1-tensor-train-joint-modeling-for-few-step-discrete-diffusion)  
-   标签：评分：7.0/10、query:vd
-   evidence：提出张量列联合建模用于少步离散扩散，解决了少步采样中的并行化偏差
-4. [WorldDirector: Building Controllable World Simulators with Persistent Dynamic Memory](/202607/07/2607.02517v1-worlddirector-building-controllable-world-simulators-with-persistent-dynamic-memory)  
+   evidence：通过稀疏时域控制提升运动多样性
+3. [SAGA: Stable Acceleration Guidance for Autoregressive Video Generation](/202607/12/2607.08020v1-saga-stable-acceleration-guidance-for-autoregressive-video-generation)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：无需训练的加速引导用于自回归视频生成
+4. [Perceiving Better Moments: Cover Frame Reselection and Enhancement for Live Photos with the Live2K Dataset](/202607/12/2607.04151v1-perceiving-better-moments-cover-frame-reselection-and-enhancement-for-live-photos-with-the-live2k-dataset)  
+   标签：评分：6.0/10、query:video-refine
+   evidence：实况照片视频帧增强
+5. [Wan-Streamer v0.2: Higher Resolution, Same Latency](/202607/12/2607.04443v1-wan-streamer-v02-higher-resolution-same-latency)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：实时音视频交互，低延迟流式输出
+6. [Enhancing Video Physical Consistency via Role-aware Joint Training and Modality-decoupled Denoising](/202607/12/2607.04653v2-enhancing-video-physical-consistency-via-role-aware-joint-training-and-modality-decoupled-denoising)  
    标签：评分：6.0/10、query:vd
-   evidence：具有持久动态对象记忆的可控视频世界模型
-5. [ProxyUp: Training-Free Proxy-Conditioned Video Generation for Controllable Dynamics](/202607/07/2607.03732v1-proxyup-training-free-proxy-conditioned-video-generation-for-controllable-dynamics)  
+   evidence：关注视频扩散模型和运动动态
+7. [Consistent and Editable: A Balanced Framework for Text-Guided Video Editing](/202607/12/2607.05056v1-consistent-and-editable-a-balanced-framework-for-text-guided-video-editing)  
+   标签：评分：6.0/10、query:video-refine
+   evidence：增强一致性和可编辑性的视频编辑框架
+8. [MV-Forcing: Long Multi-View Video Generation via 4D-Grounded Spatio-Temporal Self-Forcing](/202607/12/2607.05376v1-mv-forcing-long-multi-view-video-generation-via-4d-grounded-spatio-temporal-self-forcing)  
    标签：评分：6.0/10、query:vd
-   evidence：代理条件视频生成用于可控动态
-6. [MV-Forcing: Long Multi-View Video Generation via 4D-Grounded Spatio-Temporal Self-Forcing](/202607/07/2607.05376v1-mv-forcing-long-multi-view-video-generation-via-4d-grounded-spatio-temporal-self-forcing)  
+   evidence：长多视图视频生成，时空自回归提升多样性与运动动态
+9. [Prompt-Adapter Context Routing for Parameter-Efficient Multi-Shot Long Video Extrapolation](/202607/12/2607.06481v1-prompt-adapter-context-routing-for-parameter-efficient-multi-shot-long-video-extrapolation)  
    标签：评分：6.0/10、query:vd
-   evidence：基于4D几何桥的长多视图视频生成，提升运动动态
+   evidence：参数高效的后训练适应，使用适配器生成视频
+10. [LightCrafter: PBR-Conditioned Video Diffusion Refinement for Controllable and Consistent Relighting](/202607/12/2607.08016v1-lightcrafter-pbr-conditioned-video-diffusion-refinement-for-controllable-and-consistent-relighting)  
+   标签：评分：6.0/10、query:video-refine
+   evidence：视频扩散精化用于重照明
 
 
 <div class="dpr-home-promo-card">

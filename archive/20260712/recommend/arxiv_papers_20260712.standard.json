@@ -1,0 +1,809 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-12T20:34:30.260797+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 7,
+    "deep_cap": 8,
+    "deep_selected": 7,
+    "quick_candidates": 10,
+    "quick_skim_target": 13,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2607.06173v1",
+      "source": "arxiv",
+      "title": "MobileWan: Closing the Quality Gap for Mobile Video Diffusion",
+      "abstract": "Recent advances in video diffusion have been driven by scaling transformer-based architectures to billions of parameters, substantially improving visual fidelity and motion coherence. In contrast, existing mobile video diffusion models remain limited to relatively small parameter budgets, typically 0.4-1.8B, restricting generation quality. In this work, we show that high-quality mobile video generation does not require small models. Instead, we demonstrate that a server-scale 5B-parameter video diffusion transformer can be deployed efficiently on memory-constrained mobile hardware through recurrent reformulation and structured compression. Starting from Wan2.2-5B, we rely on a recurrence distillation framework that converts video generation into a chunk-wise autoregressive process with constant-memory attention computation. Combined with causal linear attention, the model operates as an RNN at inference time while preserving temporal coherence across chunks. We further propose a learnable attention head pruning method based on binary per-head gates optimized end-to-end using a noise-biased sparsity objective and distillation-based finetuning. Together with sampling-step distillation and memory-optimized VAE decoding, MobileWan becomes the first 5B-scale video diffusion model deployable on a commercial mobile device. Our system generates 5-second 480x832 videos at 16 FPS in 20 seconds end-to-end latency, achieving a VBench score of 83.79 and establishing a new state of the art in mobile video generation. Project page: https://qualcomm-ai-research.github.io/mobilewan",
+      "authors": [
+        "Mohsen Ghafoorian",
+        "Denis Korzhenkov",
+        "Adil Karjauv",
+        "Ioannis Lelekas",
+        "Noor Fathima",
+        "Spyridon Stasis",
+        "Hanno Ackermann",
+        "Boris van Breugel",
+        "Markus Nagel",
+        "Fatih Porikli",
+        "Animesh Karnewar",
+        "Amirhossein Habibian"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-07T11:52:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.06173v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "recurrence distillation framework for mobile video diffusion",
+      "llm_evidence_cn": "使用递归蒸馏框架在移动设备上高效部署视频扩散模型",
+      "llm_evidence": "使用递归蒸馏框架在移动设备上高效部署视频扩散模型",
+      "canonical_evidence": "使用递归蒸馏框架在移动设备上高效部署视频扩散模型",
+      "llm_tldr_en": "Proposes recurrence distillation and structured compression to deploy a 5B video diffusion transformer on mobile, achieving high-quality video generation with efficient chunk-wise autoregressive inference.",
+      "llm_tldr_cn": "针对移动设备视频生成质量受限的问题，提出递归蒸馏框架将服务器级5B参数视频扩散模型压缩至移动端可用，通过分块自回归生成和结构化压缩在保持高视觉保真度的同时大幅降低内存占用，实验证明该方法有效缩小了移动与服务器视频生成的质量差距，为消费级硬件上的实时视频生成铺平道路。",
+      "llm_tldr": "针对移动设备视频生成质量受限的问题，提出递归蒸馏框架将服务器级5B参数视频扩散模型压缩至移动端可用，通过分块自回归生成和结构化压缩在保持高视觉保真度的同时大幅降低内存占用，实验证明该方法有效缩小了移动与服务器视频生成的质量差距，为消费级硬件上的实时视频生成铺平道路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post training distillation for video diffusion models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06631v1",
+      "source": "arxiv",
+      "title": "Dynamic-in-Few-Step: Unifying Dynamic Computation and Few-Step Distillation for Efficient Video Generation",
+      "abstract": "Video Diffusion Models (VDMs) have demonstrated superior generation quality but suffer from prohibitive computational costs. While recent few-step distillation techniques significantly accelerate inference, they typically enforce a static model architecture across all denoising stages, ignoring the varying computational demands inherent to different noise levels. In this work, we propose a novel post-training acceleration framework that exploits this redundancy by integrating dynamic structural sparsification directly into the distillation process. Unlike conventional post-hoc compression applied to a fixed diffusion pipeline, our approach jointly optimizes the denoising steps and structured model sparsity, transforming a pre-trained VDM into a compact, step-specific Mixture-of-Models (MoM). To address the training instability arising from this joint optimization, we introduce a Progressive Training Strategy coupled with an Output Rollout Mechanism, which ensures the coherent learning of structural decisions across timesteps. Furthermore, we develop a specialized inference engine to deploy the resulting MoM efficiently. Our method is orthogonal to existing acceleration techniques and highly effective: On Wan-14B, it removes 24% of the per-step FLOPs on top of 4-step distillation, adding a 1.2x wall-clock gain and reaching a 30x speedup over the 50-step teacher while preserving competitive generation quality.",
+      "authors": [
+        "Yu Cheng",
+        "Siyue Yao",
+        "Zhongang Qi",
+        "Shanyan Guan",
+        "Wei Li",
+        "Fajie Yuan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-07T13:14:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.06631v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "post-training distillation for video diffusion models with dynamic sparsification",
+      "llm_evidence_cn": "视频扩散模型的后训练蒸馏，结合动态稀疏化",
+      "llm_evidence": "视频扩散模型的后训练蒸馏，结合动态稀疏化",
+      "canonical_evidence": "视频扩散模型的后训练蒸馏，结合动态稀疏化",
+      "llm_tldr_en": "Proposes a post-training acceleration framework that integrates dynamic structural sparsification into few-step distillation for video diffusion models, jointly optimizing denoising steps and model sparsity.",
+      "llm_tldr_cn": "针对视频扩散模型推理成本高的问题，提出了一种后训练加速框架，将动态结构稀疏化与几步蒸馏相结合，联合优化去噪步骤和模型稀疏性，在保持生成质量的同时显著提升推理速度。实验表明该方法在多个视频生成基准上取得了加速与质量的最佳平衡。",
+      "llm_tldr": "针对视频扩散模型推理成本高的问题，提出了一种后训练加速框架，将动态结构稀疏化与几步蒸馏相结合，联合优化去噪步骤和模型稀疏性，在保持生成质量的同时显著提升推理速度。实验表明该方法在多个视频生成基准上取得了加速与质量的最佳平衡。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post training distillation for video diffusion models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.07195v1",
+      "source": "arxiv",
+      "title": "DiffCVE: Diffusion-based Compressed Video Enhancement",
+      "abstract": "Perceptual quality enhancement of severely compressed videos remains challenging due to complex artifact patterns and substantial information loss. Recent diffusion models have demonstrated strong generative capability for visual restoration, but directly applying them to compressed video often ignores compression degradation characteristics and may introduce structure-inconsistent hallucinations. To address this issue, this paper presents a diffusion-based compressed video enhancement method, named DiffCVE. Coding Prior-enhanced Dual Conditioning (CPDC) branches are designed to jointly model compressed video and coding prior conditions, where coding priors including residuals and motion vectors provide complementary structural and motion guidance during the diffusion denoising process. To make the diffusion process aware of compression severity, a Compression Degradation Semantic Prompting (CDSP) mechanism is introduced to leverage QP-conditioned textual prompts together with LoRA fine-tuning. In addition, a Coding Prior-guided Weighted Fusion (CPWF) module is incorporated into the VAE decoder to fuse VAE encoder and coding prior encoder features with QP-predicted weights. Extensive experiments demonstrate the effectiveness of the proposed method in improving perceptual quality, especially under severe compression settings. The project page with enhanced video demonstrations is available at https://wqmaker.github.io/projects/DiffCVE/.",
+      "authors": [
+        "Wenqiang Xiao",
+        "Wenzhuo Ma",
+        "Junxi Zhang",
+        "Zhenzhong Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-08T09:30:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.07195v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diffusion-based compressed video enhancement for artifact removal and quality improvement",
+      "llm_evidence_cn": "基于扩散的压缩视频增强用于伪影去除和质量提升",
+      "llm_evidence": "基于扩散的压缩视频增强用于伪影去除和质量提升",
+      "canonical_evidence": "基于扩散的压缩视频增强用于伪影去除和质量提升",
+      "llm_tldr_en": "DiffCVE applies diffusion models with coding prior dual conditioning to enhance compressed videos, removing artifacts and improving perceptual quality beyond previous methods.",
+      "llm_tldr_cn": "针对压缩视频中复杂伪影和信息丢失的增强问题，本文提出DiffCVE，一种基于扩散模型的压缩视频增强方法。通过编码先验增强双条件分支，联合建模压缩视频和编码先验（残差、运动向量），在扩散过程中提供结构和运动引导。实验结果表明该方法在伪影去除和细节增强上显著优于现有方法，直接对应视频增强（要求18-24,27）主题。",
+      "llm_tldr": "针对压缩视频中复杂伪影和信息丢失的增强问题，本文提出DiffCVE，一种基于扩散模型的压缩视频增强方法。通过编码先验增强双条件分支，联合建模压缩视频和编码先验（残差、运动向量），在扩散过程中提供结构和运动引导。实验结果表明该方法在伪影去除和细节增强上显著优于现有方法，直接对应视频增强（要求18-24,27）主题。",
+      "llm_tags": [
+        "query:video-refine:composite"
+      ],
+      "matched_query_tag": "query:video-refine:composite",
+      "matched_query_text": "Papers central to 请帮我查找与video refiner以及video super resolution相关的paper，用于增强视频生成后的质量, especially work that connects or combines: video refinement techniques for generated videos; video super resolution methods for quality enhancement; video restoration for generative outputs; How to refine videos generated by AI models to improve visual quality; What are the state of the art video super resolution methods applied to synthesis results; Techniques for removing artifacts and enhancing details in generated videos; Post generation video processing for temporal coherence and sharpness.",
+      "matched_requirement_id": "req-composite-video-refine",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.08766v1",
+      "source": "arxiv",
+      "title": "OPSD-V: On-Policy Self-Distillation for Post-Training Few-Step Autoregressive Video Generators",
+      "abstract": "We propose OPSD-V, an on-policy self-distillation paradigm for post-training few-step autoregressive (AR) video diffusion models. Existing few-step AR video generators can produce long videos with low latency, but still suffer from error accumulation and weakened motion dynamics during long autoregressive rollout. OPSD-V reduces long-horizon degradation while preserving the original few-step inference path. The key idea is to introduce real long-video data as temporal context during training and use it to provide dense trajectory-level supervision. Specifically, the student follows the exact inference-time rollout, generating each chunk conditioned on its own previously generated KV cache. In parallel, the teacher is evaluated at the same student-visited denoising states, but uses a cleaner AR-consistent temporal cache in which older history can be replaced by real-video context. This provides dense denoising-level corrective targets under on-policy AR cache dynamics, without changing the sampler, number of denoising steps, or inference-time cache mechanism. We apply OPSD-V to representative few-step AR video models, including Self-Forcing and LongLive. Experiments show consistent improvements in visual quality, motion dynamics, and VBenchLong scores. A user study with 10 participants comparing 20 video pairs shows that OPSD-V is preferred over the base models in 66.0% of overall-preference judgments (82.5% excluding ties).",
+      "authors": [
+        "Hongyu Liu",
+        "Chun Wang",
+        "Feng Gao",
+        "Xuanhua He",
+        "Yue Ma",
+        "Ziyu Wan",
+        "Yong Zhang",
+        "Xiaoming Wei",
+        "Qifeng Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-09T17:59:11+00:00",
+      "link": "https://arxiv.org/pdf/2607.08766v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "on-policy self-distillation for post-training few-step autoregressive video generators",
+      "llm_evidence_cn": "在线策略自蒸馏用于后训练少步自回归视频生成器",
+      "llm_evidence": "在线策略自蒸馏用于后训练少步自回归视频生成器",
+      "canonical_evidence": "在线策略自蒸馏用于后训练少步自回归视频生成器",
+      "llm_tldr_en": "OPSD-V proposes an on-policy self-distillation method for post-training few-step autoregressive video diffusion models, reducing long-horizon degradation and improving motion dynamics while maintaining low latency.",
+      "llm_tldr_cn": "该文提出OPSD-V，一种在线策略自蒸馏范式，用于后训练少步自回归视频扩散模型。现有少步视频生成器存在长程误差累积和运动动态减弱问题。OPSD-V通过引入真实长视频数据作为时序上下文，在训练时提供密集轨迹级监督，有效缓解长程退化同时保留少步推理路径。实验表明该方法显著提升生成质量和运动多样性，是后训练蒸馏在视频生成领域的直接应用。",
+      "llm_tldr": "该文提出OPSD-V，一种在线策略自蒸馏范式，用于后训练少步自回归视频扩散模型。现有少步视频生成器存在长程误差累积和运动动态减弱问题。OPSD-V通过引入真实长视频数据作为时序上下文，在训练时提供密集轨迹级监督，有效缓解长程退化同时保留少步推理路径。实验表明该方法显著提升生成质量和运动多样性，是后训练蒸馏在视频生成领域的直接应用。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03652v1",
+      "source": "arxiv",
+      "title": "ELiTeFormer: An Efficient Transformer for FPGAs",
+      "abstract": "Transformer blocks are prevalent in large language model (LLM) but present deployment challenges due to their challenging computational and memory demands. While prior work has typically optimized attention mechanisms or feed-forward networks (FFNs) separately, few hardware (HW) architecture have jointly addressed both components with co-designed hardware acceleration. We present ELiTeFormer (Efficient Linear Ternary Transformer), the first Transformer model architecture that unifies hybrid linear attention with ultra-low-precision (ternary) linear projections, specifically co-designed for field-programmable gate array (FPGA) deployment. ELiTeFormer achieves 10x model weight compression and 12.8x key-value (KV) cache compression compared to LLaMA 3, while maintaining competitive accuracy (31.9% on the MMLU benchmark, within 3.0% of BitNet b1.58). Our key architectural contribution is a novel processing element (PE) micro-architecture that eliminates all multiplications in ternary linear projections through bitmasking operations, significantly reducing resource utilization by completely avoiding dedicated digital signal processing (DSP) blocks. We simulate, synthesize, and deploy ELiTeFormer targeting a Xilinx VCK5000 Versal board using high-level synthesis (HLS) flows. Block-level simulations show 9.6x speedup for FFN operations and 4.4x speedup for attention compared to standard implementations. End-to-end deployment achieves up to 3.9x lower latency and 3.2x better energy efficiency than LLaMA 3 on an NVIDIA A100 graphics processing unit (GPU) at long context lengths. This represents the first FPGA realization combining linear attention with ternary quantization, demonstrating the viability of algorithm-architecture co-design for next-generation LLM acceleration.",
+      "authors": [
+        "Victor Agostinelli",
+        "Nicolas Bohm Agostini",
+        "Antonino Tumeo"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.AI"
+      ],
+      "published": "2026-07-04T00:52:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.03652v1",
+      "tags": [
+        "keyword:fast-gen",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "linear attention and ternary quantization for efficient transformer, applicable to fast generation",
+      "llm_evidence_cn": "线性注意力和三元量化实现高效Transformer，可应用于快速生成",
+      "llm_evidence": "线性注意力和三元量化实现高效Transformer，可应用于快速生成",
+      "canonical_evidence": "线性注意力和三元量化实现高效Transformer，可应用于快速生成",
+      "llm_tldr_en": "ELiTeFormer proposes a hybrid linear attention and ternary quantization transformer, achieving 10x weight compression and 12.8x KV cache compression, enabling efficient deployment on FPGAs.",
+      "llm_tldr_cn": "本文提出ELiTeFormer，首个统一混合线性注意力与超低精度（三元）线性投影的Transformer架构，专为FPGA部署设计。该方法同时优化注意力机制和前馈网络，实现10倍模型权重压缩和12.8倍KV缓存压缩，同时保持竞争力。该工作为高效生成模型在消费级硬件上的部署提供了架构支持。",
+      "llm_tldr": "本文提出ELiTeFormer，首个统一混合线性注意力与超低精度（三元）线性投影的Transformer架构，专为FPGA部署设计。该方法同时优化注意力机制和前馈网络，实现10倍模型权重压缩和12.8倍KV缓存压缩，同时保持竞争力。该工作为高效生成模型在消费级硬件上的部署提供了架构支持。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06389v1",
+      "source": "arxiv",
+      "title": "FADRA: Frequency-Aware Diffusion with Residual Adaptation for Video Face Restoration",
+      "abstract": "Video face restoration (VFR) aims to recover high-quality and temporally consistent facial details from severely degraded video sequences; however, existing methods still struggle to balance spatial fidelity and temporal coherence under complex degradations. To address this, we propose FADRA, a frequency-aware diffusion framework with iterative residual adaptation specifically tailored for robust VFR. We first leverage the strong temporal consistency of a pre-trained text-to-video diffusion model and introduce lightweight LoRA adapters together with a Low-Quality (LQ) Pixel-Alignment Feature Fusion module to efficiently adapt the frozen generative prior to the VFR task. To further adapt the frozen diffusion backbone to the downstream VFR task beyond LoRA-based adaptation, we introduce a Repeated Residual Adaptation Head (RRAH) for step-wise residual refinement after the diffusion backbone. To make this refinement explicitly guided by the degraded observation, RRAH further takes the LQ latent together with the current velocity prediction as input, allowing the model to repeatedly revisit LQ cues and predict residual updates at each flow-matching step. This LQ-guided repeated residual adaptation helps recover fine facial details while preserving the inherent temporal priors of the pre-trained model. Furthermore, to ensure the structural integrity of perceptually important details, we introduce a Frequency-Aware Loss that provides explicit supervision across multiple spectral bands, emphasizing visually sensitive frequency components that are crucial for perceptual quality and prone to temporal jittering. Extensive experiments demonstrate that FADRA recovers better facial structures and produces more temporally consistent videos than state-of-the-art methods, leading to clear gains in both quantitative metrics and visual perception.",
+      "authors": [
+        "Jin Jiang",
+        "Jia Wang",
+        "Panwen Hu",
+        "Weiran Zhao",
+        "Shengcai Liao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-07T15:24:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.06389v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Frequency-aware diffusion for video face restoration using adapters",
+      "llm_evidence_cn": "频率感知扩散用于视频人脸修复，使用适配器",
+      "llm_evidence": "频率感知扩散用于视频人脸修复，使用适配器",
+      "canonical_evidence": "频率感知扩散用于视频人脸修复，使用适配器",
+      "llm_tldr_en": "FADRA leverages a pre-trained text-to-video diffusion model with lightweight LoRA adapters and a pixel-alignment module for robust video face restoration, balancing spatial fidelity and temporal coherence.",
+      "llm_tldr_cn": "FADRA提出一种频率感知扩散框架，用于视频人脸修复。它利用预训练文本到视频扩散模型的强时间一致性，引入轻量级LoRA适配器和低质量像素对齐特征融合模块，有效适配生成先验到修复任务。通过迭代残差适应，在复杂退化下平衡空间保真度和时间连贯性，为视频生成后处理提供高质量修复方案。",
+      "llm_tldr": "FADRA提出一种频率感知扩散框架，用于视频人脸修复。它利用预训练文本到视频扩散模型的强时间一致性，引入轻量级LoRA适配器和低质量像素对齐特征融合模块，有效适配生成先验到修复任务。通过迭代残差适应，在复杂退化下平衡空间保真度和时间连贯性，为视频生成后处理提供高质量修复方案。",
+      "llm_tags": [
+        "query:video-refine:composite"
+      ],
+      "matched_query_tag": "query:video-refine:composite",
+      "matched_query_text": "Papers central to 请帮我查找与video refiner以及video super resolution相关的paper，用于增强视频生成后的质量, especially work that connects or combines: video refinement techniques for generated videos; video super resolution methods for quality enhancement; video restoration for generative outputs; How to refine videos generated by AI models to improve visual quality; What are the state of the art video super resolution methods applied to synthesis results; Techniques for removing artifacts and enhancing details in generated videos; Post generation video processing for temporal coherence and sharpness.",
+      "matched_requirement_id": "req-composite-video-refine",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04443v2",
+      "source": "arxiv",
+      "title": "Wan-Streamer v0.2: Higher Resolution, Same Latency",
+      "abstract": "We present Wan-Streamer v0.2, a latency-preserving upgrade of the native-streaming, end-to-end audio-visual interaction model. v0.2 keeps the v0.1 modeling formulation, but raises the interactive output stream from 192x336 to 640x368 while preserving approximately 200 ms model-side signal-to-signal latency at 25 FPS. The higher-resolution stream supports scene-grounded mid-shot agents whose posture, gaze, hands, nearby objects, and local scene layout remain legible during real-time conversation. To support the larger visual stream without adding user-visible delay, v0.2 keeps the thinker as a single-GPU low-latency path for streaming perception, the short language/state Transformer pass that builds the generation cache, and final decoding. The performer becomes a multi-GPU Ulysses-style context-parallel group for the expensive next-unit latent generation. Each performer rank writes incoming K/V into a pre-sharded local cache. The long high-resolution latent video sequence is split across ranks for denoising and gathered through Ulysses communication, while the much shorter audio latent sequence is generated without sequence sharding. In this split, the thinker's language/state computation reaches the performer only as K/V conditioning, so no separate language sequence has to be communicated inside the performer group. This concentrates additional hardware on visual generation while preserving the compact thinker-performer boundary, keeping total remote interaction latency at approximately 550 ms when a 350 ms bidirectional network budget is included.",
+      "authors": [
+        "Lianghua Huang",
+        "Zhi-Fan Wu",
+        "Yupeng Shi",
+        "Wei Wang",
+        "Mengyang Feng",
+        "Junjie He",
+        "Chen-Wei Xie",
+        "Yu Liu",
+        "Jingren Zhou",
+        "Ang Wang",
+        "Bang Zhang",
+        "Baole Ai",
+        "Chen Liang",
+        "Cheng Yu",
+        "Chongyang Zhong",
+        "Jinwei Qi",
+        "Kai Zhu",
+        "Pandeng Li",
+        "Peng Zhang",
+        "Wenyuan Zhang",
+        "Xinhua Cheng",
+        "Yitong Huang",
+        "Yun Zheng",
+        "Yuxiang Bao",
+        "Yuzheng Wang",
+        "Zoubin Bi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR",
+        "cs.LG"
+      ],
+      "published": "2026-07-05T18:05:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.04443v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time video streaming model with low latency, high resolution",
+      "llm_evidence_cn": "实时视频流模型，低延迟高分辨率",
+      "llm_evidence": "实时视频流模型，低延迟高分辨率",
+      "canonical_evidence": "实时视频流模型，低延迟高分辨率",
+      "llm_tldr_en": "Presents Wan-Streamer v0.2, a latency-preserving upgrade that increases output resolution from 192x336 to 640x368 while maintaining ~200ms latency at 25 FPS for real-time audio-visual interaction.",
+      "llm_tldr_cn": "Wan-Streamer v0.2 是一个保持延迟的实时音视频交互模型升级版，在不增加用户感知延迟的前提下，将输出分辨率从192x336提升至640x368，帧率25 FPS。该模型支持实时对话中的场景化中景智能体，采用单GPU低延迟感知路径和多GPU解码架构，实现了高效的流式视频生成。",
+      "llm_tldr": "Wan-Streamer v0.2 是一个保持延迟的实时音视频交互模型升级版，在不增加用户感知延迟的前提下，将输出分辨率从192x336提升至640x368，帧率25 FPS。该模型支持实时对话中的场景化中景智能体，采用单GPU低延迟感知路径和多GPU解码架构，实现了高效的流式视频生成。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.04461v1",
+      "source": "arxiv",
+      "title": "Flash-BoN: Instant Drafts for Inference-Time Scaling in Diffusion Models",
+      "abstract": "Inference-time scaling for text-to-image generation has progressed from simple Best-of-$N$ (BoN) sampling to guided search methods that verify and steer candidate trajectories at intermediate denoising steps. These approaches focus on when and how often to verify during denoising but largely treat the cost of generation itself as fixed. Moreover, the standard practice of comparing methods by number of function evaluations (NFEs) counts only denoising forward passes and ignores verifier overhead, which can distort efficiency rankings. We show that under wall-clock evaluation, simple BoN already matches or outperforms several guided search techniques, suggesting that compute is better spent on broader exploration than on repeated intermediate verification. This motivates Flash-BoN, which generates a large pool of inexpensive draft candidates by combining three complementary acceleration knobs: timestep truncation, layer skipping, and activation proxies into a single configuration optimized once per model. An efficient multi-stage verification procedure then identifies the most promising draft, which is refined at full quality. Across three benchmarks and three model scales, Flash-BoN consistently outperforms all baselines under fixed wall-clock budgets, with gains that grow at larger model scales (+8% AUC). We further show that our strategy combines well and improves existing orthogonal techniques such as reflection-based prompt optimization (+16% AUC). The gains correlate with increased candidate diversity, which also enables draft-guided selection to accelerate RL post-training convergence.",
+      "authors": [
+        "Ruchit Rawal",
+        "Reza Shirkavand",
+        "Sayak Paul",
+        "Yuxin Wen",
+        "Heng Huang",
+        "Yizheng Chen",
+        "Tom Goldstein",
+        "Gowthami Somepalli"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-05T19:02:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.04461v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "inference-time scaling for diffusion models, improving wall-clock efficiency for generation",
+      "llm_evidence_cn": "扩散模型推理时间缩放，提升生成速度",
+      "llm_evidence": "扩散模型推理时间缩放，提升生成速度",
+      "canonical_evidence": "扩散模型推理时间缩放，提升生成速度",
+      "llm_tldr_en": "Shows that simple Best-of-N sampling with wall-clock evaluation matches or outperforms guided search for text-to-image diffusion, emphasizing exploration over intermediate verification.",
+      "llm_tldr_cn": "本文发现在文本到图像扩散模型中，基于真实时间评估的简单Best-of-N采样即可匹配甚至超越复杂的引导搜索方法。研究指出计算资源应更多用于广泛探索而非中间验证。这一发现对加速生成过程具有启示意义，但未涉及蒸馏或量化。",
+      "llm_tldr": "本文发现在文本到图像扩散模型中，基于真实时间评估的简单Best-of-N采样即可匹配甚至超越复杂的引导搜索方法。研究指出计算资源应更多用于广泛探索而非中间验证。这一发现对加速生成过程具有启示意义，但未涉及蒸馏或量化。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04151v1",
+      "source": "arxiv",
+      "title": "Perceiving Better Moments: Cover Frame Reselection and Enhancement for Live Photos with the Live2K Dataset",
+      "abstract": "Modern smartphones capture Live Photos, short video bursts surrounding a still image, offering a dynamic and engaging photographic experience. However, the cover photo and video components are generated by two distinct imaging pipelines: the photo stream undergoes full computational photography processing, while the video stream is constrained by real-time efficiency and heavy compression. This intrinsic separation produces a substantial quality gap in resolution, color fidelity, and dynamic range between the cover photo and video frames. When users reselect an alternative frame from the video to replace an imperfect cover, the chosen frame often suffers from severe degradation, making direct replacement visually unsatisfactory. Restoring such frames requires simultaneous enhancement of spatial detail and color appearance, a task considerably more challenging than ordinary super-resolution or color enhancement. To address this, we define the Live Photo Cover Frame Reselection and Enhancement (LPRE) task, which leverages the intrinsic cues available within each Live Photo: the high-quality cover image as a structural and color reference, the user-reselected low-quality frame as the reconstruction target and several adjacent video frames providing temporal cues. Building upon this formulation, we construct Live2K, a real-world dataset of 2,042 Live Photos, and develop a unified one-stage baseline that integrates multi-frame fusion, guided color enhancement and super-resolution, establishing the first benchmark for Live Photo enhancement research.",
+      "authors": [
+        "Junyu Lou",
+        "Kai Chen",
+        "Weiyi You",
+        "Hui Zeng",
+        "Lei Zhang",
+        "Shuhang Gu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-05T07:37:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.04151v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "video frame enhancement for live photos",
+      "llm_evidence_cn": "实况照片视频帧增强",
+      "llm_evidence": "实况照片视频帧增强",
+      "canonical_evidence": "实况照片视频帧增强",
+      "llm_tldr_en": "Proposes cover frame reselection and enhancement for Live Photos to bridge quality gap between photo and video streams, using the Live2K dataset to improve resolution and color fidelity.",
+      "llm_tldr_cn": "该论文针对实况照片中封面帧与视频帧质量不匹配的问题，提出了一种封面帧重选与增强方法。通过构建Live2K数据集，该方法对视频帧进行超分辨率与色彩校正，显著缩小了与专业处理照片的质量差距，为移动摄影中的视频帧后期增强提供了实用技术。",
+      "llm_tldr": "该论文针对实况照片中封面帧与视频帧质量不匹配的问题，提出了一种封面帧重选与增强方法。通过构建Live2K数据集，该方法对视频帧进行超分辨率与色彩校正，显著缩小了与专业处理照片的质量差距，为移动摄影中的视频帧后期增强提供了实用技术。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video refinement techniques for generated videos",
+      "matched_requirement_id": "req-18",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.05994v1",
+      "source": "arxiv",
+      "title": "SparseCtrl-HOI: Sparse Temporal Control for Human-Object Interaction Video Generation",
+      "abstract": "Human-Object Interaction (HOI) video generation aims to synthesize realistic videos of humans manipulating diverse objects, serving as a promising avenue for AI-driven live streaming e-commerce. A primary obstacle in this domain lies in the complexity of modeling fine-grained physical dynamics and the intricate spatial-temporal coordination between human hands and objects. Existing approaches to this problem typically rely on dense temporal guidance, e.g., frame-wise hand-object pose sequences, to strictly control the interaction process. However, such dense guidance incurs high annotation costs and affects motion synthesis diversity. To overcome these limitations, we introduce SparseCtrl-HOI, a novel sparse temporal control framework for HOI video generation. It requires only a few keyframes that capture interaction states at designated timestamps. Specifically, we employ a Time-Controlled Rotary Positional Embedding (TiRoPE) mechanism to temporally anchor these keyframes while preserving their spatial integrity. Subsequently, to govern the dynamics across intermediate frames, we propose a Motion Prior Injection Module that leverages Multimodal Large Language Models (MLLMs) to extract high-level motion priors. This empowers the model to hallucinate logically and physically plausible transitions. Furthermore, we build SparseHOI-5K, a high-quality and richly annotated dataset for HOI video generation with sparse temporal control. Comprehensive evaluations confirm that our method substantially reduces annotation overhead while synthesizing superior live-streaming e-commerce videos. Both our code and dataset are publicly available at https://mpi-lab.github.io/SparseCtrl-HOI.",
+      "authors": [
+        "Shenbo Xie",
+        "Mingrui Cai",
+        "Xu Yang",
+        "Yifei Liu",
+        "Changxing Ding"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-07T08:29:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.05994v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improves motion diversity via sparse temporal control",
+      "llm_evidence_cn": "通过稀疏时域控制提升运动多样性",
+      "llm_evidence": "通过稀疏时域控制提升运动多样性",
+      "canonical_evidence": "通过稀疏时域控制提升运动多样性",
+      "llm_tldr_en": "SparseCtrl-HOI uses sparse temporal guidance to generate diverse human-object interaction videos, reducing annotation cost while enhancing motion variety.",
+      "llm_tldr_cn": "人-物交互视频生成中密集时序引导成本高且限制运动多样性。本文提出SparseCtrl-HOI，仅采用少量关键帧作为稀疏时序控制信号，引导模型生成多样化的交互动作。实验证明稀疏控制在保持高质量的同时显著提升了运动多样性，为交互视频生成提供了高效且灵活的解决方案。",
+      "llm_tldr": "人-物交互视频生成中密集时序引导成本高且限制运动多样性。本文提出SparseCtrl-HOI，仅采用少量关键帧作为稀疏时序控制信号，引导模型生成多样化的交互动作。实验证明稀疏控制在保持高质量的同时显著提升了运动多样性，为交互视频生成提供了高效且灵活的解决方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04443v1",
+      "source": "arxiv",
+      "title": "Wan-Streamer v0.2: Higher Resolution, Same Latency",
+      "abstract": "We present Wan-Streamer v0.2, a latency-preserving upgrade of the native-streaming, end-to-end audio-visual interaction model. v0.2 keeps the v0.1 modeling formulation, but raises the interactive output stream from 192x336 to 640x368 while preserving approximately 200 ms model-side signal-to-signal latency at 25 FPS. The higher-resolution stream supports scene-grounded mid-shot agents whose posture, gaze, hands, nearby objects, and local scene layout remain legible during real-time conversation. To support the larger visual stream without adding user-visible delay, v0.2 keeps the thinker as a single-GPU low-latency path for streaming perception, the short language/state Transformer pass that builds the generation cache, and final decoding. The performer becomes a multi-GPU Ulysses-style context-parallel group for the expensive next-unit latent generation. Each performer rank writes incoming K/V into a pre-sharded local cache. The long high-resolution latent video sequence is split across ranks for denoising and gathered through Ulysses communication, while the much shorter audio latent sequence is generated without sequence sharding. In this split, the thinker's language/state computation reaches the performer only as K/V conditioning, so no separate language sequence has to be communicated inside the performer group. This concentrates additional hardware on visual generation while preserving the compact thinker-performer boundary, keeping total remote interaction latency at approximately 550 ms when a 350 ms bidirectional network budget is included.",
+      "authors": [
+        "Lianghua Huang",
+        "Zhi-Fan Wu",
+        "Yupeng Shi",
+        "Wei Wang",
+        "Mengyang Feng",
+        "Junjie He",
+        "Chen-Wei Xie",
+        "Yu Liu",
+        "Jingren Zhou",
+        "Ang Wang",
+        "Bang Zhang",
+        "Baole Ai",
+        "Chen Liang",
+        "Cheng Yu",
+        "Chongyang Zhong",
+        "Jinwei Qi",
+        "Kai Zhu",
+        "Pandeng Li",
+        "Peng Zhang",
+        "Wenyuan Zhang",
+        "Xinhua Cheng",
+        "Yitong Huang",
+        "Yun Zheng",
+        "Yuxiang Bao",
+        "Yuzheng Wang",
+        "Zoubin Bi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR",
+        "cs.LG"
+      ],
+      "published": "2026-07-05T18:05:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.04443v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Real-time audio-visual interaction with low latency streaming",
+      "llm_evidence_cn": "实时音视频交互，低延迟流式输出",
+      "llm_evidence": "实时音视频交互，低延迟流式输出",
+      "canonical_evidence": "实时音视频交互，低延迟流式输出",
+      "llm_tldr_en": "Wan-Streamer v0.2 upgrades to higher resolution (640x368) while preserving ~200 ms latency for real-time audio-visual interaction, using multiple GPUs for streaming.",
+      "llm_tldr_cn": "Wan-Streamer v0.2 是一种低延迟的音视频交互模型升级版。它将输出流分辨率从192x336提升至640x368，同时保持约200毫秒的模型端信号延迟（25 FPS）。通过保持单GPU低延迟路径（思考者）和多GPU解码器（表演者）架构，实现了高分辨率实时对话。该工作直接服务于实时视频生成需求。",
+      "llm_tldr": "Wan-Streamer v0.2 是一种低延迟的音视频交互模型升级版。它将输出流分辨率从192x336提升至640x368，同时保持约200毫秒的模型端信号延迟（25 FPS）。通过保持单GPU低延迟路径（思考者）和多GPU解码器（表演者）架构，实现了高分辨率实时对话。该工作直接服务于实时视频生成需求。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.08020v1",
+      "source": "arxiv",
+      "title": "SAGA: Stable Acceleration Guidance for Autoregressive Video Generation",
+      "abstract": "Autoregressive video diffusion enables efficient streaming and long-horizon video generation, but repeatedly reusing generated latents as causal context can amplify temporal errors, resulting in flickering, motion jitter, and structural drift. In this paper, we investigate this failure mode from a spectral kinematic perspective and identify discrete latent acceleration as an effective signal for revealing unstable high-frequency temporal perturbations. To this end, we propose SAGA, a training-free \\textbf{\\textit{s}}table \\textbf{\\textit{a}}cceleration \\textbf{\\textit{g}}uidance approach for \\textbf{\\textit{a}}utoregressive video generation. SAGA integrates an acceleration domain spectral guidance objective based on finite-window Slepian projections with a structured autoregressive noise initialization strategy that suppresses short-range temporal correlations while preserving long-range motion structure. Without retraining or modifying the backbone, SAGA can be directly applied to existing chunk-wise autoregressive diffusion models, which is the prevalent setting for high-quality generation. Extensive experiments show that SAGA consistently improves temporal quality across multiple autoregressive diffusion models. On Self-Forcing, SAGA improves Temporal Quality from 97.30 to 97.91 and Image Quality from 69.60 to 70.51. Moreover, spectral analysis and human preference studies demonstrate that SAGA reduces temporal instability while maintaining visual fidelity.",
+      "authors": [
+        "Thanh-Nhan Vo",
+        "Trong-Thuan Nguyen",
+        "Trung-Hoang Le",
+        "Tam V. Nguyen",
+        "Minh-Triet Tran"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-09T00:55:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.08020v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "training-free acceleration guidance for autoregressive video generation",
+      "llm_evidence_cn": "无需训练的加速引导用于自回归视频生成",
+      "llm_evidence": "无需训练的加速引导用于自回归视频生成",
+      "canonical_evidence": "无需训练的加速引导用于自回归视频生成",
+      "llm_tldr_en": "Proposes SAGA, a training-free stable acceleration guidance method for autoregressive video generation that uses spectral guidance in the acceleration domain to reduce flicker and jitter.",
+      "llm_tldr_cn": "针对自回归视频生成中时序误差累积导致闪烁和抖动的问题，提出无需训练的稳定加速引导方法SAGA，利用加速度域谱引导抑制高频扰动，在不增加训练成本的前提下提升视频生成的速度和稳定性。",
+      "llm_tldr": "针对自回归视频生成中时序误差累积导致闪烁和抖动的问题，提出无需训练的稳定加速引导方法SAGA，利用加速度域谱引导抑制高频扰动，在不增加训练成本的前提下提升视频生成的速度和稳定性。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04653v2",
+      "source": "arxiv",
+      "title": "Enhancing Video Physical Consistency via Role-aware Joint Training and Modality-decoupled Denoising",
+      "abstract": "While modern video diffusion models excel in visual fidelity, maintaining long-range physical consistency remains a formidable challenge. Conventional pixel-reconstruction objectives mainly focus on appearance details and often fail to capture the underlying dynamics of a scene. To mitigate this, recent efforts have integrated auxiliary modalities (e.g., optical flow) to introduce physics priors via joint training with video appearance. However, these methods have three main limitations: (1) they do not distinguish the different motion patterns of different entity types; (2) joint modeling of visual and auxiliary modalities can cause capacity conflicts and weaken the pretrained visual prior; and (3) auxiliary modalities may accumulate errors during inference. To address these issues, we propose \\textbf{VPT}, a fine-tuning framework for improving physical consistency in video diffusion models. VPT introduces a role-aware signal that groups entities into agents, controlled objects, passive objects, and background, so that different physical roles can be modeled more clearly. We further propose a modality-decoupled denoising strategy, where the visual and auxiliary channels are assigned independent noise levels. Together with a loss-weight decay strategy, this design makes auxiliary modalities serve as soft constraints rather than strong dependencies, mitigating recursive prediction errors during inference. We also introduce cross-step auto-guidance to further strengthen physical dynamics. Experiments show that VPT improves physical consistency while preserving visual quality, achieving relative gains of 39.4\\% in SA and 17.9\\% in PC on VideoPhy benchmark over Wan2.1-T2V-1.3B, and consistent improvements on VideoPhy-2 benchmark. The project page is available at https://tom-zgt.github.io/VPT.",
+      "authors": [
+        "Guangting Zheng",
+        "Haojing Chen",
+        "Hao Li",
+        "Jingtao Zhang",
+        "Zhen Yang",
+        "Xiaosong Jia",
+        "Xue Yang",
+        "Shaofeng Zhang",
+        "Yanyong Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T04:18:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.04653v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "focuses on video diffusion models and motion dynamics",
+      "llm_evidence_cn": "关注视频扩散模型和运动动态",
+      "llm_evidence": "关注视频扩散模型和运动动态",
+      "canonical_evidence": "关注视频扩散模型和运动动态",
+      "llm_tldr_en": "Addresses long-range physical consistency in video diffusion models via role-aware joint training and modality-decoupled denoising, improving motion dynamics capture.",
+      "llm_tldr_cn": "该论文针对视频扩散模型在长程物理一致性上的不足，提出角色感知联合训练与模态解耦去噪方法，以更好捕捉场景中的运动动态。通过区分不同实体类型的运动模式并避免视觉与辅助模态的容量冲突，显著提升了视频生成的物理合理性和运动连贯性。",
+      "llm_tldr": "该论文针对视频扩散模型在长程物理一致性上的不足，提出角色感知联合训练与模态解耦去噪方法，以更好捕捉场景中的运动动态。通过区分不同实体类型的运动模式并避免视觉与辅助模态的容量冲突，显著提升了视频生成的物理合理性和运动连贯性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.05056v1",
+      "source": "arxiv",
+      "title": "Consistent and Editable: A Balanced Framework for Text-Guided Video Editing",
+      "abstract": "Recently, diffusion models have achieved considerable success in the text-guided video editing domain. However, existing works often struggle to balance the trade-off between temporal consistency and editability in video editing, with consistency and editability typically being inversely related. To address this, we propose a high-quality video editing framework enhanced for consistency and editability, named EquiEdit, which improves coordinatively the temporal consistency and editability of the edited videos while achieving a balance between the two. In terms of temporal consistency, the proposed temporal Mamba module with a tailored temporal-aware scanning scans fused video sequences following four designed directions, effectively enhancing the inter-frame consistency of edited videos. For editability, we design a noise injection strategy based on the spectral transformation to increase editing flexibility, where the Fourier transform is used to preserve the hidden structure in the initial latent noise used for editing, ensuring inter-frame consistency of the edited video and fidelity to the input video. Extensive qualitative and quantitative experiments demonstrate the effectiveness of our method in terms of temporal consistency and editability, as well as its great fidelity to the input video itself.",
+      "authors": [
+        "Tao Jin",
+        "Li Xiao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T13:29:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.05056v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "video editing framework enhancing consistency and editability",
+      "llm_evidence_cn": "增强一致性和可编辑性的视频编辑框架",
+      "llm_evidence": "增强一致性和可编辑性的视频编辑框架",
+      "canonical_evidence": "增强一致性和可编辑性的视频编辑框架",
+      "llm_tldr_en": "EquiEdit balances temporal consistency and editability in text-guided video editing using a temporal Mamba module, achieving high-quality results.",
+      "llm_tldr_cn": "文本引导视频编辑面临时序一致性与可编辑性的权衡。本文提出EquiEdit框架，通过设计时序Mamba模块以多个方向扫描帧序列，有效增强时序一致性，同时保持编辑灵活性。实验表明该方法在一致性和编辑性上均取得优异表现，为视频编辑提供了平衡方案。",
+      "llm_tldr": "文本引导视频编辑面临时序一致性与可编辑性的权衡。本文提出EquiEdit框架，通过设计时序Mamba模块以多个方向扫描帧序列，有效增强时序一致性，同时保持编辑灵活性。实验表明该方法在一致性和编辑性上均取得优异表现，为视频编辑提供了平衡方案。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video refinement techniques for generated videos",
+      "matched_requirement_id": "req-18",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.05376v1",
+      "source": "arxiv",
+      "title": "MV-Forcing: Long Multi-View Video Generation via 4D-Grounded Spatio-Temporal Self-Forcing",
+      "abstract": "Recent advances in video diffusion models have enabled either long single-view generation through temporal autoregression, or short multi-view synthesis through bidirectional attention. However, generating long, multi-view consistent videos of dynamic scenes remains unsolved. In this work, we present MV-Forcing, a framework that composes temporal and view-wise autoregression within a single diffusion model by introducing a 4D geometric bridge between sequentially generated views. Our key insight is that an autoregressive 3D reconstruction model naturally interfaces between autoregressively generated views. Given a completed source view, we reconstruct its 3D structure and render a geometric prior of the next target viewpoint, which the diffusion model refines into a high-quality video. To extend generation beyond the teacher's fixed temporal window, we introduce a joint denoising regime where both view slots are initialized from noise during training, enabling temporally unbounded generation. We distill the model via Distribution Matching Distillation with Spatio-Temporal Self-Forcing, closing the train-inference exposure bias gap for both temporal and view-sequential autoregression. Extensive experiments on both synthetic and real-world data demonstrate that MV-Forcing produces geometrically consistent multi-view videos of dynamic scenes at arbitrary lengths and viewpoint counts using a single few-step student model.",
+      "authors": [
+        "Gal Fiebelman",
+        "Hadar Averbuch-Elor",
+        "Sagie Benaim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-06T17:54:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.05376v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "long multi-view video generation with spatio-temporal autoregression",
+      "llm_evidence_cn": "长多视图视频生成，时空自回归提升多样性与运动动态",
+      "llm_evidence": "长多视图视频生成，时空自回归提升多样性与运动动态",
+      "canonical_evidence": "长多视图视频生成，时空自回归提升多样性与运动动态",
+      "llm_tldr_en": "MV-Forcing enables long multi-view consistent video generation by composing temporal and view-wise autoregression with a 4D geometric bridge, addressing dynamics and diversity.",
+      "llm_tldr_cn": "现有视频扩散模型难以生成长时间多视图一致的动态场景。本文提出MV-Forcing框架，通过4D几何桥接将时序自回归与视角自回归结合，利用3D重建模型提供几何先验，实现长序列多视图视频生成。实验表明该方法在动态场景下有效提升了时空一致性和生成多样性。该工作为视频生成中的运动动态建模提供了新思路。",
+      "llm_tldr": "现有视频扩散模型难以生成长时间多视图一致的动态场景。本文提出MV-Forcing框架，通过4D几何桥接将时序自回归与视角自回归结合，利用3D重建模型提供几何先验，实现长序列多视图视频生成。实验表明该方法在动态场景下有效提升了时空一致性和生成多样性。该工作为视频生成中的运动动态建模提供了新思路。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.06481v1",
+      "source": "arxiv",
+      "title": "Prompt-Adapter Context Routing for Parameter-Efficient Multi-Shot Long Video Extrapolation",
+      "abstract": "We present PACR-Video, a parameter-efficient framework for multi-shot long video extrapolation that preserves recurring entities, scene structure, visual style, and causal progression without full generator fine-tuning. PACR-Video keeps a text-to-video diffusion transformer frozen and augments it with low-rank temporal adapters conditioned by learned shot-role prompt tokens. To maintain long-horizon coherence, it builds a recursive prompt bank that stores compact entity, location, action, and style prompts from previous shots, then routes them through adapter gates according to predicted narrative dependencies. A Shot-Local/Story-Global tuning objective combines next-shot reconstruction, cross-shot identity contrast, and prompt sparsity regularization, while an adapter composition schedule balances early-shot visual consistency with later-shot event progression and viewpoint change. Across six multi-shot and long-video benchmarks, PACR-Video outperforms text-to-video, tuning-based, memory-augmented, streaming, and recursive-context baselines on distributional quality, semantic alignment, identity consistency, temporal smoothness, motion stability, transition coherence, and human preference. These results show that compact prompt routing and lightweight temporal adaptation provide sufficient controllable capacity for stable long video extrapolation.",
+      "authors": [
+        "Anna Córdoba",
+        "Adam Puente Tercero",
+        "Nerea Angulo Hijo",
+        "Mar Linares Tercero",
+        "Julia Barrientos",
+        "Ainhoa Miranda",
+        "Jesús Olivera"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-07T16:41:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.06481v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Parameter-efficient post-training adaptation for video generation using adapters",
+      "llm_evidence_cn": "参数高效的后训练适应，使用适配器生成视频",
+      "llm_evidence": "参数高效的后训练适应，使用适配器生成视频",
+      "canonical_evidence": "参数高效的后训练适应，使用适配器生成视频",
+      "llm_tldr_en": "PACR-Video freezes a text-to-video diffusion transformer and adds low-rank temporal adapters and prompt routing for long video extrapolation without full fine-tuning.",
+      "llm_tldr_cn": "PACR-Video提出一种参数高效的框架，用于多镜头长视频外推。它保持预训练的文本到视频扩散模型冻结，并添加低秩时间适配器和提示路由机制，以在不进行完全微调的情况下保持实体、场景结构和视觉风格。该方法利用递归提示库和自适应门控实现跨镜头一致性，适用于后训练适应场景。",
+      "llm_tldr": "PACR-Video提出一种参数高效的框架，用于多镜头长视频外推。它保持预训练的文本到视频扩散模型冻结，并添加低秩时间适配器和提示路由机制，以在不进行完全微调的情况下保持实体、场景结构和视觉风格。该方法利用递归提示库和自适应门控实现跨镜头一致性，适用于后训练适应场景。",
+      "llm_tags": [
+        "query:vd:composite"
+      ],
+      "matched_query_tag": "query:vd:composite",
+      "matched_query_text": "Papers central to 视频生成模型的后训练蒸馏，提升多样性及运动动态, especially work that connects or combines: post-training for video generation models; few-step sampling video generation; improving diversity and motion dynamics in video generation; few-step diffusion models for video generation; improving diversity through distillation in generative models; distillation methods for accelerating video generation while maintaining quality; distillation methods for improving diversity and motion dynamics in few step video generation; knowledge distillation for diversity enhancement in image generation; post training distillation for video diffusion models.",
+      "matched_requirement_id": "req-composite-vd",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.08016v1",
+      "source": "arxiv",
+      "title": "LightCrafter: PBR-Conditioned Video Diffusion Refinement for Controllable and Consistent Relighting",
+      "abstract": "Video relighting requires balancing long-form temporal consistency with a physically grounded understanding of light transport, which depends on accurate estimation of intrinsic scene properties such as materials, geometry, and illumination. Existing methods follow two paradigms: (1) reconstruct a video's photometric properties via inverse rendering and relight them to a target illumination via forward rendering, using physically-based rendering (PBR) or a neural renderer; these suffer from noisy reconstructions and struggle with hard-to-model effects such as global illumination. (2) Frame the task as generative video-to-video translation conditioned on relighting targets (a target environment map or text); this limits relighting control and temporal stability, since diffusion models struggle to translate long-form videos, and is constrained by the availability of input/relit training pairs. We propose LightCrafter, a hybrid pipeline that reformulates video relighting as video translation of a proxy video: rather than translating the input video directly to the target, we translate a PBR rendering of the input under the target illumination to the final target. This bakes illumination targets into the PBR proxy, removing the need to teach the diffusion model illumination concepts like environment maps, and enables more intricate lighting control while naturally providing long-form temporal consistency. We show PBR renders alone already outperform some prior art but struggle with effects like global illumination; to capture these, we leverage photometric priors in video generation models by post-training CogVideoX on synthetic video pairs and real-world unpaired videos. We outperform prior state-of-the-art on existing real-world relighting benchmarks and contribute a synthetic benchmark for further analysis. We will release our dataset, benchmark, metrics, and code.",
+      "authors": [
+        "Zixin Guo",
+        "Yehonathan Litman",
+        "Yifeng He",
+        "John Miller",
+        "Chuhan Chen",
+        "Deva Ramanan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-09T00:44:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.08016v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "video diffusion refinement for relighting",
+      "llm_evidence_cn": "视频扩散精化用于重照明",
+      "llm_evidence": "视频扩散精化用于重照明",
+      "canonical_evidence": "视频扩散精化用于重照明",
+      "llm_tldr_en": "LightCrafter uses PBR-conditioned video diffusion refinement for controllable relighting, improving temporal consistency.",
+      "llm_tldr_cn": "本文提出LightCrafter，利用基于物理渲染条件的视频扩散精化方法实现可控且一致的重照明。该方法通过扩散模型对视频进行后处理精化，提升了长时间序列的光照一致性。实验表明，该方法在保持时间连贯性的同时实现了高质量重照明，为视频生成后的精化提供了新思路。",
+      "llm_tldr": "本文提出LightCrafter，利用基于物理渲染条件的视频扩散精化方法实现可控且一致的重照明。该方法通过扩散模型对视频进行后处理精化，提升了长时间序列的光照一致性。实验表明，该方法在保持时间连贯性的同时实现了高质量重照明，为视频生成后的精化提供了新思路。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video refinement techniques for generated videos",
+      "matched_requirement_id": "req-18",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
