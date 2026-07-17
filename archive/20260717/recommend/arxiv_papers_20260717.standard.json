@@ -1,0 +1,973 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-17T20:25:55.577894+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 12,
+    "deep_cap": 8,
+    "deep_selected": 8,
+    "quick_candidates": 17,
+    "quick_skim_target": 13,
+    "quick_selected": 13
+  },
+  "deep_dive": [
+    {
+      "id": "2607.10495v1",
+      "source": "arxiv",
+      "title": "NanoVSR: Towards Real-Time Video Super-Resolution on Edge Devices",
+      "abstract": "Recent Video Super-Resolution (VSR) methods rely heavily on transformers and explicit optical flow, creating computational overhead and custom operations that hinder deployment on hardware accelerators like TensorRT. To address this, we introduce NanoVSR, a scalable, fully convolutional architecture designed for resource-constrained edge devices. Using structural reparameterization, NanoVSR collapses into standard convolutions during inference, ensuring seamless hardware compatibility and negligible runtime overhead. Furthermore, despite lacking explicit motion compensation, it maintains competitive restoration quality by implicitly learning spatio-temporal alignments through progressive training. Evaluated on the REDS4 benchmark, NanoVSR demonstrates an exceptional balance between accuracy and computational efficiency, significantly improving the trade-off for compact architectures. Our NanoVSR-644k baseline yields 28.64 dB PSNR while delivering 27.2 FPS on the NVIDIA Jetson Orin NX 16GB (25W), offering massive speed gains over heavier models. The scaled NanoVSR-1.7M variant reaches 29.15 dB with a throughput of 19.58 FPS, providing superior, edge-optimized upscaling. Code is available at https://github.com/filippawlicki/nanovsr.",
+      "authors": [
+        "Filip Pawlicki",
+        "Marcel Kańduła",
+        "Marcin Pucek",
+        "Kamil Dobies"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-11T22:01:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.10495v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "real-time video super-resolution on edge devices, applicable for video refinement",
+      "llm_evidence_cn": "边缘设备上的实时视频超分辨率，可用于视频精炼",
+      "llm_evidence": "边缘设备上的实时视频超分辨率，可用于视频精炼",
+      "canonical_evidence": "边缘设备上的实时视频超分辨率，可用于视频精炼",
+      "llm_tldr_en": "NanoVSR is a fully convolutional VSR model with structural reparameterization for real-time inference on edge, enhancing video quality for generated videos.",
+      "llm_tldr_cn": "现有视频超分辨率方法依赖Transformer和光流，计算开销大且难以部署于边缘设备。本文提出NanoVSR，一种全卷积架构，通过结构重参数化在推理时合并为标准卷积，实现实时超分辨率。隐式时空对齐学习使其无需显式运动补偿，在REDS4上达到快速且高质量的重建。适用于视频生成后处理以提升细节和清晰度。",
+      "llm_tldr": "现有视频超分辨率方法依赖Transformer和光流，计算开销大且难以部署于边缘设备。本文提出NanoVSR，一种全卷积架构，通过结构重参数化在推理时合并为标准卷积，实现实时超分辨率。隐式时空对齐学习使其无需显式运动补偿，在REDS4上达到快速且高质量的重建。适用于视频生成后处理以提升细节和清晰度。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video super resolution methods for quality enhancement",
+      "matched_requirement_id": "req-19",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11040v1",
+      "source": "arxiv",
+      "title": "FSFVE: Few Shot Compressed Face Video Enhancement",
+      "abstract": "Videocalling has become a popular form of communication in the world today, with many companies providing free services for it. However, there are still millions of people around the world that experience poor quality videocalls due to limitations in bandwidth. This despite, most people having the required hardware. In this paper we present a novel framework for enhancing highly compressed videocalls. We show, that with as little as 10 frames of the face, we can rapidly (in under 100 seconds) train a model to enhance that instance of the videocall. The model can be trained either prior to or during the call, enhancing the rest of the call by producing better quality video. The video conferencing application need not be modified - it can be off the shelf with our system as a layer on top that trains quickly then simply lets the video conferencing application (e.g. Zoom) run as usual, where our system intercepts and improves images before they are displayed. The model is designed to run in realtime on low-compute devices such as a typical laptop CPU. Experimentally, we show that the model significantly improves quality of compressed face video both quantitatively as well as perceptually. Code can be found at https://github.com/varun-jois/FSFVE.",
+      "authors": [
+        "Varun Ramesh Jois",
+        "Antonella DiLillo",
+        "James Storer"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T03:12:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.11040v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "few-shot video enhancement for generated video refinement",
+      "llm_evidence_cn": "少样本视频增强用于生成视频精炼",
+      "llm_evidence": "少样本视频增强用于生成视频精炼",
+      "canonical_evidence": "少样本视频增强用于生成视频精炼",
+      "llm_tldr_en": "FSFVE enables rapid few-shot enhancement of compressed face video, applicable to refining generated video quality.",
+      "llm_tldr_cn": "FSFVE提出一种少样本框架，仅需10帧即可在100秒内训练模型增强压缩视频通话质量。该方法无需修改通话应用，可实时或预训练，为生成视频的后处理提供了高效的增强方案。",
+      "llm_tldr": "FSFVE提出一种少样本框架，仅需10帧即可在100秒内训练模型增强压缩视频通话质量。该方法无需修改通话应用，可实时或预训练，为生成视频的后处理提供了高效的增强方案。",
+      "llm_tags": [
+        "query:video-refine:composite"
+      ],
+      "matched_query_tag": "query:video-refine:composite",
+      "matched_query_text": "Papers central to 请帮我查找与video refiner以及video super resolution相关的paper，用于增强视频生成后的质量, especially work that connects or combines: video refinement techniques for generated videos; video super resolution methods for quality enhancement; video restoration for generative outputs; How to refine videos generated by AI models to improve visual quality; What are the state of the art video super resolution methods applied to synthesis results; Techniques for removing artifacts and enhancing details in generated videos; Post generation video processing for temporal coherence and sharpness.",
+      "matched_requirement_id": "req-composite-video-refine",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13460v1",
+      "source": "arxiv",
+      "title": "LPM: Industrial-Scale Generative Video Restoration",
+      "abstract": "We present the Large Processing Model (LPM), a diffusion-based generative framework for photorealistic video restoration under complex, in-the-wild degradations. To our knowledge, LPM is the first generative video restoration model deployed at industrial scale. LPM addresses the diverse degradations in user-generated content (UGC) through a unified system encompassing large-scale data engineering, foundation-model training, and efficient inference. Its enhanced architecture, progressive training strategy, and temporal-pyramid inference mechanism jointly enable high-fidelity, temporally consistent restoration of arbitrarily long videos across the broad content distribution encountered on UGC platforms. LPM has been deployed in production at Kuaishou, where videos processed by the model account for approximately 45% of total viewing time, delivering consistent improvements across key quality-of-experience metrics. Beyond perceptual enhancement, LPM delivers substantial system-level benefits: at comparable perceptual quality, it reduces bitrate by 20% relative to Kuaishou's in-house codec, yielding annual bandwidth cost savings on the order of hundreds of millions. Its low serving cost also enables integration into products such as Kling, demonstrating that generative restoration can be practical, scalable, and cost-effective for large-scale video processing.",
+      "authors": [
+        "Bichuan Zhu",
+        "Fulin Li",
+        "Jiachao Gong",
+        "Jinhua Hao",
+        "Kai Zhao",
+        "Kun Yuan",
+        "Pengcheng Xu",
+        "Qiang Wang",
+        "Qiao Mo",
+        "Yanlong Yuan",
+        "Yizhen Shao",
+        "Yuxiao Hu",
+        "Zixi Tuo",
+        "Ming Sun",
+        "Chao Zhou",
+        "Bin Chen",
+        "Bin Yu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-15T05:44:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.13460v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generative video restoration framework for degraded user-generated content",
+      "llm_evidence_cn": "生成式视频修复框架，适用于退化用户生成内容",
+      "llm_evidence": "生成式视频修复框架，适用于退化用户生成内容",
+      "canonical_evidence": "生成式视频修复框架，适用于退化用户生成内容",
+      "llm_tldr_en": "LPM is a diffusion-based generative video restoration system deployed at industrial scale, achieving photorealistic and temporally consistent restoration for arbitrary-length videos via enhanced architecture and temporal pyramid inference.",
+      "llm_tldr_cn": "该论文提出LPM，一个基于扩散的生成式视频修复框架，已在快手工业场景部署。其通过大规模数据工程、增强架构和时序金字塔推理，在复杂真实退化下实现高保真、时序一致的修复，是首个工业级生成式视频修复方案，显著提升了生成视频的视觉质量。",
+      "llm_tldr": "该论文提出LPM，一个基于扩散的生成式视频修复框架，已在快手工业场景部署。其通过大规模数据工程、增强架构和时序金字塔推理，在复杂真实退化下实现高保真、时序一致的修复，是首个工业级生成式视频修复方案，显著提升了生成视频的视觉质量。",
+      "llm_tags": [
+        "query:video-refine:composite"
+      ],
+      "matched_query_tag": "query:video-refine:composite",
+      "matched_query_text": "Papers central to 请帮我查找与video refiner以及video super resolution相关的paper，用于增强视频生成后的质量, especially work that connects or combines: video refinement techniques for generated videos; video super resolution methods for quality enhancement; video restoration for generative outputs; How to refine videos generated by AI models to improve visual quality; What are the state of the art video super resolution methods applied to synthesis results; Techniques for removing artifacts and enhancing details in generated videos; Post generation video processing for temporal coherence and sharpness.",
+      "matched_requirement_id": "req-composite-video-refine",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.15273v1",
+      "source": "arxiv",
+      "title": "MeanFlowNFT: Bringing Forward-Process RL to Average-Velocity Generators",
+      "abstract": "MeanFlow generators achieve fast few-step sampling by predicting average velocities over time intervals, making them attractive for efficient generation. Reinforcement learning (RL) has become a powerful way to align diffusion and flow models with human preferences and task-specific objectives. In particular, DiffusionNFT offers an efficient forward-process RL framework that does not require reverse-process trajectories or likelihood estimation. However, applying such RL methods to MeanFlow remains underexplored. DiffusionNFT optimizes instantaneous velocities, whereas MeanFlow samples with average velocities. To bridge this gap, we introduce MeanFlowNFT. Inspired by the MeanFlow identity, which bridges average and instantaneous velocities, we construct an induced instantaneous-velocity predictor. We apply the DiffusionNFT objective to this predictor, making reward optimization well-defined for MeanFlow. Sampling remains based on the average velocity, preserving MeanFlow's fast few-step generation. We further prove that MeanFlowNFT inherits DiffusionNFT's strict policy-improvement guarantee. Experiments on image and video generation show that MeanFlowNFT consistently improves baselines. Moreover, it outperforms prior state-of-the-art RL-tuned few-step generators on most metrics ($6$ of $8$ on SD3.5-M), and can even surpass multi-step RL-tuned diffusion while using only a few sampling steps. For instance, on Wan 2.1, $4$-step MeanFlowNFT reaches a VBench score of $84.33$, surpassing $50$-step LongCat-Video RL ($82.57$).",
+      "authors": [
+        "Yushi Huang",
+        "Xiangxin Zhou",
+        "Jun Zhang",
+        "Liefeng Bo",
+        "Tianyu Pang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-16T17:59:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.15273v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "MeanFlow generators achieve fast few-step sampling for video generation",
+      "llm_evidence_cn": "MeanFlow生成器实现快速少步采样，适用于视频生成",
+      "llm_evidence": "MeanFlow生成器实现快速少步采样，适用于视频生成",
+      "canonical_evidence": "MeanFlow生成器实现快速少步采样，适用于视频生成",
+      "llm_tldr_en": "MeanFlowNFT introduces forward-process RL to average-velocity generators, enabling few-step sampling with preference alignment for efficient video generation.",
+      "llm_tldr_cn": "该论文提出MeanFlowNFT，将前向过程强化学习引入平均速度生成器。通过利用MeanFlow恒等式连接平均与瞬时速度，实现对少步采样生成器的偏好对齐，在保持高效生成的同时提升生成质量，为快速视频生成提供了新方法。",
+      "llm_tldr": "该论文提出MeanFlowNFT，将前向过程强化学习引入平均速度生成器。通过利用MeanFlow恒等式连接平均与瞬时速度，实现对少步采样生成器的偏好对齐，在保持高效生成的同时提升生成质量，为快速视频生成提供了新方法。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "few-step sampling video generation",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12121v2",
+      "source": "arxiv",
+      "title": "FlashDiff: Efficient Regional Execution and Scheduling for Diffusion Model Serving",
+      "abstract": "Diffusion models have become the central backbone for modern image, video, and audio generation, but their efficient service remains a challenge. Unlike autoregressive decoding, diffusion inference repeatedly updates high-dimensional spatial or temporal latents over many denoising steps. This all-region execution pattern makes generation latency high and limits serving throughput. Existing multi-GPU parallelization methods can reduce per-step computation, but often introduce substantial activation exchange overhead, causing communication to offset or even outweigh the benefits of parallel execution.   This paper presents FlashDiff, a diffusion serving system that improves inference efficiency through adaptive regional execution and scheduling. FlashDiff is based on the observation that diffusion refinement is not uniform across latent regions or denoising steps: different regions often stabilize at different rates, while neighboring steps exhibit strong temporal correlation. FlashDiff leverages these properties to selectively execute only regions that require further refinement and to reallocate the resulting compute slack across concurrent serving requests. FlashDiff consists of three mechanisms. First, it decomposes the latent representation into coherent execution regions using early-stage attention signals, preserving semantic structure while exposing fine-grained parallelism. Second, it uses a lightweight runtime controller to estimate region activity and bypass low-impact updates when further refinement is unlikely to affect output quality. Third, it applies an affinity-aware online scheduler that co-locates dependent regions, balances residual load across GPUs, and reuses reclaimed compute capacity to improve serving efficiency. Across real-world image, video, and audio workloads, FlashDiff reduces end-to-end serving latency by 30-97% and improves throughput by 1.2-2.2x.",
+      "authors": [
+        "Yaqi Qiao",
+        "Ping He",
+        "Songrun Xie",
+        "Ayush Barik",
+        "Chensong Zhang",
+        "Zhengzhong Tu",
+        "Fan Lai"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-07-13T20:00:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.12121v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diffusion serving system improving inference efficiency for image, video, audio generation",
+      "llm_evidence_cn": "面向扩散模型的推理加速系统，适用于图像、视频、音频生成",
+      "llm_evidence": "面向扩散模型的推理加速系统，适用于图像、视频、音频生成",
+      "canonical_evidence": "面向扩散模型的推理加速系统，适用于图像、视频、音频生成",
+      "llm_tldr_en": "FlashDiff improves diffusion inference efficiency through adaptive regional execution and scheduling, reducing latency and boosting throughput for image, video, and audio generation.",
+      "llm_tldr_cn": "论文提出FlashDiff，一种面向扩散模型的推理加速系统。扩散模型在图像、视频、音频生成中面临高延迟问题，现有并行方法通信开销大。FlashDiff通过自适应区域执行和调度，减少计算和通信开销，显著降低生成延迟并提高吞吐量。实验表明，该方法在不牺牲质量的前提下实现高效服务。这项工作对实时视频生成具有重要价值。",
+      "llm_tldr": "论文提出FlashDiff，一种面向扩散模型的推理加速系统。扩散模型在图像、视频、音频生成中面临高延迟问题，现有并行方法通信开销大。FlashDiff通过自适应区域执行和调度，减少计算和通信开销，显著降低生成延迟并提高吞吐量。实验表明，该方法在不牺牲质量的前提下实现高效服务。这项工作对实时视频生成具有重要价值。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12358v1",
+      "source": "arxiv",
+      "title": "ACID: Adaptive Caching for vIDeo generation",
+      "abstract": "Video diffusion models produce high-quality generations but remain slow at inference due to their sequential denoising procedure. Caching-based acceleration methods address this by reusing intermediate model outputs: leading dynamic approaches such as TeaCache, EasyCache, and DiCache accumulate a drift signal and skip expensive model evaluations when accumulated drift stays below a fixed threshold τ. This threshold controls an apparent tradeoff - raising it yields faster generation at the cost of visual quality, while lowering it preserves quality but sacrifices speed. We show this tradeoff is not fundamental; it is an artifact of holding τ constant throughout denoising. We identify the existence of critical steps - timesteps where the drift signal changes rapidly - and show that applying a low threshold selectively at these steps while caching aggressively elsewhere recovers most of the quality of conservative caching at substantially higher inference speeds. Building on this insight, we propose ACID, a lightweight, training-free wrapper that monitors the rate of change of each method's existing drift signal to dynamically switch between a low and a high threshold. ACID is signal-agnostic and modular: it requires no retraining and plugs directly into existing dynamic caching methods without modifying their core mechanisms. Evaluated across three caching methods (TeaCache, EasyCache, DiCache) and three open-source video diffusion models (HunyuanVideo, Wan 2.1, CogVideoX), ACID consistently expands the Pareto frontier of visual quality versus inference speed beyond what any fixed threshold achieves. In particular, on TeaCache and HunyuanVideo, ACID achieves up to 2.16x speedup over the no-caching baseline, and up to 38% additional speedup over the conservative fixed-threshold baseline with negligible (<0.3 dB PSNR, <0.01 SSIM, <0.01 LPIPS) quality degradation.",
+      "authors": [
+        "Om Agrawal",
+        "Saurabh Agarwal",
+        "Aditya Akella"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T05:17:24+00:00",
+      "link": "https://arxiv.org/pdf/2607.12358v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "adaptive caching for fast video generation",
+      "llm_evidence_cn": "自适应缓存加速视频生成",
+      "llm_evidence": "自适应缓存加速视频生成",
+      "canonical_evidence": "自适应缓存加速视频生成",
+      "llm_tldr_en": "ACID improves caching-based acceleration for video diffusion by adapting the drift threshold per timestep, achieving faster inference without quality loss.",
+      "llm_tldr_cn": "ACID发现视频扩散模型缓存加速中固定阈值造成的效率-质量折衷，提出自适应按时间步调整阈值的策略，在保持视觉质量的同时进一步加速推理，为视频生成提供了更有效的缓存方案。",
+      "llm_tldr": "ACID发现视频扩散模型缓存加速中固定阈值造成的效率-质量折衷，提出自适应按时间步调整阈值的策略，在保持视觉质量的同时进一步加速推理，为视频生成提供了更有效的缓存方案。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12358v2",
+      "source": "arxiv",
+      "title": "ACID: Adaptive Caching for vIDeo generation",
+      "abstract": "Video diffusion models produce high-quality generations but remain slow at inference due to their sequential denoising procedure. Caching-based acceleration methods address this by reusing intermediate model outputs: leading dynamic approaches such as TeaCache, EasyCache, and DiCache accumulate a drift signal and skip expensive model evaluations when accumulated drift stays below a fixed threshold $τ$. This threshold controls an apparent tradeoff - raising it yields faster generation at the cost of visual quality, while lowering it preserves quality but sacrifices speed. We show this tradeoff is not fundamental; it is an artifact of holding $τ$ constant throughout denoising. We identify the existence of critical steps - timesteps where the drift signal changes rapidly - and show that applying a low threshold selectively at these steps while caching aggressively elsewhere recovers most of the quality of conservative caching at substantially higher inference speeds. Building on this insight, we propose ACID, a lightweight, training-free wrapper that monitors the rate of change of each method's existing drift signal to dynamically switch between a low and a high threshold. ACID is signal-agnostic and modular: it requires no retraining and plugs directly into existing dynamic caching methods without modifying their core mechanisms. Evaluated across three caching methods (TeaCache, EasyCache, DiCache) and three open-source video diffusion models (HunyuanVideo, Wan 2.1, CogVideoX), ACID consistently expands the Pareto frontier of visual quality versus inference speed beyond what any fixed threshold achieves. In particular, on TeaCache and HunyuanVideo, ACID achieves up to 2.16x speedup over the no-caching baseline, and up to 38% additional speedup over the conservative fixed-threshold baseline with negligible (<0.3 dB PSNR, <0.01 SSIM, <0.01 LPIPS) quality degradation.",
+      "authors": [
+        "Om Agrawal",
+        "Saurabh Agarwal",
+        "Aditya Akella"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T05:17:24+00:00",
+      "link": "https://arxiv.org/pdf/2607.12358v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "adaptive caching accelerates video diffusion models",
+      "llm_evidence_cn": "自适应缓存加速视频扩散模型",
+      "llm_evidence": "自适应缓存加速视频扩散模型",
+      "canonical_evidence": "自适应缓存加速视频扩散模型",
+      "llm_tldr_en": "ACID proposes adaptive caching for video diffusion models, dynamically adjusting threshold to speed up inference without quality loss, achieving real-time generation.",
+      "llm_tldr_cn": "视频扩散模型推理速度慢，现有缓存加速方法因固定阈值导致速度与质量权衡。本文提出自适应缓存方法ACID，通过识别关键时间步并动态调整漂移阈值，在保持生成质量的同时显著提升推理速度，实现实时视频生成。实验表明，ACID在多个视频生成模型上均优于固定阈值策略，为视频生成加速提供了高效方案。",
+      "llm_tldr": "视频扩散模型推理速度慢，现有缓存加速方法因固定阈值导致速度与质量权衡。本文提出自适应缓存方法ACID，通过识别关键时间步并动态调整漂移阈值，在保持生成质量的同时显著提升推理速度，实现实时视频生成。实验表明，ACID在多个视频生成模型上均优于固定阈值策略，为视频生成加速提供了高效方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.14976v1",
+      "source": "arxiv",
+      "title": "From Draft to Draft-Free: One-Step Video Object Removal via Privileged Distillation and Fast Planting",
+      "abstract": "Video object removal is a fundamental yet challenging task in video editing. Despite recent progress, existing methods typically fall into two categories. Traditional approaches based on optical flow or attention mechanisms often introduce noticeable artifacts and yield unnatural results. In contrast, diffusion-based methods improve visual realism but demand multiple denoising steps, limiting their practicality. To address these issues, we propose From-Draft-to-Draft-Free (D2DF), a framework that distills the ability of transforming coarse drafts into refined videos into a one-step video generation model. Within D2DF, a teacher model is trained to refine low-quality removal results (\"drafts\") into high-fidelity videos by multiple steps. Then, through Prior-Privileged Consistency Distillation (PPCD), we distill this capability into a student model that performs one-step removal conditioned on the draft. To eliminate draft dependency, we introduce a Self-Guided Fast Planting (SGFP) module based on our Temporal Masked Transformer that autonomously generates scene-consistent pseudo-drafts in latent space, enabling a fully draft-free one-step model. Extensive experiments show that both draft-conditioned and draft-free versions achieve state-of-the-art performance on multiple metrics, surpassing traditional and multi-step generative methods in both quality and efficiency. The denoising process for a single video takes only about 1 second.",
+      "authors": [
+        "Zizhao Chen",
+        "Ping Wei",
+        "Guang Dai",
+        "Jingdong Wang",
+        "Mengmeng Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-16T13:29:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.14976v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "distillation for one-step video generation accelerating quality removal",
+      "llm_evidence_cn": "蒸馏实现一步视频生成加速高质量移除",
+      "llm_evidence": "蒸馏实现一步视频生成加速高质量移除",
+      "canonical_evidence": "蒸馏实现一步视频生成加速高质量移除",
+      "llm_tldr_en": "Proposes one-step video generation via privileged distillation for object removal, transforming drafts to high-fidelity videos.",
+      "llm_tldr_cn": "视频对象移除的传统方法和扩散方法存在伪影或需多步去噪。本文提出D2DF框架，通过特权蒸馏将粗稿转化为高质量视频的能力蒸馏到一步生成模型中，实现单步快速移除。实验表明在保证质量的同时大幅减少推理时间。",
+      "llm_tldr": "视频对象移除的传统方法和扩散方法存在伪影或需多步去噪。本文提出D2DF框架，通过特权蒸馏将粗稿转化为高质量视频的能力蒸馏到一步生成模型中，实现单步快速移除。实验表明在保证质量的同时大幅减少推理时间。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "distillation methods for accelerating video generation while maintaining quality",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.13095v1",
+      "source": "arxiv",
+      "title": "Full-Pipeline Inference Optimization for MiMo-V2.5 Series: Pushing Hybrid SWA Efficiency to the Limit",
+      "abstract": "We present a full-pipeline inference optimization for the MiMo-V2.5 model family, which combines Hybrid Sliding Window Attention (Hybrid SWA), sparse Mixture-of-Experts (MoE), and multimodal encoders. While Hybrid SWA can ideally reduce both attention compute and KVCache storage significantly compared to Full Attention, realizing these gains in production requires substantial engineering effort. We systematically optimize the KVCache system with layerwise prefetch, SWA-aware prefix cache trees, and specialized placement strategies, achieving strict $O(W)$ SWA storage and high cache hit rates. We further build GCache, a high-performance distributed cache infrastructure with RDMA-optimized networking, and develop a KVCache-affinity router to reduce computation while preserving load balancing. We also optimize for multimodal inputs, including GPU image preprocessing, parallel video decoding, and multimodal cache sharing. Together, these optimizations constitute the first large-scale LLM serving system in production that efficiently covers the Hybrid SWA + MoE + multimodal composite architecture.",
+      "authors": [
+        "Xiaomi MiMo Team",
+        "Anqi Liu",
+        "Aoxin Ma",
+        "Bo Chen",
+        "Bo Yang",
+        "Chen Wang",
+        "Chen Zhang",
+        "Chengda Tang",
+        "Chengwei Wang",
+        "Chiheng Lou",
+        "Depeng Yan",
+        "Fuli Luo",
+        "Gang Wang",
+        "Hailin Zhang",
+        "Jiale Sun",
+        "Kang Zhou",
+        "Rui Huang",
+        "Shaohui Liu",
+        "Shen Huang",
+        "Shijie Cao",
+        "Shuaishuai Fan",
+        "Tianling Zhou",
+        "Xiangwei Deng",
+        "Xueyang Xie",
+        "Xuli Wang",
+        "Yingchun Lai",
+        "Yu Yang",
+        "Yuan Zhang",
+        "Zhen Tang",
+        "Zhonghua Deng",
+        "Zihan Jiang"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.AI"
+      ],
+      "published": "2026-07-14T03:38:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.13095v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "sparse attention inference optimization",
+      "llm_evidence_cn": "稀疏注意力推理优化",
+      "llm_evidence": "稀疏注意力推理优化",
+      "canonical_evidence": "稀疏注意力推理优化",
+      "llm_tldr_en": "Presents full-pipeline inference optimization for MiMo-V2.5 using Hybrid Sliding Window Attention (sparse attention) and KV cache techniques to achieve efficient multimodal generation.",
+      "llm_tldr_cn": "本文针对MiMo-V2.5多模态模型提出全流水线推理优化方案，核心采用混合滑动窗口注意力（一种稀疏注意力机制）和键值缓存优化技术，显著降低注意力计算和存储开销，实现高效推理。该方法可直接用于加速视频生成等任务，在消费级GPU上潜力巨大。",
+      "llm_tldr": "本文针对MiMo-V2.5多模态模型提出全流水线推理优化方案，核心采用混合滑动窗口注意力（一种稀疏注意力机制）和键值缓存优化技术，显著降低注意力计算和存储开销，实现高效推理。该方法可直接用于加速视频生成等任务，在消费级GPU上潜力巨大。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "sparse attention video generation",
+      "matched_requirement_id": "req-14",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.09892v1",
+      "source": "arxiv",
+      "title": "Next-Dense-Stride Prediction for Multimodal Autoregressive Visual Modeling",
+      "abstract": "We introduce DenseAR, a new generative paradigm that reformulates autoregressive image generation as coarse-to-fine next-dense-stride prediction using a compact single-scale tokenizer. Our key insight is that traversing a single-scale latent grid with progressively denser strides naturally captures the transition from global structure to fine detail. This addresses two limitations of existing autoregressive models at once: the slow inference of raster-order autoregression, which DenseAR avoids by predicting multiple tokens in parallel, and the heavy cost of multi-scale approaches, which need long, multi-resolution token sequences to achieve coarse-to-fine prediction. Building on our efficient framework and the flexibility of autoregressive modeling, we further extend DenseAR to a unified model that handles multiple modalities and imaging tasks within a single backbone. We validate DenseAR on both medical and natural images. On multi-contrast brain MRI, a single DenseAR model unifies cross-modal translation, modality-conditioned generation, and tumor segmentation, while remaining competitive with task-specific methods. On ImageNet, DenseAR improves class-conditional generation quality (FID and IS) over both a single-grid baseline without stride ordering and a multi-scale tokenizer-based baseline.",
+      "authors": [
+        "Chicago Y. Park",
+        "Jialin Mao",
+        "Xiaojian Xu",
+        "Taha Kass-Hout",
+        "Ulugbek S. Kamilov",
+        "Cao Xiao"
+      ],
+      "primary_category": "eess.IV",
+      "categories": [
+        "eess.IV",
+        "cs.AI"
+      ],
+      "published": "2026-07-10T18:32:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.09892v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient autoregressive image generation via parallel coarse-to-fine prediction",
+      "llm_evidence_cn": "通过并行粗到细预测实现高效自回归图像生成",
+      "llm_evidence": "通过并行粗到细预测实现高效自回归图像生成",
+      "canonical_evidence": "通过并行粗到细预测实现高效自回归图像生成",
+      "llm_tldr_en": "DenseAR reformulates autoregressive image generation as coarse-to-fine stride prediction, enabling parallel token prediction and faster inference.",
+      "llm_tldr_cn": "该论文提出DenseAR，一种新的自回归图像生成范式，通过粗到细的密集步长预测同时预测多个token，避免了逐行自回归的缓慢推理。该方法在保持生成质量的同时显著加速，为高效图像生成提供了简洁而有效的框架，其并行化思想可启发视频生成加速。",
+      "llm_tldr": "该论文提出DenseAR，一种新的自回归图像生成范式，通过粗到细的密集步长预测同时预测多个token，避免了逐行自回归的缓慢推理。该方法在保持生成质量的同时显著加速，为高效图像生成提供了简洁而有效的框架，其并行化思想可启发视频生成加速。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.08770v1",
+      "source": "arxiv",
+      "title": "LongE2V: Long-Horizon Event-based Video Reconstruction, Prediction, and Frame Interpolation with Video Diffusion Models",
+      "abstract": "Recovering high-quality video from sparse event streams is a challenging task. Regression methods often blur textures, while existing generative models struggle with long-term stability. We propose LongE2V, a novel approach that leverages pre-trained video diffusion priors to jointly handle event-based video reconstruction, prediction, and frame interpolation. By fine-tuning a foundational video model, our approach achieves high data efficiency and superior perceptual quality. We introduce Autoregressive Unrolling and Adaptive Context Switching to mitigate temporal drift in extremely long sequences. We also propose Reencoding Alignment with Cross Residual Correction to ensure precise bidirectional consistency during frame interpolation. Furthermore, Event Voxel Density Augmentation ensures robustness across varying sensor resolutions. Extensive experiments on real-world benchmarks demonstrate that LongE2V outperforms state-of-the-art methods across all three tasks, exhibiting exceptional temporal coherence and zero-shot generalization. Project page: https://cdfan0627.github.io/LongE2V-page/",
+      "authors": [
+        "Cheng-De Fan",
+        "Chun-Wei Tuan Mu",
+        "Chen-Wei Chang",
+        "Chin-Yang Lin",
+        "Kun-Ru Wu",
+        "Yu-Chee Tseng",
+        "Yu-Lun Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-09T17:59:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.08770v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "fine-tunes a foundational video diffusion model for reconstruction and prediction",
+      "llm_evidence_cn": "微调基础视频扩散模型用于重建和预测",
+      "llm_evidence": "微调基础视频扩散模型用于重建和预测",
+      "canonical_evidence": "微调基础视频扩散模型用于重建和预测",
+      "llm_tldr_en": "LongE2V fine-tunes a pre-trained video diffusion model for event-based video reconstruction, prediction, and interpolation, addressing long-term drift with autoregressive unrolling and adaptive context switching.",
+      "llm_tldr_cn": "LongE2V通过对基础视频扩散模型进行微调，实现了基于事件流的视频重建、预测和插帧。该方法引入自回归展开与自适应上下文切换以缓解长时间序列的时间漂移，并通过重编码对齐与交叉残差校正保证双向一致性。实验表明，该方法在事件视频重建任务上取得了高数据效率和优越感知质量，展示了后训练微调在视频生成中的潜力。",
+      "llm_tldr": "LongE2V通过对基础视频扩散模型进行微调，实现了基于事件流的视频重建、预测和插帧。该方法引入自回归展开与自适应上下文切换以缓解长时间序列的时间漂移，并通过重编码对齐与交叉残差校正保证双向一致性。实验表明，该方法在事件视频重建任务上取得了高数据效率和优越感知质量，展示了后训练微调在视频生成中的潜力。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.13770v1",
+      "source": "arxiv",
+      "title": "Kaleido: Algorithm-Hardware Co-Design for Video Diffusion Transformers by Exploiting Latent Space Correlations",
+      "abstract": "Video diffusion transformers (vDiTs) generate high quality video but introduce extremely high compute cost due to the long diffusion timesteps and self attention computation. As diffusion timesteps are reduced, the computation cost of self attention becomes the dominant bottleneck. Existing acceleration approaches largely inherit sparse attention techniques from large language models, which fail to consider the unique spatiotemporal correlation of video data.   This paper presents Kaleido, an algorithm hardware codesign that accelerates all operations in vDiTs by exploiting channel-wise spatiotemporal correlations in latent space. Based on this insight, we propose a lightweight channelwise reuse algorithm that skips redundant computations by reusing partial results while preserving higher generative quality than prior methods (>17 dB). To efficiently support this algorithm, we design a systolic array like accelerator with reconfigurable processing elements and a lightweight data dispatcher to mitigate irregular sparsity and data access patterns introduced by our reuse algorithm. Evaluations across three mainstream vDiT models show that Kaleido achieves up to 5.9x speedup and 16.0x energy savings over state of the art accelerators.",
+      "authors": [
+        "Wenxuan Miao",
+        "Haosong Liu",
+        "Weiming Hu",
+        "Zihan Liu",
+        "Aiyue Chen",
+        "Jianlin Yu",
+        "Yiwu Yao",
+        "Yiming Gan",
+        "Jieru Zhao",
+        "Jingwen Leng",
+        "Minyi Guo",
+        "Yu Feng"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.AI"
+      ],
+      "published": "2026-07-15T12:31:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.13770v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "accelerates video diffusion transformers for fast generation",
+      "llm_evidence_cn": "加速视频扩散Transformer实现快速生成",
+      "llm_evidence": "加速视频扩散Transformer实现快速生成",
+      "canonical_evidence": "加速视频扩散Transformer实现快速生成",
+      "llm_tldr_en": "Kaleido accelerates video diffusion transformers via algorithm-hardware co-design exploiting latent space correlations, achieving faster generation.",
+      "llm_tldr_cn": "视频扩散Transformer因长步数和自注意力计算成本极高。Kaleido通过利用潜在空间通道级时空相关性，提出轻量级通道重用算法和硬件协同设计，显著加速所有操作。实验证明在减少扩散步数时仍保持高质量，为快速视频生成提供有效方案。",
+      "llm_tldr": "视频扩散Transformer因长步数和自注意力计算成本极高。Kaleido通过利用潜在空间通道级时空相关性，提出轻量级通道重用算法和硬件协同设计，显著加速所有操作。实验证明在减少扩散步数时仍保持高质量，为快速视频生成提供有效方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.11136v1",
+      "source": "arxiv",
+      "title": "Xema: Efficient Diffusion Serving through Fine-Grained Memory Management and Auto-Configuration",
+      "abstract": "Diffusion models are increasingly deployed as production visual-generation services, where serving high-resolution image and long video generation is often limited by GPU memory. Popular memory-saving techniques such as weight offloading, sharding, and VAE slicing are often not practical because they tend to introduce significant performance overhead. In this paper, we present Xema, a memory-efficient diffusion serving system that exploits predictable tensor lifetimes for trace-guided memory optimization. For each request template, Xema derives an offline memory trace to identify short memory-pressure intervals and applies memory mitigation only within these intervals and only by the amount needed to fit the target GPU budget. Xema further constructs a static memory layout for tensors with predictable lifetimes, reducing fragmentation-induced reserved memory and making offline memory reasoning reliable at runtime. Built on this memory optimization layer, Xema introduces an offline planner that jointly selects parallelism, concurrency, and memory control under GPU memory and SLO constraints. The selected plan is stored in a plan table and directly used by the online serving runtime. We implement Xema on production diffusion pipelines and evaluate it with Flux.2, CogVideoX-5B, and LTX-2. Compared with existing serving configurations, Xema improves SLO attainment by up to 3.7x and reduces planning cost from 6.3 hours to 197 seconds compared with grid search.",
+      "authors": [
+        "Xueze Kang",
+        "Guangyu Xiang",
+        "Suyi Li",
+        "Yuxin Wang",
+        "Shaohuai Shi",
+        "Lin Zhang",
+        "Xiaowen Chu"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-07-13T06:12:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.11136v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "memory-efficient serving for diffusion models enables fast generation on consumer GPUs",
+      "llm_evidence_cn": "高效内存管理使扩散模型在消费级GPU上快速生成",
+      "llm_evidence": "高效内存管理使扩散模型在消费级GPU上快速生成",
+      "canonical_evidence": "高效内存管理使扩散模型在消费级GPU上快速生成",
+      "llm_tldr_en": "Xema uses trace-guided memory optimization to enable efficient diffusion serving on memory-constrained GPUs, reducing overhead for high-resolution image and long video generation.",
+      "llm_tldr_cn": "扩散模型服务受限于GPU内存，现有内存节省技术性能开销大。本文提出Xema，利用可预测的张量生命周期进行离线内存追踪，仅在内存压力区间进行精准缓解。实验表明该方法在适配目标GPU预算的同时保持低延迟，适合消费级显卡部署。",
+      "llm_tldr": "扩散模型服务受限于GPU内存，现有内存节省技术性能开销大。本文提出Xema，利用可预测的张量生命周期进行离线内存追踪，仅在内存压力区间进行精准缓解。实验表明该方法在适配目标GPU预算的同时保持低延迟，适合消费级显卡部署。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.09581v2",
+      "source": "arxiv",
+      "title": "Wan-Dancer: A Hierarchical Framework for Minute-scale Coherent Music-to-Dance Generation",
+      "abstract": "Generating long-duration, high-definition, and rhythmically synchronized dance videos directly from music remains a significant challenge, primarily due to the temporal constraints of current diffusion models, which typically fail beyond 20 seconds. Existing approaches, whether they rely on intermediate 3D skeletons or on end-to-end video synthesis, suffer from temporal drift, identity inconsistency, and repetitive motion patterns when extended to longer horizons. To address these limitations, we propose a novel hierarchical framework for minute-scale coherent music-to-dance generation. Our method decouples the process into global keyframe planning and local temporal refinement, leveraging full-track musical context to ensure long-range coherence. Key innovations include dynamic frame rate adaptation via time-mapped RoPE embeddings for precise alignment, an optical-flow-based loss function to enhance motion continuity, and motion-speed control to preserve high-fidelity details during rapid movements. Extensive experiments demonstrate that our framework surpasses the conventional duration barrier, generating stable, 720p/30fps videos exceeding one minute with superior temporal stability. Furthermore, the model exhibits robust versatility across five distinct dance genres, conditioned on both audio and textual prompts, establishing a new state-of-the-art in coherent, long-form dance video synthesis.",
+      "authors": [
+        "Mingyang Huang",
+        "Peng Zhang",
+        "Li Hu",
+        "Guangyuan Wang",
+        "Bang Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.SD"
+      ],
+      "published": "2026-07-10T16:30:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.09581v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "addresses motion dynamics and long-term coherence in dance video generation",
+      "llm_evidence_cn": "针对舞蹈视频生成中的运动动态和长程连贯性",
+      "llm_evidence": "针对舞蹈视频生成中的运动动态和长程连贯性",
+      "canonical_evidence": "针对舞蹈视频生成中的运动动态和长程连贯性",
+      "llm_tldr_en": "Proposes hierarchical framework with global keyframe planning and local refinement for minute-scale music-to-dance video generation, overcoming temporal drift and pattern repetition.",
+      "llm_tldr_cn": "针对现有扩散模型在生成长时段舞蹈视频时出现的时序漂移和动作重复问题，本文提出了一种分层框架，通过全局关键帧规划和局部时序细化，利用完整音乐上下文实现分钟级连贯舞蹈生成，有效提升了运动动态和视觉一致性。该方法直接改进了视频生成中的运动动态，与用户需求高度相关。",
+      "llm_tldr": "针对现有扩散模型在生成长时段舞蹈视频时出现的时序漂移和动作重复问题，本文提出了一种分层框架，通过全局关键帧规划和局部时序细化，利用完整音乐上下文实现分钟级连贯舞蹈生成，有效提升了运动动态和视觉一致性。该方法直接改进了视频生成中的运动动态，与用户需求高度相关。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14898v1",
+      "source": "arxiv",
+      "title": "FlashDecoder: Real-Time Latent-to-Pixel Streaming Decoder with Transformers",
+      "abstract": "Real-time video generation demands fast decoding as much as fast denoising, yet current latent video diffusion models rely on 3D convolutional decoders that are slow and memory-intensive at high resolutions or for long video. We introduce FlashDecoder, a fast, memory-efficient pure-Transformer video decoder that decodes latents to pixels frame by frame. At each step, the current frame attends only to a fixed-size window of past frames through a rolling KV cache. The fixed temporal window keeps decoding fast and memory bounded regardless of video length, enabling constant-latency streaming. Because frames are processed sequentially, temporal causality is enforced without explicit attention masks, enabling training at resolutions up to 1080p and matching the reconstruction quality of convolutional decoders. On the Wan2.1 and Wan2.2 latent spaces, FlashDecoder matches each convolutional decoder in reconstruction quality (e.g., 41.55dB vs. 41.49dB PSNR at 1080p) while decoding 3.6x-4.7x faster with up to 11x less memory on a single H100 GPU. With architecture-aware inference optimizations, the speedup widens to 12x.",
+      "authors": [
+        "Minguk Kang",
+        "Suha Kwak"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-16T12:16:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.14898v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time video decoding with Transformer for fast video generation",
+      "llm_evidence_cn": "基于Transformer的实时视频解码以加速生成",
+      "llm_evidence": "基于Transformer的实时视频解码以加速生成",
+      "canonical_evidence": "基于Transformer的实时视频解码以加速生成",
+      "llm_tldr_en": "Introduces FlashDecoder, a pure-Transformer video decoder for real-time latent-to-pixel streaming, enabling constant-latency decoding for high-resolution long videos.",
+      "llm_tldr_cn": "当前潜变量视频扩散模型的3D卷积解码器在高分辨率长视频下慢且显存高。本文提出FlashDecoder，一种纯Transformer视频解码器，通过滚动KV缓存实现每帧仅关注过去固定窗口，达到恒定延迟流式解码。支持1080p分辨率训练，为实时视频生成提供了高效解码方案。",
+      "llm_tldr": "当前潜变量视频扩散模型的3D卷积解码器在高分辨率长视频下慢且显存高。本文提出FlashDecoder，一种纯Transformer视频解码器，通过滚动KV缓存实现每帧仅关注过去固定窗口，达到恒定延迟流式解码。支持1080p分辨率训练，为实时视频生成提供了高效解码方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.12121v1",
+      "source": "arxiv",
+      "title": "FlashDiff: Efficient Regional Execution and Scheduling for Diffusion Model Serving",
+      "abstract": "Diffusion models have become the central backbone for modern image, video, and audio generation, but their efficient service remains a challenge. Unlike autoregressive decoding, diffusion inference repeatedly updates high-dimensional spatial or temporal latents over many denoising steps. This all-region execution pattern makes generation latency high and limits serving throughput. Existing multi-GPU parallelization methods can reduce per-step computation, but often introduce substantial activation exchange overhead, causing communication to offset or even outweigh the benefits of parallel execution.   This paper presents FlashDiff, a diffusion serving system that improves inference efficiency through adaptive regional execution and scheduling. FlashDiff is based on the observation that diffusion refinement is not uniform across latent regions or denoising steps: different regions often stabilize at different rates, while neighboring steps exhibit strong temporal correlation. FlashDiff leverages these properties to selectively execute only regions that require further refinement and to reallocate the resulting compute slack across concurrent serving requests. FlashDiff consists of three mechanisms. First, it decomposes the latent representation into coherent execution regions using early-stage attention signals, preserving semantic structure while exposing fine-grained parallelism. Second, it uses a lightweight runtime controller to estimate region activity and bypass low-impact updates when further refinement is unlikely to affect output quality. Third, it applies an affinity-aware online scheduler that co-locates dependent regions, balances residual load across GPUs, and reuses reclaimed compute capacity to improve serving efficiency. Across real-world image, video, and audio workloads, FlashDiff reduces end-to-end serving latency by 30-97% and improves throughput by 1.2-2.2x.",
+      "authors": [
+        "Yaqi Qiao",
+        "Ping He",
+        "Songrun Xie",
+        "Ayush Barik",
+        "Chensong Zhang",
+        "Zhengzhong Tu",
+        "Fan Lai"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-07-13T20:00:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.12121v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient diffusion serving for fast video generation",
+      "llm_evidence_cn": "高效的扩散模型推理加速视频生成",
+      "llm_evidence": "高效的扩散模型推理加速视频生成",
+      "canonical_evidence": "高效的扩散模型推理加速视频生成",
+      "llm_tldr_en": "FlashDiff introduces adaptive regional execution and scheduling for diffusion models, reducing latency and improving throughput for image/video generation serving.",
+      "llm_tldr_cn": "FlashDiff针对扩散模型推理服务提出自适应区域执行和调度方法，通过减少不必要的计算和通信开销，显著降低生成延迟并提高吞吐量。实验表明该方法在不牺牲质量的前提下实现了高效部署，适用于图像和视频生成场景。",
+      "llm_tldr": "FlashDiff针对扩散模型推理服务提出自适应区域执行和调度方法，通过减少不必要的计算和通信开销，显著降低生成延迟并提高吞吐量。实验表明该方法在不牺牲质量的前提下实现了高效部署，适用于图像和视频生成场景。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.10535v1",
+      "source": "arxiv",
+      "title": "Improving Sample Diversity in Autoregressive Text-to-Image Generation via Cluster Truncation",
+      "abstract": "While diffusion models achieve state-of-the-art image quality for text-to-image (T2I) generation, recent work has demonstrated that they suffer from sample diversity collapse. In this work, we investigate whether autoregressive (AR) image generation models can push the Pareto frontier between image quality and sample diversity. With recent advances in quality and efficiency, AR models have emerged as a viable alternative to diffusion-based image generation. Beyond enabling new use cases such as interleaved image-text generation, their sequential generation process makes them compatible with a wide range of token-based decoding strategies originally developed to improve diversity in text generation. Motivated by the potential of a better diversity-quality tradeoff in the AR paradigm, we present the first systematic study of sample diversity in AR image generation models. We show that two key properties of AR image generation, persistently high token-level entropy and substantial redundancy in visual token spaces, limit the effectiveness of existing token-level decoding methods for diversity enhancement. We therefore propose $p$-less cluster, a new decoding strategy that performs entropy-based truncation sampling at cluster level rather than at token level. We evaluate our approach and baseline decoding methods across four autoregressive T2I models and two datasets using a comprehensive suite of metrics spanning image quality, prompt alignment, and diversity. Our results show that $p$-less cluster unlocks the greatest diversity across most evaluated autoregressive T2I models and datasets while maintaining image quality and prompt alignment.",
+      "authors": [
+        "Trang Nguyen",
+        "Shuang Wu",
+        "Runyan Tan",
+        "Phillip Howard"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-12T02:14:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.10535v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "improving sample diversity in autoregressive text-to-image generation via cluster truncation",
+      "llm_evidence_cn": "通过聚类截断提升自回归文本到图像生成的样本多样性",
+      "llm_evidence": "通过聚类截断提升自回归文本到图像生成的样本多样性",
+      "canonical_evidence": "通过聚类截断提升自回归文本到图像生成的样本多样性",
+      "llm_tldr_en": "Explores cluster truncation to improve sample diversity in autoregressive text-to-image models, achieving a better Pareto frontier between quality and diversity.",
+      "llm_tldr_cn": "该论文研究自回归文本到图像生成模型中的多样性问题。扩散模型虽质量高但多样性不足，而自回归模型可兼容多种解码策略。作者提出聚类截断方法，在保持生成质量的同时显著提升样本多样性。实验表明，该方法在多个指标上优于现有基线。这项技术可用于视频生成中的多样性增强。",
+      "llm_tldr": "该论文研究自回归文本到图像生成模型中的多样性问题。扩散模型虽质量高但多样性不足，而自回归模型可兼容多种解码策略。作者提出聚类截断方法，在保持生成质量的同时显著提升样本多样性。实验表明，该方法在多个指标上优于现有基线。这项技术可用于视频生成中的多样性增强。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14908v1",
+      "source": "arxiv",
+      "title": "CODA: Algorithm-Hardware Co-design for Edge Video Diffusion via NMP-Enabled Compute-Cache Operator Disaggregation",
+      "abstract": "Deploying Video Diffusion Models (VDMs) on edge devices is appealing for localized and privacy-preserving generation, but their iterative Transformer-based denoising remains too slow for practical local inference. Cross-Timestep Caching (CTC) has emerged as a promising direction for reducing redundant computation, reusing activations across adjacent denoising steps rather than modifying model weights, while largely preserving generation fidelity. However, on memory-constrained edge GPUs, CTC requires a massive cache footprint that quickly exceeds on-device VRAM and forces the cache into host memory. More fundamentally, cache operators remain tightly interleaved and chain-dependent with native compute operators, so naive near-memory offloading still incurs repeated PCIe exchanges for residual and fusion computations, turning cache reuse into a communication- and serialization-bound execution flow. We therefore propose CODA, an algorithm-hardware co-designed architecture centered on Compute-Cache Operator Disaggregation. CODA separates dense compute paths and memory-bound cache paths across the xPU and a lightweight DIMM-side near-memory engine, reorganizes fragmented cache activity into hardware-friendly coalesced segments, and exploits Classifier-Free Guidance (CFG) branch independence to overlap xPU compute with cache-side execution. Experiments show that CODA achieves up to 1.80x end-to-end speedup and 1.74x higher energy efficiency, while preserving competitive generation quality compared with a state-of-the-art caching algorithm.",
+      "authors": [
+        "Yuanpeng Zhang",
+        "YuXuan Wu",
+        "Yitong Xiao",
+        "Chenhao Xue",
+        "Yi Ren",
+        "Cong Li",
+        "Yihan Yin",
+        "Dimin Niu",
+        "Guangyu Sun"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.DC"
+      ],
+      "published": "2026-07-16T12:28:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.14908v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "cross-timestep caching accelerates video diffusion inference",
+      "llm_evidence_cn": "跨时间步缓存加速视频扩散推理",
+      "llm_evidence": "跨时间步缓存加速视频扩散推理",
+      "canonical_evidence": "跨时间步缓存加速视频扩散推理",
+      "llm_tldr_en": "CODA reduces redundant computation in video diffusion models via cross-timestep caching and hardware co-design, enabling faster edge inference while preserving generation fidelity.",
+      "llm_tldr_cn": "视频扩散模型在边缘设备上部署时因迭代去噪过程过慢而受限。本文提出CODA，通过跨时间步缓存（CTC）减少冗余计算，并采用NMP启用的算子解耦架构来缓解内存瓶颈。实验表明该方法在保持生成质量的同时显著加速推理，为边缘视频生成提供了高效硬件-算法协同方案。",
+      "llm_tldr": "视频扩散模型在边缘设备上部署时因迭代去噪过程过慢而受限。本文提出CODA，通过跨时间步缓存（CTC）减少冗余计算，并采用NMP启用的算子解耦架构来缓解内存瓶颈。实验表明该方法在保持生成质量的同时显著加速推理，为边缘视频生成提供了高效硬件-算法协同方案。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "fast video generation",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.12789v1",
+      "source": "arxiv",
+      "title": "AVQ-Attention: Adaptive Vector-Quantized Attention",
+      "abstract": "The $\\mathcal{O}(N^2)$ complexity of attention over $N$ tokens remains a computational bottleneck in transformer models. Vector-Quantized (VQ) attention reduces this to $\\mathcal{O}(MN)$ by representing keys with $M$ codewords, but applies uniform codebook capacity regardless of where attention mass concentrates: high-attention regions of key space may be coarsely approximated while low-attention regions waste representational capacity. We propose Adaptive Vector-Quantized (AVQ) Attention, which adaptively allocates codebook capacity based on attention importance. Starting from a small set of codewords, our method identifies the most important codes during the forward pass and refines them with pre-learned child codewords, achieving fine-grained quantization where it matters most while maintaining coarse quantization elsewhere. We develop an implementation using custom Triton kernels that enables the full adaptive refinement process, including importance scoring, child codeword insertion, and parent contribution replacement, to be carried out within the tiled computation paradigm of Flash Attention with minimal overhead. Our approach maintains $\\mathcal{O}(MN)$ complexity while achieving improved accuracy-efficiency trade-offs compared to fixed-codebook VQ-attention.",
+      "authors": [
+        "Winfried van den dool",
+        "Patrick Forré",
+        "Amir Habibian",
+        "Yuki M. Asano",
+        "Max Welling"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "published": "2026-07-14T14:02:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.12789v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "adaptive vector-quantized attention for efficient transformers",
+      "llm_evidence_cn": "自适应向量量化注意力用于高效Transformer",
+      "llm_evidence": "自适应向量量化注意力用于高效Transformer",
+      "canonical_evidence": "自适应向量量化注意力用于高效Transformer",
+      "llm_tldr_en": "AVQ-Attention adaptively allocates codebook capacity based on attention importance for fine-grained quantization and acceleration.",
+      "llm_tldr_cn": "Transformer注意力复杂度O(N^2)是瓶颈。本文提出自适应向量量化注意力，根据注意力重要性动态分配码本容量，在低注意力区域节省容量，高注意力区域精细量化，实现高效加速。实验证明在保持性能的同时显著加速。",
+      "llm_tldr": "Transformer注意力复杂度O(N^2)是瓶颈。本文提出自适应向量量化注意力，根据注意力重要性动态分配码本容量，在低注意力区域节省容量，高注意力区域精细量化，实现高效加速。实验证明在保持性能的同时显著加速。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "model quantization efficient generation",
+      "matched_requirement_id": "req-13",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.11081v1",
+      "source": "arxiv",
+      "title": "Controlling Motion Transfer in Diffusion Transformers via Attention Heads",
+      "abstract": "Diffusion Transformers (DiTs) have advanced video generation with high-quality, temporally coherent results. However, extending them to motion transfer, which requires following reference motion while aligning with a target prompt, remains challenging due to limited understanding of motion and structure representations within DiTs. We analyze video DiTs at the attention-head level and identify distinct heads specialized for motion and spatial structure. Based on this insight, we propose a head-aware controllable motion transfer framework that requires no parameter updates. Our method refines motion cues from motion-specialized heads via semantic correspondence guidance and preserves structure through selective feature injection. This head-level control not only enables accurate motion transfer but also provides an interpretable foundation for controllable video generation with DiTs.",
+      "authors": [
+        "Sunyoung Jung",
+        "Jiwoo Park",
+        "Yoonseok Choi",
+        "Kyobin Choo",
+        "Ming-Hsuan Yang",
+        "Seong Jae Hwang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-13T04:44:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.11081v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "controls motion transfer in video DiTs by analyzing attention heads specialized for motion and structure",
+      "llm_evidence_cn": "通过分析扩散变换器中关注运动和结构的注意力头来控制运动迁移，涉及运动动态",
+      "llm_evidence": "通过分析扩散变换器中关注运动和结构的注意力头来控制运动迁移，涉及运动动态",
+      "canonical_evidence": "通过分析扩散变换器中关注运动和结构的注意力头来控制运动迁移，涉及运动动态",
+      "llm_tldr_en": "Identifies attention heads specialized for motion and structure in video DiTs, enabling a training-free motion transfer framework that refines motion cues and preserves structure.",
+      "llm_tldr_cn": "视频扩散变换器虽然在视频生成中表现优异，但运动迁移仍具挑战。本文通过分析注意力头，发现存在专门处理运动和结构的头。基于此，提出无需参数更新的运动迁移框架，利用语义对应引导完善运动线索，并通过选择性特征注入保持结构。方法有效实现了可控运动迁移。",
+      "llm_tldr": "视频扩散变换器虽然在视频生成中表现优异，但运动迁移仍具挑战。本文通过分析注意力头，发现存在专门处理运动和结构的头。基于此，提出无需参数更新的运动迁移框架，利用语义对应引导完善运动线索，并通过选择性特征注入保持结构。方法有效实现了可控运动迁移。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14595v1",
+      "source": "arxiv",
+      "title": "MagicPrompt: Ultra-Lightweight Prompt Tuning for Video Generation",
+      "abstract": "Large-scale video diffusion models (VDMs) deliver strong generation performance, but full fine-tuning for downstream tasks incurs prohibitive computational costs. Existing parameter-efficient fine-tuning (PEFT) methods have two critical flaws on billion-scale models: they still require substantial trainable parameters, and reward-based training suffers from noise-induced optimization instability in condition-guided tasks. We propose MagicPrompt, a lightweight framework that achieves extreme parameter efficiency and stable reward optimization. It first adopts Attention-Embedded Prompt Tuning, which steers generation via lightweight soft prompts with orders of magnitude fewer parameters while preserving pre-trained knowledge. It further introduces Dual-Space Reward Feedback Optimization, which uses self-supervised latent objectives to improve condition-guided reward training. Experiments show MagicPrompt reaches competitive performance with less than 1\\% trainable parameters and notably reduces training costs.",
+      "authors": [
+        "Yinhan Zhang",
+        "Dinwei Tan",
+        "Xianghao Kong",
+        "Yue Ma",
+        "Yeying Jin",
+        "Anyi Rao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-16T05:46:59+00:00",
+      "link": "https://arxiv.org/pdf/2607.14595v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "ultra-lightweight prompt tuning for video generation models reduces fine-tuning cost",
+      "llm_evidence_cn": "超轻量提示调优降低视频生成模型的后训练成本",
+      "llm_evidence": "超轻量提示调优降低视频生成模型的后训练成本",
+      "canonical_evidence": "超轻量提示调优降低视频生成模型的后训练成本",
+      "llm_tldr_en": "MagicPrompt uses attention-embedded prompt tuning to achieve extreme parameter efficiency for video diffusion model adaptation, enabling stable reward optimization with minimal parameters.",
+      "llm_tldr_cn": "大规模视频扩散模型全微调成本高昂。本文提出MagicPrompt，采用注意力嵌入提示调优，以极少数参数引导生成，并通过双空间目标实现稳定奖励优化。实验证明在亿级模型上仅需微调少量参数即可达到与全微调相当的性能，显著降低后训练成本。",
+      "llm_tldr": "大规模视频扩散模型全微调成本高昂。本文提出MagicPrompt，采用注意力嵌入提示调优，以极少数参数引导生成，并通过双空间目标实现稳定奖励优化。实验证明在亿级模型上仅需微调少量参数即可达到与全微调相当的性能，显著降低后训练成本。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

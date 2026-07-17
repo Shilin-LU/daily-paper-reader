@@ -6,76 +6,83 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-13
-- 运行时间：2026-07-13 21:48:59 UTC
+- 最新运行日期：2026-07-17
+- 运行时间：2026-07-17 20:36:10 UTC
 - 运行状态：成功
-- 本次总论文数：18
+- 本次总论文数：21
 - 精读区：8
-- 速读区：10
+- 速读区：13
 
 ### 今日简报（AI）
-1) 今日聚焦视频生成与理解，精读8篇，速读10篇，OPSD-V与Wan-Streamer表现突出。
-2) 最值得关注：OPSD-V用on-policy自蒸馏提升少步自回归视频生成质量；Wan-Streamer v0.2实现更高分辨率且延迟不变。
-3) 下一步可关注自蒸馏技术对视频生成效率的改善，以及高分辨率流式方法在实时场景中的落地可能。
-- 详情：[/202607/13/README](/202607/13/README)
+今日精选21篇论文，重点聚焦实时视频超分与压缩人脸视频增强两大方向。最值得关注的是精读中的《NanoVSR》与《FSFVE》，分别展示了边缘设备实时超分和少样本人脸增强的高效方案。建议优先阅读这两篇精读论文，尤其是对边缘部署和视频增强感兴趣的读者。
+- 详情：[/202607/17/README](/202607/17/README)
 
 ### 精读区论文标签
-1. [OPSD-V: On-Policy Self-Distillation for Post-Training Few-Step Autoregressive Video Generators](/202607/13/2607.08766v1-opsd-v-on-policy-self-distillation-for-post-training-few-step-autoregressive-video-generators)  
-   标签：评分：10.0/10、query:vd
-   evidence：后训练自蒸馏用于少步自回归视频生成器，减少误差积累并改善运动动态
-2. [Wan-Streamer v0.2: Higher Resolution, Same Latency](/202607/13/2607.04443v1-wan-streamer-v02-higher-resolution-same-latency)  
+1. [NanoVSR: Towards Real-Time Video Super-Resolution on Edge Devices](/202607/17/2607.10495v1-nanovsr-towards-real-time-video-super-resolution-on-edge-devices)  
+   标签：评分：9.0/10、query:video-refine
+   evidence：边缘设备上的实时视频超分辨率，可用于视频精炼
+2. [FSFVE: Few Shot Compressed Face Video Enhancement](/202607/17/2607.11040v1-fsfve-few-shot-compressed-face-video-enhancement)  
+   标签：评分：9.0/10、query:video-refine
+   evidence：少样本视频增强用于生成视频精炼
+3. [LPM: Industrial-Scale Generative Video Restoration](/202607/17/2607.13460v1-lpm-industrial-scale-generative-video-restoration)  
+   标签：评分：9.0/10、query:video-refine
+   evidence：生成式视频修复框架，适用于退化用户生成内容
+4. [MeanFlowNFT: Bringing Forward-Process RL to Average-Velocity Generators](/202607/17/2607.15273v1-meanflownft-bringing-forward-process-rl-to-average-velocity-generators)  
+   标签：评分：9.0/10、query:vd
+   evidence：MeanFlow生成器实现快速少步采样，适用于视频生成
+5. [FlashDiff: Efficient Regional Execution and Scheduling for Diffusion Model Serving](/202607/17/2607.12121v2-flashdiff-efficient-regional-execution-and-scheduling-for-diffusion-model-serving)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：在单GPU上实现低延迟实时视频生成
-3. [FADRA: Frequency-Aware Diffusion with Residual Adaptation for Video Face Restoration](/202607/13/2607.06389v1-fadra-frequency-aware-diffusion-with-residual-adaptation-for-video-face-restoration)  
-   标签：评分：8.0/10、query:video-refine
-   evidence：利用扩散模型进行视频人脸恢复，用于生成输出后处理
-4. [Prompt-Adapter Context Routing for Parameter-Efficient Multi-Shot Long Video Extrapolation](/202607/13/2607.06481v1-prompt-adapter-context-routing-for-parameter-efficient-multi-shot-long-video-extrapolation)  
+   evidence：面向扩散模型的推理加速系统，适用于图像、视频、音频生成
+6. [ACID: Adaptive Caching for vIDeo generation](/202607/17/2607.12358v1-acid-adaptive-caching-for-video-generation)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：自适应缓存加速视频生成
+7. [ACID: Adaptive Caching for vIDeo generation](/202607/17/2607.12358v2-acid-adaptive-caching-for-video-generation)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：自适应缓存加速视频扩散模型
+8. [From Draft to Draft-Free: One-Step Video Object Removal via Privileged Distillation and Fast Planting](/202607/17/2607.14976v1-from-draft-to-draft-free-one-step-video-object-removal-via-privileged-distillation-and-fast-planting)  
    标签：评分：8.0/10、query:vd
-   evidence：视频扩散模型的参数高效后训练方法
-5. [DiffCVE: Diffusion-based Compressed Video Enhancement](/202607/13/2607.07195v1-diffcve-diffusion-based-compressed-video-enhancement)  
-   标签：评分：8.0/10、query:video-refine
-   evidence：基于扩散的压缩视频增强方法，可应用于生成视频的细化
-6. [The Key to Going Linear: Analysis-Driven Transformer Linearization](/202607/13/2607.07706v1-the-key-to-going-linear-analysis-driven-transformer-linearization)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：分析并改进Transformer线性化以实现高效注意力，可应用于图像生成
-7. [Linear Attention Architectures: Mechanisms, Trade-offs, and Cross-Layer Routing](/202607/13/2607.07953v1-linear-attention-architectures-mechanisms-trade-offs-and-cross-layer-routing)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：线性注意力架构的比较研究，可用于高效生成
-8. [IB-Flow: Information Bottleneck-Guided CFG Distillation for Few-Step Text-to-Image Generation](/202607/13/2607.09133v1-ib-flow-information-bottleneck-guided-cfg-distillation-for-few-step-text-to-image-generation)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：文本到图像生成的少步蒸馏
+   evidence：蒸馏实现一步视频生成加速高质量移除
 
 ### 速读区论文标签
-1. [Wan-Streamer v0.2: Higher Resolution, Same Latency](/202607/13/2607.04443v3-wan-streamer-v02-higher-resolution-same-latency)  
+1. [Full-Pipeline Inference Optimization for MiMo-V2.5 Series: Pushing Hybrid SWA Efficiency to the Limit](/202607/17/2607.13095v1-full-pipeline-inference-optimization-for-mimo-v25-series-pushing-hybrid-swa-efficiency-to-the-limit)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：稀疏注意力推理优化
+2. [Kaleido: Algorithm-Hardware Co-Design for Video Diffusion Transformers by Exploiting Latent Space Correlations](/202607/17/2607.13770v1-kaleido-algorithm-hardware-co-design-for-video-diffusion-transformers-by-exploiting-latent-space-correlations)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：加速视频扩散Transformer实现快速生成
+3. [FlashDecoder: Real-Time Latent-to-Pixel Streaming Decoder with Transformers](/202607/17/2607.14898v1-flashdecoder-real-time-latent-to-pixel-streaming-decoder-with-transformers)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：基于Transformer的实时视频解码以加速生成
+4. [CODA: Algorithm-Hardware Co-design for Edge Video Diffusion via NMP-Enabled Compute-Cache Operator Disaggregation](/202607/17/2607.14908v1-coda-algorithm-hardware-co-design-for-edge-video-diffusion-via-nmp-enabled-compute-cache-operator-disaggregation)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：跨时间步缓存加速视频扩散推理
+5. [Next-Dense-Stride Prediction for Multimodal Autoregressive Visual Modeling](/202607/17/2607.09892v1-next-dense-stride-prediction-for-multimodal-autoregressive-visual-modeling)  
    标签：评分：7.0/10、query:fast-gen
-   evidence：低延迟实时流式音视频交互
-2. [Gen4U: Unifying Video Generation and Understanding via Diffusion](/202607/13/2607.06856v1-gen4u-unifying-video-generation-and-understanding-via-diffusion)  
+   evidence：通过并行粗到细预测实现高效自回归图像生成
+6. [Xema: Efficient Diffusion Serving through Fine-Grained Memory Management and Auto-Configuration](/202607/17/2607.11136v1-xema-efficient-diffusion-serving-through-fine-grained-memory-management-and-auto-configuration)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：高效内存管理使扩散模型在消费级GPU上快速生成
+7. [FlashDiff: Efficient Regional Execution and Scheduling for Diffusion Model Serving](/202607/17/2607.12121v1-flashdiff-efficient-regional-execution-and-scheduling-for-diffusion-model-serving)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：高效的扩散模型推理加速视频生成
+8. [AVQ-Attention: Adaptive Vector-Quantized Attention](/202607/17/2607.12789v1-avq-attention-adaptive-vector-quantized-attention)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：自适应向量量化注意力用于高效Transformer
+9. [MagicPrompt: Ultra-Lightweight Prompt Tuning for Video Generation](/202607/17/2607.14595v1-magicprompt-ultra-lightweight-prompt-tuning-for-video-generation)  
    标签：评分：7.0/10、query:vd
-   evidence：通过扩散统一视频生成与理解，处于视频生成主题核心
-3. [AnchorPrune: Relevance-Anchored Contextual Expansion for Visual Token Pruning](/202607/13/2607.07033v1-anchorprune-relevance-anchored-contextual-expansion-for-visual-token-pruning)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：视觉令牌剪枝方法，可加速大视觉语言模型推理，适用于快速生成
-4. [MOSAIC: Adaptive Inter-layer Composition for Efficient Heterogeneous Vision-Language Models](/202607/13/2607.09029v1-mosaic-adaptive-inter-layer-composition-for-efficient-heterogeneous-vision-language-models)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：提出自动搜索集成线性和稀疏注意力的高效异构架构，可用于快速图像/视频生成
-5. [Quantize the Target, Quantize the Drafter: Efficient Inference with Qwen3.5-4B](/202607/13/2607.04244v1-quantize-the-target-quantize-the-drafter-efficient-inference-with-qwen35-4b)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：应用量化感知蒸馏和推测解码实现高效LLM推理，与生成模型加速相关
-6. [Flash-BoN: Instant Drafts for Inference-Time Scaling in Diffusion Models](/202607/13/2607.04461v1-flash-bon-instant-drafts-for-inference-time-scaling-in-diffusion-models)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：推理时间缩放加速生成；提出即时草稿加速扩散模型
-7. [Enhancing Video Physical Consistency via Role-aware Joint Training and Modality-decoupled Denoising](/202607/13/2607.04653v1-enhancing-video-physical-consistency-via-role-aware-joint-training-and-modality-decoupled-denoising)  
+   evidence：超轻量提示调优降低视频生成模型的后训练成本
+10. [LongE2V: Long-Horizon Event-based Video Reconstruction, Prediction, and Frame Interpolation with Video Diffusion Models](/202607/17/2607.08770v1-longe2v-long-horizon-event-based-video-reconstruction-prediction-and-frame-interpolation-with-video-diffusion-models)  
    标签：评分：6.0/10、query:vd
-   evidence：基于角色感知联合训练和模态解耦去噪增强视频物理一致性
-8. [Patch Knowledge Transfer for Efficient AI-Generated Image Quality Assessment](/202607/13/2607.05605v1-patch-knowledge-transfer-for-efficient-ai-generated-image-quality-assessment)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：面向AI生成图像质量评估的知识蒸馏方法
-9. [Retrieving and Refining Winning Noise Tickets for Diffusion-Based Motion Generation](/202607/13/2607.06843v1-retrieving-and-refining-winning-noise-tickets-for-diffusion-based-motion-generation)  
+   evidence：微调基础视频扩散模型用于重建和预测
+11. [Wan-Dancer: A Hierarchical Framework for Minute-scale Coherent Music-to-Dance Generation](/202607/17/2607.09581v2-wan-dancer-a-hierarchical-framework-for-minute-scale-coherent-music-to-dance-generation)  
    标签：评分：6.0/10、query:vd
-   evidence：通过噪声检索改善文本-运动对齐，增强运动动态和多样性
-10. [Simon-SR: Spatially Adaptive Modulation and Visual Prompt Adaptation for Text-Reinforced Super-Resolution](/202607/13/2607.09351v1-simon-sr-spatially-adaptive-modulation-and-visual-prompt-adaptation-for-text-reinforced-super-resolution)  
-   标签：评分：6.0/10、query:video-refine
-   evidence：图像超分辨率方法可用于视频精炼
+   evidence：针对舞蹈视频生成中的运动动态和长程连贯性
+12. [Improving Sample Diversity in Autoregressive Text-to-Image Generation via Cluster Truncation](/202607/17/2607.10535v1-improving-sample-diversity-in-autoregressive-text-to-image-generation-via-cluster-truncation)  
+   标签：评分：6.0/10、query:vd
+   evidence：通过聚类截断提升自回归文本到图像生成的样本多样性
+13. [Controlling Motion Transfer in Diffusion Transformers via Attention Heads](/202607/17/2607.11081v1-controlling-motion-transfer-in-diffusion-transformers-via-attention-heads)  
+   标签：评分：6.0/10、query:vd
+   evidence：通过分析扩散变换器中关注运动和结构的注意力头来控制运动迁移，涉及运动动态
 
 
 <div class="dpr-home-promo-card">
