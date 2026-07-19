@@ -6,70 +6,56 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-18
-- 运行时间：2026-07-18 21:35:16 UTC
+- 最新运行日期：2026-07-19
+- 运行时间：2026-07-19 21:32:04 UTC
 - 运行状态：成功
-- 本次总论文数：16
-- 精读区：3
-- 速读区：13
+- 本次总论文数：12
+- 精读区：2
+- 速读区：10
 
 ### 今日简报（AI）
-1) 今日精读2篇、速读3篇，聚焦AI视频生成与修复领域。  
-2) 最值得看《ACID》和《LPM》，分别提出自适应视频生成缓存与工业级生成式视频恢复方法。  
-3) 建议关注视频生成缓存优化与工业级修复技术，同时留意层次化舞蹈生成和轻量超分方向。
-- 详情：[/202607/18/README](/202607/18/README)
+今日重点研究了扩散模型服务优化与轻量图像超分技术，其中《FlashDiff》在区域执行调度方面表现突出，《CUST》则在聚类单元级相似性变换上实现高效超分。最值得关注的两个方向：一是扩散模型的高效区域执行与内存管理（如FlashDiff与Xema），二是轻量级图像超分与视频增强的少样本方法（如CUST与FSFVE）。建议普通读者优先精读《FlashDiff》以了解扩散服务调度的前沿思路，或结合《CUST》探索资源受限场景下的超分加速方案。
+- 详情：[/202607/19/README](/202607/19/README)
 
 ### 精读区论文标签
-1. [ACID: Adaptive Caching for vIDeo generation](/202607/18/2607.12358v1-acid-adaptive-caching-for-video-generation)  
+1. [FlashDiff: Efficient Regional Execution and Scheduling for Diffusion Model Serving](/202607/19/2607.12121v1-flashdiff-efficient-regional-execution-and-scheduling-for-diffusion-model-serving)  
    标签：评分：9.0/10、query:fast-gen
-   evidence：自适应缓存加速视频生成且不损失质量
-2. [LPM: Industrial-Scale Generative Video Restoration](/202607/18/2607.13460v1-lpm-industrial-scale-generative-video-restoration)  
-   标签：评分：9.0/10、query:video-refine
-   evidence：生成式视频修复用于真实世界退化
-3. [MOSAIC: Adaptive Inter-layer Composition for Efficient Heterogeneous Vision-Language Models](/202607/18/2607.09029v1-mosaic-adaptive-inter-layer-composition-for-efficient-heterogeneous-vision-language-models)  
+   evidence：用于包括视频生成在内的扩散模型的高效服务系统
+2. [CUST: Clustered Unit-level Similarity Transformer for Lightweight Image Super-Resolution](/202607/19/2607.11088v1-cust-clustered-unit-level-similarity-transformer-for-lightweight-image-super-resolution)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：线性与稀疏注意力用于高效生成
+   evidence：用于轻量级高效图像超分辨率的聚类单元级相似性变换器
 
 ### 速读区论文标签
-1. [Wan-Dancer: A Hierarchical Framework for Minute-scale Coherent Music-to-Dance Generation](/202607/18/2607.09581v1-wan-dancer-a-hierarchical-framework-for-minute-scale-coherent-music-to-dance-generation)  
-   标签：评分：7.0/10、query:vd
-   evidence：在长时音乐到舞蹈生成中提升运动多样性和连贯性
-2. [Next-Dense-Stride Prediction for Multimodal Autoregressive Visual Modeling](/202607/18/2607.09892v1-next-dense-stride-prediction-for-multimodal-autoregressive-visual-modeling)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：快速自回归图像生成，并行token预测
-3. [CUST: Clustered Unit-level Similarity Transformer for Lightweight Image Super-Resolution](/202607/18/2607.11088v1-cust-clustered-unit-level-similarity-transformer-for-lightweight-image-super-resolution)  
+1. [FSFVE: Few Shot Compressed Face Video Enhancement](/202607/19/2607.11040v1-fsfve-few-shot-compressed-face-video-enhancement)  
    标签：评分：7.0/10、query:video-refine
-   evidence：轻量Transformer用于图像超分，可应用于视频精炼
-4. [Xema: Efficient Diffusion Serving through Fine-Grained Memory Management and Auto-Configuration](/202607/18/2607.11136v1-xema-efficient-diffusion-serving-through-fine-grained-memory-management-and-auto-configuration)  
+   evidence：少样本视频增强方法，可应用于生成视频的精炼
+2. [Xema: Efficient Diffusion Serving through Fine-Grained Memory Management and Auto-Configuration](/202607/19/2607.11136v1-xema-efficient-diffusion-serving-through-fine-grained-memory-management-and-auto-configuration)  
    标签：评分：7.0/10、query:fast-gen
-   evidence：针对快速视频生成的内存高效扩散服务
-5. [HyperGS: Fast and Generalizable Gaussian Video Representation](/202607/18/2607.11500v1-hypergs-fast-and-generalizable-gaussian-video-representation)  
+   evidence：内存高效的扩散服务以加速生成
+3. [Structure-Detail Decoupled Autoregressive Generation for Fast and High-Fidelity Virtual Try-On](/202607/19/2607.11233v1-structure-detail-decoupled-autoregressive-generation-for-fast-and-high-fidelity-virtual-try-on)  
    标签：评分：7.0/10、query:fast-gen
-   evidence：快速视频表示，加速编码解码
-6. [FlashDiff: Efficient Regional Execution and Scheduling for Diffusion Model Serving](/202607/18/2607.12121v1-flashdiff-efficient-regional-execution-and-scheduling-for-diffusion-model-serving)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：扩散模型服务系统级加速
-7. [Self-Consistent Flow: Unifying Velocity and Endpoint Prediction for Rectified Flow Models](/202607/18/2607.12171v1-self-consistent-flow-unifying-velocity-and-endpoint-prediction-for-rectified-flow-models)  
-   标签：评分：7.0/10、query:vd
-   evidence：统一速度与端点预测用于整流流模型；改善少步生成稳定性
-8. [Hallo4D: Multi-Modal Hallucination Mitigation for Consistent Spatio-Temporal Generation](/202607/18/2607.12752v2-hallo4d-multi-modal-hallucination-mitigation-for-consistent-spatio-temporal-generation)  
+   evidence：快速自回归图像生成
+4. [SVI360: Spherical Video Interpolation](/202607/19/2607.11710v1-svi360-spherical-video-interpolation)  
    标签：评分：7.0/10、query:video-refine
-   evidence：缓解3D/4D生成中的时空幻觉，可迁移至视频精炼
-9. [Shortcut Trajectory Planning for Efficient Offline Reinforcement Learning](/202607/18/2607.09336v1-shortcut-trajectory-planning-for-efficient-offline-reinforcement-learning)  
+   evidence：球面视频插值提升时间连贯性
+5. [Realizable N:M Sparse Transformer Inference via Search-Kernel Co-Design](/202607/19/2607.12505v1-realizable-nm-sparse-transformer-inference-via-search-kernel-co-design)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：N:M稀疏注意力协同设计实现高效推理，可应用于快速生成
+6. [RFMSR: Residual Flow Matching for Image Super-Resolution](/202607/19/2607.12753v1-rfmsr-residual-flow-matching-for-image-super-resolution)  
+   标签：评分：7.0/10、query:video-refine
+   evidence：残差流匹配用于图像超分辨率，可扩展到视频增强
+7. [VideoRAE: Taming Video Foundation Models for Generative Modeling via Representation Autoencoders](/202607/19/2607.14088v1-videorae-taming-video-foundation-models-for-generative-modeling-via-representation-autoencoders)  
+   标签：评分：7.0/10、query:vd
+   evidence：利用冻结的视频基础模型构建视频生成潜在空间
+8. [Integration Matters: Rollout-Based Training for Constrained Diffusion Models](/202607/19/2607.14398v1-integration-matters-rollout-based-training-for-constrained-diffusion-models)  
+   标签：评分：7.0/10、query:vd
+   evidence：提出基于滚动的约束扩散模型训练，解决少步采样分布偏移
+9. [RDQ: Residual Distribution Quantization for Large Language Models](/202607/19/2607.10137v1-rdq-residual-distribution-quantization-for-large-language-models)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：后训练量化方法可用于高效生成
+10. [Multi-Axis Max@K Reinforcement Learning for Representative Diversity in Text-to-Image Generation](/202607/19/2607.14962v1-multi-axis-maxk-reinforcement-learning-for-representative-diversity-in-text-to-image-generation)  
    标签：评分：6.0/10、query:vd
-   evidence：用于轨迹规划的捷径模型支持少步推理，可迁移至视频扩散加速
-10. [Structure-Detail Decoupled Autoregressive Generation for Fast and High-Fidelity Virtual Try-On](/202607/18/2607.11233v1-structure-detail-decoupled-autoregressive-generation-for-fast-and-high-fidelity-virtual-try-on)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：虚拟试衣快速图像生成，自回归模型
-11. [Cycle-World: Mitigating Error Accumulation in Long-term Video World Models via Reverse-Prediction Cycle Consistency](/202607/18/2607.11836v1-cycle-world-mitigating-error-accumulation-in-long-term-video-world-models-via-reverse-prediction-cycle-consistency)  
-   标签：评分：6.0/10、query:video-refine
-   evidence：通过循环一致性提升长期视频时间一致性，可用于生成后处理
-12. [Realizable N:M Sparse Transformer Inference via Search-Kernel Co-Design](/202607/18/2607.12505v2-realizable-nm-sparse-transformer-inference-via-search-kernel-co-design)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：N:M稀疏Transformer设计用于高效ViT推理，可应用于视频生成
-13. [Online Neural Space Time Memory for Dynamic Novel View Synthesis](/202607/18/2607.15271v1-online-neural-space-time-memory-for-dynamic-novel-view-synthesis)  
-   标签：评分：6.0/10、query:fast-gen
-   evidence：在线神经时空记忆通过解耦更新频率实现实时新视角合成
+   evidence：通过强化学习提升文本到图像生成多样性，可迁移至视频生成场景
 
 
 <div class="dpr-home-promo-card">
