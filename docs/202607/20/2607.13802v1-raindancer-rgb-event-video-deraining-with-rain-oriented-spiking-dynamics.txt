@@ -1,0 +1,444 @@
+Title: RainDancer: RGB-Event Video Deraining with Rain-Oriented Spiking Dynamics
+
+URL Source: https://arxiv.org/pdf/2607.13802v1
+
+Published Time: Thu, 16 Jul 2026 01:27:02 GMT
+
+Number of Pages: 13
+
+Markdown Content:
+> IEEE TRANSACTIONS ON IMAGE PROCESSING 1
+
+# RainDancer : RGB–Event Video Deraining with Rain-Oriented Spiking Dynamics 
+
+Kui Jiang, Member, IEEE, Runzhe Li, Zhaocheng Yu, Guanglu Sun, Senior Member, IEEE, 
+
+Junjun Jiang, Senior Member, IEEE, Xianming Liu, Senior Member, IEEE 
+
+Abstract —Video deraining aims to recover clean visual content from rainy videos and is important for reliable perception under adverse weather. Existing video deraining methods mainly rely on RGB sequences and exploit temporal redundancy to recover rain-free contents. However, RGB-only restoration remains ambiguous in dynamic rainy scenes, where rain streaks, fine background textures, object boundaries, camera motion, and occlusions may exhibit similar visual patterns. Event cameras provide comple-mentary motion-sensitive observations with high temporal reso-lution, making them useful for capturing thin and transient rain trajectories. Nevertheless, event streams also contain sensor noise and background-triggered responses. Direct RGB–Event fusion may therefore introduce cross-modal interference if rain-related and background-related factors are not explicitly distinguished. To address this issue, we propose RainDancer, a progressive RGB–Event video deraining framework based on a decompose-before-interact paradigm. The key idea is to disentangle rain and background components within each modality before cross-modal interaction. In the RGB branch, frame features are progressively decomposed into rain and background represen-tations. In the event branch, a rain-oriented spiking neural network module is developed to capture sparse and bursty event dynamics associated with rain motion. Component-level fusion is then performed between semantically aligned representations, including background-to-background fusion for structure preser-vation and rain-to-rain fusion for rain suppression. We further introduce event-domain supervision to regularize sparse event reconstruction, structural consistency, and gradient orientation, thereby improving the reliability of event guidance. Experiments on synthetic and real RGB–Event video deraining datasets show that our method achieves superior quantitative performance, visual quality, and downstream perception robustness compared with existing methods. Code is available at https://github.com/ AE86-plus/RainDancer. 
+
+Index Terms —Video deraining, event camera, spiking neural networks, RGB-Event fusion, rain-background decomposition. 
+
+I. I NTRODUCTION 
+
+# RAIN in outdoor videos introduces streak-like occlusions, contrast attenuation, background distortion, and temporal flickering [1]. These degradations not only reduce visual quality, but also impair downstream vision tasks such as object detection, tracking, semantic segmentation, and autonomous 
+
+This research was financially supported by the National Natural Science Foundation of China (62501189), the Natural Science Foundation of Hei-longjiang Province of China for Excellent Youth Project (YQ2024F006). Kui Jiang, Runzhe Li, Zhaocheng Yu, Junjun Jiang and Xianming Liu are with the School of Computer Science and Technology, Harbin Institute of Technology, Harbin, China (e-mail: jiangkui@hit.edu.cn). Guanglu Sun is with the School of Computer Science and Technology, Harbin University of Science and Technology, Harbin, China (Sunguan-glu@hrbust.edu.cn). 
+
+Fig. 1. Motivation of event guidance for rainy video restoration. In the RGB frame, rain streaks are easily entangled with background textures and wet-surface reflections, making them difficult to distinguish in the frame domain. In contrast, the event representation highlights sparse rain-induced dynamics, providing clearer motion-sensitive cues for rain-background separation. 
+
+driving [2]–[4]. Video deraining therefore plays an important role in reliable visual perception under adverse weather. Existing deraining methods have been investigated in both single-image and video settings. Single-image deraining relies mainly on intra-frame spatial priors or learned representations to recover a clean image from a rainy observation [5]–[7]. However, without temporal information, rain streaks, fine tex-tures, object boundaries, and motion-induced structures may exhibit similar local appearances, making rain-background separation ill-posed. Video deraining alleviates this ambiguity by exploiting temporal redundancy and inter-frame comple-mentarity [8], [9]. Early methods typically model rainy videos as the superposition of latent clean backgrounds and rain layers, and introduce handcrafted priors such as temporal coherence, chromatic consistency, low-rank background struc-ture, directional sparsity, and stochastic rain statistics [10]– [12]. Although interpretable, these assumptions are often too restrictive for dynamic videos with heavy rain, camera motion, occlusions, and spatially non-uniform degradation. Recent deep video deraining methods replace handcrafted modeling with data-driven spatio-temporal restoration. They improve rain removal through motion alignment, recurrent re-finement, progressive reconstruction, flow regularization, self-aligned temporal aggregation, and long-range temporal mod-eling [9], [13]–[15]. Some methods further consider complex rain effects such as rain accumulation, transmittance variation, arXiv:2607.13802v1 [cs.CV] 15 Jul 2026 IEEE TRANSACTIONS ON IMAGE PROCESSING 2
+
+and occlusion-related degradation [13], [16]. Despite these advances, RGB-only video deraining remains challenging in dynamic rainy scenes. Rain streaks, background textures, object boundaries, camera motion, and occlusions may share similar spatial patterns or temporal variations. As a result, a model may mistakenly suppress true structures as rain or preserve rain artifacts as background details, especially under heavy rain or fast motion. This limitation suggests that temporal redundancy from RGB frames alone may be insufficient, and complementary sensing cues are desirable for more reliable rain-background discrimination. Event cameras provide such a complementary modality. Unlike frame-based cameras, event cameras asynchronously record brightness changes at each pixel with high tempo-ral resolution [17], [18]. Each event is represented by its pixel location, timestamp, and polarity, and is triggered when the log-intensity variation exceeds a contrast threshold. This sensing mechanism produces sparse, low-latency, and motion-sensitive measurements, which have been widely used in motion-centric and restoration tasks, including optical flow estimation, camera tracking, event-to-frame reconstruction, motion deblurring, frame interpolation, super-resolution, and low-light enhancement [19]–[22]. These studies show that events can provide fine-grained temporal cues that are difficult to capture with conventional frame cameras. The properties of event cameras are particularly relevant to video deraining. Rain streaks often induce rapid, localized, and non-uniform brightness changes, which may produce informative event responses. As illustrated in Fig. 1, rain streaks that are visually entangled with background textures in RGB frames can become more distinguishable in the event domain. However, event streams are not clean rain indicators. They may also contain sensor noise, background-triggered events, and responses caused by camera or object motion. Therefore, the key challenge is not simply to inject events into RGB restoration, but to selectively exploit rain-related event cues while suppressing cross-modal interference. Recent event-guided video deraining methods have begun to explore RGB–Event collaboration [23], [24]. MPEVNet introduces event features into a multi-stage RGB–Event fusion network and can be regarded as an early-fusion strategy [25]. EGVD adopts a late-fusion scheme, where modality-specific restoration is first performed and the restored representa-tions are fused afterwards [24]. Other event-aware methods further exploit event representations for rain modeling or heterogeneous feature interaction [23], [26]. These methods demonstrate the potential of event guidance, but their fusion mechanisms still operate mainly on mixed modality features. Early fusion may entangle RGB appearance, rain-sensitive event responses, and background-triggered event noise before rain and background factors are clarified. Late fusion, on the other hand, may weaken transient event cues before they can effectively guide RGB restoration. Consequently, existing fusion paradigms lack an explicit mechanism for aligning and interacting rain-related and background-related information across modalities. As shown in Fig. 2, residual rain artifacts and background structure loss remain visible in representative RGB–Event deraining results.  
+
+> Fig. 2. Motivation comparison of RGB–Event interaction paradigms for video deraining. Early fusion directly mixes RGB appearance, rain-sensitive event responses, and background-triggered event noise, while late fusion may weaken transient event cues before they guide RGB restoration. In contrast, our framework first decomposes background and rain components within each modality, and then performs component-level interaction between semantically aligned components. The three results on the right correspond to MPEVNet, EGVD, and our RainDancer from top to bottom, respectively.
+
+Spiking neural networks (SNNs) provide a natural com-putational model for event-based processing because they encode information through discrete spikes and temporal neu-ronal dynamics [27]. With surrogate-gradient training, residual structures, normalization, attention mechanisms, and spike-based Transformer architectures, SNNs have been extended from recognition to event-based perception and restoration tasks [28]–[30]. In adverse-weather imaging, SNNs have also been explored for event-driven deraining and rain-background decomposition [31], [32]. These studies indicate that spiking dynamics are useful for modeling sparse and transient event responses. Nevertheless, most existing SNN-based deraining methods focus on event representation or direct RGB–Event fusion, without explicitly distinguishing the semantic roles of event responses. For event-guided video deraining, this distinc-tion is important because rain-induced events and background-triggered events often coexist in the same event stream. To address these issues, we propose a decompose-before-interact paradigm for event-guided video deraining. Instead of directly fusing heterogeneous RGB and event features, we first disentangle rain and background components within each modality, and then perform cross-modal interaction between semantically corresponding components. In this way, rain-related event responses can guide RGB rain removal, while background-related representations are fused separately to preserve scene structures. This design reduces the interference between rain cues and background cues while retaining the complementary advantages of both modalities. Based on this principle, we propose RainDancer, a pro-gressive RGB–Event video deraining framework. At each restoration stage, the RGB branch decomposes frame fea-tures into background and rain representations. For the event branch, we design a rain-oriented SNN module to model sparse and bursty event dynamics associated with rain motion, thereby separating rain-related and background-related event responses more explicitly. The two modalities are then coupled IEEE TRANSACTIONS ON IMAGE PROCESSING 3
+
+> Fig. 3. Overall architecture of the proposed RainDancer deraining framework. The network first extracts a spatio-temporal RGB feature with an Encoder block, and then performs three progressive stages. Each stage contains frame-domain decoupling, rain-oriented SNN event disentanglement (SNN-RoED), coupled representation modeling (CRM), event-guided rain fusion (EGRF), and rain-aware background fusion (RABF). The stage-wise rain features are collected by cross-stage aggregation, and the recovery module predicts the clean RGB background, clean event background, and RGB rain component.
+
+through component-level interactions, including background-to-background fusion and rain-to-rain fusion. In addition, we introduce event-domain supervision to regularize sparse event reconstruction, structural consistency, and gradient orientation, improving the reliability of event representations used for RGB restoration. As shown in Fig. 2, the proposed framework removes rain more thoroughly while preserving background structures more faithfully than representative RGB–Event fu-sion baselines. The main contributions of this work are summarized as follows:  
+
+> •
+
+We propose a progressive RGB–Event video deraining framework (RainDancer) based on a decompose-before-interact principle. Different from conventional early or late fusion, RainDancer decomposes rain and background components before cross-modal interaction, thereby re-ducing premature feature entanglement and coarse repre-sentation aggregation.  
+
+> •
+
+We design a component-level RGB–Event interaction mechanism that separately performs background-to-background and rain-to-rain fusion. By aligning seman-tically corresponding components across modalities, the proposed mechanism strengthens event-guided rain re-moval while preserving background structures.  
+
+> •
+
+We develop a rain-oriented SNN event branch to capture sparse and bursty event dynamics induced by rain motion. Together with event-domain supervision on sparse recon-struction, structural consistency, and gradient orientation, the event branch provides more reliable event guidance for RGB video deraining. II. P ROPOSED MODEL 
+
+A. Overview 
+
+Fig. 3 illustrates the proposed progressive RGB–Event video deraining framework (RainDancer). Given a rainy RGB clip X = [ Irt−1, Irt , Irt+1 ] and the synchronized event tensor 
+
+E ∈ R20 ×H×W , the network predicts the restored RGB background ˆBt, the clean event background ˆEb, and the RGB rain component ˆRt. These outputs explicitly correspond to the background and rain factors considered in our rain-background decomposition formulation. The framework follows a decompose-before-interact princi-ple. Instead of directly fusing RGB and event features, each modality first separates its representation into background and rain components. Cross-modal interaction is then performed between semantically aligned components, i.e., background-to-background fusion and rain-to-rain fusion. This design reduces the risk that rain-induced event responses or event noise are directly injected into RGB background restoration. The RGB clip is first encoded by an Encoder block to obtain an initial spatio-temporal feature F. The following network contains three progressive stages with the same topology. At the s-th stage, the RGB branch decomposes the current RGB representation into background and rain features, while the event branch estimates event background and rain-motion features through a rain-oriented SNN event disentanglement module. The two pairs of features are then refined by coupled IEEE TRANSACTIONS ON IMAGE PROCESSING 4
+
+representation modules (CRMs). After intra-modal refinement, rain-level RGB–Event fusion and background-level RGB– Event fusion are performed by EGRF and RABF, respectively. The fused rain representation is stored for cross-stage aggre-gation, and the updated background representation is passed to the next stage. The stage-wise process is formulated as 
+
+(Bfs , Rfs ) = CRM sf
+
+ Dsf (Bfus 
+
+> s−1
+
+) ,
+
+(Bes, Res) = CRM se
+
+ Dse (E, Res−1) ,
+
+Rfus  
+
+> s
+
+= EGRF s(Rfs , Res),
+
+Bfus  
+
+> s
+
+= RABF s(Bfs , Bes, Rfs , Res),
+
+(1) where Dsf (·) and Dse (·) denote frame-domain and event-domain decomposition, respectively. Bfus  
+
+> s
+
+is the updated back-ground feature, Rfus  
+
+> s
+
+is the fused rain representation, and Res−1
+
+is the event-rain prior propagated from the previous stage. For the first stage, Bfus 0 = F, and Re 
+
+> 0
+
+is initialized as zero. After three stages, the rain features {Rfus  
+
+> s
+
+}3 
+
+> s=1
+
+are aggre-gated into Rfus  
+
+> Agg
+
+. A recovery module then takes Bfus 3 , Rfus  
+
+> Agg
+
+,and Be 
+
+> 3
+
+as inputs and uses three lightweight decoders to predict 
+
+ˆBt, ˆEb, and ˆRt, respectively. 
+
+B. RGB Temporal Encoding and Frame-domain Decomposi-tion 
+
+The RGB stream starts with a compact temporal encoder. A grouped 2D convolution first extracts frame-wise features from neighboring RGB frames while limiting premature cross-frame mixing. A lightweight 3D convolution then aggregates short-range temporal information and produces the initial feature F.This front-end provides the progressive stages with temporally aware RGB representations. At each stage, the frame-domain decomposition block sep-arates the current RGB feature into background and rain components. The background branch estimates stable scene structures using channel and spatial attention. Channel atten-tion emphasizes feature channels associated with persistent appearance, while spatial attention identifies regions where background cues are more reliable. Let Dsf,b (·) denote the background estimation branch. The RGB decomposition is written as 
+
+Bfs = Dsf,b (Bfus 
+
+> s−1
+
+), Rfs = Bfus  
+
+> s−1
+
+− Bfs . (2) The rain feature is obtained through a residual relation rather than an independent branch. This formulation is consistent with the additive rain-background decomposition assumption and constrains the two components to explain the input feature jointly. Because rain and background may still be entangled after one-step decomposition, a CRM is used to refine the pair  Bfs , Rfs
+
+. The CRM exchanges information between the two streams, allowing residual rain responses in the background stream to be transferred to the rain stream and misclassified background details to be compensated back. This refinement improves the reliability of subsequent component-level RGB– Event interaction. 
+
+C. Rain-oriented SNN Event Disentanglement 
+
+Event streams provide motion-sensitive cues for rain, but they also contain background-triggered responses and sensor noise. Directly using such mixed event features for RGB restoration can introduce cross-modal interference. We there-fore design a rain-oriented SNN event disentanglement mod-ule, termed SNN-RoED, to first enhance rain-related event dynamics and then estimate event background features by residual decomposition. Given the event tensor E, a base event branch extracts a compact event representation Ebase  
+
+> s
+
+. In parallel, three rain-motion branches are used to capture complementary event cues. The local motion branch uses 3D convolutions and tem-poral pooling to aggregate short-term burst responses caused by fast rain streaks. The global spiking motion branch employs 3D convolutions followed by an SNNformer adapted from SpikeVideoFormer [33], which models long-range temporal dependencies in sparse event streams. The directional branch aggregates pre-event and post-event responses and applies 2D convolutions to enhance direction-aware rain traces. The three motion cues are fused by a rain-motion gated unit. The event-rain estimate from the previous stage is used as a progressive prior: 
+
+Mes = Φ s
+
+> gate
+
+ [Mloc  
+
+> s
+
+, Mspk  
+
+> s
+
+, Mdir  
+
+> s
+
+], Res−1
+
+ ,
+
+Res = Φ sr (Mes),
+
+Bes = Φ sb (Ebase  
+
+> s
+
+− Res).
+
+(3) Here, Mloc  
+
+> s
+
+, Mspk  
+
+> s
+
+, and Mdir  
+
+> s
+
+denote local, spiking, and di-rectional rain-motion cues, respectively. The residual form en-courages the event background to be estimated after removing rain-dominant responses from the base event representation. The resulting pair (Bes, Res) is further refined by an event-domain CRM before cross-modal fusion. 
+
+D. Rain-Aware Background Fusion 
+
+The background fusion module, RABF, updates the RGB background feature using event background cues under rain-aware constraints. Its inputs are the RGB background feature 
+
+Bfs , the event background feature Bes, the RGB rain feature 
+
+Rfs , and the event rain feature Res. The background compo-nents provide complementary structural information, while the rain components indicate regions where event responses are likely dominated by rain motion. Therefore, RABF uses rain features to regulate the reliability of event-guided background compensation. RABF contains three branches. The interaction branch com-putes cross-modal relations from [Bfs , Bes, Bfs ⊙ Bes, |Bfs −
+
+Bes|], where the product term measures feature consistency and the absolute difference highlights modality discrepancy. Convolutional layers then predict an event-guided background residual ∆bs. The gate branch takes [Bfs , Bes, Rfs , Res] as input and predicts a rain-aware gate Gbs. The confidence branch estimates an event confidence map Cbs from [Bes, Res] to suppress unreliable event background cues. The background feature is updated by a gated residual rule: 
+
+Bfus  
+
+> s
+
+= Φ sb,o 
+
+ Bfs + βb Gbs ⊙ Cbs ⊙ ∆bs
+
+ , (4) IEEE TRANSACTIONS ON IMAGE PROCESSING 5
+
+where βb is a learnable residual scale. This conservative update injects event information only when it is both rain-aware and confidence-weighted, preventing noisy or rain-dominated event responses from corrupting the dense RGB background representation. 
+
+E. Event-guided Rain Fusion and Cross-stage Aggregation 
+
+The rain fusion module, EGRF, performs rain-to-rain RGB– Event interaction. RGB rain features encode appearance-level degradation, whereas event rain features provide sparse and motion-sensitive rain cues. EGRF aligns the two rain represen-tations and predicts event-guided rain compensation without replacing the RGB rain stream. Specifically, Rfs and Res are first projected to a common feature space and concatenated. Multi-scale depthwise convo-lution branches with kernel sizes 3, 5, and 7 are then used to capture rain streaks with different spatial extents. The module predicts an event-guided compensation term ∆rs and a fused rain feature Grs. The final stage-wise rain representation is 
+
+Rfus  
+
+> s
+
+= Φ sr,o 
+
+ Grs + ∆ rs + Φ sr,p (Rfs ) , (5) where Φsr,p (·) projects the RGB rain feature and Φsr,o (·) gen-erates the fused rain representation. This formulation anchors the fused rain feature to the RGB degradation representation while using event cues to enhance transient rain dynamics. The stage-wise rain features are finally collected by the cross-stage aggregation module, which uses channel and spa-tial attention to adaptively combine complementary rain re-sponses from all three stages. In this way, coarse rain structures captured in early stages and fine residual streaks refined in later stages are integrated into a more complete rain representation for final recovery. 
+
+F. Optimization Objectives 
+
+The model is optimized by an image-domain loss and an event-domain loss: 
+
+L = Limg + Levent . (6) The image loss supervises both RGB background restoration and rain-background decomposition. Following PCNet [34], we use Charbonnier loss, edge loss, and SSIM similarity for the restored background. An auxiliary residual reconstruction term is applied to the estimated rain component to regularize decomposition. The image-domain loss is defined as 
+
+Limg = 0 .3( LB 
+
+> char
+
++ 0 .2LI
+
+> char
+
+) + 0 .2LB
+
+> edge
+
+− 0.15( LB 
+
+> ssim
+
++ 0 .2LI
+
+> ssim
+
+), (7) where the residual reconstruction terms are assigned smaller weights because they serve as decomposition regularizers rather than the primary restoration objective. The event-domain loss supervises the predicted clean event background ˆEb. Since event tensors are sparse, a naive pixel-wise loss is dominated by inactive positions. Moreover, for event-guided deraining, the reliability of activity distribution, structural boundaries, and gradient orientation is more impor-tant than exact polarity matching. We therefore convert both predicted and ground-truth clean event tensors to their absolute values, denoted by Ep and Eg , and define 
+
+Levent = λrec Lrec + λgrad Lgrad + λdir Ldir . (8) First, a sparsity-aware reconstruction loss emphasizes active event regions. Let A = P 
+
+> c
+
+Ecg be the event activity map over all bins. The activity-adaptive weight is 
+
+W = 1 + α
+
+ A
+
+mean( A) + ϵ
+
+γ
+
+. (9) The reconstruction term is 
+
+Lrec =
+
+P W ⊙ ρ(Ep − Eg )
+
+P W + ϵ , (10) where ρ(·) is the Charbonnier penalty. Second, a segment-level gradient loss preserves event struc-tures. The 20 event bins are divided into pre- and post-event segments and summed within each segment to reduce bin-wise sparsity. Sobel gradients are computed on the segment maps. The gradient weight is defined as 
+
+Wg = 1 + η∥∇ Eg ∥, (11) and the structural consistency term is 
+
+Lgrad =
+
+P Wg ⊙ ρ(∇xEp − ∇ xEg )
+
+P Wg + ϵ
+
++
+
+P Wg ⊙ ρ(∇y Ep − ∇ y Eg )
+
+P Wg + ϵ .
+
+(12) Third, a gradient-direction loss encourages coherent event structure: 
+
+Ldir = mean 
+
+
+
+Wg ⊙
+
+
+
+1 − ∇Ep · ∇ Eg
+
+∥∇ Ep∥ ∥∇ Eg ∥ + ϵ
+
+ 
+
+. (13) In our implementation, λrec = 1.0, λgrad = 0.5, and 
+
+λdir = 0 .1. The event-domain supervision constrains the SNN event branch to produce clean and structurally reliable event representations, which improves the stability of component-level RGB–Event fusion. III. E XPERIMENTS 
+
+A. Experimental Details 1) Datasets: We evaluate the proposed RainDancer method on three video deraining benchmarks, including NTURain [9], RainSynComplex25 [13], and RainSynLight25 [16]. NTURain provides paired synthetic rainy/clean videos for full-reference evaluation and real-world rainy videos for generalization analysis. RainSynComplex25 contains 33 test sequences with dense and complex rain patterns, while RainSynLight25 con-tains 27 test sequences with relatively mild rain degradation. Since these benchmarks are frame-based, we generate the corresponding event streams using the v2e simulator [42], which enables paired RGB-Event evaluation under controlled settings. We further use RainVID&SS [25] to examine whether deraining benefits downstream object detection and semantic segmentation. IEEE TRANSACTIONS ON IMAGE PROCESSING 6
+
+TABLE I QUANTITATIVE COMPARISON ON THREE DATASETS IN TERMS OF PSNR AND SSIM. Modality : RGB DENOTES FRAME -ONLY INPUT , E VENT DENOTES EVENT -ONLY INPUT , AND RGB+E VENT DENOTES JOINT FRAME -EVENT INPUT . T HE BEST AND SECOND -BEST RESULTS AMONG DERAINING METHODS ARE HIGHLIGHTED IN BOLD AND UNDERLINE , RESPECTIVELY . FLOP S ARE RE -MEASURED ON 256 × 256 PATCHES UNDER A UNIFIED SETTING .Method Modality NTURain RainSynLight25 RainSynComplex25 Params FLOPs PSNR ↑ SSIM ↑ PSNR ↑ SSIM ↑ PSNR ↑ SSIM ↑                                                                                                                                                         
+
+> Rainy (no processing) RGB 30.41 0.9108 25.23 0.9099 16.85 0.6791 ––(CVPR 2018) SpacCNN [9] RGB 33.11 0.9475 32.78 0.9239 21.21 0.5854 ––(TIP 2019) FastDeRain [35] RGB 30.30 0.9274 29.42 0.8683 19.25 0.5385 ––(TPAMI 2020) J4RNet [13] RGB 32.14 0.9480 32.96 0.9434 24.13 0.7163 0.41M 53.10G (TIP 2022) TMICS [36] RGB 37.38 0.9704 36.65 0.9689 29.49 0.8933 8.21M 997.06G (TPAMI 2022) MFGAN [37] RGB 38.92 0.9764 36.99 0.9760 32.70 0.9357 34.16M 525.31G (TPAMI 2023) ESTINet [38] RGB 37.48 0.9700 36.12 0.9631 28.48 0.8242 29.90M 2312.70G (CVPR 2023) DRSformer [39] RGB 36.93 0.9591 36.84 0.9739 31.61 0.9258 33.66M 440.66G (MM 2024) RainMamba [40] RGB 37.87 0.9738 36.74 0.9741 32.65 0.9361 38.73M 219.73G (CVPR 2025) VDMamba [15] RGB 39.74 0.9791 37.90 0.9819 32.92 0.9447 12.70M 75.89G (ICLR 2026) DeLiVR [41] RGB 38.85 0.9764 38.39 0.9761 33.14 0.9187 6.53M 53.89G (TIP 2023) MPEVNet [25] RGB+Event 38.91 0.9744 37.18 0.9790 33.05 0.9440 1.59M 3535.30G (ICCV 2023) UVD-Event [23] RGB+Event 35.04 0.9580 32.34 0.9523 28.77 0.8860 7.11M 179.26G (IJCV 2024) EHN [26] RGB+Event 35.44 0.9652 32.35 0.9497 28.04 0.8629 0.45M 25.05G (TNNLS 2025) EGVD [24] RGB+Event 38.80 0.9761 37.04 0.9762 32.79 0.9397 3.72M 163.35G RainDancer-S (Ours) RGB+Event 39.30 0.9750 36.95 0.9750 32.64 0.9378 1.40M 318.74G RainDancer (Ours) RGB+Event 40.40 0.9789 38.59 0.9826 34.56 0.9569 10.17M 865.84G
+
+2) Training Details: Our RainDancer is implemented in PyTorch and trained on an NVIDIA RTX 3080 GPU. Each training sample contains three consecutive rainy RGB frames and the corresponding event voxel representation generated by v2e. The center frame is used as the restoration target. During training, paired RGB/event samples are randomly cropped into 
+
+128 × 128 patches, and the temporal length is fixed to 3. We optimize the network using Adam with an initial learning rate of 1 × 10 −4, β1 = 0 .5, and β2 = 0 .999 . The batch size is set to 4, and the learning rate is decayed by cosine annealing. 
+
+3) Evaluation Metrics: For full-reference image quality evaluation, we report PSNR [43] and SSIM [44] on restored target frames. To assess perceptual quality in real-world scenes where clean references are unavailable, we use four no-reference image quality metrics: NIQE [45], BRISQUE [46], ILNIQE [47], and CLIPIQA [48]. In addition to low-level restoration metrics, we evaluate the influence of deraining on downstream perception. For object detection, we report mAP-based metrics [49], and for semantic segmentation, we report mIoU [50]. These metrics provide a more comprehensive evaluation of whether the restored videos are beneficial for subsequent visual understanding. The training objective consists of RGB-domain restoration supervision and event-domain supervision. The RGB loss includes Charbonnier, edge, and SSIM-based terms. The event loss regularizes the predicted clean event representation using weighted reconstruction, structural gradient consistency, and gradient-direction consistency. 
+
+4) Baselines: We compare our RainDancer method with representative deraining approaches from different categories. FastDeRain [35] is included as a classical model-based video deraining method, and DRSformer [39] is used as a strong single-image deraining baseline. For RGB-based video de-raining, we compare with DeLiVR [41], ESTINet [38], Rain-Mamba [40], MFGAN [37], VDMamba [15], TMICS [36], J4RNet [13], and SpacCNN [9]. For event-guided deraining, we include MPEVNet [25], EGVD [24], UVD-Event [23], and EHN [26]. These methods cover model-based, single-image, RGB video-based, and RGB-Event deraining settings. 
+
+B. Experiments and Analysis 1) Comparison on Synthetic Datasets: We first evaluate the proposed method on NTURain, RainSynLight25, and RainSynComplex25. As reported in Table I, our RainDancer obtains the highest PSNR on all three datasets. Compared with the second-best results, the PSNR gains are 0.66 dB on NTURain, 0.20 dB on RainSynLight25, and 1.42 dB on RainSynComplex25. The improvement is more pronounced on RainSynComplex25, where rain patterns are denser and more spatially complex. This result is consistent with the motivation of our RainDancer method: when RGB rain streaks, back-ground textures, and motion-induced variations become dif-ficult to distinguish, component-level RGB-Event interaction provides more explicit cues for rain/background separation. We also report a lightweight variant, RainDancer-S. RainDancer-S shares parameters across progressive stages and uses a reduced channel width. It achieves performance compa-rable to strong RGB-Event baselines and obtains better results than MPEVNet on NTURain, while substantially reducing computational cost. This suggests that the proposed decom-position and component interaction strategy is not limited to a high-capacity model. Fig. 4 shows qualitative comparisons on NTURain and RainSynComplex25. Several competing methods either leave residual streaks or introduce visible artifacts in regions with dense rain and background motion. In the NTURain example, some results contain color artifacts around rain-contaminated regions. In the RainSynComplex25 example, motion blur and incomplete rain removal are more evident. By contrast, our IEEE TRANSACTIONS ON IMAGE PROCESSING 7       
+
+> Rainy J4RNet [13] ESTINet [38] EGVD [24] MPEVNet [25] VDMamba [15] RainDancer (Ours) GT
+
+Fig. 4. Qualitative comparison on synthetic datasets. From top to bottom, the examples are selected from NTURain and RainSynComplex25, respectively. Our results contain fewer artifacts. TABLE II NO-REFERENCE IQA C OMPARISON ON THE NTUR AIN REAL -W ORLD 
+
+DATASET . L OWER VALUES INDICATE BETTER PERCEPTUAL QUALITY FOR 
+
+NIQE, BRISQUE, AND ILNIQE, WHILE HIGHER VALUES INDICATE BETTER PERCEPTUAL QUALITY FOR CLIPIQA. T HE BEST AND SECOND -BEST RESULTS AMONG DERAINING METHODS ARE HIGHLIGHTED IN BOLD AND UNDERLINE , RESPECTIVELY .                                                                                
+
+> Method Modality NIQE ↓BRISQUE ↓ILNIQE ↓CLIPIQA ↑
+> Rainy (no processing) RGB 3.4565 22.9917 22.5554 0.4174 (TPAMI 2020) J4RNet [13] RGB 3.4403 22.3564 27.3269 0.1943 (TIP 2022) TMICS [36] RGB 3.5480 18.5277 22.4265 0.4001 (TPAMI 2022) MFGAN [37] RGB 3.3976 18.7521 21.6317 0.3757 (TPAMI 2023) ESTINet [38] RGB 3.4241 21.6854 22.2738 0.4145 (CVPR 2023) DRSformer [39] RGB 3.5905 24.1146 22.8038 0.3929 (MM 2024) RainMamba [40] RGB 3.5721 19.7478 22.0774 0.3848 (CVPR 2025) VDMamba [15] RGB 3.3787 22.5778 22.4516 0.4117 (ICLR 2026) DeLiVR [41] RGB 3.3118 20.3276 21.9527 0.3401 (TIP 2023) MPEVNet [25] RGB+Event 3.7146 21.3849 22.3000 0.3920 (ICCV 2023) UVD-Event [23] RGB+Event 4.0071 19.3642 22.1203 0.3586 (IJCV 2024) EHN [26] RGB+Event 4.8779 22.0881 32.9948 0.3716 (TNNLS 2025) EGVD [24] RGB+Event 3.4212 22.7074 22.4844 0.4310 RainDancer-S (Ours) RGB+Event 3.3871 21.6012 21.9796 0.4198 RainDancer (Ours) RGB+Event 3.3521 17.1424 21.5801 0.4328
+
+RainDancer method removes most rain streaks while main-taining sharper scene structures. These observations indicate that event cues are more effective when they are introduced after modality-specific rain/background decomposition, rather than being directly mixed with RGB appearance features. 
+
+2) Comparison on Real-world Datasets: We further evalu-ate real-world generalization on the real-world subset of NTU-Rain. Since clean references are unavailable, Table II reports NIQE, BRISQUE, ILNIQE, and CLIPIQA. Our RainDancer method achieves the best BRISQUE, ILNIQE, and CLIPIQA scores, and ranks second on NIQE. DeLiVR obtains the best NIQE but is less competitive on BRISQUE and CLIPIQA. TMICS achieves a strong BRISQUE score, but its results tend to be smoother in detailed regions, as shown in Fig. 6. RainDancer-S performs slightly below the full model but remains competitive among both RGB-based and RGB-Event methods, indicating that the proposed design retains reasonable real-world robustness under a smaller model capacity. Fig. 5 summarizes the no-reference evaluation by ranking all 
+
+Fig. 5. Rank comparison of no-reference IQA metrics on the NTURain real-world dataset. Lower rank indicates better performance. TABLE III ABLATION STUDY ON RGB-E VENT INTERACTION PARADIGM .Variant PSNR ↑ SSIM ↑
+
+RGB-only baseline 30.28 0.9336 Direct RGB-Event fusion 35.64 0.9625 Decompose-before-interact(Ours) 40.40 0.9789 
+
+methods on each metric and averaging the ranks. This rank-based view reduces the bias caused by relying on a single no-reference metric. Our RainDancer method obtains the best average rank and remains among the top methods across all four metrics, suggesting balanced perceptual behavior on real-world rainy videos. The lightweight RainDancer-S has a weaker BRISQUE rank than the full model but keeps a com-petitive average rank, which further supports the scalability of the proposed design. Fig. 6 presents visual results on real-world rainy videos. TMICS removes many rain streaks but also smooths local tex-tures. DeLiVR reduces obvious rain degradation, while some short bright streaks remain. EGVD and MPEVNet benefit from event guidance, but residual artifacts are still visible in regions with background motion. Our RainDancer produces cleaner results with fewer remaining streaks and less texture smoothing. This behavior is consistent with the component-level interaction strategy: rain-related event responses are mainly used to support rain removal, whereas background-IEEE TRANSACTIONS ON IMAGE PROCESSING 8            
+
+> Rainy TMICS [36] RainMamba [40] EGVD [24] DeLiVR [41] ESTINet [38] RainDancer (Ours)
+> Fig. 6. Qualitative comparison on the NTURain real-world dataset. Our RainDancer produces clearer restored frames with fewer residual streaks.
+> (a) (b) (c) (d) (e)
+> Fig. 7. Visualization for the interaction-paradigm ablation. (a) Rainy input, (b) RGB-only baseline, (c) direct RGB-Event fusion, (d) our decompose-before-interact method, and (e) ground truth. Our method better removes rain interference and produces results that are closest to the ground truth.
+
+related representations are fused separately to preserve scene structures. 
+
+3) Model Complexity Comparison: Table I also reports model complexity in terms of parameters and FLOPs. FLOPs are measured on 256 × 256 input patches, following the convention that one multiply-accumulate operation is counted as two floating-point operations. Our RainDancer contains 10.17M parameters, which is smaller than several strong RGB baselines such as ESTINet, MFGAN, and RainMamba. Its computational cost is higher than some lightweight RGB-only models because each progressive stage performs RGB-Event decomposition and component interaction. Nevertheless, its FLOPs remain lower than TMICS, ESTINet, and MPEVNet. RainDancer-S provides a more efficient configuration. It uses 1.40M parameters and 318.74G FLOPs by sharing param-eters across progressive stages and reducing the channel width. Compared with MPEVNet, RainDancer-S requires fewer pa-rameters and reduces FLOPs by about 11.1 times, while maintaining comparable restoration accuracy and achieving better performance on NTURain. These results indicate that the proposed framework can be adjusted to different effi-ciency requirements without removing its core decomposition-interaction mechanism. 
+
+C. Ablation Study 
+
+All ablation variants are trained on NTURain using the same data split, optimizer, training schedule, and loss settings unless otherwise specified. We report PSNR and SSIM for quantitative comparison and provide visualizations to analyze how each component affects rain-background separation. 
+
+1) Fusion Strategy: We first study the RGB-Event interac-tion paradigm. Table III compares three variants: an RGB-only baseline, a direct RGB-Event fusion baseline, and the proposed decompose-before-interact design. Direct RGB-Event fusion improves PSNR from 30.28 dB to 35.64 dB, confirming that events provide useful motion-sensitive information for video deraining. However, its performance remains clearly below our full design. This gap indicates that event information is not sufficient by itself; the way it is introduced into RGB restoration is critical. As shown in Fig. 7, the RGB-only baseline leaves visi-ble rain residues, especially where rain streaks overlap with background textures. Direct fusion reduces part of the rain degradation but still suffers from residual streaks and local artifacts, which suggests that background-triggered events may interfere with RGB restoration when mixed without explicit separation. Our RainDancer produces cleaner restora-tion because rain/background components are first separated within each modality and then interacted between semantically IEEE TRANSACTIONS ON IMAGE PROCESSING 9            
+
+> TABLE IV ABLATION STUDY ON THE EVENT BRANCH DESIGN .Variant PSNR ↑SSIM ↑
+> CNN 36.58 0.9637 SNNformer 38.95 0.9748 Rain-oriented SNN (Ours) 40.40 0.9789
+> (a) (b) (c) (d)
+> Fig. 8. Feature visualization for the event branch ablation. (a) Event input, (b) CNN event branch, (c) SNNformer event branch, and (d) our rain-oriented SNN event branch.
+
+corresponding components. This result directly supports the proposed decompose-before-interact paradigm. 
+
+2) Event Branch Processing: We next evaluate the design of the event branch. Table IV compares a CNN event branch, a generic SNNformer event branch, and the proposed rain-oriented SNN branch. The CNN branch obtains 36.58 dB, indicating that a standard convolutional encoder can extract useful event features but has limited ability to model sparse temporal dynamics. Replacing it with SNNformer improves PSNR to 38.95 dB, showing the benefit of spike-driven temporal modeling. The proposed rain-oriented SNN further improves PSNR to 40.40 dB and SSIM to 0.9789, suggesting that adapting the event branch to rain-induced sparse and bursty responses is more effective than using a generic event encoder. Fig. 8 visualizes the event features produced by different branches. The CNN branch gives diffuse responses and is easily affected by background-triggered events. SNNformer captures stronger activations but still responds to some non-rain structures. In comparison, the proposed rain-oriented SNN produces responses that are more concentrated on rain-related event patterns. This provides more discriminative event guid-ance for subsequent component-level RGB-Event interaction. 
+
+3) Loss Function: We then analyze the event-domain su-pervision. Event tensors are sparse and contain many inac-tive pixels; therefore, a conventional pixel-wise loss may be dominated by zero-valued regions and provide insufficient constraints on meaningful event structures. Table V compares several supervision choices. The standard L1 + L2 loss gives 39.12 dB. The sparsity-aware reconstruction loss Lrec im-proves PSNR to 39.56 dB, indicating that event sparsity should be explicitly considered. The gradient consistency loss and direction consistency loss also improve the result, showing that local event structure and orientation are useful constraints for rain-related event modeling. Combining the three terms further improves PSNR to 40.06 dB. The weighted formulation achieves the best result, 40.40 dB and 0.9789 SSIM, because it balances event reconstruction, structural consistency, and directional consistency. This con-firms that event supervision contributes not only as an auxiliary regularizer but also as a way to improve the reliability of event                         
+
+> TABLE V ABLATION STUDY ON EVENT -DOMAIN SUPERVISION .Variant PSNR ↑SSIM ↑L1+L239.12 0.9745
+> Lrec 39.56 0.9761
+> Lgrad 39.69 0.9766
+> Ldir 39.67 0.9765
+> Lrec +Lgrad +Ldir 40.06 0.9781
+> Lrec + 0 .5Lgrad + 0 .1Ldir (Ours) 40.40 0.9789
+> Fig. 9. Visualization for event-domain supervision. The figure reports event-consistency statistics between the predicted background events and ground-truth events on a unified set of samples, where a pixel is counted as consistent if both event values are non-zero or both are zero under a near-zero threshold.
+
+representations used in RGB restoration.                               
+
+> TABLE VI ABLATION STUDY ON THE FUSION DESIGN . BF, RABF, RF, AND EGRF
+> DENOTE BACKGROUND FUSION ,RAIN -AWARE BACKGROUND FUSION ,
+> RAIN FUSION ,AND EVENT -GUIDED RAIN FUSION ,RESPECTIVELY .BF RABF RF EGRF PSNR ↑SSIM ↑
+> ✓✗✗✗38.12 0.9689
+> ✗✓✗✗38.94 0.9728
+> ✗✓✓✗39.61 0.9764
+> ✗✓✗✓40.40 0.9789
+
+Fig. 9 reports the consistency between predicted background events and ground-truth events. A pixel is regarded as con-sistent if both the prediction and ground truth are zero or both are non-zero under a near-zero threshold. Compared with the alternatives, the proposed loss yields higher agreement with the ground-truth event distribution. This indicates that the weighted event-domain supervision better preserves sparse event structures and reduces unreliable event responses. 
+
+4) Fusion Design: We further study how RGB and event components should be fused. Table VI reports four variants. Using only background fusion achieves 38.12 dB, suggest-ing that background compensation alone is insufficient for removing dynamic rain streaks. Rain-aware background fusion improves the result to 38.94 dB by reducing rain interference during background interaction. Adding rain fusion further increases PSNR to 39.61 dB, which shows that explicitly modeling the rain component is necessary for deraining. The proposed event-guided rain fusion obtains the best result, 40.40 dB and 0.9789 SSIM. Compared with plain IEEE TRANSACTIONS ON IMAGE PROCESSING 10                      
+
+> (a) (b) (c) (d) (e)
+> Fig. 10. Visualization for the progressive-stage ablation. (a) Rainy input, (b) rain map predicted by the one-stage model, (c) rain map predicted by the two-stage model, (d) rain map predicted by the three-stage model, and (e) ground truth. TABLE VII ABLATION STUDY ON THE NUMBER OF PROGRESSIVE STAGES .Variant PSNR ↑SSIM ↑Param FLOPs One stage 38.86 0.9741 4.12M 349.12G Two stages 39.92 0.9776 7.16M 607.98G Three stages (Ours) 40.40 0.9789 10.17M 865.84G
+
+rain fusion, it uses event-derived rain responses to strengthen the localization and suppression of dynamic rain streaks. These results suggest that background and rain components play complementary roles: background fusion mainly supports structure preservation, whereas event-guided rain fusion con-tributes to rain removal. 
+
+5) Number of Progressive Stages: Finally, we evaluate the number of progressive stages. Table VII shows that a one-stage model obtains 38.86 dB. Increasing the number of stages to two improves PSNR to 39.92 dB, and the three-stage model further reaches 40.40 dB. The gain from one to two stages is 1.06 dB, while the gain from two to three stages is 0.48 dB. This indicates that progressive refinement is beneficial, but the marginal improvement decreases as the number of stages increases. The parameters and FLOPs increase approximately linearly because each stage contains a similar decomposition and in-teraction structure. Considering the trade-off between accuracy and computation, we adopt three stages in the full model and do not further increase the stage number. Fig. 10 shows stage-wise rain prediction results. The one-stage model captures only part of the rain pattern and includes some irrelevant background responses. The two-stage model predicts more complete streaks, while the three-stage model gives a cleaner rain map with fewer background activations. This supports the use of progressive refinement for gradually improving rain-background separation. 
+
+D. Downstream Tasks 
+
+We further evaluate whether deraining improves down-stream perception on RainVID&SS [25], which contains ImageNet-VID+ for object detection and CamVid+ for seman-tic segmentation. For fair comparison, all deraining models are retrained on RainVID&SS using the same experimental setting. We adopt YOLO-v3 [51] and MEGA [52] as object detectors, and ENet [53] and CGNet [54] as semantic segmen-tation models.  
+
+> Fig. 11. Correlation between restoration quality and downstream perception on RainVID&SS. The four subfigures show PSNR vs. YOLO-v3 mAP 50 ,PSNR vs. MEGA mAP 50 , PSNR vs. ENet mIoU, and PSNR vs. CGNet mIoU, respectively.
+
+Table VIII reports both restoration and task performance. On ImageNet-VID+, our RainDancer method achieves the best PSNR/SSIM and the second-best detection accuracy for both YOLO-v3 and MEGA. MFGAN obtains slightly higher detection mAP, although its restoration metrics are lower than ours. This difference indicates that detection performance is not determined solely by full-reference restoration quality. Nevertheless, our RainDancer method improves the rainy input by a large margin and produces detection results close to or slightly higher than those obtained on clean frames under the tested detectors. On CamVid+, our RainDancer method achieves the highest PSNR/SSIM and the best mIoU for both ENet and CGNet. The improvement is more evident for CGNet, where our Rain-Dancer method reaches 62.14% mIoU. These results suggest that component-aligned RGB-Event deraining helps preserve semantic boundaries and local structures that are useful for segmentation. Fig. 11 further analyzes the relation between restoration quality and downstream accuracy. Our RainDancer method achieves the highest PSNR and consistently strong perception IEEE TRANSACTIONS ON IMAGE PROCESSING 11 
+
+TABLE VIII OBJECT DETECTION AND SEMANTIC SEGMENTATION RESULTS ON RAIN VID&SS. PSNR AND SSIM DENOTE THE FULL -REFERENCE RESTORATION QUALITY ON THE CORRESPONDING BENCHMARK . mAP 150 AND mAP 250 DENOTE THE OBJECT DETECTION RESULTS OBTAINED BY YOLO-V3 [51] AND 
+
+MEGA [52] ON IMAGE NET -VID+, RESPECTIVELY . mIoU 1 AND mIoU 2 DENOTE THE SEMANTIC SEGMENTATION RESULTS OBTAINED BY EN ET [53]  
+
+> AND
+
+CGN ET [54] ON CAM VID +, RESPECTIVELY .Modality : RGB DENOTES FRAME -ONLY INPUT , AND RGB+E VENT DENOTES JOINT FRAME -EVENT INPUT . T HE BEST AND SECOND -BEST RESULTS AMONG DERAINING METHODS ARE HIGHLIGHTED IN BOLD AND UNDERLINE , RESPECTIVELY .Method Modality Object Detection (ImageNet-VID+) Semantic Segmentation (CamVid+) PSNR ↑ SSIM ↑ mAP 150 ↑ mAP 250 ↑ PSNR ↑ SSIM ↑ mIoU 1 ↑ mIoU 2 ↑
+
+Rainy (no processing) RGB 15.77 0.4027 21.23% 33.69% 18.64 0.4580 32.24% 16.80% (TPAMI 2020) J4RNet [13] RGB 22.81 0.7599 41.67% 46.08% 19.99 0.7562 46.11% 41.19% (CVPR 2021) S2VD [55] RGB 28.61 0.9007 56.27% 66.45% 27.81 0.8751 46.99% 49.93% (TPAMI 2022) MFGAN [37] RGB 33.88 0.9448 64.33% 72.62% 29.25 0.9091 49.62% 57.80% (TPAMI 2023) ESTINet [38] RGB 28.85 0.7885 54.70% 62.52% 27.01 0.7863 45.53% 49.02% (CVPR 2023) DRSformer [39] RGB 34.12 0.9392 61.54% 70.80% 32.98 0.9413 50.54% 60.97% (CVPR 2025) VDMamba [15] RGB 33.96 0.9406 60.96% 70.52% 32.46 0.9368 50.31% 59.82% (ICLR 2026) DeLiVR [41] RGB 35.18 0.9456 61.88% 71.08% 33.26 0.9448 50.77% 61.18% (TIP 2023) MPEVNet [25] RGB+Event 33.74 0.9414 60.34% 70.14% 31.55 0.9252 49.96% 58.07% (ICCV 2023) UVD-Event [23] RGB+Event 26.36 0.8274 53.94% 56.01% 24.47 0.7993 47.93% 46.71% (TNNLS 2025) EGVD [24] RGB+Event 35.92 0.9502 61.72% 71.46% 33.88 0.9481 50.68% 60.53% RainDancer (Ours) RGB+Event 37.57 0.9751 63.08% 72.37% 35.59 0.9597 50.95% 62.14% 
+
+Clean RGB Inf 1.0000 62.84% 71.79% Inf 1.0000 51.12% 57.96%       
+
+> Rainy J4RNet [13] S2VD [55] MPEVNet [25] VDMamba [15] RainDancer (Ours) Clean
+
+Fig. 12. Qualitative object detection results on ImageNet-VID+. The first and second rows show the detection results obtained by YOLO-v3 and MEGA, respectively. 
+
+results, but the plots also show that higher PSNR does not always lead to higher mAP or mIoU. For example, some methods with competitive PSNR still obtain limited segmen-tation accuracy. This observation suggests that downstream perception depends not only on pixel-level fidelity but also on the preservation of semantic boundaries and task-relevant local structures. The proposed component-aligned interaction is beneficial in this respect because it reduces rain interference while maintaining background structures. Fig. 12 shows qualitative object detection results. In the YOLO-v3 example, the restored frame from our RainDancer method enables the detector to identify a marginal bicycle that is missed in several competing results. In the MEGA example, most methods detect the main objects, but our result yields higher confidence scores. These results indicate that deraining can improve object-level perception when the restored image preserves discriminative contours and local structures. Fig. 13 presents semantic segmentation results on CamVid+. Compared with the competing methods, our restored images lead to more coherent semantic regions and clearer object boundaries for both ENet and CGNet. Several baselines either leave rain-induced disturbances or over-smooth local structures, which causes fragmented or unstable segmentation predictions. The results support the quantitative findings in Ta-ble VIII: our RainDancer method improves restoration quality while better retaining structures that are useful for high-level visual understanding. IV. C ONCLUSION 
+
+This paper presents a progressive RGB–Event video derain-ing framework following a decompose-before-interact princi-ple. Instead of directly fusing heterogeneous RGB and event features, the proposed method first decomposes each modality into rain and background components and then conducts component-level interaction between semantically aligned rep-resentations. A rain-oriented SNN event branch is developed IEEE TRANSACTIONS ON IMAGE PROCESSING 12        
+
+> Rainy J4RNet [13] S2VD [55] EGVD [24] MPEVNet [25] DeLiVR [41] RainDancer (Ours) Clean
+
+Fig. 13. Qualitative semantic segmentation results on CamVid+. The first row shows the derained images, while the second and third rows show the segmentation results obtained by ENet and CGNet, respectively. 
+
+to capture sparse and bursty rain dynamics, while rain-aware background fusion and event-guided rain fusion are introduced to reduce cross-modal interference and improve rain removal. Moreover, an event-domain supervision strategy is designed to constrain sparse reconstruction, structural consistency, and gradient orientation of event representations. Experiments on synthetic and real RGB–Event video deraining datasets show that the proposed method outperforms existing RGB-based and event-guided approaches in quantitative metrics, visual quality, and downstream perception robustness. The results demonstrate that explicit rain-background decomposition and component-aligned RGB–Event interaction provide an effec-tive solution for reducing rain-background entanglement in dynamic rainy videos. REFERENCES [1] Kshitiz Garg and Shree K. Nayar, “Vision and Rain”, International Journal of Computer Vision , vol. 75, no. 1, pp. 3–27, 2007. [2] W. Yang, Y. Kao, T. Liu, Y. Yu, and K. Huang, “Cosos-1k: A benchmark dataset and occlusion-aware uncertainty learning for multi-view video object detection,” IEEE Transactions on Image Processing , 2026. [3] J. Dang, H. Zheng, J. Lai, X. Yan, and Y. Guo, “Efficient and robust video object segmentation through isogenous memory sampling and frame relation mining,” IEEE Transactions on Image Processing , vol. 32, pp. 3924–3938, 2023. [4] Q. Xu, Q. Wu, B. Jiang, J. Wang, Y. Chen, and J. Tang, “Unlocking cross-domain synergies for domain adaptive semantic segmentation,” 
+
+IEEE Transactions on Image Processing , vol. 35, pp. 136–149, 2025. [5] K. Jiang, J. Jiang, X. Liu, H. Yao, and C.-W. Lin, “Ph-mamba: Enhancing mamba with position encoding and harmonized attention for image deraining and beyond,” IEEE Transactions on Image Processing ,2025. [6] Li-Wei Kang, Chia-Wen Lin, and Yu-Hsiang Fu, “Automatic Single-Image-Based Rain Streaks Removal via Image Decomposition”, IEEE Transactions on Image Processing , vol. 21, no. 4, pp. 1742–1755, 2012. [7] Dongwei Ren, Wangmeng Zuo, Qinghua Hu, Pengfei Zhu, and Deyu Meng, “Progressive Image Deraining Networks: A Better and Simpler Baseline”, in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 3937–3946, 2019. [8] Xiaopeng Zhang, Hao Li, Yingyi Qi, Wee Kheng Leow, and Teck Khim Ng, “Rain Removal in Video by Combining Temporal and Chromatic Properties”, in Proceedings of the IEEE International Conference on Multimedia and Expo (ICME) , pp. 461–464, 2006. [9] Jie Chen, Cheen-Hau Tan, Junhui Hou, Lap-Pui Chau, and He Li, “Robust Video Content Alignment and Compensation for Rain Removal in a CNN Framework”, in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 6286–6295, 2018. [10] Weihong Ren, Jiandong Tian, Zhi Han, Antoni B. Chan, and Yandong Tang, “Video Desnowing and Deraining Based on Matrix Decomposi-tion”, in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 4210–4219, 2017. [11] Wei Wei, Lixuan Yi, Qi Xie, Qian Zhao, Deyu Meng, and Zongben Xu, “Should We Encode Rain Streaks in Video as Deterministic or Stochastic?”, in Proceedings of the IEEE International Conference on Computer Vision (ICCV) , pp. 2516–2525, 2017. [12] Minghan Li, Qi Xie, Qian Zhao, Wei Wei, Shuhang Gu, Jing Tao, and Deyu Meng, “Video Rain Streak Removal by Multiscale Convolutional Sparse Coding”, in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 6644–6653, 2018. [13] Jiaying Liu, Wenhan Yang, Shuai Yang, and Zongming Guo, “Erase or Fill? Deep Joint Recurrent Rain Removal and Reconstruction in Videos”, in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 3233–3242, 2018. [14] Wending Yan, Robby T. Tan, Wenhan Yang, and Dengxin Dai, “Self-Aligned Video Deraining With Transmission-Depth Consistency”, in 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 11966–11976, 2021. [15] Shangquan Sun, Wenqi Ren, Juxiang Zhou, Shu Wang, Jianhou Gan, and Xiaochun Cao, “Semi-Supervised State-Space Model With Dynamic Stacking Filter for Real-World Video Deraining”, in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 26114–26124, 2025. [16] Wenhan Yang, Jiaying Liu, and Jiashi Feng, “Frame-Consistent Recur-rent Video Deraining With Dual-Level Flow”, in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 1661–1670, 2019. [17] Patrick Lichtsteiner, Christoph Posch, and Tobi Delbruck, “A 128 x 128 120 dB 15 us Latency Asynchronous Temporal Contrast Vision Sensor”, 
+
+IEEE Journal of Solid-State Circuits , vol. 43, no. 2, pp. 566–576, 2008. [18] Guillermo Gallego, Tobi Delbruck, Garrick Orchard, Chiara Bartolozzi, Brian Taba, Andrea Censi, Stefan Leutenegger, Andrew J. Davison, J¨ org Conradt, Kostas Daniilidis, and Davide Scaramuzza, “Event-Based Vision: A Survey”, IEEE Transactions on Pattern Analysis and Machine Intelligence , vol. 44, no. 1, pp. 154–180, 2022. [19] Guillermo Gallego, Jon E. A. Lund, Elias Mueggler, Henri Rebecq, Tobi Delbruck, and Davide Scaramuzza, “Event-Based, 6-DOF Camera Tracking From Photometric Depth Maps”, IEEE Transactions on Pattern Analysis and Machine Intelligence , vol. 40, no. 10, pp. 2402–2412, 2018. [20] Zhexiong Wan, Yuchao Dai, and Yuxin Mao, “Learning Dense and Continuous Optical Flow From an Event Camera”, IEEE Transactions on Image Processing , vol. 31, pp. 7237–7251, 2022. [21] Zhe Jiang, Yu Zhang, Dongqing Zou, Jimmy Ren, Jiancheng Lv, and Yebin Liu, “Learning Event-Based Motion Deblurring”, in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recogni-tion (CVPR) , pp. 3320–3329, 2020. [22] Haoyue Liu, Shihan Peng, Lin Zhu, Yi Chang, Hanyu Zhou, and Luxin Yan, “Seeing Motion at Nighttime with an Event Camera”, in 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 25648–25658, 2024. [23] Jin Wang, Wenming Weng, Yueyi Zhang, and Zhiwei Xiong, “Unsuper-vised Video Deraining with An Event Camera”, in Proceedings of the IEEE TRANSACTIONS ON IMAGE PROCESSING 13 
+
+IEEE/CVF International Conference on Computer Vision (ICCV) , pp. 10831–10840, 2023. [24] Yueyi Zhang, Jin Wang, Wenming Weng, Xiaoyan Sun, and Zhiwei Xiong, “EGVD: Event-Guided Video Deraining”, IEEE Transactions on Neural Networks and Learning Systems , vol. 36, no. 8, pp. 14092– 14106, 2025. [25] Shangquan Sun, Wenqi Ren, Jingzhi Li, Kaihao Zhang, Meiyu Liang, and Xiaochun Cao, “Event-Aware Video Deraining via Multi-Patch Progressive Learning”, IEEE Transactions on Image Processing , vol. 32, pp. 3040–3053, 2023. [26] Xueyang Fu, Chengzhi Cao, Senyan Xu, Fanrui Zhang, Kunyu Wang, and Zheng-Jun Zha, “Event-Driven Heterogeneous Network for Video Deraining”, International Journal of Computer Vision , vol. 132, no. 12, pp. 5841–5861, 2024. [27] Kaushik Roy, Ankit Jaiswal, and Priyadarshini Panda, “Towards Spike-Based Machine Intelligence with Neuromorphic Computing”, Nature ,vol. 575, no. 7784, pp. 607–617, 2019. [28] Yujie Wu, Lei Deng, Guoqi Li, Jun Zhu, Yuan Xie, and Luping Shi, “Direct Training for Spiking Neural Networks: Faster, Larger, Better”, in Proceedings of the AAAI Conference on Artificial Intelligence , vol. 33, pp. 1311–1318, 2019. [29] Wei Fang, Zhaofei Yu, Yanqi Chen, Tiejun Huang, Timoth´ ee Masque-lier, and Yonghong Tian, “Deep Residual Learning in Spiking Neural Networks”, in Advances in Neural Information Processing Systems , vol. 34, pp. 21056–21069, 2021. [30] Lin Zhu, Jianing Li, Xiao Wang, Tiejun Huang, and Yonghong Tian, “NeuSpike-Net: High Speed Video Reconstruction via Bio-Inspired Neuromorphic Cameras”, in Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , pp. 2400–2409, 2021. [31] Ciyu Ruan, Chenyu Zhao, Chenxin Liang, Xinyu Luo, Jingao Xu, and Xinlei Chen, “Distill Drops into Data: Event-Based Rain-Background Decomposition Network”, in Proceedings of the 30th Annual Interna-tional Conference on Mobile Computing and Networking , pp. 2072– 2077, 2024. [32] Hanwen Liang, Xian Zhong, Wenxuan Liu, Yajing Zheng, Wenxin Huang, Zhaofei Yu, and Tiejun Huang, “SpikeDerain: Unveiling Clear Videos from Rainy Sequences Using Color Spike Streams”, arXiv preprint arXiv:2503.20315 , 2025. [33] Shihao Zou, Qingfeng Li, Wei Ji, Jingjing Li, Yongkui Yang, Guoqi Li, and Chao Dong, “SpikeVideoFormer: An Efficient Spike-Driven Video Transformer with Hamming Attention and O(T ) Complexity”, in 
+
+Proceedings of the 42nd International Conference on Machine Learning (ICML) , vol. 267, pp. 80805–80821, 2025. [34] Kui Jiang, Zhongyuan Wang, Peng Yi, Chen Chen, Zheng Wang, Xiao Wang, Junjun Jiang, and Chia-Wen Lin, “Rain-Free and Residue Hand-in-Hand: A Progressive Coupled Network for Real-Time Image Deraining”, IEEE Transactions on Image Processing , vol. 30, pp. 7404– 7418, 2021. [35] Tai-Xiang Jiang, Ting-Zhu Huang, Xi-Le Zhao, Liang-Jian Deng, and Yao Wang, “FastDeRain: A Novel Video Rain Streak Removal Method Using Directional Gradient Priors”, IEEE Transactions on Image Pro-cessing , vol. 28, no. 4, pp. 2089–2102, 2019. [36] Pan Mu, Zhu Liu, Yaohua Liu, Risheng Liu, and Xin Fan, “Triple-Level Model Inferred Collaborative Network Architecture for Video Deraining”, IEEE Transactions on Image Processing , vol. 31, pp. 239– 250, 2022. [37] Wenhan Yang, Robby T. Tan, Jiashi Feng, Shiqi Wang, Bin Cheng, and Jiaying Liu, “Recurrent Multi-Frame Deraining: Combining Physics Guidance and Adversarial Learning”, IEEE Transactions on Pattern Analysis and Machine Intelligence , vol. 44, no. 11, pp. 8569–8586, 2022. [38] Kaihao Zhang, Dongxu Li, Wenhan Luo, Wenqi Ren, and Wei Liu, “Enhanced Spatio-Temporal Interaction Learning for Video Deraining: Faster and Better”, IEEE Transactions on Pattern Analysis and Machine Intelligence , vol. 45, no. 1, pp. 1287–1293, 2023. [39] Xiang Chen, Hao Li, Mingqiang Li, and Jinshan Pan, “Learning a Sparse Transformer Network for Effective Image Deraining”, in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 5896–5905, 2023. [40] Hongtao Wu, Yijun Yang, Huihui Xu, Weiming Wang, Jinni Zhou, and Lei Zhu, “RainMamba: Enhanced Locality Learning With State Space Models for Video Deraining”, in Proceedings of the 32nd ACM International Conference on Multimedia (MM ’24) , pp. 7881–7890, 2024. [41] Shuning Sun, Jialang Lu, Xiang Chen, Jichao Wang, Dianjie Lu, Guijuan Zhang, Guangwei Gao, and Zhuoran Zheng, “DeLiVR: Differential Spatiotemporal Lie Bias for Efficient Video Deraining”, in International Conference on Learning Representations (ICLR) , 2026. [42] Yuhuang Hu, Shih-Chii Liu, and Tobi Delbruck, “v2e: From Video Frames to Realistic DVS Events”, in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW) , pp. 1312–1321, 2021. [43] Quan Huynh-Thu and Mohammed Ghanbari, “Scope of Validity of PSNR in Image/Video Quality Assessment”, Electronics Letters , vol. 44, no. 13, pp. 800–801, 2008. [44] Zhou Wang, Alan C. Bovik, Hamid R. Sheikh, and Eero P. Simoncelli, “Image Quality Assessment: From Error Visibility to Structural Sim-ilarity”, IEEE Transactions on Image Processing , vol. 13, no. 4, pp. 600–612, 2004. [45] Anish Mittal, Rajiv Soundararajan, and Alan C. Bovik, “Making a Completely Blind Image Quality Analyzer”, IEEE Signal Processing Letters , vol. 20, no. 3, pp. 209–212, 2013. [46] Anish Mittal, Anush K. Moorthy, and Alan C. Bovik, “No-Reference Image Quality Assessment in the Spatial Domain”, IEEE Transactions on Image Processing , vol. 21, no. 12, pp. 4695–4708, 2012. [47] Lin Zhang, Lei Zhang, and Alan C. Bovik, “A Feature-Enriched Com-pletely Blind Image Quality Evaluator”, IEEE Transactions on Image Processing , vol. 24, no. 8, pp. 2579–2591, 2015. [48] Jianyi Wang, Kelvin C. K. Chan, and Chen Change Loy, “Exploring CLIP for Assessing the Look and Feel of Images”, in Proceedings of the AAAI Conference on Artificial Intelligence (AAAI) , pp. 2555–2563, 2023. [49] Mark Everingham, Luc Van Gool, Christopher K. I. Williams, John Winn, and Andrew Zisserman, “The Pascal Visual Object Classes (VOC) Challenge”, International Journal of Computer Vision , vol. 88, no. 2, pp. 303–338, 2010. [50] Jonathan Long, Evan Shelhamer, and Trevor Darrell, “Fully Convolu-tional Networks for Semantic Segmentation”, in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 3431–3440, 2015. [51] Joseph Redmon and Ali Farhadi, “YOLOv3: An Incremental Improve-ment”, arXiv preprint arXiv:1804.02767 , 2018. [52] Yihong Chen, Yue Cao, Han Hu, and Liwei Wang, “Memory Enhanced Global-Local Aggregation for Video Object Detection”, in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recogni-tion (CVPR) , pp. 10337–10346, 2020. [53] Adam Paszke, Abhishek Chaurasia, Sangpil Kim, and Eugenio Cu-lurciello, “ENet: A Deep Neural Network Architecture for Real-Time Semantic Segmentation”, arXiv preprint arXiv:1606.02147 , 2016. [54] Tianyi Wu, Sheng Tang, Rui Zhang, Juan Cao, and Yongdong Zhang, “CGNet: A Light-Weight Context Guided Network for Semantic Seg-mentation”, IEEE Transactions on Image Processing , vol. 30, pp. 1169– 1179, 2021. [55] Zongsheng Yue, Jianwen Xie, Qian Zhao, and Deyu Meng, “Semi-Supervised Video Deraining With Dynamical Rain Generator”, in Pro-ceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 642–652, 2021.

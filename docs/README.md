@@ -6,56 +6,59 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-19
-- 运行时间：2026-07-19 21:32:04 UTC
+- 最新运行日期：2026-07-20
+- 运行时间：2026-07-20 21:56:59 UTC
 - 运行状态：成功
-- 本次总论文数：12
-- 精读区：2
-- 速读区：10
+- 本次总论文数：13
+- 精读区：4
+- 速读区：9
 
 ### 今日简报（AI）
-今日重点研究了扩散模型服务优化与轻量图像超分技术，其中《FlashDiff》在区域执行调度方面表现突出，《CUST》则在聚类单元级相似性变换上实现高效超分。最值得关注的两个方向：一是扩散模型的高效区域执行与内存管理（如FlashDiff与Xema），二是轻量级图像超分与视频增强的少样本方法（如CUST与FSFVE）。建议普通读者优先精读《FlashDiff》以了解扩散服务调度的前沿思路，或结合《CUST》探索资源受限场景下的超分加速方案。
-- 详情：[/202607/19/README](/202607/19/README)
+今日共梳理13篇论文，重点精读2篇高分研究，均聚焦视频生成与扩散模型加速。最值得关注的方向是：单步像素扩散实现高质量视频帧插值（SPEED），以及通过时空冗余缩减加速扩散Transformer（DSTAR）。建议读者优先深入理解这两篇核心技术，再结合速读中关于推理效率优化的Xema和DiTango参考。
+- 详情：[/202607/20/README](/202607/20/README)
 
 ### 精读区论文标签
-1. [FlashDiff: Efficient Regional Execution and Scheduling for Diffusion Model Serving](/202607/19/2607.12121v1-flashdiff-efficient-regional-execution-and-scheduling-for-diffusion-model-serving)  
+1. [SPEED: One-Step Pixel Diffusion for High-quality Video Frame Interpolation](/202607/20/2607.15585v1-speed-one-step-pixel-diffusion-for-high-quality-video-frame-interpolation)  
+   标签：评分：9.0/10、query:vd
+   evidence：一步像素扩散用于视频帧插值，实现少步采样
+2. [DSTAR: Accelerating Diffusion Transformers via Spatial and Temporal Redundancy Reduction](/202607/20/2607.15846v1-dstar-accelerating-diffusion-transformers-via-spatial-and-temporal-redundancy-reduction)  
    标签：评分：9.0/10、query:fast-gen
-   evidence：用于包括视频生成在内的扩散模型的高效服务系统
-2. [CUST: Clustered Unit-level Similarity Transformer for Lightweight Image Super-Resolution](/202607/19/2607.11088v1-cust-clustered-unit-level-similarity-transformer-for-lightweight-image-super-resolution)  
+   evidence：提出细粒度混合精度量化加速扩散Transformer推理
+3. [Efficient Difficulty-Aware Dynamic Routing for Diffusion-Based Real-World Image Super-Resolution](/202607/20/2607.15711v1-efficient-difficulty-aware-dynamic-routing-for-diffusion-based-real-world-image-super-resolution)  
+   标签：评分：8.0/10、query:video-refine
+   evidence：难度感知动态路由用于高效扩散超分辨率，可应用于视频帧增强
+4. [FVAttn: Adaptive Sparse Attention with Runtime Load Balancing for Video Generation](/202607/20/2607.16190v1-fvattn-adaptive-sparse-attention-with-runtime-load-balancing-for-video-generation)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：用于轻量级高效图像超分辨率的聚类单元级相似性变换器
+   evidence：用于视频生成的自适应稀疏注意力
 
 ### 速读区论文标签
-1. [FSFVE: Few Shot Compressed Face Video Enhancement](/202607/19/2607.11040v1-fsfve-few-shot-compressed-face-video-enhancement)  
-   标签：评分：7.0/10、query:video-refine
-   evidence：少样本视频增强方法，可应用于生成视频的精炼
-2. [Xema: Efficient Diffusion Serving through Fine-Grained Memory Management and Auto-Configuration](/202607/19/2607.11136v1-xema-efficient-diffusion-serving-through-fine-grained-memory-management-and-auto-configuration)  
+1. [Xema: Efficient Diffusion Serving through Fine-Grained Memory Management and Auto-Configuration](/202607/20/2607.11136v1-xema-efficient-diffusion-serving-through-fine-grained-memory-management-and-auto-configuration)  
    标签：评分：7.0/10、query:fast-gen
-   evidence：内存高效的扩散服务以加速生成
-3. [Structure-Detail Decoupled Autoregressive Generation for Fast and High-Fidelity Virtual Try-On](/202607/19/2607.11233v1-structure-detail-decoupled-autoregressive-generation-for-fast-and-high-fidelity-virtual-try-on)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：快速自回归图像生成
-4. [SVI360: Spherical Video Interpolation](/202607/19/2607.11710v1-svi360-spherical-video-interpolation)  
-   标签：评分：7.0/10、query:video-refine
-   evidence：球面视频插值提升时间连贯性
-5. [Realizable N:M Sparse Transformer Inference via Search-Kernel Co-Design](/202607/19/2607.12505v1-realizable-nm-sparse-transformer-inference-via-search-kernel-co-design)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：N:M稀疏注意力协同设计实现高效推理，可应用于快速生成
-6. [RFMSR: Residual Flow Matching for Image Super-Resolution](/202607/19/2607.12753v1-rfmsr-residual-flow-matching-for-image-super-resolution)  
-   标签：评分：7.0/10、query:video-refine
-   evidence：残差流匹配用于图像超分辨率，可扩展到视频增强
-7. [VideoRAE: Taming Video Foundation Models for Generative Modeling via Representation Autoencoders](/202607/19/2607.14088v1-videorae-taming-video-foundation-models-for-generative-modeling-via-representation-autoencoders)  
+   evidence：高效扩散模型服务实现快速视频生成
+2. [Hierarchical Denoising For Multi-Step Visual Reasoning](/202607/20/2607.15278v1-hierarchical-denoising-for-multi-step-visual-reasoning)  
    标签：评分：7.0/10、query:vd
-   evidence：利用冻结的视频基础模型构建视频生成潜在空间
-8. [Integration Matters: Rollout-Based Training for Constrained Diffusion Models](/202607/19/2607.14398v1-integration-matters-rollout-based-training-for-constrained-diffusion-models)  
+   evidence：层次去噪实现粗到细推理，减少视频生成步数
+3. [DiTango: Cost-Effective Parallel Diffusion Generation with Selective Attention State Reuse](/202607/20/2607.15650v1-ditango-cost-effective-parallel-diffusion-generation-with-selective-attention-state-reuse)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：利用选择性注意力状态重用加速扩散生成推理
+4. [Test-Time Noise Guided Adaptation for Realistic Autoregressive Video Generation](/202607/20/2607.15849v1-test-time-noise-guided-adaptation-for-realistic-autoregressive-video-generation)  
    标签：评分：7.0/10、query:vd
-   evidence：提出基于滚动的约束扩散模型训练，解决少步采样分布偏移
-9. [RDQ: Residual Distribution Quantization for Large Language Models](/202607/19/2607.10137v1-rdq-residual-distribution-quantization-for-large-language-models)  
+   evidence：自回归视频扩散模型的测试时自适应以减少误差累积
+5. [Structure-Detail Decoupled Autoregressive Generation for Fast and High-Fidelity Virtual Try-On](/202607/20/2607.11233v1-structure-detail-decoupled-autoregressive-generation-for-fast-and-high-fidelity-virtual-try-on)  
    标签：评分：6.0/10、query:fast-gen
-   evidence：后训练量化方法可用于高效生成
-10. [Multi-Axis Max@K Reinforcement Learning for Representative Diversity in Text-to-Image Generation](/202607/19/2607.14962v1-multi-axis-maxk-reinforcement-learning-for-representative-diversity-in-text-to-image-generation)  
+   evidence：通过自回归模型实现快速图像生成
+6. [RainDancer: RGB-Event Video Deraining with Rain-Oriented Spiking Dynamics](/202607/20/2607.13802v1-raindancer-rgb-event-video-deraining-with-rain-oriented-spiking-dynamics)  
+   标签：评分：6.0/10、query:video-refine
+   evidence：利用RGB-事件融合的视频去雨作为恢复方法
+7. [VideoRAE: Taming Video Foundation Models for Generative Modeling via Representation Autoencoders](/202607/20/2607.14088v1-videorae-taming-video-foundation-models-for-generative-modeling-via-representation-autoencoders)  
    标签：评分：6.0/10、query:vd
-   evidence：通过强化学习提升文本到图像生成多样性，可迁移至视频生成场景
+   evidence：利用冻结视频基础模型进行生成建模的表示自编码器
+8. [Advanced Image Generation: Negative Prompt Optimization and Latent Classifier Guidance](/202607/20/2607.14580v1-advanced-image-generation-negative-prompt-optimization-and-latent-classifier-guidance)  
+   标签：评分：6.0/10、query:video-refine
+   evidence：负提示优化和潜在引导减少图像生成伪影
+9. [On the Failure of Boundary-Seeking Distillation in Bottlenecked Generative Architectures](/202607/20/2607.15919v1-on-the-failure-of-boundary-seeking-distillation-in-bottlenecked-generative-architectures)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：研究自编码器生成架构中的边界搜索蒸馏
 
 
 <div class="dpr-home-promo-card">
