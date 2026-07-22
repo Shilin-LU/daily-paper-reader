@@ -1,0 +1,846 @@
+Title: Spatial Transport of Integration Error in Generative ODEs
+
+URL Source: https://arxiv.org/pdf/2607.16361v1
+
+Published Time: Tue, 21 Jul 2026 00:06:26 GMT
+
+Number of Pages: 21
+
+Markdown Content:
+# Spatial Transport of Integration Error in Generative ODEs 
+
+Songheng Yin 
+
+Columbia University 
+
+songheng.yin@columbia.edu 
+
+## Abstract 
+
+A trained flow or diffusion model is usually run with only a handful of solver steps, and the integration error this leaves behind is unevenly distributed across the image. We ask where that error is injected and how it reaches the endpoint, and answer with a signed source-and-transport accounting of few-step integration error, tested to first order. A perturbation experiment on five models at 256 2 reso-lution shows the learned dynamics spread local disturbances widely: near the start of sampling, under 10% of the summed endpoint response remains at the source. Signed one-step truncation residuals, propagated through the model’s own lin-earized dynamics, reconstruct much of the endpoint error’s direction and regional structure (cosine 0.81 –0.87 ), and a region’s error owes more to what arrives from elsewhere than to its own injection. Structure-destroying nulls, with protocols frozen before evaluation, locate what carries the account: randomizing contri-bution signs halves it, and reassigning which region receives each contribution, with content, norms, and signs intact, destroys it entirely. Where the injections land is readable from the model itself. The variation of its velocity or prediction field along the trajectory, a structure that emerges during training, predicts the fi-nal per-region gap (within-image ρ of 0.57 –0.70 on fine trajectories, weaker from the cheap solve alone). The prediction is partial because endpoint error depends not only on injected magnitude but on its sign, timing, and transport through the learned dynamics. A training penalty on the injected variation lowers few-step error, so the structure is one a model can be trained to change. 
+
+## 1 Introduction 
+
+A trained flow or diffusion model is usually deployed with a handful of solver steps, and the price is numerical. Integrating the probability-flow ODE coarsely injects error that degrades the sample [Ho et al., 2020, Song et al., 2021b, Lipman et al., 2023, Albergo and Vanden-Eijnden, 2023]. Two fami-lies of methods reduce it. One straightens trajectories during training so that coarse integration hurts less, through reflow [Liu et al., 2023], consistency objectives [Song et al., 2023, Yang et al., 2024], or, concurrent with this work, an acceleration penalty [Khan, 2026]. The other spends inference compute unevenly, choosing where to refine from signals read off the current sampling state [Liu et al., 2026, Lin et al., 2026]. Both leave a spatially resolved numerical question largely unmeasured. Where is coarse-solver error injected within a sample, and how do the learned dynamics redistribute it before the endpoint? Classical numerical analysis answers in the abstract: global error is local truncation carried through the state-transition operator [Hairer et al., 1993]. What does not exist is a spatially resolved, empirically closed account of that propagation in trained generative models. We provide one. The per-region gap between a coarse solve and an accurate reference is unevenly concentrated across regions and repeats across sampling budgets. It appears only after training, uninformative at initialization (Fig. 1). A per-region velocity statistic we call Flow Complexity predicts it, at within-image ρ of 0.57 to 0.70 across five models, with the velocities read along a finely integrated trajectory. Read from the first evaluations of the cheap solve itself, it stays predictive but arXiv:2607.16361v1 [cs.CV] 17 Jul 2026 weaker ( ρ of 0.32 –0.46 across held-out tests on two models). The gap is numerical rather than perceptual. Correcting where the solver errs most is not what most improves FID, so we read Flow Complexity as a diagnostic of numerical integrability, not an allocation rule for sample quality (§4.5). That prediction is only partial, and the reason is the substance of the paper. On the two models where we can carry out the full reconstruction, each region’s endpoint error, rebuilt from the signed per-step truncation residuals propagated through the linearized dynamics, is better explained by what reaches the region through those dynamics than by its own injected residual. Error is injected locally, where Flow Complexity runs high, then carried across the image as the model integrates. Regularizing Flow Complexity during training lowers both the injected error and the coarse-solve error, so the structure is one a model can be trained to change. 
+
+Contributions. 
+
+1. A spatial difficulty landscape (§3, §4). We define the per-region reference-solver discrep-ancy of few-step sampling (cheap vs. near-exact solve) and show it is not noise but a stable, learned structure: concentrated (the top decile of regions carries 24 –33% of the error), stable 
+
+across sampling budgets and, in controlled models, retraining, and learned (it emerges during optimization). We establish this on five models at 256 2 resolution. This complements region-adaptive methods, whose reactive allocation signals are never checked against the reference-solver discrepancy they aim to reduce. 2. A local diagnostic that predicts it (§3, §5). Flow Complexity (FC) is not a new dynamical quantity. For flow models it is the per-region total variation of the learned velocity, which a leading-order bound ties to the magnitude of the local truncation the Euler residual injects (Prop. 1). For diffusion models we read the matching variation of the network’s prediction along the sampler trajectory, tied to discretization error empirically. Along fine reference trajectories it predicts final per-region discrepancy at within-image ρ ≈ 0.57 –0.70 on all five models and, at a matched observation window, more accurately than the frequency, edge, attention, RAS, and SDiT signals region-adaptive samplers rely on (implemented as specified, not in spirit). A prediction-horizon analysis locates when difficulty becomes readable (model-dependent; on the flow model already after ∼10% of sampling, ρ ≈ 0.44 ). 3. A quantitative spatial accounting of endpoint error (§6–§8). A perturbation protocol probes how the state-transition operator Φ of Prop. 1 moves injected error: near the noise end only 
+
+3–8% of a perturbation’s summed regional response stays in its source region, on a flow trans-former, a pixel-space diffusion U-Net, and our own model, surviving solver refinement. On our own CelebA and ImageNet-256 models we rebuild each region’s endpoint error from the signed per-step truncation residuals propagated through the linearized dynamics. A region’s own in-jection explains only part of its final error ( ρ ≈ 0.3–0.4) and what arrives from elsewhere is more strongly associated with it (partial ρ ≈ 0.66 –0.69 ). Sign randomization drops the recon-struction to ρ ≈ 0.3, and destination permutation, keeping content, norms, and signs, destroys it outright, so the correctly targeted signed superposition carries the accounting. This is why FC, a local quantity, predicts final error only in part. Regularizing FC during training lowers both the injected error and the coarse-solve error, so the landscape is one training can modify (closely related to concurrent work, Khan, 2026). We do not offer it as a sampler, and we evaluate its compute-adjusted effect on sample quality separately (§8). 
+
+## 2 Related work 
+
+Training-time straightening. Rectified Flow [Liu et al., 2023] straightens trajectories globally via reflow, a multi-stage procedure, and consistency-type objectives distill straightness [Song et al., 2023, Yang et al., 2024, Salimans and Ho, 2022]. Concurrent work, Iso-FM [Khan, 2026], regular-izes pathwise acceleration through a self-guided finite-difference penalty, the same global objective family as our §7, with experiments at CIFAR-10 scale and no spatial analysis. None of these works asks where difficulty lives. That is this paper’s subject. 
+
+Region-adaptive inference. RAS [Liu et al., 2026] allocates diffusion-transformer compute from reactive output-change and attention signals. SDiT [Lin et al., 2026] uses a “spatial complex-ity” heuristic, a reactive sampling-time signal unrelated to our Flow Complexity despite the name. Foveated and mixed-resolution methods allocate by saliency [Jeong et al., 2025, Chao et al., 2026]. 2ρ=0.68   
+
+> generated (256px) Flow Complexity (GT-free) reference discrepancy
+> ρ=0.27 ρ=0.61
+
+Figure 1: The spatial integrability landscape. For SiT-XL/2 ImageNet-256 samples: the gener-ated image, the model-intrinsic Flow Complexity map (computed from the model’s own velocities, without seeing the final error), and the per-region reference-solver discrepancy (cheap vs. near-exact solve). FC concentrates where the cheap solver actually errs (within-image Spearman ρ per row), on real 16 × 16 regions. Both are spatially structured and unevenly concentrated, not uniform. None of these signals is validated against per-region reference-solver discrepancy. §4.5 provides that validation. 
+
+Curvature analyses. Prior analyses relate global/average trajectory curvature to sampling cost [Lee et al., 2023, Luo et al., 2025, Karras et al., 2022]. Our unit of analysis is the region within a sample, not the whole trajectory. We validate per-region against a near-exact reference solve, and the object we measure feeds back into a training objective. 
+
+## 3 Flow Complexity: definition and grounding 
+
+Setup. A trained model induces a probability-flow ODE 
+
+dx dt = f (xt, t ), xt0 ∼ N (0 , I ) (noise) → xt1 (data) (1) from noise to data, with PF-ODE drift f . Flow Complexity is computed on a recorded field u. For flow matching u = f = vθ is the learned velocity. For diffusion the drift f [Song et al., 2021b] is an affine function of the network’s ε- or x0-prediction, and we take that prediction as u, so u̸ = f
+
+(the ε- and x0-variants agree). Because that affine map has time-varying coefficients, for diffusion we tie the variation of u to discretization error empirically rather than through the bound below. We tokenize samples into regions ( 16 × 16 px regions at 256 2 resolution). Writing e = xcheap  
+
+> T
+
+− xref 
+
+> T
+
+for the endpoint error vector and ei = Pie for its restriction to region i (Pi the region projection), the per-region integration error is the within-region MSE ∥ei∥2 between a cheap solve (few-step Euler for flow, DDIM [Song et al., 2021a] for diffusion) and a near-exact reference solve from the same noise. The reference is Heun-200 for the flow models and a fine DDIM ( 50 –100 steps) for the diffusion models (protocol in Appendix B). It is convergence-checked rather than assumed exact: the per-region error map is essentially invariant under further refinement (rank correlation ≥ 0.986 
+
+between DDIM-50 /100 and DDIM-200 on the diffusion models, and ≈1 for Heun-200 vs Heun-400 
+
+3on the flow models), so it stands in for the converged endpoint. We call the target a reference-solver discrepancy throughout, not a ground-truth error. We use ei for this region-i error vector throughout and ∥ei∥2 for its scalar magnitude. 
+
+Definition. Definition 1 (Flow Complexity) . Over a trajectory window W with drift sampled at spacing ∆t,
+
+FC( i) = X
+
+> t∈W
+
+ut+∆ t(i) − ut(i) (2) where ut(i) is the field u (velocity for flow, ε-/ x0-prediction for diffusion) restricted to region (token) 
+
+i at trajectory point xt.As the grid refines, FC( i) → R 
+
+> W
+
+∥a(i, t )∥ dt , where a = du/dt = ∂tu + ( ∇xu) ˙ x is the material derivative of u along the trajectory ˙x. For a flow model the trajectory obeys ˙x = u, so a is the trajectory acceleration and this makes FC the per-region total variation of the learned velocity field . We use rank statistics throughout, which are invariant to the overall ∆t scale. Unless stated otherwise we sample W along the recorded reference trajectory, which separates the signal from coarse-grid noise but is not what a deployed system has. §5 measures how much of the prediction survives when FC is computed from the cheap solve itself. 
+
+Numerical grounding. Euler’s local truncation error per step of size H is H2 
+
+> 2
+
+∥¨x∥ + O(H3), and 
+
+¨x = a is the same acceleration FC accumulates. This is why we read FC as a difficulty measure. It is a motivation and not a ranking proof, since global error runs through the state-transition operator and a magnitude bound does not order regions. 
+
+Proposition 1 (magnitude bound, informal) . To leading order the per-region endpoint error is bounded by a Φ-weighted sum of every region’s accumulated acceleration, ∥ei(T )∥ ≤
+
+> H
+> 2
+
+P 
+
+> j
+
+cij Dj + O(H2), with Dj = lim FC( j) and cij the largest norm of the state-transition sub-block Φij over the window. When coupling is block-local this reduces to a bound driven by Di
+
+alone. In general FC i bounds the truncation injected at region i, which Φ then redistributes across regions. Formal statement, assumptions, and proof in Appendix A. 
+
+A bound is not a ranking. Because Φ couples regions unless it is block-local, region i’s final error is not a function of Di alone, so whether the FC -ordering matches the error-ordering is an empirical question, not a corollary. 
+
+Why ranking is nontrivial. FC sums magnitudes, but error accrues from the net change and is then carried through the state-transition operator. A magnitude-only statistic discards three effects: directional cancellation (an oscillatory-but-returning region is over-scored), spatial coupling, and nonuniform propagation across trajectory epochs. These perturb a ranking without necessarily de-stroying it, consistent with correlations that are strong but below one, and the theory does not derive 
+
+ρ values. Whether FC preserves the regional ranking is an empirical question, which §4 answers against a near-exact reference solve. 
+
+## 4 The difficulty landscape: four properties 
+
+All headline results are at ImageNet-256 scale on external state-of-the-art models (SiT-XL/2, flow, latent [Ma et al., 2024]; DiT-XL/2, diffusion, latent [Peebles and Xie, 2023]; ADM, diffusion, pixel [Dhariwal and Nichol, 2021]), with our own smaller from-scratch models as controlled complements where retraining is intrinsically required (Appendix B). 
+
+4.1 Concentrated 
+
+Per-region integration error is moderately concentrated: the top 10% of regions carry 26.2% (SiT), 
+
+24.1% (DiT), 28.4% (ADM), 32.5% (CelebA-HQ FM-DiT), and 26.3% (ImageNet FM-DiT) of total error (Gini 0.31–0.41). Lorenz curves in Fig. 2. Both the moderate concentration and FC’s predictivity are stable across region granularity: on SiT at 8×8/16 ×16 /32 ×32 grids the top-decile share is 22 /27 /31% and FC–error ρ is 0.61 /0.57 /0.54 (Appendix B.8). 40.0 0.2 0.4 0.6 0.8 1.0        
+
+> fraction of regions (hardest fi rst)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> cumulative share of error
+> uniform (no concentration)
+> SiT-XL/2 ( fl ow) —top 10%: 26%
+> DiT-XL/2 (di ff usion) —top 10%: 24%
+> ADM (U-Net, pixel) —top 10%: 26%
+
+Figure 2: The landscape is concentrated. Lorenz curves of per-region reference-solver discrepancy (cumulative error share vs. fraction of regions, hardest first) for the three external models; the dashed diagonal is uniform (no concentration). The top decile of regions carries 24 –26% of the error across models, 2.4–2.6× a uniform allocation, a moderate but reproducible concentration. 
+
+4.2 Stable 
+
+The landscape is a property of the model, stable against both the sampling budget and the training seed. Across cheap-solver budgets (NFE 6 vs. 10), the error map correlates at ρ = 0.88 (SiT) and 
+
+0.95 (ADM). Across full retraining with different seeds, testable only on our controlled models, maps correlate at ρ = 0.90 –0.96 , and across model capacities (9.8M →77M) at 0.87 –0.91 .
+
+4.3 Learned 
+
+An untrained model’s per-region FC map does not correlate with the trained model’s. Within-image map-vs-final ρ≈0 at initialization, rising to only ≈0.13 by 10 k steps. The FC map then sets in fast, reaching ρ≈0.84 by 50 k (an eighth of the budget) and the cross-seed ceiling ≈0.90 by 100 k, where it stays (controlled CIFAR model, Fig. 3). The reference-solver discrepancy map itself, not only the diagnostic that reads it, shows the same emergence: uninformative at initialization (cross-seed 
+
+ρ≈0.06 ) and rising to a cross-seed ceiling ρ≈0.85 by 100 –200 k. We call the landscape emergent, not absent at init, because the initialized map is uninformative about the final one, not because we can prove it nonexistent. What training fixes is the identity of the difficult regions, and that identity is not set by the architecture or the discretization alone. The frequency and edge controls of §4.5 point the same way. The landscape belongs to the learned dynamics and is not reducible to the low-level image statistics we test. 
+
+4.4 Predictable 
+
+FC computed from the model’s velocities along the reference trajectory predicts the per-region reference-solver discrepancy of a cheap solve: within-image ρ = 0.586 (SiT), 0.574 (DiT), 0.681 
+
+(ADM), 0.70 (CelebA-HQ), 0.60 (ImageNet FM-DiT). This is the paper’s central empirical claim, and every number is validated against a near-exact solve, not a proxy. It holds per image , not merely on average (Fig. 4). The within-image ρ has a median of 0.62 –0.73 across the external models, 
+
+above its mean, with only 0–5% of images falling below ρ = 0 , so FC is reliable for the typical 
+
+image and not carried by a few. Image-level bootstrap 95% CIs (resampling images, the correct inference unit given spatial autocorrelation) are [0 .54 , 0.62] (SiT) and [0 .63 , 0.71] (ADM). 
+
+4.5 What the landscape is not 
+
+Per-region image frequency and edge magnitude, the intuitive explanations and the signals region-adaptive methods actually deploy, do not explain it. In latent space, frequency and edges are un-correlated with error ( ρ = −0.03 /−0.13 , SiT) and partialling them out leaves FC’s prediction intact 5init 10k 30k 50k 100k 200k 400k 
+
+> training step
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> map agreement (within-image  ρ)
+
+A. The landscape emerges during training        
+
+> cross-seed ceiling (0.89)
+> FC map vs same-seed fi nal
+> FC map vs independent-seed fi nal
+> error map vs independent-seed fi nal
+> seed capacity solver
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> converged-map agreement ( ρ) 0.89 0.90 0.90
+
+B. Stable across seed, capacity, budget Figure 3: The difficulty landscape is learned and stable (controlled CIFAR model; early-complexity map; within-image Spearman on shared noise). (A) agreement between the map at training step t and a converged reference. Measured against an independently seeded run’s final map (orange, no self-correlation), the map is uninformative at initialization and rises to the cross-seed ceiling ρ≈0.90 (dashed), so the identity of the difficult regions is learned during training rather than present at init. The same-seed curve (grey) continues to 1.0 only through self-correlation. The error map itself (red, reference-solver discrepancy) emerges the same way, ρ 0.06 at initialization to 0.85 cross-seed, so the target and not just the signal is learned structure. (B) the converged map agrees at ρ≈0.90 across independent seeds, model capacities, and solver budgets. SiT-XL/2    
+
+> med 0.62
+> ρ< 0: 4%
+> DiT-XL/2
+> med 0.67
+> ρ< 0: 5%
+> ADM
+> med 0.73
+> ρ< 0: 0%
+> −0.4
+> −0.2
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> within-image Spearman  ρ(FC, error)
+
+Figure 4: FC predicts error for the typical image, not just on average. Per-image within-image Spearman ρ between FC and the per-region reference-solver discrepancy (violins; white bar = me-dian) for the three external models. Medians ( 0.62 –0.73 ) exceed the means and only 0–5% of images fall below ρ = 0 (dashed), so the aggregate is not carried by a few high-correlation images. 6(partial ρ = 0 .747 /0.761 ). In pixel space they correlate ( ≈0.51 , ADM), but FC beats and survives them ( 0.765 → 0.662 /0.679 partial). In a matched-budget selector comparison (controlled study; Appendix B), FC is the only signal that outperforms random selection. Edge, frequency, attention-entropy, and velocity-magnitude selectors do not. The FID-optimal selection is the reverse of the error-optimal one, so FC marks where a solve deviates numerically, not where correcting it most improves sample quality (Appendix B.3). We further reproduce the actual signals region-adaptive samplers use: the SDiT complexity of Lin et al. [2026] (edge/Laplacian/residual on the predicted clean image, Eq. 5) and RAS’s per-step output change. At a matched early observation window both score ρ ≲ 0.15 against FC’s 0.60 (n = 512 , SiT); the SDiT signal reaches FC’s level ( 0.58 )only through its residual term read at ∼90% of sampling, reactively, once most of the trajectory is already computed. FC’s advantage is therefore early predictivity, which these reactive signals do not provide. This scores the signals as early predictors of the final discrepancy, the use FC is built for; it is not a comparison of the RAS or SDiT samplers at their own reactive allocation task. Against numerical rather than perceptual alternatives, FC is representative of its family, not uniquely optimal, and we report this plainly. On a uniform fine grid the accumulated embedded Euler–Heun local-error estimate is, to leading order, h
+
+> 2
+
+P∥∆u∥, FC up to a constant, so the solver-native es-timator is equivalent rather than a separate baseline at either grid (the coarse-grid version is the cheap-trajectory signal of §5). Distinct variation statistics from the same record at the same win-dows (signed cumulative change ∥P ∆u∥, squared variation, max step, horizon-weighted variation; 
+
+n=96 per model, fresh seeds) land close to or somewhat above FC. At the early window the signed variant reaches ρ = 0 .73 against FC’s 0.65 on SiT and 0.75 against 0.73 on CelebA, and a horizon-weighted variant is the best full-window predictor on both. This is consistent with the transport account, since signs and remaining horizon govern how injected defects reach the endpoint (§6), while velocity magnitude stays far behind ( 0.19 –0.25 early). We keep FC as the reported diagnostic because it is the member the Euler bound grounds and the one the intervention of §7 penalizes. The family-level conclusion, that trajectory variation read early predicts where a cheap solve errs, does not depend on the choice (Appendix B.9). 
+
+## 5 When is difficulty readable? The prediction horizon 
+
+Sweeping the observation cutoff f (fraction of sampling elapsed) yields each model’s readability profile (Fig. 5). A predictive window exists in every model, and its location depends on the model, early for the flow model (SiT: ρ = 0 .44 at f = 0 .1, peaking 0.63 at f = 0 .4) and later for the diffusion models (ADM peaks 0.71 at f = 0 .6, DiT 0.60 at f = 0 .85 ). The window coincides with the measured error-determining window W ∗, the trajectory epoch whose acceleration corre-lates most strongly with the final per-region error (per-bin acceleration →final-error correlation: SiT strongest earliest, 0.55 ; ADM mid, 0.60 ; DiT mid/late, 0.51 ; Appendix A). The horizon and the error-determining epoch are thus the same measurement. Where error is predictable varies. That 
+
+it is predictable is what holds across every model. To be plain about what this buys: on DiT the window opens only after most of sampling has elapsed, which supports late-stage error accounting rather than early warning. The early-localization payoff below is a flow-model result. 
+
+Payoff: early error localization. On SiT, flagging the top-15% of regions by FC accumulated over the first 30% of sampling captures 27.9% of the final error, 82% of the oracle ceiling (34.2%) and 1.9× the random baseline. The signal is causal in time, seeing neither the rest of the trajectory nor the final error, but as reported it is accumulated on the fine reference grid. A deployed system has only the coarse trajectory it is integrating, so we also recompute FC from the NFE-6 Euler solve itself on held-out seeds. On an exploratory seed, within-image ρ reaches +0 .32 from the first two velocity evaluations and +0 .26 from all six, against +0 .58 for the early fine-grid signal on the same images. Because that prefix was chosen after seeing the results, we froze it and the metrics and ran a confirmatory seed: ρ = +0 .40 [0 .36 , 0.44] , and flagging the top-15% of regions by the two-evaluation cheap prefix captures 24 .5% [23 , 26] of the final error, versus an exact random share of 14 .8% and an oracle ceiling of 35 .2% . This is 70% of the raw oracle capture, or 47% of the improvement from random to oracle (Appendix B). Under the same frozen protocol the result replicates on our own CelebA-HQ-256 model (capture 26 .2% [25 , 28] , ρ = +0 .46 ). The cheap-trajectory signal is weaker than the fine-grid one, but it localizes error from the first third of a six-step solve, on both models tested. 70.2 0.4 0.6 0.8 1.0   
+
+> observation cutoff f(fraction of sampling elapsed)
+> 0.0
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> ρ(FC [0,  f], final per-region error)
+> online
+> (fi rst 10%)
+> Prediction horizon: a predictive window exists in every model
+> SiT-XL ( fl ow)
+> ADM (di ff usion, pixel)
+> DiT-XL (di ff usion, latent)
+
+Figure 5: Prediction horizon. Within-image correlation between early-window FC (observed up to cutoff f ) and the final per-region integration error, for SiT (flow), ADM (diffusion, pixel), and DiT (diffusion, latent). Every model exposes a predictive window (open circles mark each peak); its location depends on the model, early for the flow model (already ρ = 0 .44 at f = 0 .1) and later for the diffusion models. Where error is predictable varies. That it is predictable is what holds across every model. 
+
+## 6 Spatial transport of integration error 
+
+Difficulty has so far been local: a per-region signal for a per-region error. Proposition 1 says that cannot be the whole story. The final per-region error ei(T ) ≈ P
+
+> k
+
+P 
+
+> j
+
+Φij (T, t k) τ (j) 
+
+> k
+
+(to first order; nonlinear remainders enter at higher order) sums the truncation τ (j) 
+
+> k
+
+injected at each region 
+
+j (its magnitude tracked by FC j ) after the state-transition operator Φ has moved it around. The theory leaves Φ abstract. We do not recover the operator itself; we probe the directional source-to-destination influence it induces (through the endpoint Jacobian), ask how far injected error travels, and then rebuild ei from its parts to see how much of a region’s final error is its own and how much arrives from elsewhere. 
+
+Perturbation protocol. At trajectory time t∗ we perturb source region j by a fixed-norm vector 
+
+zj supported on region j (∥zj ∥ = ε), integrate both ± perturbed states to the data endpoint with the same near-exact solver, and read the endpoint response per region by central difference, 
+
+Mij (t∗) = ∥Pi (x j, + 
+
+> T
+
+− x j, − 
+
+> T
+
+)∥
+
+2ε ≈ ∥Φij (T, t ∗) zj ∥∥zj ∥ ,
+
+a norm-valued regional transport kernel. Everything is measured in the model’s own state space, latent for the flow transformers and pixel for the U-Net, so dynamical coupling is never con-founded with a decoder’s receptive field. We summarize M by the self-retained response Rself =
+
+Mjj / P 
+
+> i
+
+Mij , the share of the summed regional response magnitude that stays in the source re-gion. It is a dispersion index, not a conserved mass. We report image-level medians with bootstrap 
+
+95% CIs (SiT n=32 , CelebA n=48 , ADM n=16 ). An orthogonally additive energy split gives the same picture with more weight on the source: near noise the source region retains 0.10 –0.40 of the response energy, while the whole response spans 9–43 effective regions (Appendix B.10). 
+
+A local disturbance spreads. On every model, a perturbation confined to one region influences distant endpoint regions. Near the noise end almost none of the response stays home. The self-retained fraction is 0.05 (SiT), 0.07 (CelebA), 0.03 (ADM), at a radius of 0.74 –0.85 of the fully-delocalized ceiling (Fig. 7A). ADM, a pixel-space convolutional U-Net with no VAE and an archi-tecture entirely unlike the latent transformers, delocalizes as strongly, so the effect is not an artifact of latent patchification or of the transformer backbone. On our own model the transport is absent at initialization (self-retained 1.0, a near-identity flow) and emerges during training, strengthening 8from 0.31 at 10 k steps to 0.23 at 100 k, so the architecture alone does not produce it. Refining the reference solver leaves the map essentially unchanged (rank correlation 1.00 on SiT, 0.97 on ADM), the response is linear in ε across a factor of four in perturbation scale, and it holds across solver families. 
+
+Endpoint influence contracts toward data, but only because the horizon shrinks. As t∗ ap-proaches the data end, Rself rises steeply (to 0.63 SiT, 0.51 CelebA, 0.15 ADM), so endpoint influ-ence looks progressively more local. It is tempting to read this as the dynamics becoming local near data. A matched-horizon control shows they do not. Rolling out a fixed trajectory fraction ( ∆ = 0 .1)from every t∗, rather than all the way to T , flattens or reverses the trend on all three models ( Rself 
+
+from noise to data: CelebA 0.70 to 0.62 , SiT 0.66 to 0.59 , ADM 0.94 to 0.74 ; Fig. 7B). The local-ization in (A) is the shrinking remaining horizon, not an intrinsic tightening of the per-step coupling, which if anything strengthens toward data. Endpoint influence contracts along the trajectory, but the matched short-horizon influence does not. 
+
+The perturbation direction barely matters (flow models). Because M uses a chosen direction, we check it against the geometry of true truncation error. Perturbing along the local acceleration, the leading-order truncation direction, gives a transport map that agrees with the random-direction map at the reproducibility floor (rank correlation 0.81 , essentially the random-versus-random value; SiT, n=26 ). Generic perturbations therefore produce regional influence rankings similar to those of actual truncation residuals, on the tested flow models. On the diffusion U-Net the same control is noisier and its confidence interval overlaps the floor, so we make this claim only for the flow models. 
+
+Rebuilding a region’s error from its sources. A decomposition is only worth the name if it holds quantitatively. This is a post-hoc mechanistic account, not a deployable predictor like FC. It uses the actual truncation residuals and the model’s own Jacobian, so the question is not whether it predicts error but whether the first-order source-and-transport account closes. On our own mod-els, where every source is accessible, we take the actual signed per-step truncation τk, the Euler step minus the accurate step evaluated at the reference state, propagate each region’s share of it to the endpoint through the model’s own linearized dynamics, and add the contributions back up. The reconstruction matches the direction of the true endpoint error at cosine 0.81 on our uncondi-tional CelebA model and 0.87 on a class-conditional ImageNet-256 model, and recovers its overall magnitude too (norm ratio 0.98 and 1.01 ; Fig. 6A). Without propagating the residuals these fall to 
+
+0.71 and 0.77 . Signed residual accumulation already captures much of the endpoint direction, and propagation through the learned dynamics adds a substantial, consistent increment on both. The increment is not a coarse-grid artifact. As the cheap step shrinks, the unpropagated sum degrades (cosine 0.81 to 0.53 across NFE 4 to 16 ) while the transported reconstruction holds, so propaga-tion matters more exactly where first-order theory says it should (Appendix A.2). Split by region, a region’s own injected error, propagated to the endpoint and read back where it started, explains only part of that region’s final error (within-image ρ ≈ 0.33 on ImageNet, 0.42 on CelebA). What arrives from other regions is more strongly associated with a region’s final error, at within-image partial rank correlation ≈ 0.66 –0.69 (median over images; CelebA n=32 , ImageNet n=24 ) once its own injection is controlled for. Regional rank statistics are evaluated on 64 strided destinations out of the 256 regions. The full source-summed reconstruction reaches within-image ρ ≈ 0.80 and 
+
+0.82 against the actual per-region error (Fig. 6B). This depends on more than the magnitudes of the incoming contributions: preserving every contribution’s norm while randomizing their relative signs substantially reduces the reconstruction (within-image ρ 0.27 –0.39 , no better than a region’s own injection, versus ρ 0.56 –0.74 for the correctly-signed sum; Appendix A.2). The correct signed superposition of the propagated residuals therefore carries information beyond how much energy reaches each region. A family of operator nulls, protocol frozen before evaluation and run on the 
+
+64 -source protocol below (whose full reconstruction is ρ 0.74 /0.56 ; the all-source full-field number above is 0.80 /0.82 ), sharpens what carries the closure (Appendix A.2). Reassigning each source’s contributions among destinations, keeping every block’s content, norms, and signs, destroys the re-construction outright ( ρ = 0 .00 on both models, below even the sign null). Injecting the residuals at shuffled step times degrades it ( 0.74 to 0.59 on CelebA, 0.56 to 0.26 on ImageNet), while prop-agating them through another image’s dynamics costs less ( 0.59 and 0.49 ). Where a contribution lands is the most load-bearing ingredient of the accounting, and the operator’s spatial structure is partly shared across images of the same model, which matches the landscape being learned model-level structure (§4.3). We claim correspondence and sign specificity, not image specificity. This 9CelebA ImageNet-256           
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> cosine(reconstruction, actual)
+> 0.71
+> 0.81 0.77
+> 0.87
+> A. Endpoint error vector, reconstructed
+> no propagation ( ∑
+> k
+> τk)
+> transported ( ∑
+> k
+> Φτk)
+> CelebA
+> (n= 32)
+> ImageNet-256
+> (n= 24)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> within-image  ρ vs actual per-region error
+> 0.42
+> 0.66
+> 0.80
+> 0.33
+> 0.69
+> 0.82
+> B. Per-region error: own vs transported-in
+> own injection (diagonal)
+> transported-in (partial | diag)
+> full (all sources)
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> within-image ρvs actual per-region error
+> full (true operator)
+> cross-image dynamics
+> time-shu ffl ed
+> sign-randomized
+> diagonal only
+> destination-permuted
+> 0.74
+> 0.59
+> 0.59
+> 0.39
+> 0.32
+> 0.00
+> 0.56
+> 0.49
+> 0.26
+> 0.27
+> 0.30
+> 0.00
+> C. What destroys the accounting
+> CelebA
+> ImageNet-256
+
+Figure 6: Reconstructing endpoint error from signed truncation residuals (our own 256 px mod-els; post-hoc, using the true residuals and the model’s Jacobian). (A) the endpoint error vector , re-built by summing the residuals with vs. without propagation through the linearized dynamics: propa-gation lifts the cosine from 0.71 /0.77 to 0.81 /0.87 . (B) per-region error, within-image ρ against the actual per-region error: a region’s own injected error (diagonal) explains only part ( ρ ≈ 0.33 –0.42 ), the error transported in from other regions is more strongly associated with it (partial ρ ≈ 0.66 –0.69 
+
+given the diagonal), and the full source-summed reconstruction tracks it closely ( ρ ≈ 0.80 /0.82 ). 
+
+(C) the operator-null ladder, protocol frozen before evaluation ( n=16 per model; 15 cross-image pairs): scrambling where each source’s contributions land, with content, norms, and signs intact, an-nihilates the reconstruction on both models. Sign randomization more than halves it. Shuffled step timing and another image’s dynamics cost less, so the operator’s spatial structure is partly shared across images. Correspondence carries the accounting. 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9              
+
+> fraction of trajectory elapsed (noise →data)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> self-retained response  Mjj /∑
+> i
+> Mij
+> A. To endpoint: in fl uence localizes toward data
+> CelebA DiT ( fl ow, latent)
+> SiT-XL ( fl ow, latent)
+> ADM (di ff usion, pixel)
+> 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9
+> fraction of trajectory elapsed (noise →data)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> self-retained response
+> B. Matched horizon ( Δ=0.1): trend flattens
+> CelebA SiT-XL
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> transport-map rank correlation
+> C. Transport is direction-insensitive
+> random vs random ( fl oor)
+> random vs truncation-aligned
+
+Figure 7: Integration error is spatially transported; its apparent temporal localization is a hori-zon effect. A region is perturbed at trajectory time t∗ and the endpoint response is read per region. 
+
+(A) to the endpoint, the self-retained response rises toward data on a flow transformer (SiT-XL), a diffusion U-Net (ADM, pixel), and our own model. (B) under a matched rollout horizon ( ∆ = 0 .1)the trend flattens or reverses, so the localization in (A) is horizon-driven. (C) on the flow models, the truncation-aligned transport map matches the random-direction map at the reproducibility floor. Bands in (A, B) are bootstrap 95% CIs of the image-level median; (C) shows the 2.5–97 .5th per-centile interval over pairs. The endpoint profiles in (A) use SiT n=32 , CelebA n=48 , ADM n=16 ;the horizon control (B) and direction control (C) use n=8 . The map survives solver refinement (rank correlation ≥ 0.97 ). is the concrete form of “injected locally, transported nonlocally,” and it is why FC , a purely local magnitude, tracks final error only in part. 
+
+Scope. The reconstruction and decomposition run on our own two models. On the large external models we establish the transport measurement, cross-architecture and solver-verified, but not the reconstruction. Transport is a statement about the dynamics. Whether a local training penalty is therefore suboptimal turns on optimization-space coupling we do not measure. 10 7 Intervening on Flow Complexity 
+
+Objective. We add a penalty on the model’s own local velocity variation (Flow Complexity Mini-mization, FCM): 
+
+L = LFM + λ vθ
+
+ xt + ∆ teff ¯v, t + ∆ t − vθ (xt, t ) 2, (3) where ¯v is the detached current velocity (a self-guided Euler lookahead), ∆teff handles the time boundary per sample, and for conditional training both evaluations share one classifier-free-guidance drop mask, so the penalty measures trajectory change and not conditioning change. Cost: one additional forward evaluation per step ( ≈2× step time at equal batch; no additional parameters, no teacher, no reflow stage). λ = 0 .3 throughout (selected by a controlled sweep; larger λ over-straightens and taxes the high-NFE ceiling). 
+
+Framing, and relation to concurrent work. We use a finite-difference FC regularizer as our intervention, a controlled test of whether reducing the diagnosed quantity changes few-step integra-bility and sample quality. Concurrent Iso-FM [Khan, 2026] independently studies a related global acceleration penalty. Our contribution is not the penalty in isolation but the spatial characterization and its mechanistic validation. Here we establish the intervention’s effect on the spatial structure 
+
+identified in §4, at 256px and ImageNet scale. FCM reduces measured FC, the basic mechanism check. It cuts reference-solver discrepancy by 57–65% at fixed budget. The relative error reduc-tion rises with baseline difficulty percentile, from −58% in the easy half to −72% at the 90–95th percentile (Fig. 9), so it is largest in the regions §4 flags as difficult, though regression to the mean contributes. And the top-decile error share falls ( 26 .9% → 22 .9% ), so the tail is compressed, not merely shifted. 
+
+## 8 Results: from-scratch training at 256px 
+
+FCM here is a construct-validity intervention, not a proposed sampler or a compute-efficient training method. It asks whether the numerical structure we measured can be moved by training: it lowers FC and reference-solver discrepancy and improves few-step FID at matched optimization steps, but it does not win at matched training compute on ImageNet (below). Read the FID numbers in that light; the full tables, λ-sweep, seed variance, and compute ladders are in Appendix B. 
+
+Protocol. Paired arms (baseline vs. FCM) trained from scratch in lockstep: identical architecture, data order, noise, timesteps, and conditioning masks, differing only by the FCM gradient, at matched optimization steps and data exposure. This is not matched training compute: FCM adds one forward per step (measured 1.9× step time), which is why the compute-matched comparisons below carry the verdict. Compact single-GPU models (33–77M) at these schedules do not target leaderboard FID; we report paired deltas and state absolute numbers plainly (Appendix B). 
+
+Matched optimization steps. On class-conditional ImageNet-256 (70M FM-DiT, 100k steps), FC falls 5.3% , integration error 57% , and FID improves at every budget, most in the few-step regime (131 .2 → 121 .7 at NFE 6, −7.3% ; Table 3, Appendix B.7), persisting under stronger guidance (cfg 
+
+= 1 .5: −8.7% to −3.2% ). On unconditional CelebA-HQ-256 (33M), integration error falls 65% 
+
+and FID improves at every budget ( 40 .0 → 30 .1 at NFE 6), with no diversity loss on same-noise grids (Fig. 8). A convergence test specified in advance trains both arms to 4× the schedule; the step-matched NFE-6 delta grows from 4.4% to 11 .4% rather than vanishing, so the gain is not an undertraining artifact (Appendix B.7). 
+
+Matched training compute, the stricter test. On CelebA we match forward-equivalent compute (FCM at S steps against the baseline at 2S, which favors the baseline) and FCM still wins the few-step regime ( 34 .7 vs. 41 .3 at NFE 6, larger gaps on the integration error it targets directly). At ImageNet scale the advantage does not survive the correction: the baseline at 200 k steps, already more compute than FCM at 100 k, reaches NFE-6 FID 118 .7 against 124 .6, with a larger margin at NFE 10 and 16 . Following the advance-specified rule we report FCM on ImageNet as a mechanism with better progress per update, though not per unit of training compute, and we do not claim the compute-matched few-step win as a general property. It holds at CelebA scale and not at ImageNet scale (full ladders in Appendix B.7). 11 6 8 10 12 16     
+
+> NFE (sampling budget)
+> 100
+> 105
+> 110
+> 115
+> 120
+> 125
+> 130
+> FID (50k samples)
+> ImageNet-256 (class-cond. 70M FM-DiT)
+> baseline
+> FCM ( λ=0.3)
+> 6810 12 16
+> NFE (sampling budget)
+> 15
+> 20
+> 25
+> 30
+> 35
+> 40
+> FID (50k samples)
+> CelebA-HQ-256 (uncond. 33M FM-DiT)
+> baseline
+> FCM ( λ=0.3)
+
+Figure 8: Minimizing Flow Complexity improves few-step FID at matched optimization steps (256px). FID (50k samples, cfg = 1 .0) vs. sampling budget (NFE), baseline vs. FCM ( λ = 0 .3), trained from scratch in lockstep on class-conditional ImageNet-256 (left) and CelebA-HQ-256 (right). The gain is largest in the few-step regime and present at every NFE we test, with no high-NFE cost. The compute-matched verdict differs by scale (see text). 
+
+## 9 Limitations and scope 
+
+FCM is studied as a from-scratch training objective ; other training regimes (e.g., adapting already-converged models) are outside our claims. Training variance. The 256px intervention arms are a single training run per cell; the 50k-sample FID and the image-level bootstrap intervals we report bound evaluation noise, not training-run variance. On the controlled 32 × 32 model, where replica-tion is affordable, we train three independently seeded paired runs (baseline vs. FCM, matched seed and data order, 50 k steps each). The few-step improvement holds across seeds. The paired ∆FID at NFE 6 is +6 .97 ± 3.26 with all three seeds favoring FCM, and +2 .87 ± 2.34 at NFE 8 (again all three). By NFE 10 –16 the paired delta falls within seed noise, consistent with the controlled-model gain being a few-step effect (Appendix B.6; matching the λ-sweep, where the 32 × 32 gain also concentrates at low NFE). The 256px intervention results are therefore paired controlled evidence, not a variance-resolved performance comparison. The controlled-model replication and consistency across three datasets make a single-run fluke unlikely. Compute. FCM adds one forward per step (measured 1.9× step time); our deltas are at matched optimization steps and data exposure, not matched training compute, and the E4 study tests persistence as the baseline is trained to 4× the steps. Our from-scratch models are compact and short-scheduled relative to leaderboard systems: paired deltas are the claim, not absolute state-of-the-art quality. What the metric is. Our tar-get is per-region solver discrepancy (cheap vs. near-exact integration), not perceptual importance. Correcting high-FC regions reduces pixel or latent error, which need not coincide with perceptual salience. The FC →error coupling is monotone but not proportional, so we claim integrability im-provement, not proportionality. The prediction horizon’s location varies by model, and we claim its existence and a protocol to measure it, not universality of “early”. The “error reduction concentrates on hard regions” claim is reported per fixed FC-decile and is subject to regression-to-the-mean, so we treat it as descriptive of where gains appear, not as an independent effect. The 32 × 32 ablations predate a minor penalty-implementation refinement (shared conditioning masks) that all 256px runs include. 
+
+## 10 Conclusion 
+
+Numerical difficulty in learned generative flows is an identifiable spatial property: concentrated, stable, learned, and predictable from the model’s own velocity or prediction field via Flow Com-plexity, a diagnostic of the local truncation the Euler residual injects. But difficulty does not stay where it is injected. A perturbation analysis shows the learned dynamics spread a local state distur-bance across regions, and a signed-residual reconstruction shows actual discretization defects take the same pathway, so final regional error is local injection redistributed by propagation, which is why a local signal predicts it only in part. Reading the landscape localizes error early, before a 12 sample is finished. Computed from the coarse solve alone the signal weakens ( ρ 0.62 to 0.40 ) yet protocol-frozen confirmatory tests on two models still find it flagging regions that hold about a quar-ter of the final error against an exact random share of 14 .8% . A supporting intervention that reduces FC also reduces reference-solver discrepancy, with its compute-adjusted effect on sample quality evaluated separately (§8). We expect this account of where error is injected and how it spreads to inform future decisions, from per-sample step budgets to distillation targets, though we have not shown the coarse-solve signal is strong enough to drive them. The online signal may support numer-ical confidence estimation or adaptive solver diagnostics, but its relationship to perceptual quality remains unresolved. 
+
+## References 
+
+Michael S. Albergo and Eric Vanden-Eijnden. Building normalizing flows with stochastic inter-polants. In International Conference on Learning Representations (ICLR) , 2023. Brian Chao, Lior Yariv, Howard Xiao, and Gordon Wetzstein. Foveated diffusion: Efficient spatially adaptive image and video generation. arXiv preprint arXiv:2603.23491 , 2026. Prafulla Dhariwal and Alexander Nichol. Diffusion models beat gans on image synthesis. In Ad-vances in Neural Information Processing Systems (NeurIPS) , 2021. Ernst Hairer, Syvert P. Nørsett, and Gerhard Wanner. Solving Ordinary Differential Equations I: Nonstiff Problems . Springer, 2nd edition, 1993. Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffusion probabilistic models. In Advances in Neural Information Processing Systems (NeurIPS) , 2020. Wongi Jeong, Kyungryeol Lee, Hoigi Seo, and Se Young Chun. Training-free mixed-resolution latent upsampling for spatially accelerated diffusion transformers. arXiv preprint arXiv:2507.08422 , 2025. Tero Karras, Miika Aittala, Timo Aila, and Samuli Laine. Elucidating the design space of diffusion-based generative models. In Advances in Neural Information Processing Systems (NeurIPS) ,2022. Tauhid Khan. Isokinetic flow matching for pathwise straightening of generative flows. arXiv preprint arXiv:2604.04491 , 2026. Sangyun Lee, Beomsu Kim, and Jong Chul Ye. Minimizing trajectory curvature of ode-based generative models. In International Conference on Machine Learning (ICML) , 2023. arXiv:2301.12003. Bowen Lin, Fanjiang Ye, Yihua Liu, Zhenghui Guo, Boyuan Zhang, Weijian Zheng, Yufan Xu, Tiancheng Xing, Yuke Wang, and Chengming Zhang. Sdit: Semantic region-adaptive for diffu-sion transformers. arXiv preprint arXiv:2601.12283 , 2026. arXiv:2601.12283. Yaron Lipman, Ricky T. Q. Chen, Heli Ben-Hamu, Maximilian Nickel, and Matt Le. Flow matching for generative modeling. In International Conference on Learning Representations (ICLR) , 2023. Xingchao Liu, Chengyue Gong, and Qiang Liu. Flow straight and fast: Learning to generate and transfer data with rectified flow. In International Conference on Learning Representations (ICLR) ,2023. Ziming Liu, Yifan Yang, Chengruidong Zhang, Yiqi Zhang, Lili Qiu, Yang You, and Yuqing Yang. Region-adaptive sampling for diffusion transformers. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2026. arXiv:2502.10389. Yan Luo, Drake Du, Hao Huang, Yi Fang, and Mengyu Wang. Curveflow: Curvature-guided flow matching for image generation. arXiv preprint arXiv:2508.15093 , 2025. Nanye Ma, Mark Goldstein, Michael S. Albergo, Nicholas M. Boffi, Eric Vanden-Eijnden, and Saining Xie. Sit: Exploring flow and diffusion-based generative models with scalable interpolant transformers. In European Conference on Computer Vision (ECCV) , 2024. arXiv:2401.08740. William Peebles and Saining Xie. Scalable diffusion models with transformers. In IEEE/CVF International Conference on Computer Vision (ICCV) , 2023. Tim Salimans and Jonathan Ho. Progressive distillation for fast sampling of diffusion models. In 
+
+International Conference on Learning Representations (ICLR) , 2022. 13 Jiaming Song, Chenlin Meng, and Stefano Ermon. Denoising diffusion implicit models. In Interna-tional Conference on Learning Representations (ICLR) , 2021a. Yang Song, Jascha Sohl-Dickstein, Diederik P. Kingma, Abhishek Kumar, Stefano Ermon, and Ben Poole. Score-based generative modeling through stochastic differential equations. In Interna-tional Conference on Learning Representations (ICLR) , 2021b. Yang Song, Prafulla Dhariwal, Mark Chen, and Ilya Sutskever. Consistency models. In International Conference on Machine Learning (ICML) , 2023. Ling Yang, Zixiang Zhang, Zhilong Zhang, Xingchao Liu, Minkai Xu, Wentao Zhang, Chenlin Meng, Stefano Ermon, and Bin Cui. Consistency flow matching: Defining straight flows with velocity consistency. arXiv preprint arXiv:2407.02398 , 2024. 
+
+## A Proof and reconstruction details 
+
+A.1 Formal statement and proof of Proposition 1 (magnitude bound) Formal statement. Let Di := R 
+
+> W
+
+∥ai(t)∥ dt = lim FC( i) be region i’s accumulated acceleration, and let Φ( T, t ) be the state-transition operator of J = ∇xu with region sub-blocks Φij (the varia-tional linearization along the trajectory; nonlinear remainders enter the O(H2) terms). With u ∈ C2
+
+on W with bounded first and second derivatives ( L-Lipschitz, so trajectories are C3 in t and the Euler remainder is genuinely O(H3) per step), explicit Euler steps of size H, and W = [ t0, T ] the full integration interval, 
+
+∥ei(T )∥ ≤ H
+
+> 2
+
+X
+
+> j
+
+cij Dj + O(H2), ∥e(T )∥ ≤ eL|W | H
+
+> 2
+
+X
+
+> j
+
+Dj + O(H2),
+
+where cij := sup t∈W ∥Φij (T, t )∥ ≤ eL|W |; block-local coupling ( cij ≈ 0 for j̸ = i) reduces the first bound to ∥ei(T )∥ ≤ eL|W | H 
+
+> 2
+
+Di + O(H2). The directional-cancellation failure mode of §3 is the gap in ∥P 
+
+> t∈W
+
+∆ui∥ ≤ P 
+
+> t∈W
+
+∥∆ui∥ = FC( i), with equality only for co-directional changes. Euler recursion with step H: ek+1 = ( I + HJ k)ek + τk with J = ∇xu and local truncation ∥τk∥ ≤ H2 
+
+> 2
+
+∥a(tk)∥ + O(H3). Unrolling to leading order, e(T ) ≈ P 
+
+> k
+
+Φ( T, t k) τk (the variational linearization; nonlinear remainders enter at higher order) where Φ is the state-transition operator of J; Gr¨ onwall gives ∥Φ∥ ≤ eL|W | for L-Lipschitz u, and P 
+
+> k
+
+H∥a(tk)∥ → R 
+
+> W
+
+∥a∥ dt .Summing over k gives the full-state bound ∥e(T )∥ ≤ eL|W | H
+
+> 2
+
+P 
+
+> j
+
+Dj + O(H2). For a single region, split each step’s truncation by region, τk = P 
+
+> j
+
+τ (j) 
+
+> k
+
+with ∥τ (j) 
+
+> k
+
+∥ ≤ H2 
+
+> 2
+
+∥aj (tk)∥; then 
+
+ei(T ) = P
+
+> k
+
+P 
+
+> j
+
+Φij (T, t k) τ (j) 
+
+> k
+
+, and taking norms with cij := sup t∥Φij (T, t )∥ gives ∥ei(T )∥ ≤ 
+
+> H
+> 2
+
+P 
+
+> j
+
+cij Dj + O(H2). The clean per-region form ∥ei(T )∥ ≤ eL|W | H 
+
+> 2
+
+Di holds only under block-local coupling ( cij ≈ 0, j̸ = i). In general FC i controls region i’s locally injected truncation, which Φ redistributes across regions. This redistribution, together with the directional cancellation below, is exactly why the per-region final -error ranking is established empirically (§4.4), not derived here. 
+
+What this does not give. A bound is not a ranking: a region A with bound 100/actual error 2 vs. a region B with bound 50/actual error 40 has FC rank A > B but true rank B > A . “ FC predicts the per-region error ranking” is therefore an empirical result (§4.4), motivated by Proposition 1 but not derived from it. Likewise the theory cannot derive ρ values; the decomposition below bounds how much ranking a residual of a given size can scramble, but it neither derives the residual’s size nor the measured correlations. 
+
+A.2 Mechanistic reconstruction: definitions and algorithm 
+
+Proposition 1 gives, to leading order, e(T ) = P 
+
+> k
+
+Φ( T, t k+1 ) τk (dropping higher-order defect in-teractions). We test this first-order reconstruction directly on our own models, where the full state is accessible. This is a post-hoc account, not a deployable predictor: it uses the actual residuals and the model’s own dynamics. 14 Reference trajectory and residuals. Fix noise x1. The reference states xref  
+
+> k
+
+at the cheap grid-points tk (k = 0 , . . . , K ) are read from a near-exact Heun solve on the fine grid ( K · M steps, 
+
+K ·M ≈ 200 ). The signed per-step truncation is the teacher-forced one-step defect evaluated at the reference state ,
+
+τk =  xref  
+
+> k
+
++ Hk u(xref  
+
+> k
+
+, t k) − xref 
+
+> k+1
+
+, Hk = tk+1 − tk, (4) the explicit-Euler step from xref  
+
+> k
+
+minus the accurate next reference state. The endpoint target is the actual cheap-solve error e = xEuler  
+
+> T
+
+− xref  
+
+> T
+
+(same sign as τk, so a faithful reconstruction has positive cosine). 
+
+Tangent propagation. Φ( T, t k+1 ) τk is the directional derivative of the near-exact endpoint map 
+
+Stk+1 →T (Heun to data) along τk, estimated by a central finite difference at the reference state, 
+
+ck = Stk+1 →T (xref  
+
+> k+1
+
++ ετ k) − Stk+1 →T (xref  
+
+> k+1
+
+− ετ k)2ε , ε = 0 .05 , (5) in the verified linear-response regime (the response is linear in ε across a factor of four; §6). This re-linearizes along the reference path at each k rather than composing one global Jacobian. The full-state reconstruction is ˆe = P 
+
+> k
+
+ck; the no-propagation baseline is ˆe0 = P 
+
+> k
+
+τk (residuals summed without transport). We report the vector cosines cos(ˆ e, e ) and cos(ˆ e0, e ) and the relative error 
+
+∥ˆe−e∥/∥e∥, reconstructing the vector and only then taking norms, never norm-then-sum. The prop-agated reconstruction reaches median cosine 0.81 (CelebA, n=32 ; bootstrap 95% CI [0 .75 , 0.85] )and 0.87 (ImageNet, n=32 ; [0 .82 , 0.91] ), against 0.71 and 0.77 without propagation, at norm ratio 
+
+∥ˆe∥/∥e∥ = 0 .98 and 1.03 (overall magnitude recovered, not only direction) and median relative error 0.65 and 0.50 .
+
+Regional decomposition. With Pi the projection onto region i, the source-j contribution prop-agates the region-restricted residual Pj τk: the diagonal gi = P 
+
+> k
+
+Pi c(i) 
+
+> k
+
+(where c(i) 
+
+> k
+
+is the central difference along Piτk, i.e. region i’s own injection read back at its source) and the transported-in part ri = Pi ˆe − gi. Against the actual per-region error ∥Pie∥2 we compare, in increasing infor-mation, FC i, the local signed residual ∥P 
+
+> k
+
+Piτk∥2, the diagonal ∥gi∥2, and the full ∥Pi ˆe∥2, and report the partial rank correlation ρ ri, ∥Pie∥2 | diagonal  over 64 strided source regions. The within-image median ρ against ∥Pie∥2 rises with the information used: FC i 0.66 /0.55 , unsigned residual P
+
+> k
+
+∥Piτk∥ 0.69 /0.58 , signed residual 0.63 /0.56 , diagonal 0.42 /0.33 , and full 0.80 /0.82 
+
+(CelebA n=32 / ImageNet n=24 ; image-level bootstrap 95% CI on the full term [0 .74 , 0.85] and 
+
+[0 .74 , 0.87] ). A region’s own injection propagated back to itself is the weakest of these, and only all-source transport closes the reconstruction. Because ri is built from the true residuals and the model’s Jacobian, the non-circular content is the contrast between the diagonal ( ρ ≈ 0.33 –0.42 )and off-diagonal (partial ρ ≈ 0.66 –0.69 , CIs [0 .61 , 0.79] and [0 .63 , 0.77] ) terms, not the full recon-struction’s association with e.
+
+Source-count and structure controls. To rule out that the off-diagonal simply beats the diag-onal by aggregating more terms, we accumulate each source’s full propagated response Cj and reconstruct region i’s error from subsets of sources ( n=16 per model). The within-image median 
+
+ρ climbs with the number of off-diagonal sources included, from the diagonal alone ( ρ=0 .32 /0.30 ,CelebA/ImageNet) to all 63 (0.74 /0.56 ), so the reconstruction is carried by many sources, not a few. The decisive control is a sign-randomizing null: it keeps every block norm ∥PiCj ∥ exactly ,and hence the incoherent budget P 
+
+> j
+
+∥PiCj ∥2 at each destination, and randomizes only the rela-tive signs, destroying the signed coherence of the superposition. It reconstructs error at ρ=0 .39 [0 .22 , 0.46] (CelebA) and 0.27 [0 .17 , 0.43] (ImageNet), comparable to the diagonal ( 0.32 /0.30 ) and well below the correctly-signed transport ( 0.74 /0.56 ). So the correct signed superposition of the propagated residuals carries information beyond the magnitudes of the incoming contributions; the reconstruction cannot be reproduced from the incoherent budget alone. The null isolates signed co-herence rather than the learned Jacobian as such, since each Cj combines the true residual with its propagation. An unconstrained matched-global -norm random field gives ρ≈0 (−0.02 /−0.05 ), but it spreads energy nearly uniformly across destinations and therefore does not preserve the incoming-energy budget; we report the sign-preserving null as the honest control. 15 Operator-null family (protocol frozen before evaluation). Three further nulls probe the struc-ture of the propagated contributions, with the protocol and decision rule frozen before the runs (n=16 per model, the source-count protocol above; this rerun reproduces the committed medians). Because each Cj combines residual content with its propagation, these nulls test the structure of the propagated contributions, not the learned Jacobian in isolation. (1) Destination permutation : each source j’s per-destination blocks {PiCj } are randomly reassigned among the 64 evaluated destina-tions, preserving every block’s content, norm, and sign and destroying only the source →destination correspondence. The reconstruction collapses to ρ = 0 .004 [ −0.011 , 0.018] (CelebA) and 0.005 [−0.006 , 0.020] (ImageNet), below even the sign null, so the destination correspondence of the propagated contributions is the single most load-bearing ingredient. (2) Time-shuffled propaga-tion : each step’s residual is injected at a deranged step slot on the same trajectory; ρ falls to 0.59 [0 .36 , 0.69] on CelebA and 0.26 [0 .15 , 0.33] on ImageNet. (3) Cross-image dynamics : one image’s residuals propagated through another image’s trajectory, scored against the first image’s error ( 15 
+
+pairs per model); ρ = 0 .59 [0 .36 , 0.73] and 0.49 [0 .24 , 0.59] . Under the frozen rule (the full recon-struction’s median must exceed every null’s upper CI on both models), correspondence, sign, and timing specificity hold on both models (timing narrowly on CelebA), while cross-image dynamics remains within CI of the full reconstruction on ImageNet, so we do not claim image specificity. Because every null is measured on the same images as the full reconstruction, paired differences are the sharper statistic (median per-image ∆ρ = ρfull − ρnull , image-level bootstrap; for cross-image dynamics the prediction in pair i concerns image i−1’s error, so it is paired with image i−1’s full re-construction): destination permutation +0 .72 [0 .61 , 0.83] / +0 .54 [0 .47 , 0.69] (CelebA/ImageNet), sign +0 .27 [0 .20 , 0.44] / +0 .28 [0 .18 , 0.39] , time shuffle +0 .16 [0 .10 , 0.20] / +0 .29 [0 .12 , 0.62] ,cross-image +0 .18 [0 .08 , 0.29] / +0 .12 [ −0.01 , 0.23] . The paired analysis agrees with the frozen rule and adds one nuance: image specificity is supported on CelebA but not on ImageNet, so we do not claim it across models. Wrong-image transport retains substantial signal on both models, and wrong-time transport retains it on CelebA while falling to the diagonal’s level on ImageNet, so how much of the operator’s spatial structure is stationary and shared across images is itself model-dependent. Artifacts: results/recon/opnulls {celeba,imagenet }.json .
+
+Region-scale robustness (fixed source budget). We recompute the decomposition on CelebA at three region grids ( 32 ×32 , 16 ×16 , 8×8), in each case decomposing over the same 64 strided sources. At every scale the full reconstruction beats the diagonal (full ρ 0.26 /0.74 /0.87 , diagonal 
+
+0.12 /0.32 /0.68 ; vector cosine 0.51 /0.66 /0.74 ), so signed all-source transport adds over own injection at every grid (the sign-preserving null above is measured at the 16 ×16 grid). The absolute correla-tions rise from fine to coarse grids, but this is confounded and we do not read it as scale-invariance: a fixed 64 -source budget covers 6% , 25% , and 100% of regions at the three scales, and finer parti-tions also make each region’s error noisier. The scale-independent claim is only the ordering (full >
+
+diagonal > null); the main text uses the 16 ×16 grid. 
+
+Robustness across step size. The reconstruction is not tuned to one budget. Sweeping the cheap NFE at a fixed near-exact reference (CelebA, n=8 ), the transported reconstruction holds (cos = 0 .83 , 0.78 , 0.76 , 0.76 , 0.79 at NFE 4, 6, 8, 10 , 16 ) while the no-propagation baseline de-grades monotonically ( 0.81 , 0.72 , 0.65 , 0.61 , 0.53 ), so the transport increment grows from +0 .02 to 
+
++0 .26 as the step shrinks and becomes the dominant structure at finer stepping rather than a coarse-NFE artifact. The residual ∼0.2 shortfall from unity may arise from nonlinear defect interactions, the finite-difference and reference-solver approximations, and evaluation along the reference rather than the perturbed trajectory; we do not decompose it here. 
+
+A.3 The measured error-determining window W ∗
+
+Where should FC be read? We measure, per time-bin, the within-image ρ between that bin’s accel-eration and the final per-region error, early →late: SiT (flow, latent) 0.55 , 0.29, 0.18, 0.05, 0.05 ( W ∗
+
+early); ADM (diffusion, pixel) 0.31, 0.60 , 0.58 , 0.47, 0.28 ( W ∗ mid); DiT (diffusion, latent) 0.22, 0.22, 0.48 , 0.51 , 0.23 ( W ∗ mid/late). The dominant bins define the error-determining window W ∗,and W ∗ coincides with the prediction horizon measured in §5: the horizon and the error-determining epoch are the same measurement. Difficulty is not a fixed spatial template revealed early (early ↔late acceleration ρ = 0.10 / −0.14 / 0.47); each model has an error-determining epoch, and FC read there predicts the error. 16 B Experimental details 
+
+B.1 Models 
+
+• External 256px models (analysis, §4–§5; we train nothing at this scale). SiT-XL/2 [Ma et al., 2024]: 675M, flow (linear interpolant), latent (SD-VAE), ImageNet-256, public checkpoint; analysis at cfg = 1 , n = 256 images (stable vs. n = 128 ). DiT-XL/2 [Peebles and Xie, 2023]: diffusion, latent, ImageNet-256, public checkpoint, DDIM, cfg = 1 , n = 256 ; both x0- and ε-analog drift signals computed, and their window profiles agree, so the reported result is analog-independent. ADM [Dhariwal and Nichol, 2021]: diffusion, pixel-space U-Net, ImageNet-256, public checkpoint, DDIM, ε-analog, n = 128 .• From-scratch 256px models (intervention, §8). Class-conditional 70M FM-DiT on ImageNet-256 and unconditional 33M FM-DiT on CelebA-HQ-256, both latent-space (SD-VAE), trained 100k steps in paired arms (baseline vs. FCM) with identical architecture, data order, noise, timesteps, and conditioning masks, at matched optimization steps and data expo-sure (FCM adds one forward per step, measured 1.9× step time, so this is not matched training compute). • Controlled complements ( 32 × 32 ). Compact FM-DiT models trained from scratch (9.8M, 32M, and 77M capacity variants and an independent seed), used only for effects that intrinsi-cally require retraining (cross-seed stability, emergence, cross-capacity, §4.2–§4.3) and for the controlled studies (selector comparison, λ-sweep, mechanism diagnostic). 
+
+B.2 Reference discrepancy and signal estimation Per-region integration error: per-region MSE between a cheap solve (few-step Euler/DDIM, e.g. NFE 6) and a near-exact reference solve (Heun-200) of the same ODE from the same noise. This target is measured independently of the signal: it compares final states only and knows nothing of the predictor. Regions: 16 × 16 px tokens at 256 2 resolution (latent models: token-aligned latent patches). Time convention and windows: t runs 1 → 0 from noise to data; the observation cutoff 
+
+f of §5 is the fraction of sampling elapsed from noise. “First ∼10% ” = t ∈ [1 .0, 0.9] ; “first 30%” 
+
+= t ∈ [1 .0, 0.7] . Rank statistics: all correlations are within-image Spearman ρ (per-bin W ∗ profiles likewise), invariant to the overall ∆t scale of Definition 1. Estimator note: Definition 1 is P∥∆u∥;the implementation uses estimators that are rank-equivalent within a fixed uniform window (mean 
+
+∥∆u∥; time-weighted mean of ∥∆u∥/∆t), differing from P∥∆u∥ only by positive constants that cancel under within-image ranking. Trajectory used for FC: unless stated otherwise the window W
+
+is sampled along the recorded reference trajectory. To test what survives without it, we recomputed FC from the cheap NFE-6 Euler solve itself on SiT with a held-out seed ( n = 96 , disjoint from every other SiT analysis). Within-image ρ against the final per-region error is +0 .26 using all six velocity evaluations and +0 .32 / + 0 .30 / + 0 .29 / + 0 .27 using the first 2/3/4/5, versus +0 .47 (full-window) and +0 .58 (early-window) for reference-trajectory FC on the same images. The correlation falls under coarse discretization but does not collapse. Among the prefixes evaluated on this held-out set the earliest ( k = 2 ) was the highest. That observation was made after seeing the results, so we froze k = 2 and the metrics in advance and ran a second held-out seed as a confirmatory test. On the confirmatory seed the frozen primary metric, top-15% error capture by the two-evaluation cheap prefix, is 0.245 [0 .23 , 0.26] (image-level bootstrap) against an oracle ceiling of 0.352 and a random baseline of 38 /256 = 0 .148 , with mean within-image ρ = +0 .40 [+0 .36 , +0 .44] , median 
+
++0 .42 , and 3% of images at ρ ≤ 0. Comparators behave as on the exploratory seed (reference early-window ρ = +0 .62 , capture 0.29 ; cheap full ρ = +0 .30 , capture 0.21 ). The two seeds are reported separately, never pooled. A cross-model replicate on our own CelebA-HQ-256 flow model under the same frozen protocol (fresh seed, n = 96 , unconditional) gives capture 0.262 [0 .25 , 0.28] 
+
+against an oracle of 0.408 , with ρ = +0 .46 [+0 .43 , +0 .50] and 1% of images at ρ ≤ 0; the frozen 
+
+k = 2 prefix was again the strongest among the prefixes, without reselection. Per-image statistics and provenance are committed with the code ( results/sit/ , results/celebahq/ ). 
+
+B.3 Matched-budget selector comparison (controlled study) 
+
+The comparison referenced in §4.5: on the controlled 32 × 32 model, a fixed per-region compute budget (top-10% of regions selected for extra solver accuracy at NFE 10) is allocated by different signals, varying only the selection signal at identical budget (50k-sample FID, lower is better). Se-17 0-50 50-75 75-90 90-95 95-100       
+
+> baseline fl ow-complexity percentile
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> reduction in FC (%)
+> A. Flow-complexity reduction is near-uniform
+> 0-50 50-75 75-90 90-95 95-100
+> baseline fl ow-complexity percentile
+> 0.00
+> 0.05
+> 0.10
+> 0.15
+> 0.20
+> 0.25
+> absolute integration-error reduction  B. Error reduction concentrates on the hard regions
+
+Figure 9: The penalty’s benefit lands on the difficult landscape. Regions binned by baseline FC percentile (CelebA, n=32768 regions, λ=0 .3 vs. baseline at matched 100 k steps). (A) the penalty lowers FC by a near-uniform 3.4–4.8% across every difficulty bin. (B) the resulting absolute integration-error reduction climbs about 7.5× from the easy half to the hardest 5% , concentrating the improvement on the high-FC regions §4 flags as difficult. Average FC is thus the wrong summary of the effect. lecting the highest-FC regions gives FC 14.35 < random 15.35 ≈ attention-entropy 15.41 < edge 15.90 < frequency 18.40 ≈ velocity-magnitude 18.52: among the reactive signals only FC beats random, and edge, frequency, and velocity-magnitude actively mislead. 
+
+An important counter-result. The FID-optimal allocation is the reverse of the error-optimal one. Refining the lowest -FC (smooth, easy) regions instead reaches FID 12 .40 , better than refining the highest-FC regions ( 14 .35 ) and than random ( 15 .35 ), and the same low-FC choice also wins on perceptual LPIPS-to-reference ( 0.0286 vs 0.0299 ). Yet by pixel fidelity to the reference solve (the integration error FC is meant to track), the high-FC choice is best (MSE 0.0351 ). So FC does identify where integration error concentrates, but reducing that error is not the same as improving perceptual sample quality: smooth regions matter more to FID than their small integration error suggests. This dissociation is exactly why we treat FC as a diagnostic of integration difficulty and do not propose it as a sampling policy (§9). Caveat: FC also selects spatially coherent regions, so part of the margin may be a coherence effect. 
+
+B.4 Intervention training details 
+
+Objective as in Eq. 3: ¯v is the detached current velocity; ∆teff clips the lookahead at the per-sample time boundary; for class-conditional training both evaluations share one classifier-free-guidance drop mask (so the penalty measures trajectory change, not conditioning change); λ = 0 .3 through-out, selected by the controlled λ-sweep below. Cost: one additional forward evaluation per train-ing step (measured 1.9× step time at equal batch, 0.169 s vs. 0.087 s; no additional parameters, no teacher, no reflow stage). FID protocol: 50k generated samples against standard reference statistics for each dataset; ImageNet-256 additionally evaluated at cfg = 1 .5 (§8). The 32 × 32 ablations predate the shared-conditioning-mask refinement that all 256px runs include (§9). 
+
+model data ( C×res) arch (hid/dep/heads, p) params batch steps CIFAR-10 (ablation) 3×32 px 384 /12 /6, p2 32.6M 128 400k CelebA-HQ-256 4×32 latent 384 /12 /6, p2 33M 128 100k LSUN-Church-256 4×32 latent 384 /12 /6, p2 33M 128 100k ImageNet-256 4×32 latent, 1000 cls 512 /16 /8, p2 70M 64 100k / 400k 
+
+Table 1: Training configurations. All arms use AdamW, a constant learning rate 10 −4 (no warmup or decay schedule), weight decay 0, gradient clipping 1.0, EMA 0.9995 (CIFAR 0.9999 ), and mixed precision. FCM adds a per-step penalty ( λ = 0 .3) with a finite-difference lookahead ∆t = 0 .05 and one extra forward per step; paired arms share every other setting and the random seed. 18 B.5 λ-sweep ( 32 × 32 , controlled) 
+
+λ = 0 .3 improves every few-step budget with no high-NFE cost, and λ = 1 .0 over-straightens (gains at low NFE, a regression at NFE 16). In the mechanism diagnostic (binned ∆FC vs. ∆error), the FC reduction is near-uniform across difficulty percentiles but the error reduction is strongly tail-weighted, so average FC is the wrong statistic for the mechanism. That is why we report the per-percentile analysis of §7. Table 2: λ-sweep on CIFAR-10 ( 32 × 32 ), FID vs. NFE, 10 k samples, matched 100 k training steps, same noise. Lower is better; bold marks the best in each row. λ = 0 .3 wins or ties at every budget through NFE 12 and carries no high-NFE penalty; λ = 1 .0 edges it at NFE 6 but regresses past baseline by NFE 16 (over-straightening); λ = 0 .5 is dominated. At 50 k samples the λ = 0 .3 gain holds (NFE 6: 31 .8 → 29 .2).                            
+
+> NFE baseline λ= 0 .3λ= 0 .5λ= 1 .0
+> 633.9 31.5 32.1 31.4
+> 828.7 27.1 27.8 27.7 10 26.6 25.2 26.2 26.7 12 24.5 23.5 24.6 25.0 16 23.1 23.3 24.7 25.2
+
+B.6 Training-run variance (controlled model) 
+
+Three independently seeded paired runs on the 32 × 32 model (baseline vs. FCM λ=0 .3, matched seed and data order, 50 k steps each; 10 k-sample FID). The paired ∆FID = baseline − FCM (positive 
+
+⇒ FCM better):                            
+
+> NFE 6810 12 16 seed 0 +5 .07 +0 .61 −1.84 −3.27 −4.17
+> seed 1 +5 .10 +2 .73 +1 .24 +0 .48 +0 .22
+> seed 2 +10 .73 +5 .28 +3 .09 +1 .49 +0 .89
+> mean ±std +6.97 ±3.26 +2.87 ±2.34 +0 .83 ±2.49 −0.43 ±2.50 −1.02 ±2.75
+
+The few-step improvement (NFE 6–8) is consistent: all three seeds favor FCM and the mean is well outside the seed spread. By NFE 10 –16 the paired delta is within seed noise, so on the controlled model the gain is a few-step effect, matching the λ-sweep (Table 2), where λ=0 .3’s advantage also concentrates at low NFE. (These are 50 k-step models; the headline 256 px results are at 100 k steps and 50 k-sample FID.) 
+
+B.7 E4: training-progress and compute-matched frontier 
+
+Table 3: ImageNet-256, class-conditional 70M FM-DiT trained from scratch (100k steps, paired arms at matched optimization steps and data exposure; see the §8 protocol note on per-step compute). FID (50k samples, cfg = 1 .0) by sampling budget (NFE); lower is better.                      
+
+> NFE 6810 12 16 baseline 131.20 119.69 113.68 109.05 105.12
+> FCM 121.65 112.52 107.71 104.28 101.31
+> ∆(rel.) −7.3% −6.0% −5.3% −4.4% −3.6%
+
+Paired ImageNet-256 arms (baseline λ=0 vs. FCM λ=0 .3), evaluated at the 
+
+{50 , 100 , 200 , 300 , 400 }k checkpoint ladder with 10 k-sample FID (lower is better). At matched optimization steps FCM leads at every checkpoint and the NFE-6 advantage widens as the baseline strengthens (Table 4), so the few-step gain is not an undertraining artifact. The compute-matched picture differs. Because a FCM step costs a measured 1.9× a baseline step, we place both arms on a training-compute axis (steps × per-step cost) and read the baseline curve at FCM’s compute. At 19 Table 4: E4 NFE-6 FID ( 10 k samples) across the training ladder. ∆ is the relative FCM advantage 
+
+(baseline − FCM )/baseline.                     
+
+> steps 50k 100k 200k 300k 400k baseline 149.1 134.1 118.7 113.0 108.6
+> FCM 142.5 124.6 108.9 100.8 96.3
+> ∆+4 .4% +7 .1% +8 .3% +10 .7% +11 .4%
+
+equal compute the baseline reaches lower few-step FID than FCM across the reachable range: at NFE 6 the baseline leads by 4–7 FID up to ∼ 200 k baseline-equivalent compute and the two draw level only near ∼ 380 k (FCM@ 200 k 108 .9 vs baseline@ 400 k 108 .6), and at NFE 10 and 16 the baseline leads throughout. So on ImageNet the extra forward per step is not recovered in few-step FID, the reverse of the CelebA result (§8). Per the advance-specified decision rule this keeps FCM as a mechanism and a faster-per-step-convergence result on ImageNet, not a compute-matched sampler advantage. A single training run per arm here; the small-model replication (Appendix B.6) provides supporting evidence but does not estimate ImageNet training-run variance. 
+
+B.8 Region-scale robustness (SiT) 
+
+The two landscape conclusions — moderate concentration and FC predictivity — do not depend on the region grid. On SiT-XL/2 (ImageNet-256, n=96 ) we sweep the region size:                   
+
+> grid regions FC–error ρtop-10% share Gini
+> 32 ×32 1024 0.54 31% 0.44 16 ×16 256 0.57 27% 0.35 8×864 0.61 22% 0.29
+
+Table 5: Region-scale sweep on SiT. FC–error ρ is stable ( 0.54 –0.61 ) and concentration stays mod-erate (top-decile 22 –31% , Gini 0.29 –0.44 ) at every grid; finer partitions are slightly more concen-trated, as expected when smaller regions resolve more heterogeneity. The main text uses 16 ×16 .
+
+B.9 Numerical variation baselines 
+
+Within-image Spearman ρ (mean over images; image-level bootstrap 95% CIs in the commit-ted artifacts) between each variation statistic, computed from the reference record over the stated window, and the final per-region error ( n=96 per backend, fresh seeds: SiT seed 4, CelebA seed 5; all signals, windows, and backends reported, none selected). The variation family clus-                                  
+
+> SiT-XL/2 CelebA-HQ signal full early full early FC (mean ∥∆u∥)0.53 0.65 0.63 0.73 signed cumulative ∥P∆u∥0.43 0.73 0.47 0.75 squared variation P∥∆u∥20.50 0.68 0.58 0.77
+> max step 0.24 0.52 0.32 0.70 velocity magnitude 0.43 0.25 0.31 0.19 horizon-weighted P∥∆u∥· rem 0.66 0.68 0.75 0.76
+
+ters well above the magnitude control at the early window on both backends. Cancellation-aware and horizon-weighted members predict as well as or somewhat better than FC, consis-tent with the transport account (§6): the signed cumulative change is the unpropagated signed-residual accumulation of the reconstruction, and the horizon weight approximates how much trajec-tory remains to transport an injection. Artifacts: results/sit/numeric baselines sit.json ,
+
+results/celebahq/numeric baselines celeba.json .20 B.10 Energy split of the regional transport response 
+
+Rself in §6 is a share of summed per-region response norms, which weights many small contributions heavily. Because the region projections are disjoint, per-region response energies ∥Pi δx ∥2 sum exactly to the total, so the energy share R(2) self = ∥Pj δx ∥2/ P
+
+> i
+
+∥Pi δx ∥2 is an orthogonally additive companion, and the participation ratio Neff = ( P 
+
+> i
+
+εi)2/ P 
+
+> i
+
+ε2 
+
+> i
+
+with εi = ∥Pi δx ∥2 counts the effective number of destination regions. On smaller replicates of the §6 protocol (SiT n=16 , CelebA 
+
+n=16 , ADM n=8 ; 64 strided sources out of 256 per image; image-level medians, bootstrap 95% 
+
+CIs), near the noise end the source region retains 0.18 [0 .12 , 0.25] (SiT), 0.40 [0 .33 , 0.43] (CelebA), and 0.10 [0 .07 , 0.13] (ADM) of the response energy, and the response spreads over Neff = 23 [15 , 28] , 9 [7 , 13] , and 43 [30 , 55] effective regions. The source carries more weight than the norm share suggests, but the majority of response energy still lands elsewhere. Toward the data end both measures localize ( R(2) self 0.98 /0.96 /0.66 , Neff ≈ 1–2), consistent with the shrinking-horizon account of §6. Artifacts: results/propagation/energy *.json .
+
+B.11 Reproducibility 
+
+Code and configs for every result (training, paired-arm orchestration, reference-discrepancy and horizon/ W ∗ measurement, and FID evaluation) will be released upon publication. 21
