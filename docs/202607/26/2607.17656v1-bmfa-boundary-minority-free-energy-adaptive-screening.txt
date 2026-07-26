@@ -1,0 +1,1102 @@
+Title: BMFA: Boundary-Minority Free-Energy Adaptive Screening
+
+URL Source: https://arxiv.org/pdf/2607.17656v1
+
+Published Time: Tue, 21 Jul 2026 01:35:52 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+# BMFA: Boundary-Minority Free-Energy Adaptive Screening 
+
+## Wenyan Xu 1,* Alizer Wong 2,3,* 
+
+## 3223004777@mail2.gdut.edu.cn aliiiiezer@gmail.com 
+
+> 1
+
+Guangdong University of Technology 
+
+> 2
+
+School of Computer Science, Peking University 
+
+> 3
+
+ManXis 
+
+> *
+
+Equal contribution 
+
+## Abstract 
+
+Vision Transformers process spatially redundant tokens ef-ficiently only when coarse token summaries preserve the evidence required by exponential attention aggregation. We identify a boundary-minority underestimation failure in which a spatially small, high-response region contributes dominant Gibbs mass while remaining nearly invisible to a block mean. We formalize the failure through the discrepancy between nor-malized log-mean-exp free energy and mean summarization, prove that minority Gibbs mass can remain non-vanishing as its spatial support and mean contribution vanish, and characterize the limitations of finite-order moment corrections. Building on the resulting analysis, we introduce Boundary-Minority Free-Energy Adaptive Screening (BMFA), which constructs a hierarchical piecewise-constant approximation and recursively refines blocks according to a computable lower-bound incre-ment of local free energy. Controlled synthetic tests, COCO and LVIS diagnostic probes, closed-loop DeiT-Tiny evalua-tions, and ImageNet-1K experiments establish a consistent evidence chain. BMFA reduces the mean synthetic under-estimate from 2.582 to 0.261 at a 5.794% leaf ratio, lowers the COCO image-edge mean gap from 2.254 to 0.526 , and preserves 71 .520% ImageNet Top-1 accuracy at a 55 .861% 
+
+leaf ratio. The current prototype evaluates selection quality after full QK computation; the reported leaf ratio therefore characterizes representation granularity rather than verified sparse-kernel speedup. 
+
+## 1 Introduction 
+
+Visual representation models have become foundational com-ponents of image classification, object detection, semantic segmentation, and vision-language understanding. Vision Transformer (ViT) models introduced by Dosovitskiy et al. [1] , hierarchical architectures such as Swin Transformer from Liu et al. [2] , dense prediction systems such as Segmenter from Strudel et al. [3] , and vision-language encoders such as CLIP from Radford et al. [4] demonstrate that token-based global interaction can model long-range dependencies within a unified architecture. Nevertheless, the evidence required for visual decisions is not distributed uniformly across an image. Large background regions and object interiors often contain substantial redundancy, whereas object boundaries, elongated structures, small parts, and small objects occupy limited spa-tial support while carrying decisive evidence for category, shape, or instance assignment. Efficient visual inference must therefore remove redundant computation without suppressing spatially rare but discriminative responses. A ViT partitions an image into a sequence of patch tokens 
+
+Figure 1: Motivation of BMFA. Top: a coarse block may contain a spatially small boundary subset whose area ratio is low but whose Gibbs mass is dominant. Middle: coarse averaging suppresses the boundary-minority evidence because averaging and exponential aggregation do not commute, producing a positive free-energy gap. Bottom: Our method: BMFA computes a free-energy refinement score, recursively refines only the high-risk regions, and preserves boundary evidence more faithfully than Sparge-style mean summa-rization. 
+
+and repeatedly performs token interaction across Transformer layers. For a sequence of length 𝑁 , standard self-attention constructs an 𝑁 ×𝑁 correlation matrix, yielding quadratic time and memory complexity in 𝑁 ; token-wise feed-forward net-works and intermediate activations additionally grow linearly with sequence length. Higher image resolution, additional video frames, and multi-scale feature maps consequently make token count a primary constraint on throughput, memory, and 1arXiv:2607.17656v1 [cs.CV] 20 Jul 2026 energy consumption. Although the data-efficient training strategy of Touvron et al. [5] substantially reduced the training burden of visual Transformers, repeated processing of sim-ilar tokens remains costly during high-resolution inference. The resulting tension has motivated dynamic token reduction and selective attention computation under task-performance constraints. Existing efficient visual Transformers follow several com-plementary directions. DynamicViT from Rao et al. [6] learns token importance and progressively removes redundant po-sitions; EViT from Liang et al. [7] reorganizes non-critical tokens according to class-token attention; and A-ViT from Yin et al. [8] extends adaptive computation time to spatial tokens. Alternative approaches preserve information through compact representations rather than irreversible deletion. To-kenLearner from Ryoo et al. [9] extracts a small set of adaptive tokens through spatial weighting, ToMe from Bolya et al. [10] progressively merges tokens according to feature similarity, and STViT from Chang et al. [11] represents local clusters with semantic tokens. Recent studies employ richer structural crite-ria. Zero-TPrune from Wang et al. [12] combines graph-based importance and similarity for zero-shot pruning; ToFu from Kim et al. [13] unifies pruning and merging while mitigating representation shifts; MCTF from Lee et al. [14] jointly con-siders similarity, information content, and accumulated fusion size; ALGM from Norouzi et al. [15] performs local-to-global merging; PiToMe from Tran et al. [16] preserves informative tokens through an energy score; and SAD-TM from Xie et al. [17] incorporates visual saliency into training-free merging. Beyond token reduction, SparQ Attention from Ribar et al. [18] , QUEST from Tang et al. [19] , and SpargeAttention from Zhang et al. [20] reduce attention computation through query-dependent retrieval, block-level metadata, or online attention prediction, whereas Native Sparse Attention from Yuan et al. [21] combines coarse compression, fine-grained selection, and hardware-aligned training. Despite substantial differences in learning strategy, compression target, and implementation, many efficient methods rely on importance scores, aggregated tokens, local representatives, or prescribed budgets to summa-rize collections of original responses. Such summaries are effective when local responses are nearly homogeneous, but a criterion aligned with softmax nonlinearity is generally un-available for determining whether a coarse summary remains reliable under strong within-block heterogeneity. The missing criterion becomes particularly consequential for blocks that cross object boundaries. A patch block may contain a large background region and a small foreground fragment, or may jointly cover an object interior, a contour, and an elongated appendage. When most positions have low logits and a small boundary subset has high logits, a block mean or a representative dominated by the majority pattern can classify the entire region as low response. Softmax, however, exponentially weights logits; a spatially small subset can consequently contribute most of the block-level attention mass. We refer to the suppression of minority high-response evidence by majority low-response regions under coarse aggregation as boundary-minority underestimation . Boundaries provide a common spatial manifestation, but the underlying failure depends on strong within-block response heterogeneity rather than explicit edge labels. The central question is therefore not whether a region can be compressed in general, but whether a local statistic consistent with exponential aggregation can reveal when a coarse summary fails. We analyze the failure directly from attention normalization. For concise notation in the introduction, the temperature is set to 𝜏 = 1; Section 3 provides the general-temperature formulation. For a local block 𝐵 with scores {𝑠 𝑖 }𝑖 ∈ 𝐵 , define the normalized log-partition value 
+
+𝐹 (𝐵 ) = log 1
+
+|𝐵 |∑︁ 𝑖 ∈ 𝐵 
+
+𝑒 𝑠 𝑖 
+
+!
+
+, (1) and the mean-based coarse summary 
+
+𝑀 (𝐵 ) = 1
+
+|𝐵 |∑︁ 𝑖 ∈ 𝐵 
+
+𝑠 𝑖 . (2) Convexity of the exponential function and Jensen’s inequality yield 
+
+𝐺 (𝐵 ) = 𝐹 (𝐵 ) − 𝑀 (𝐵 ) ≥ 0, (3) where 𝐺 (𝐵 ) denotes the local free-energy gap. Equation (3) shows that mean summarization is not an unbiased substitute for softmax-related mass; the approximation systematically underestimates exponential aggregation, and the magnitude depends on the internal score distribution rather than the mean alone. To isolate the minority mechanism, consider a binary local model in which a majority fraction 1 − 𝛼 has score 0 and a minority fraction 𝛼 has logit advantage Δ > 0. The normalized minority mass is 
+
+𝜌 (𝛼, Δ) = 𝛼𝑒 Δ
+
+(1 − 𝛼 ) + 𝛼𝑒 Δ . (4) Let Δ𝛼 = log [( 1 − 𝛼 )/ 𝛼 ] + 𝑐 , where 𝑐 is independent of 𝛼 .The minority mass becomes 
+
+𝜌 (𝛼, Δ𝛼 ) = 𝑒 𝑐 
+
+1 + 𝑒 𝑐 , (5) which remains non-vanishing as 𝛼 → 0. By contrast, the mean contribution satisfies 
+
+lim  
+
+> 𝛼 →0
+
+𝛼 Δ𝛼 = 0. (6) The minority support can therefore vanish while retaining a fixed fraction of attention mass, even though its contribution to the block mean disappears. Under the same construc-tion, 𝐺 (𝐵 ) converges to the non-zero constant log (1 + 𝑒 𝑐 ).Boundary-minority underestimation is consequently a struc-tural outcome of the non-commutativity between averaging and exponential normalization rather than an incidental effect of noise. Section 4 formalizes the limiting argument and connects the gap to attention-distribution fidelity. A variance correction can partially reduce mean underes-timation, but cannot provide a uniformly reliable minority-response criterion. Let 𝑥 = 𝑠 − 𝑀 (𝐵 ). Equation (1) can be written as 𝐹 (𝐵 ) = 𝑀 (𝐵 ) + log E[𝑒 𝑥 ], whose cumulant expan-sion contains the variance together with skewness-, kurtosis-, and higher-order terms. The approximation 𝑀 (𝐵 ) + Var (𝑠 )/ 2
+
+is locally appropriate for weak, nearly symmetric fluctua-tions; high-order cumulants remain material for skewed or multimodal distributions formed by rare high responses. Fixed-depth multi-scale partitioning reduces local mixing but ex-pends resolution in homogeneous regions and can remain insufficient in complex regions. Complete preservation of all candidate edge positions provides a high-recall upper bound 2but requires external spatial priors or near-original granularity. Effective screening must therefore align the error measure with exponential normalization and allocate spatial resolution according to local approximation error. Motivated by the analysis, we introduce Boundary-Minority Free-Energy Adaptive Screening (BMFA). BMFA uses the local free-energy gap as the theoretical target and a hierar-chical lower-bound increment as a computable refinement signal. A candidate block is summarized by its mean, while a finer estimate is obtained from the weighted log-sum-exp of child-block means. If the discrepancy does not exceed a threshold 𝜀 , the block remains a coarse leaf; if the dis-crepancy exceeds 𝜀 and the maximum depth has not been reached, BMFA recursively subdivides the block. The result-ing sample- and location-adaptive hierarchy preserves coarse representations over homogeneous backgrounds and assigns finer resolution to boundaries, small parts, and unresolved high-response minorities. Unlike criteria based solely on mean response, prescribed depth, or fixed retention ratio, the refinement decision follows the nonlinear approximation error characterized by Eq. (3) . Section 5 defines the lower-bound refinement score, establishes its limitations, and presents the recursive construction. Figure 1 summarizes the motivating failure and the corre-sponding BMFA remedy on a real image. The high-response subsets cover only 12 .5% and 10 .5% of the corresponding local blocks, yet contribute 97 .6% and 97 .1% of the within-block Gibbs mass and induce free-energy gaps of 2.923 and 
+
+2.854 . Small spatial support therefore does not imply negli-gible exponential mass, and the local mean does not reflect the actual contribution of minority responses to softmax nor-malization. Instance masks and boundaries are used only to construct the diagnostic image-edge probe and to visualize the failure; neither quantity is provided to BMFA during inference. We evaluate BMFA through an evidence chain spanning mechanism diagnosis and model-level behavior. In controlled synthetic tests, mean-based screening produces an average underestimate of 2.582 , whereas BMFA reduces the value to 
+
+0.261 at a relative leaf ratio of 5.794% . On 36 ,149 COCO instances from Lin et al. [22] , BMFA reduces the image-edge mean underestimate from 2.254 to 0.526 at a 30 .810% leaf ratio. On 20 ,000 LVIS instances from Gupta et al. [23] , the corresponding reduction is from 2.277 to 0.596 , indicating that the failure is not dataset-specific. Closed-loop DeiT-Tiny experiments show that BMFA with 𝜀 = 0.8 attains 75 .98% 
+
+Top-1 agreement with the full model at a granularity compa-rable to random 25% retention, which reaches only 61 .54% 
+
+agreement; the corresponding KL divergences are 0.149 and 
+
+0.406 . On the ImageNet-1K validation set introduced by Deng et al. [24] , BMFA with 𝜀 = 0.5 reaches 71 .520% Top-1 accuracy at a 55 .861% leaf ratio, only 0.564 percentage points below the full DeiT-Tiny accuracy of 72 .084% and above the 
+
+69 .148% accuracy of a similarly sized random control. The results demonstrate that fidelity depends not only on retained granularity but also on locating minority responses concealed by coarse summaries. Our contributions are threefold. First, we formal-ize boundary-minority underestimation through the non-commutativity of log-mean-exp aggregation and mean sum-marization. The resulting analysis proves that a minority region can retain non-vanishing softmax mass as both its area and mean contribution vanish, thereby identifying a structural failure condition for coarse token and attention summaries. Second, we introduce BMFA, which uses a local Jensen/free-energy objective and a hierarchical lower-bound increment to recursively allocate spatial resolution to blocks contain-ing unresolved minority responses. Third, we establish a connected empirical validation across synthetic data, COCO, LVIS, closed-loop attention replacement, and ImageNet-1K. The current evaluation isolates screening quality and output fidelity: leaf ratio denotes relative representation granularity and is not equated with FLOPs or throughput improvements that have not been verified by a sparse kernel. 
+
+## 2 Related Work 
+
+2.1 Visual Token Pruning, Merging, and Adaptive Com-pression 
+
+Visual token reduction shortens Transformer sequences through pruning, merging, or learned compact representa-tions. Early methods remove redundant tokens using dynamic importance prediction, class-token attention, or adaptive com-putation time [ 6– 8], whereas learned extraction and similarity-based methods compress multiple tokens into a smaller set of representatives [ 9–11 ]. Recent work introduces richer struc-tural criteria. Wang et al. [12] model attention relationships as a graph and combine weighted PageRank importance with similarity for zero-shot pruning. Kim et al. [13] select between pruning and merging according to local model responses to input interpolation and use MLERP to mitigate norm distor-tion caused by mean fusion. Lee et al. [14] jointly consider token similarity, information content, and accumulated fusion size, while one-step-ahead attention estimates importance in the subsequent layer. Spatial structure and information preservation motivate additional designs. Norouzi et al. [15] merge similar to-kens within shallow local windows before performing global merging at intermediate layers, thereby accommodating the spatial-detail requirements of semantic segmentation. Tran et al. [16] use an energy score to identify large clusters of similar tokens as preferred merging candidates while pre-serving isolated informative tokens, and analyze information retention from a spectral perspective. Xie et al. [17] combine attention-space semantic relevance with latent patch saliency and defer merging according to early-layer class-attention changes. These methods primarily determine which tokens should be removed, paired, or fused. BMFA addresses a complementary question: once multiple original responses have been represented by a local coarse summary, does the summary still approximate the exponential mass required by softmax? The free-energy gap in Eq. (3) diagnoses distortion in mean-based local approximation, while the hierarchical con-struction in Section 5 restricts refinement to blocks containing unresolved minority responses. 
+
+2.2 Sparse Attention and Hierarchical Coarse-to-Fine Screening 
+
+A separate line of work reduces the query-key interactions evaluated within the attention matrix. Ribar et al. [18] use query-dependent selective history retrieval to reduce KV-cache bandwidth during long-context inference. Tang et al. [19] maintain per-dimension extrema for each KV-cache page and combine the metadata with the current query to estimate page criticality, loading only high-ranking candidates. The resulting design exemplifies coarse-to-fine screening through inexpensive block metadata. Zhang et al. [20] employ a two-stage online filter: a fast attention-map prediction skips selected matrix multiplications, followed by a softmax-aware 3filter that removes additional low-contribution computation. Native Sparse Attention from Yuan et al. [21] incorpo-rates dynamic hierarchical sparsity into end-to-end training and combines coarse-grained token compression with fine-grained selection in a hardware-aligned framework. Prior methods establish the value of block screening, hierarchical representations, and dynamic budgets for efficient attention, but candidate regions are generally determined by predicted importance, extrema-based bounds, top-𝑘 budgets, or learned selectors. BMFA instead characterizes a theoretical blind spot of coarse screening itself. When majority low responses and minority high responses coexist within a block, the mean can become uninformative while log-mean-exp mass remains substantial. The local Jensen/free-energy analysis therefore provides a lower-bound refinement signal for approximation failure rather than a generic saliency score. The current pro-totype evaluates the effect of the signal on spatial selection and model-output fidelity; it does not interpret leaf ratio as sparse-kernel speedup. 
+
+## 3 Preliminaries 
+
+3.1 Attention Scores, Spatial Indices, and Assumptions 
+
+Consider a fixed Transformer layer, attention head, and query token. Let Ω ⊂ Z2 denote the finite index set of spatial key tokens, with cardinality 𝑁 = |Ω|; non-spatial tokens, including a classification token, are excluded from the subsequent spatial partition. The query, key, and value vectors are denoted by 
+
+𝒒 ∈ R𝑑 ℎ , 𝒌 𝑖 ∈ R𝑑 ℎ , and 𝒗 𝑖 ∈ R𝑑 𝑣 , respectively, for 𝑖 ∈ Ω.Given a temperature parameter 𝜏 > 0, the scaled dot-product score, full attention probability, and attention output are 
+
+𝑠 𝑖 = 𝒒 ⊤ 𝒌 𝑖 
+
+√𝑑 ℎ
+
+, 𝑝 𝑖 = exp (𝑠 𝑖 /𝜏 )
+
+Í 𝑗 ∈Ω exp (𝑠 𝑗 /𝜏 ) , 𝒐 =∑︁ 
+
+> 𝑖 ∈Ω
+
+𝑝 𝑖 𝒗 𝑖 . (7) Standard scaled dot-product attention corresponds to 𝜏 = 1.Retaining an explicit temperature separates the limiting behav-iors of smooth and sharply concentrated attention. Equation (7) follows the standard Transformer formulation of Vaswani et al. [25]. The analysis requires only the following assumptions. First, 
+
+Ω is finite and every 𝑠 𝑖 is a finite real number, so all exponential and logarithmic expressions are well defined. Second, a spatial block 𝐵 ⊆ Ω is a non-empty rectangular index set with cardinality 𝑛 𝐵 = |𝐵 |. Third, only the attention-output perturbation bound assumes a constant 𝑉 max < ∞ such that 
+
+∥𝒗 𝑖 ∥2 ≤ 𝑉 max . Except for the explicitly specified two-point distribution in the binary minority model, no Gaussianity, symmetry, independence, or identical-distribution assumption is imposed on within-block scores. To unify finite blocks and idealized probability models, let 𝑈 𝐵 be an index sampled uniformly from 𝐵 and define 
+
+𝑆 𝐵 = 𝑠 𝑈 𝐵 . The arithmetic and exponential averages over a finite block equal E[𝑆 𝐵 ] and E[exp (𝑆 𝐵 /𝜏 )] , respectively. Results stated for random variables therefore apply directly to the empirical score distribution of a finite block. 
+
+3.2 Local Free Energy, Mean Summarization, and Condi-tional Gibbs Distributions 
+
+For any non-empty block 𝐵 , define the unnormalized block Gibbs mass, normalized free energy, mean summary, and exact free-energy gap as 
+
+𝑍 𝜏 (𝐵 ) =∑︁  
+
+> 𝑖 ∈𝐵
+
+exp (𝑠 𝑖 /𝜏 ), 𝐹 𝜏 (𝐵 ) = 𝜏 log 
+
+ 𝑍 𝜏 (𝐵 )
+
+𝑛 𝐵 
+
+
+
+,𝑀 (𝐵 ) = 1
+
+𝑛 𝐵 ∑︁ 𝑖 ∈ 𝐵 
+
+𝑠 𝑖 , 𝐺 𝜏 (𝐵 ) = 𝐹 𝜏 (𝐵 ) − 𝑀 (𝐵 ). (8) The factor 𝑛 −1 
+
+> 𝐵
+
+removes the trivial logarithmic offset associated with block size, ensuring that 𝐹 𝜏 (𝐵 ) and 𝑀 (𝐵 ) coincide for constant-score blocks. The conditional Gibbs distribution and uniform distribution on 𝐵 are 
+
+𝑝 𝐵 𝑖 = exp (𝑠 𝑖 /𝜏 )
+
+𝑍 𝜏 (𝐵 ) , 𝑢 𝐵 𝑖 = 1
+
+𝑛 𝐵 
+
+, 𝑖 ∈ 𝐵. (9) Throughout the paper, the term free-energy gap refers exclu-sively to 𝐺 𝜏 (𝐵 ) in Eq. (8) ; the term is not used as a generic label for prediction discrepancies or arbitrary numerical dif-ferences. 
+
+3.3 Hierarchical Partitions and Piecewise-Constant Ap-proximation 
+
+A spatial partition P ( 𝐵 ) = {𝐶 1, . . . , 𝐶 𝑚 } consists of pairwise disjoint non-empty sub-blocks whose union equals 𝐵 . Let 
+
+𝑤 𝑟 = 𝑛 𝐶 𝑟 /𝑛 𝐵 denote the relative weight of 𝐶 𝑟 . A quadtree re-cursively divides a splittable block into at most four rectangular children; the classical data structure follows the formulation of Finkel and Bentley [26] . For a partition P ( 𝐵 ), define the hierarchical free-energy proxy induced by child-block means as 
+
+Φ𝜏 (𝐵 ; P) = 𝜏 log 
+
+∑︁ 𝐶 ∈ P ( 𝐵 )
+
+𝑛 𝐶 
+
+𝑛 𝐵 
+
+exp 
+
+ 𝑀 (𝐶 )
+
+𝜏 
+
+ 
+
+. (10) When P ( 𝐵 ) = {𝐵 }, the proxy equals 𝑀 (𝐵 ). When every partition element contains a single token, the proxy equals 
+
+𝐹 𝜏 (𝐵 ).Let L(T ) denote the leaf set of a quadtree T . For ev-ery 𝑖 ∈ 𝐿 , with 𝐿 ∈ L(T ) , define the piecewise-constant score approximation e𝑠 𝑖 = 𝑀 (𝐿 ). The corresponding globally normalized free energy and attention distribution are 
+
+e𝐹 𝜏 (T ) = 𝜏 log 
+
+
+
+1
+
+𝑁 ∑︁ 𝐿 ∈ L ( T ) 
+
+𝑛 𝐿 exp 
+
+ 𝑀 (𝐿 )
+
+𝜏 
+
+ 
+
+,𝑞 T 
+
+> 𝑖
+
+= exp (e𝑠 𝑖 /𝜏 )
+
+Í 𝑗 ∈Ω exp (e𝑠 𝑗 /𝜏 ) . (11) The leaf ratio is defined as 𝜆 (T ) = |L(T )|/ 𝑁 . The ratio measures representation granularity relative to the single-token grid. Without a sparse kernel and end-to-end FLOPs accounting, 𝜆 (T ) is not equivalent to realized acceleration. 
+
+3.4 Ideal Objective for Free-Energy-Constrained Coars-ening 
+
+The ideal safe-coarsening problem minimizes the number of leaves while constraining global free-energy error: 
+
+min 
+
+> T ∈ 𝔗 𝐷
+
+|L(T )| s.t. 𝐹 𝜏 (Ω) − e𝐹 𝜏 (T ) ≤ 𝜀, (12) where 𝔗 𝐷 is the set of valid spatial trees with maximum depth at most 𝐷 , and 𝜀 ≥ 0 is the admissible error. Equation (12) defines a combinatorial optimization problem. BMFA does 4not solve the globally optimal tree directly; instead, it recur-sively constructs an interpretable approximation using local hierarchical lower bounds. The theory is first established independently for a fixed query-head pair. Sharing a tree across queries or heads re-quires an explicit aggregation operator, such as the maximum or a high quantile of query-head refinement scores. Different aggregation rules induce different levels of conservativeness; no unspecified sharing strategy is treated as an implicit as-sumption in the subsequent results. 
+
+## 4 Theoretical Analysis of Boundary-Minority Underestimation 
+
+4.1 Systematic Free-Energy Underestimation by Mean Summarization Theorem 4.1 (Systematic underestimation by the mean) . For every non-empty block 𝐵 and every 𝜏 > 0, the exact free-energy gap satisfies 𝐺 𝜏 (𝐵 ) ≥ 0. Equality holds if and only if all scores in {𝑠 𝑖 : 𝑖 ∈ 𝐵 } are equal. 
+
+Proof. The function 𝑥 ↦ → exp (𝑥 /𝜏 ) is strictly convex on R.Jensen’s inequality [27] gives 
+
+1
+
+𝑛 𝐵 ∑︁ 𝑖 ∈ 𝐵 
+
+exp (𝑠 𝑖 /𝜏 ) ≥ exp 1
+
+𝑛 𝐵 ∑︁ 𝑖 ∈ 𝐵 
+
+𝑠 𝑖 
+
+𝜏 
+
+!
+
+= exp 
+
+ 𝑀 (𝐵 )
+
+𝜏 
+
+
+
+. (13) Taking natural logarithms and multiplying both sides by 𝜏 > 0
+
+yields 𝐹 𝜏 (𝐵 ) ≥ 𝑀 (𝐵 ), equivalently 𝐺 𝜏 (𝐵 ) ≥ 0. Equality in Jensen’s inequality for a strictly convex function requires identical inputs, so equality holds exactly when 𝑠 𝑖 = 𝑀 (𝐵 )
+
+for every 𝑖 ∈ 𝐵 . □
+
+Theorem 4.1 establishes a deterministic direction for the approximation error: local underestimation does not arise merely from sampling noise or training instability. 
+
+Corollary 4.2 (Relative-entropy representation of the free-en-ergy gap) . Let 𝑢 𝐵 and 𝑝 𝐵 be the uniform and conditional Gibbs distributions in Eq. (9). Then 
+
+𝐺 𝜏 (𝐵 ) = 𝜏𝐷 KL (𝑢 𝐵 ∥ 𝑝 𝐵 ). (14) 
+
+Proof. Using 𝑝 𝐵 𝑖 = exp (𝑠 𝑖 /𝜏 )/ 𝑍 𝜏 (𝐵 ) and expanding the rel-ative entropy term by term, 
+
+𝐷 KL (𝑢 𝐵 ∥ 𝑝 𝐵 ) =∑︁  
+
+> 𝑖 ∈𝐵
+
+1
+
+𝑛 𝐵 
+
+log 1/𝑛 𝐵 
+
+𝑝 𝐵 𝑖 
+
+= log 𝑍 𝜏 (𝐵 ) − log 𝑛 𝐵 − 1
+
+𝑛 𝐵 ∑︁ 𝑖 ∈ 𝐵 
+
+𝑠 𝑖 
+
+𝜏 
+
+= 𝐹 𝜏 (𝐵 ) − 𝑀 (𝐵 )
+
+𝜏 . (15) Multiplication by 𝜏 proves Eq. (14). □
+
+Equation (14) shows that 𝐺 𝜏 (𝐵 ) measures exactly how far the within-block Gibbs distribution departs from uniformity; the quantity is not a generic dispersion measure disconnected from attention normalization. 
+
+Proposition 4.3 (Translation invariance and temperature monotonicity) . For every 𝑐 ∈ R, replacing all block scores by 
+
+𝑠 𝑖 + 𝑐 leaves 𝐺 𝜏 (𝐵 ) unchanged. If the block scores are not constant, then 𝐺 𝜏 (𝐵 ) is strictly decreasing in 𝜏 and satisfies 
+
+lim  
+
+> 𝜏 →∞
+
+𝐺 𝜏 (𝐵 ) = 0, lim  
+
+> 𝜏 →0+
+
+𝐺 𝜏 (𝐵 ) = max   
+
+> 𝑖 ∈𝐵
+
+𝑠 𝑖 − 𝑀 (𝐵 ). (16) 
+
+Proof sketch. Translation invariance follows because 𝐹 𝜏 (𝐵 )
+
+and 𝑀 (𝐵 ) change by the same additive offset. Differenti-ating with respect to temperature reduces the derivative to 
+
+−𝐷 KL ( 𝑝 𝐵 ∥𝑢 𝐵 ), which establishes strict monotonicity for non-constant scores. The high-temperature limit follows from a second-order expansion of the centered exponential moment, whereas the low-temperature limit follows from isolating the maximal term in log-sum-exp. The complete derivation appears in Supplementary Section ?? . □
+
+Proposition 4.3 delineates the relevant regime. High-temperature attention approaches uniform aggregation and makes mean summarization comparatively accurate. Low-temperature or high-contrast attention approaches maximum selection and increases the risk that minority high responses induce substantial underestimation. 
+
+4.2 Binary Boundary-Minority Model and Mass Reversal 
+
+To isolate the roles of spatial proportion and response ad-vantage, consider the two-point random variable 𝑆 𝛼, Δ, which equals 0 with probability 1 − 𝛼 and Δ with probability 𝛼 ,where 0 < 𝛼 ≤ 1/2 and Δ > 0. The model does not assume that real scores are exactly binary; the two states provide the minimal analyzable representation of majority low responses and minority high responses. 
+
+Lemma 4.4 (Free energy, mean, and Gibbs mass in the binary model) . The mean, free-energy gap, and exponentially tilted probability of the minority state are 
+
+𝑀 𝛼, Δ = 𝛼 Δ,𝐺 𝜏 (𝛼, Δ) = 𝜏 log (1 − 𝛼 ) + 𝛼𝑒 Δ/𝜏  − 𝛼 Δ,𝜌 𝜏 (𝛼, Δ) = 𝛼𝑒 Δ/𝜏 
+
+(1 − 𝛼 ) + 𝛼𝑒 Δ/𝜏 . (17) 
+
+Proof. The mean follows directly from the two-point distribu-tion. The exponential moment is E[𝑒 𝑆 𝛼, Δ/𝜏 ] = (1−𝛼 )+ 𝛼𝑒 Δ/𝜏 ;substituting the moment into 𝐹 𝜏 = 𝜏 log E[𝑒 𝑆 /𝜏 ] and subtract-ing the mean yields the second expression. The minority probability after exponential tilting equals its unnormalized mass 𝛼𝑒 Δ/𝜏 divided by the total mass, which yields the third expression. □
+
+Proposition 4.5 (Critical condition for minority-mass domi-nance) . For a target mass 𝑟 ∈ ( 0, 1), the minority state satisfies 
+
+𝜌 𝜏 (𝛼, Δ) ≥ 𝑟 if and only if 
+
+Δ ≥ 𝜏 log 𝑟 (1 − 𝛼 )(1 − 𝑟 )𝛼 . (18) In particular, the minority state carries at least one-half of the Gibbs mass if and only if Δ ≥ 𝜏 log [( 1 − 𝛼 )/ 𝛼 ].
+
+Proof. The denominator of 𝜌 𝜏 (𝛼, Δ) is strictly positive. Cross-multiplication of 𝜌 𝜏 (𝛼, Δ) ≥ 𝑟 gives (1 − 𝑟 )𝛼𝑒 Δ/𝜏 ≥ 𝑟 (1 −
+
+𝛼 ). Dividing by the positive factor (1 − 𝑟 )𝛼 and taking natural logarithms produces Eq. (18) . Every transformation is monotone and reversible, so the condition is both necessary and sufficient. □
+
+Proposition 4.5 separates minority area from minority atten-tion mass: once the logit advantage exceeds the logarithmic threshold, 𝛼 < 1/2 does not prevent the minority state from dominating exponential mass. 5Theorem 4.6 (Asymptotic mean blindness for a boundary minority) . Fix 𝑐 ∈ R and 𝜏 > 0, and define Δ𝛼 = 𝜏 [log (( 1 −
+
+𝛼 )/ 𝛼 ) + 𝑐 ]. As 𝛼 → 0+,
+
+𝜌 𝜏 (𝛼, Δ𝛼 ) −→ 𝑒 𝑐 
+
+1 + 𝑒 𝑐 , 𝑀 𝛼, Δ𝛼 −→ 0,𝐺 𝜏 (𝛼, Δ𝛼 ) −→ 𝜏 log (1 + 𝑒 𝑐 ) > 0. (19) 
+
+Proof sketch. Substitution of Δ𝛼 into Eq. (17) transforms the unnormalized minority mass into (1 − 𝛼 )𝑒 𝑐 , making the Gibbs mass independent of 𝛼 . The mean limit follows from 𝛼 log (1/𝛼 ) → 0, while the free-energy limit follows by extracting the common factor 1 − 𝛼 . Step-by-step algebra and the limiting argument appear in Supplementary Section ?? .
+
+□
+
+Theorem 4.6 captures the central mechanism of boundary-minority underestimation: spatial support and mean contribu-tion can vanish simultaneously while exponential mass and the free-energy gap remain non-zero. 
+
+4.3 Boundary Regimes and Necessary Conditions Proposition 4.7 (Boundary regimes of the binary model) .
+
+The binary model satisfies the following properties. The free-energy gap equals zero when Δ = 0 or 𝛼 ∈ { 0, 1}. For fixed Δ and 𝛼 → 0+,
+
+𝐺 𝜏 (𝛼, Δ) = 𝛼 𝜏 (𝑒 Δ/𝜏 − 1) − Δ + 𝑂 (𝛼 2) −→ 0. (20) For fixed 𝛼 ∈ ( 0, 1) and Δ → ∞ ,
+
+𝐺 𝜏 (𝛼, Δ) = (1 − 𝛼 )Δ + 𝜏 log 𝛼 + 𝑜 (1). (21) Moreover, for fixed 𝛼 ∈ ( 0, 1), 𝐺 𝜏 (𝛼, Δ) is strictly increasing and strictly convex for Δ > 0.
+
+Proof sketch. The small-area limit follows from a local expan-sion of log (1 + 𝑥 ), and the large-advantage limit follows by factoring 𝛼𝑒 Δ/𝜏 from log-sum-exp. The signs of the first and second derivatives with respect to Δ establish monotonicity and convexity. The complete proof appears in Supplementary Section ?? . □
+
+Equation (20) prevents an overly broad conclusion: small spatial support alone does not require refinement. A minority region retains substantial Gibbs mass only when its response advantage grows sufficiently as its area shrinks. 
+
+4.4 Validity and Failure of Finite-Order Moment Correc-tions 
+
+Let 𝑋 𝐵 = 𝑆 𝐵 − 𝑀 (𝐵 ) denote the centered block score, and let 𝜅 𝑟 (𝐵 ) denote its 𝑟 -th cumulant. Because scores in a finite block are bounded, the moment-generating function is finite over the real line and the cumulant-generating function is analytic in a neighborhood of the origin. 
+
+Lemma 4.8 (Cumulant expansion in the weak-contrast regime) .
+
+Scale all centered scores in the block by 𝜆 . As 𝜆 → 0,
+
+𝐺 𝜏 (𝜆𝑆 𝐵 ) = 𝜆 2
+
+2𝜏 𝜅 2 (𝐵 ) + 𝜆 3
+
+6𝜏 2 𝜅 3 (𝐵 ) + 𝜆 4
+
+24 𝜏 3 𝜅 4 (𝐵 ) + 𝑂 (𝜆 5).
+
+(22) 
+
+Proof sketch. Translation invariance removes the block mean, after which 𝐺 𝜏 equals 𝜏 times the cumulant-generating func-tion of the centered variable evaluated at 𝜆 /𝜏 . Expanding the generating function around the origin and using 𝜅 1 (𝐵 ) = 0
+
+gives the result. The complete expansion appears in Supple-mentary Section ?? . □
+
+Lemma 4.8 shows that 𝑀 (𝐵 ) + Var (𝑆 𝐵 )/( 2𝜏 ) is only a second-order local approximation in weak-contrast regions. The correction lacks a uniform guarantee when skewness, kurtosis, or higher-order cumulants remain non-negligible. 
+
+Theorem 4.9 (Asymptotic blindness of finite-order moment corrections) . Consider 𝑆 𝛼, Δ𝛼 from Theorem 4.6. For every fixed integer 𝑟 ≥ 1, its 𝑟 -th central absolute moment 𝜇 𝑟 (𝛼 ) =
+
+E|𝑆 𝛼, Δ𝛼 − 𝑀 𝛼, Δ𝛼 |𝑟 satisfies 
+
+𝜇 𝑟 (𝛼 ) = 𝑂 (𝛼 [log (1/𝛼 )] 𝑟 ) −→ 0. (23) Furthermore, let 𝐶 : R𝑚 −1 → R be continuous at the origin and satisfy 𝐶 (0, . . . , 0) = 0. Every correction of the form 
+
+𝑀 𝛼, Δ𝛼 + 𝐶 (𝜇 2, . . . , 𝜇 𝑚 ), depending only on a fixed finite set of central moments, converges to zero, whereas the exact free energy converges to 𝜏 log (1 + 𝑒 𝑐 ) > 0.
+
+Proof sketch. The central absolute moment of the binary model separates into contributions from the majority and mi-nority states. The growth rate Δ𝛼 = 𝑂 (log (1/𝛼 )) bounds both contributions by 𝑂 (𝛼 [log (1/𝛼 )] 𝑟 ). The finite-dimensional moment vector therefore converges to the origin, and continu-ity of 𝐶 yields the inconsistency. Supplementary Section ?? 
+
+provides the complete proof. □
+
+Corollary 4.10 (Inconsistency of the mean-variance cor-rection) . Under the construction of Theorem 4.6, 𝑀 𝛼, Δ𝛼 +
+
+Var (𝑆 𝛼, Δ𝛼 )/( 2𝜏 ) → 0, whereas 𝐹 𝜏 (𝑆 𝛼, Δ𝛼 ) → 𝜏 log (1 + 𝑒 𝑐 ).The result does not deny the usefulness of variance cor-rection for finite samples and weakly skewed distributions. Instead, no fixed-order correction that is continuous near zero moments can uniformly cover the boundary-minority limit in which area vanishes but exponential mass remains non-zero. 
+
+4.5 Partitioned Free-Energy Decomposition and Hierar-chical Lower Bounds Lemma 4.11 (Partition identity for free energy) . For every partition P ( 𝐵 ), the exact free energy satisfies 
+
+𝐹 𝜏 (𝐵 ) = 𝜏 log 
+
+∑︁ 𝐶 ∈ P ( 𝐵 )
+
+𝑛 𝐶 
+
+𝑛 𝐵 
+
+exp 
+
+ 𝐹 𝜏 (𝐶 )
+
+𝜏 
+
+ 
+
+. (24) 
+
+Proof. Pairwise disjointness and Ð𝐶 ∈ P ( 𝐵 ) 𝐶 = 𝐵 imply 
+
+1
+
+𝑛 𝐵 ∑︁ 𝑖 ∈ 𝐵 
+
+𝑒 𝑠 𝑖 /𝜏 =∑︁  
+
+> 𝐶 ∈ P ( 𝐵 )
+
+𝑛 𝐶 
+
+𝑛 𝐵 
+
+1
+
+𝑛 𝐶 ∑︁ 𝑖 ∈𝐶 
+
+𝑒 𝑠 𝑖 /𝜏 
+
+!
+
+=∑︁  
+
+> 𝐶 ∈ P ( 𝐵 )
+
+𝑛 𝐶 
+
+𝑛 𝐵 
+
+𝑒 𝐹 𝜏 (𝐶 )/ 𝜏 . (25) Taking the logarithm and multiplying by 𝜏 proves Eq. (24) . □
+
+Proposition 4.12 (Two-sided bounds for the hierarchical proxy) . For every partition P ( 𝐵 ),
+
+𝑀 (𝐵 ) ≤ Φ𝜏 (𝐵 ; P) ≤ 𝐹 𝜏 (𝐵 ). (26) Consequently, the refinement increment Φ𝜏 (𝐵 ; P) − 𝑀 (𝐵 )
+
+is a non-negative lower bound on the exact free-energy gap 
+
+𝐺 𝜏 (𝐵 ).
+
+Proof. The area-weighted average of child means equals the parent mean: Í𝐶 (𝑛 𝐶 /𝑛 𝐵 )𝑀 (𝐶 ) = 𝑀 (𝐵 ). Applying Jensen’s inequality to the strictly convex function 𝑥 ↦ → 𝑒 𝑥 /𝜏 gives ∑︁ 
+
+> 𝐶
+
+𝑛 𝐶 
+
+𝑛 𝐵 
+
+𝑒 𝑀 (𝐶 )/ 𝜏 ≥ 𝑒 Í𝐶 (𝑛 𝐶 /𝑛 𝐵 ) 𝑀 (𝐶 )/ 𝜏 = 𝑒 𝑀 (𝐵 )/ 𝜏 . (27) 6Taking the logarithm and multiplying by 𝜏 yields the left inequality. Theorem 4.1 gives 𝑀 (𝐶 ) ≤ 𝐹 𝜏 (𝐶 ) for every child. Monotonicity of the exponential function together with Lemma 4.11 yields the right inequality. □
+
+Theorem 4.13 (Monotone consistency under partition refine-ment) . Let Q ( 𝐵 ) refine P ( 𝐵 ), meaning that every block in Q
+
+is contained in a block of P. Then 
+
+Φ𝜏 (𝐵 ; P) ≤ Φ𝜏 (𝐵 ; Q) ≤ 𝐹 𝜏 (𝐵 ). (28) The second inequality becomes equality when Q ( 𝐵 ) is the single-token partition. 
+
+Proof sketch. Within each coarse block, express the parent mean as the area-weighted average of descendant means and apply Jensen’s inequality to the exponential function. Summation over all coarse blocks shows that refinement cannot decrease the proxy free energy. The single-token partition equals the exact free energy by definition. Supplementary Section ?? contains the complete proof. □
+
+Theorem 4.13 establishes that hierarchical refinement con-structs an ordered sequence of lower bounds that converges to the exact free energy, rather than an unordered collection of heuristic estimates. 
+
+Theorem 4.14 (Recursive residual decomposition of parent and child gaps) . For a partition P ( 𝐵 ), define 
+
+𝜋 𝐶 = (𝑛 𝐶 /𝑛 𝐵 )𝑒 𝑀 (𝐶 )/ 𝜏 
+
+Í𝑅 ∈ P ( 𝐵 ) (𝑛 𝑅 /𝑛 𝐵 )𝑒 𝑀 (𝑅 )/ 𝜏 . (29) The exact free-energy gap satisfies 
+
+𝐺 𝜏 (𝐵 ) = Φ 𝜏 (𝐵 ; P) − 𝑀 (𝐵 )+ 𝜏 log 
+
+∑︁ 𝐶 ∈ P ( 𝐵 )
+
+𝜋 𝐶 𝑒 𝐺 𝜏 (𝐶 )/ 𝜏 
+
+
+
+. (30) 
+
+Proof sketch. Substitute 𝐹 𝜏 (𝐶 ) = 𝑀 (𝐶 ) + 𝐺 𝜏 (𝐶 ) into Lemma 4.11 and factor out the common log-sum-exp term formed by child means. The remaining normalized coeffi-cients are exactly 𝜋 𝐶 in Eq. (29) . Subtracting 𝑀 (𝐵 ) produces the recursive decomposition. The complete derivation appears in Supplementary Section ?? . □
+
+Because {𝜋 𝐶 } forms a probability distribution and log-sum-exp lies between its minimum and maximum arguments, 
+
+min  
+
+> 𝐶
+
+𝐺 𝜏 (𝐶 ) ≤ 𝐺 𝜏 (𝐵 ) − Φ𝜏 (𝐵 ; P) + 𝑀 (𝐵 ) ≤ max  
+
+> 𝐶
+
+𝐺 𝜏 (𝐶 ).
+
+(31) Equation (31) separates heterogeneity across child blocks from unresolved heterogeneity within children. A one-step refinement score captures only the former. 
+
+4.6 Global Distribution Fidelity and Output Perturbation Theorem 4.15 (KL equivalence of global free-energy error) .
+
+Let 𝑝 be the full attention distribution in Eq. (7) , and let 𝑞 T
+
+be the piecewise-constant approximation in Eq. (11). Then 
+
+𝐹 𝜏 (Ω) − e𝐹 𝜏 (T ) = 𝜏𝐷 KL (𝑞 T ∥ 𝑝 ). (32) 
+
+Proof sketch. Expanding 𝐷 KL (𝑞 T ∥ 𝑝 ) produces the ratio of partition functions and a score-replacement term within each leaf. The approximate distribution is constant within every leaf, and 𝑀 (𝐿 ) is the exact arithmetic mean of the original scores, so the replacement term cancels exactly within each leaf. The remaining term is the difference between the full and approximate log-partition functions. Supplementary Section ?? provides the complete derivation. □
+
+Corollary 4.16 (Propagation from local leaf gaps to global error) . Define the approximate mass assigned to leaf 𝐿 by 
+
+e𝜋 𝐿 = 𝑛 𝐿 𝑒 𝑀 (𝐿 )/ 𝜏 
+
+Í𝑅 ∈ L ( T ) 𝑛 𝑅 𝑒 𝑀 (𝑅 )/ 𝜏 . (33) Then 
+
+𝐹 𝜏 (Ω) − e𝐹 𝜏 (T ) = 𝜏 log ∑︁  
+
+> 𝐿 ∈ L ( T )
+
+e𝜋 𝐿 𝑒 𝐺 𝜏 (𝐿 )/ 𝜏 . (34) If every leaf satisfies 𝐺 𝜏 (𝐿 ) ≤ 𝜀 , then the global free-energy error does not exceed 𝜀 .
+
+Proof sketch. Group the full partition function by leaves and substitute 𝐹 𝜏 (𝐿 ) = 𝑀 (𝐿 ) + 𝐺 𝜏 (𝐿 ). The ratio between the full and approximate partition functions becomes a e𝜋 𝐿 -weighted average of 𝑒 𝐺 𝜏 (𝐿 )/ 𝜏 . If every leaf gap is at most 𝜀 , the weighted average is at most 𝑒 𝜀 /𝜏 . Supplementary Section ?? 
+
+gives the complete proof. □
+
+Corollary 4.16 controls the exact leaf gap, not a one-step child proxy. The current BMFA refinement score is a lower bound on the exact quantity and cannot by itself imply the certified conclusion without an additional upper bound. 
+
+Corollary 4.17 (Attention-output perturbation bound) . As-sume ∥𝒗 𝑖 ∥2 ≤ 𝑉 max , and define 𝐸 𝜏 (T ) = 𝐹 𝜏 (Ω) − e𝐹 𝜏 (T ) .Then 
+
+∥𝒐 − e𝒐 ∥2 ≤ 𝑉 max √︂ 2𝐸 𝜏 (T ) 
+
+𝜏 , e𝒐 =∑︁ 
+
+> 𝑖
+
+𝑞 T 
+
+> 𝑖
+
+𝒗 𝑖 . (35) 
+
+Proof sketch. The value-norm bound and the triangle inequal-ity first give ∥𝒐 − e𝒐 ∥2 ≤ 𝑉 max ∥ 𝑝 − 𝑞 T ∥1. Pinsker’s inequality [28 ], followed by Theorem 4.15, gives Eq. (35) . The complete proof appears in Supplementary Section ?? . □
+
+Corollary 4.17 establishes a rigorous connection between free-energy preservation, attention-distribution preservation, and single-layer attention-output stability. Classification accu-racy additionally depends on subsequent nonlinear mappings and classification margins; monotonic Top-1 behavior does not follow automatically from the bound. 
+
+4.7 Incompleteness of One-Step Screening and Certified Corrections Proposition 4.18 (Incompleteness of the one-step refinement score) . There exists a non-constant block 𝐵 and a four-child partition P1 (𝐵 ) such that Φ𝜏 (𝐵 ; P1) − 𝑀 (𝐵 ) = 0 while 
+
+𝐺 𝜏 (𝐵 ) > 0.
+
+Proof. Let every child contain equal numbers of +𝑎 and −𝑎 ,where 𝑎 > 0. Every child mean and the parent mean equal zero, so Eq. (10) yields Φ𝜏 (𝐵 ; P1) = 0 = 𝑀 (𝐵 ). The empirical distribution of the entire block also assigns equal probability to +𝑎 and −𝑎 , and therefore 
+
+𝐺 𝜏 (𝐵 ) = 𝜏 log 
+
+ 𝑒 𝑎 /𝜏 + 𝑒 −𝑎 /𝜏 
+
+2
+
+
+
+= 𝜏 log cosh (𝑎 /𝜏 ) > 0.
+
+(36) A one-step child-mean score consequently fails to reveal within-child heterogeneity when means cancel exactly at the current partition scale. □
+
+7Proposition 4.18 requires the one-step quantity to be de-scribed as a lower-bound refinement signal , rather than an unconditional complete error certificate. 
+
+Theorem 4.19 (Monotone consistency of multi-level look-a-head lower bounds) . Let Pℎ (𝐵 ) be the descendant partition obtained by regular subdivision of 𝐵 for ℎ levels, and define 
+
+b𝐺 (ℎ) 
+
+> 𝜏
+
+(𝐵 ) = Φ 𝜏 (𝐵 ; Pℎ) − 𝑀 (𝐵 ). Then 
+
+0 = b𝐺 (0) 
+
+> 𝜏
+
+(𝐵 ) ≤ b𝐺 (1) 
+
+> 𝜏
+
+(𝐵 ) ≤ · · · ≤ 𝐺 𝜏 (𝐵 ). (37) If ℎ is sufficiently large that every descendant is a single token, then b𝐺 (ℎ) 
+
+> 𝜏
+
+(𝐵 ) = 𝐺 𝜏 (𝐵 ).
+
+Proof sketch. Adjacent look-ahead partitions form a sequence of refinements. Theorem 4.13 therefore guarantees that the proxy free energy is non-decreasing and bounded above by the exact free energy. The proxy equals the exact value at the single-token partition. Supplementary Section ?? provides the full proof. □
+
+Multi-level look-ahead reduces cancellation at the cur-rent partition scale but increases statistical access and tree-construction cost. The experiments use the low-cost setting 
+
+ℎ = 1; deeper look-ahead is a testable extension rather than an implicit component of the reported implementation. 
+
+Theorem 4.20 (Range-based upper bound on the free-energy gap) . Define the within-block range R ( 𝐵 ) = max 𝑖 ∈ 𝐵 𝑠 𝑖 −
+
+min 𝑖 ∈ 𝐵 𝑠 𝑖 . Then 
+
+𝐺 𝜏 (𝐵 ) ≤ R ( 𝐵 )2
+
+8𝜏 . (38) 
+
+Proof sketch. Apply Hoeffding’s lemma [ 29 ] to the centered variable 𝑋 𝐵 = 𝑆 𝐵 − 𝑀 (𝐵 ), whose support interval has length 
+
+R ( 𝐵 ). Setting the moment-generating-function parameter to 
+
+1/𝜏 and multiplying by 𝜏 gives the result. Supplementary Section ?? contains the complete proof. □
+
+Theorem 4.20 and the multi-level lower bound yield 
+
+b𝐺 (ℎ) 
+
+> 𝜏
+
+(𝐵 ) ≤ 𝐺 𝜏 (𝐵 ) ≤ R ( 𝐵 )2/( 8𝜏 ). A block is certified safe when the upper bound is at most 𝜀 , and refinement is necessary when the lower bound exceeds 𝜀 . If the lower bound does not exceed the threshold while the upper bound does, the available statistics are insufficient for a certified decision. The range bound requires access to within-block extrema. Such access is available in the diagnostic prototype after full score computation, but a future implementation designed to avoid QK computation would require a low-cost proxy or a precomputed bound. 
+
+Proposition 4.21 (Stability under approximate scores) . As-sume that exact and approximate scores satisfy max 𝑖 ∈ 𝐵 |𝑠 𝑖 −
+
+b𝑠 𝑖 | ≤ 𝛿 . Let 𝐺 𝜏 (𝐵 ; 𝑠 ) and 𝐺 𝜏 (𝐵 ; b𝑠 ) denote the free-energy gaps computed from the two score sets. Then 
+
+|𝐺 𝜏 (𝐵 ; 𝑠 ) − 𝐺 𝜏 (𝐵 ; b𝑠 )| ≤ 2𝛿. (39) 
+
+Proof sketch. Log-sum-exp is 1-Lipschitz with respect to the 
+
+ℓ∞ norm, so the corresponding free energies differ by at most 
+
+𝛿 . Arithmetic means also differ by at most 𝛿 . Applying the triangle inequality to the difference of the two terms gives the 
+
+2𝛿 bound. A termwise exponential sandwich proof appears in Supplementary Section ?? . □
+
+A future screening criterion based on predicted scores must preserve a safety margin of at least 2𝛿 on both sides of the threshold. Unquantified proxy error cannot be ignored. 
+
+## 5 Adaptive Multi-Scale Screening from Free-Energy Lower Bounds 
+
+5.1 Overview and Design Principles 
+
+BMFA constructs a piecewise-constant approximation over the two-dimensional spatial layout of attention scores. The design follows three principles. First, the refinement quantity must align with exponential softmax aggregation rather than relying only on a linear mean or an external edge prior. Second, spatial granularity must adapt to local heterogeneity, retaining coarse leaves in homogeneous regions and allocating the leaf budget to regions with unresolved response differences. Third, the threshold and maximum depth must explicitly control tree size, while the theoretical presentation must distinguish refinement triggered by a lower bound from safety certified by an upper bound. The current formulation constructs an independent tree for each fixed query-head pair. The choice requires no cross-head consistency assumption and exactly matches the results in Sections 3–4. An implementation that shares a tree can compute refinement scores for all participating query-head pairs and aggregate them by a maximum. The conservative maximum guarantees refinement whenever any participating pair triggers a split, although the resulting computation and budget must be reported separately. Figure 2 connects the local BMFA decision to real inputs and closed-loop output fidelity. The response field provides a computable representation of within-block heterogeneity, and the hierarchical lower-bound increment in Eq. (40) deter-mines whether a quadtree node is subdivided. Large leaves remain in homogeneous regions, while additional granular-ity is concentrated around high-response boundaries. The rightmost panel uses measured closed-loop results from the last four DeiT-Tiny blocks on COCO 5k. At comparable leaf ratios, adaptive selection achieves higher Top-1 agreement than random selection. 
+
+5.2 One-Step Hierarchical Free-Energy Refinement Score 
+
+Let ch (𝐵 ) denote the valid direct children of a splittable block 
+
+𝐵 . The one-step BMFA refinement score is 
+
+Γ𝜏 (𝐵 ) = Φ 𝜏 (𝐵 ; ch (𝐵 )) − 𝑀 (𝐵 )
+
+= 𝜏 log 
+
+∑︁ 𝐶 ∈ch (𝐵 )
+
+𝑛 𝐶 
+
+𝑛 𝐵 
+
+𝑒 𝑀 (𝐶 )/ 𝜏 
+
+
+
+− 𝑀 (𝐵 ). (40) Proposition 4.12 guarantees 0 ≤ Γ𝜏 (𝐵 ) ≤ 𝐺 𝜏 (𝐵 ). Conse-quently, Γ𝜏 (𝐵 ) > 𝜀 is sufficient evidence that the current coarse representation incurs an error exceeding 𝜀 . By contrast, 
+
+Γ𝜏 (𝐵 ) ≤ 𝜀 establishes only that heterogeneity across direct children is small; deeper mean cancellation of the form in Proposition 4.18 remains possible. We therefore refer to Γ𝜏 
+
+as a hierarchical free-energy refinement score rather than an unconditional complete error certificate. Equation (40) depends only on the parent mean and direct-child means. Once a score grid is available, a two-dimensional prefix sum permits constant-time mean queries for arbitrary rectangular blocks, making the decision cost for each tree node independent of block area. 
+
+5.3 Recursive Quadtree Construction 
+
+Given a threshold 𝜀 ≥ 0 and maximum depth 𝐷 , BMFA processes the root block Ω recursively. A node becomes a leaf when the maximum depth is reached, the node contains a single token, or no valid subdivision exists. Every remaining 8(a) Real input (b) Local score field       
+
+> ε= 0.004; 82/256 leaves
+> (c) Adaptive partition
+> 0.0 0.1 0.2 0.3 0.4 0.5
+> mean leaf fraction
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> Top-1 agreement
+> Mean
+> F q
+> F 2x2
+> A 1.0
+> A .8
+> A .5
+> R .25
+> R .50
+> (d) Closed-loop fidelity
+
+## → → →Figure 2: Data-driven overview of BMFA. (a) A kite crop from COCO. (b) The corresponding local response field. (c) Adaptive leaf partition recursively constructed from Γ1 (𝐵 ); the illustrated threshold is 𝜀 = 0.004 , producing 82 /256 leaves. (d) Leaf ratio and Top-1 agreement with the full model in the COCO 5k closed-loop attention experiment. A, R, and F denote adaptive, random, and fixed strategies. Adaptive selection consistently exceeds random retention at comparable granularity, indicating that the gain arises from spatial selection rather than retention quantity alone. Panel (c) is reconstructed from the measured response grid in panel (b) using Algorithm 1; panel (d) uses the recorded experimental results. 
+
+Algorithm 1: Boundary-Minority Free-Energy Adap-tive Screening 
+
+Input: Score grid {𝑠 𝑖 }𝑖 ∈Ω, temperature 𝜏 , threshold 𝜀 ,maximum depth 𝐷 
+
+Output: Leaf partition L(T )  
+
+> 1
+
+Initialize Q ← {( Ω, 0)} and L(T ) ← ∅ ; 
+
+> 2
+
+while Q is not empty do  
+
+> 3
+
+Pop a node (𝐵, 𝑑 ); 
+
+> 4
+
+if 𝑑 = 𝐷 or 𝐵 admits no valid split then  
+
+> 5
+
+L(T ) ← L(T ) ∪ { 𝐵 }; 
+
+> 6
+
+else  
+
+> 7
+
+Construct ch (𝐵 ) and compute Γ𝜏 (𝐵 ) from Eq. (40);  
+
+> 8
+
+if Γ𝜏 (𝐵 ) > 𝜀 then  
+
+> 9
+
+Add (𝐶, 𝑑 + 1) to Q for every 𝐶 ∈ ch (𝐵 ); 
+
+> 10
+
+else  
+
+> 11
+
+L(T ) ← L(T ) ∪ { 𝐵 };node is split when Γ𝜏 (𝐵 ) > 𝜀 and retained otherwise. Using the strict condition “ >” makes the behavior at equality deterministic. Decreasing the threshold cannot reduce the number of leaves, and increasing the maximum depth expands the finest attainable resolution. A node that still has a large 
+
+Γ𝜏 (𝐵 ) at depth 𝐷 must be marked as depth-limited; the current method does not claim that such a node satisfies the exact error threshold. 
+
+5.4 Piecewise-Constant Attention Reconstruction and Multiplicity Preservation 
+
+After tree construction, every score in a leaf is replaced by the leaf mean, yielding 𝑞 T in Eq. (11) . The operation retains the original token count and isolates the effects of spatial selection and output fidelity. A future sparse implementation that compresses each leaf into a single representative token must preserve the number of original tokens contained in the leaf. 
+
+Proposition 5.1 (Equivalence of repeated-mean and single-rep-resentative forms) . For each leaf 𝐿 , define the representative logit and value as 
+
+ℓ𝐿 = 𝑀 (𝐿 ) + 𝜏 log 𝑛 𝐿 , 𝒗 𝐿 = 1
+
+𝑛 𝐿 ∑︁ 𝑖 ∈ 𝐿 
+
+𝒗 𝑖 . (41) Computing a softmax-weighted sum over the representative pairs (ℓ𝐿 , 𝒗 𝐿 ) yields exactly the same attention output as repeating the mean score 𝑀 (𝐿 ) at every original position 
+
+𝑖 ∈ 𝐿 .
+
+Proof. In the repeated-mean representation, leaf 𝐿 con-tributes 𝑛 𝐿 𝑒 𝑀 (𝐿 )/ 𝜏 to the approximate partition function and contributes 𝑒 𝑀 (𝐿 )/ 𝜏 Í𝑖 ∈ 𝐿 𝒗 𝑖 = 𝑛 𝐿 𝑒 𝑀 (𝐿 )/ 𝜏 𝒗 𝐿 to the at-tention numerator. The representative form satisfies 𝑒 ℓ𝐿 /𝜏 =
+
+𝑒 𝑀 (𝐿 )/ 𝜏 𝑒 log 𝑛 𝐿 = 𝑛 𝐿 𝑒 𝑀 (𝐿 )/ 𝜏 . The partition-function and nu-merator contributions therefore match exactly. Summation over all leaves produces identical normalized outputs. □
+
+Omitting 𝜏 log 𝑛 𝐿 assigns the same prior multiplicity to leaves of different area and violates Proposition 5.1. The current closed-loop prototype replaces scores on the original grid, so repeated tokens preserve multiplicity automatically. A future single-representative kernel must add the term explicitly. 
+
+5.5 Structural Properties of Threshold, Depth, and Tree Size Proposition 5.2 (Threshold nesting) . For fixed input, tem-perature, and maximum depth, if 0 ≤ 𝜀 1 ≤ 𝜀 2, the tree generated with 𝜀 1 refines the tree generated with 𝜀 2. Hence 
+
+|L(T 𝜀 1 )| ≥ |L(T 𝜀 2 )| .
+
+Proof sketch. Induction on tree depth shows that every node split under the larger threshold also satisfies the split condition under the smaller threshold. Lowering the threshold can add branches but cannot remove an existing branch. The complete proof appears in Supplementary Section ?? . □
+
+Proposition 5.3 (Maximum-depth monotonicity) . For fixed input, temperature, and threshold, increasing the maximum depth from 𝐷 1 to 𝐷 2 ≥ 𝐷 1 cannot decrease the number of leaves or the proxy free energy e𝐹 𝜏 (T ) associated with the final leaf partition. 
+
+Proof sketch. Increasing the maximum depth leaves every decision up to depth 𝐷 1 unchanged and can only subdivide leaves previously stopped by the depth limit. The leaf count cannot decrease, and Theorem 4.13 ensures that the proxy free energy does not decrease under refinement. Supplementary Section ?? provides the complete proof. □
+
+The monotonicity properties apply to tree structure and the free-energy lower bound. They do not imply strictly 9monotone downstream Top-1 accuracy, because subsequent nonlinear layers and finite classification margins can produce non-monotone discrete predictions. 
+
+Theorem 5.4 (Termination and worst-case tree size) . For a finite grid Ω and a finite maximum depth 𝐷 , Algorithm 1 terminates after finitely many steps. If every internal node has exactly four children, then |L(T )| ≤ min (𝑁, 4𝐷 ), and the total number of visited nodes equals (4|L(T )| − 1)/ 3.
+
+Proof sketch. A finite branching factor and finite depth imply a finite tree. The leaf-count bounds follow from the complete depth-𝐷 quadtree and the single-token partition. For a full quadtree, the total-node formula follows from the edge identity 
+
+4𝐼 = 𝐼 + 𝐿 − 1. Supplementary Section ?? gives the complete counting argument. □
+
+If two-dimensional prefix sums make rectangular mean queries 𝑂 (1), tree-construction time is linear in the number of visited nodes, and memory is of the same order as the queue and leaf set. For irregular boundary splits with two or three children, the exact total-node formula changes, while finite termination and 𝑂 (number of visited nodes ) complexity remain valid. 
+
+5.6 Boundary Conditions, Numerical Implementation, and Computational Scope 
+
+A homogeneous block satisfies Γ𝜏 (𝐵 ) = 𝐺 𝜏 (𝐵 ) = 0 and requires no refinement. A single-token block satisfies 𝐹 𝜏 (𝐵 ) =
+
+𝑀 (𝐵 ) and has no valid children. Non-square grids can use unequal rectangular children, but Eq. (40) must employ the actual valid-token weights 𝑛 𝐶 /𝑛 𝐵 rather than assigning equal weight to four children. Padding and invalid positions must be excluded from Ω and all block statistics; classification tokens and other non-spatial positions remain separate. The partition proxy uses a numerically stable log-sum-exp implementation. Let 𝑎 𝐶 = 𝑀 (𝐶 )/ 𝜏 and 𝑎 max = max 𝐶 𝑎 𝐶 .Then 
+
+Φ𝜏 (𝐵 ; P) = 𝜏 
+
+
+
+𝑎 max + log ∑︁  
+
+> 𝐶 ∈ P ( 𝐵 )
+
+𝑛 𝐶 
+
+𝑛 𝐵 
+
+𝑒 𝑎 𝐶 −𝑎 max 
+
+
+
+. (42) Equation (42) is mathematically identical to Eq. (10) , while every exponential argument is non-positive. The current prototype constructs the tree and replaces block scores after the full QK score matrix has been computed. The implementation isolates the refinement criterion, prediction agreement, and KL fidelity, but does not demonstrate end-to-end sparse acceleration. Reported leaf ratios represent potential granularity, and Python/NumPy runtime measures diagnostic overhead. Converting BMFA into realized speedup requires a reliable low-cost score proxy before the full matrix multiplication and a fused kernel capable of skipping the corresponding QK or downstream token computation. Propo-sition 4.21 specifies the error margin that such a proxy must satisfy. 
+
+## 6 Experiments 
+
+6.1 Experimental Protocol 
+
+The evaluation follows four levels: controlled mechanism diagnosis, real-data probes, closed-loop model fidelity, and standard image classification. The synthetic experiment varies minority area ratio 𝛼 and logit advantage Δ on a 16 × 16 
+
+score grid and aggregates underestimation only when minority Gibbs mass is at least 0.5, resulting in 396 valid parameter settings per method. Real-data probes use all 5,000 COCO val2017 images and 36 ,149 instances, with images processed at 256 × 256 and mapped to a 16 × 16 grid. The image-edge probe restricts minority regions using instance annotations and modulates local scores with image-edge responses; the mask-only probe retains instance geometry without pixel-edge magnitude. The LVIS probe applies the same statistical protocol to 20 ,000 instances from 1,999 images. Annota-tions participate only in diagnostic score construction and are not inference inputs to BMFA. Complete data processing, model configuration, hardware, and reporting conventions are provided in Supplementary Section ?? .Comparisons include the mean-based block summary de-noted as Sparge-style mean, a second-order mean-variance cor-rection, fixed-depth quadtrees, the adaptive BMFA quadtree, and Edge-aware keep, which preserves all annotated minority positions. Sparge-style mean is a mechanism-level proxy for mean-based block screening and is not the full official SpargeAttention kernel of Zhang et al. [20] . Edge-aware keep uses diagnostic annotations and therefore serves only as a zero-error oracle rather than a deployable method. Closed-loop and ImageNet-1K experiments use pretrained DeiT-Tiny/16 from Touvron et al. [5] . Because the materials contain neither repeated random runs nor standard deviations, all figures report the recorded aggregate values without error bars or significance markers. 
+
+6.2 Controlled Boundary-Minority Stress Test 
+
+Figure 3 fixes 𝛼 = 4/256 and varies the minority logit advantage Δ. Proposition 4.5 gives the critical point at which the minority state reaches one-half of the Gibbs mass: 
+
+Δ = log 63 ≈ 4.143 . Beyond the threshold, underestimation from the mean summary, variance correction, and fixed parti-tions continues to increase with response advantage, whereas BMFA triggers local refinement and reduces the residual error of the controlled structure to near zero. The curve directly evaluates the mass-reversal regime identified by the theoretical analysis rather than a trend induced by natural-image noise or class imbalance. Across all 396 minority-dominant settings, Sparge-style mean produces mean and P95 underestimates of 2.582 and 
+
+5.114 . BMFA reduces the two values to 0.261 and 2.035 
+
+with an average leaf ratio of 5.794% . A fixed quadtree with 
+
+𝑑 = 2 uses a comparable 6.250% leaf ratio but retains a mean underestimate of 1.129 , showing that the improvement does not follow automatically from a modest increase in granularity and depends on refinement location. Edge-aware keep reaches zero error at a 100% leaf ratio and therefore defines only a full-retention upper bound. 
+
+6.3 Real-Data Mechanism Validation and Cross-Dataset Generalization 
+
+Figure 4 compares synthetic, COCO image-edge, and LVIS image-edge probes in a common coordinate system. BMFA remains in the low-mean-error region for all three data sources and substantially outperforms fixed partitions of comparable leaf ratio. The trend indicates that mean underestimation in the binary model is not restricted to an artificial shape distribution. On COCO, BMFA reduces the mean underestimate of Sparge-style mean from 2.254 to 0.526 , a relative reduction of 76 .7% ,at a 30 .810% average leaf ratio. On LVIS, the corresponding reduction is from 2.277 to 0.596 , or 73 .8% , at a 29 .225% leaf ratio. Table 1 also reveals the current limitation of BMFA. BMFA 10 0 2 4 6 8
+
+Minority logit advantage, Δ               
+
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> Free-energy underestimate
+> ρτ = 0.5
+> α= 4/256
+> Sparge-style mean
+> Mean + β/2 var
+> Fixed quadtree d= 1
+> Fixed quadtree d= 2
+> BMFA Figure 3: Controlled boundary-minority stress test. The minority area ratio is fixed at 𝛼 =4/256 , and the horizontal axis denotes the logit advantage Δ. The purple dashed line marks the theoretical threshold at which minority Gibbs mass reaches 0.5. BMFA resolves the minority high-response structure after the lower-bound refinement score is activated, whereas the mean summary, second-order moment correction, and shallow fixed partitions retain an underestimate that grows with Δ. Curves are plotted directly from the complete parameter-sweep records.
+> Table 1: Complete image-edge probe results on COCO and LVIS. Lower gap is better; Leaf denotes the average leaf ratio. Every method is evaluated on the same instance set. The best deployable result is shown in bold, while the annotation-dependent oracle is excluded from best-value comparisons.
+
+## COCO val2017, 36 ,149 instances LVIS, 20 ,000 instances Method Mean gap P95 gap Leaf (%) Mean gap P95 gap Leaf (%) Sparge-style mean 2.254 2.551 0.391 2.277 2.613 0.391 Mean + 𝛽 /2 var 0.787 1.162 0.391 0.824 1.248 0.391 Fixed quadtree 𝑑 = 1 2.200 2.524 1.563 2.233 2.590 1.563 Fixed quadtree 𝑑 = 2 1.840 2.241 6.250 1.865 2.313 6.250 
+
+## BMFA 0.526 2.434 30.810 0.596 2.509 29.225 Edge-aware keep (oracle) 0.000 0.000 100.000 0.000 0.000 100.000 
+
+yields the lowest mean gap, but its COCO and LVIS P95 values are higher than those of the second-order variance correction. The behavior agrees with Proposition 4.18: a one-step score identifies substantial heterogeneity across child blocks but can miss deeper structures whose means cancel at the current scale. The mask-only probe provides an independent check. BMFA obtains a mean gap of 0.534 , below the 0.600 value of Mean+ 𝛽 /2var, while the corresponding P95 values are 1.830 
+
+and 0.835 . The evidence therefore supports reduced average boundary-minority underestimation and adaptive localization of critical regions, but does not support uniform dominance over the second-order approximation at every quantile. 
+
+6.4 Threshold Ablation 
+
+Figure ?? reports the effects of 𝜀 on mean error, leaf ratio, and runtime of the unfused diagnostic implementation. Decreasing the threshold from 0.05 to 0.001 reduces mean gap from 1.644 
+
+to 0.120 , increases average leaf ratio from 9.26% to 53 .24% ,and raises runtime from 0.697 to 3.350 ms per instance. The default configuration 𝜀 = 0.005 , 𝐷 = 4, and grid size 16 
+
+obtains a mean gap of 0.549 at a 29 .08% leaf ratio with 2.099 
+
+ms per-instance Python/NumPy overhead. The complete threshold curves and runtime visualization are reported in Supplementary Figure ?? .Increasing maximum depth from 2 to 4 reduces mean gap from 1.917 to 0.549 ; a further increase to 5 changes neither the gap nor leaf ratio, indicating that depth 4 reaches the finest level resolved by the criterion on a 16 × 16 grid. Grid size 8 reduces mean gap to 0.403 but increases leaf ratio to 56 .03% . Grid size 32 reduces leaf ratio to 12 .39% 
+
+but increases mean gap to 0.910 and runtime to 3.553 ms per instance. Grid size 16 therefore provides the current compromise among approximation error, granularity, and implementation overhead. Complete depth and grid tables are reported in Supplementary Section ?? .
+
+6.5 Closed-Loop Attention-Output Fidelity 
+
+Mechanism probes measure free-energy approximation but do not alone establish preservation of model outputs. Figure 5 inserts the same screening rule into the last four DeiT-Tiny blocks and compares outputs with the full model on 5,000 
+
+COCO images. BMFA with 𝜀 = 0.8 uses a 30 .82% average leaf ratio, reaches 75 .98% Top-1 agreement, and yields 𝐷 KL =
+
+0.149 . Random retention with 𝑝 = 0.25 uses a 26 .53% leaf ratio but reaches only 61 .54% agreement and 𝐷 KL = 0.406 .In the higher-budget regime, BMFA with 𝜀 = 0.5 and random 11 10 0 10 1 10 2
+
+Leaf fraction (%) 
+
+(log scale) 
+
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> Mean free-energy underestimate
+> BMFA
+> Oracle
+
+Synthetic   
+
+> 10 010 110 2
+
+Leaf fraction (%) 
+
+(log scale) 
+
+> BMFA
+> Oracle
+
+COCO image-edge   
+
+> 10 010 110 2
+
+Leaf fraction (%) 
+
+(log scale) 
+
+> BMFA
+> Oracle
+
+LVIS image-edge            
+
+> BMFA
+> Sparge-style mean
+> Mean + β/2 var
+> Fixed quadtree d= 1
+> Fixed quadtree d= 2
+> Edge-aware keep Figure 4: Trade-off between mean free-energy underestimate and leaf ratio on synthetic, COCO, and LVIS probes. The horizontal axis uses a logarithmic scale to display both the 0.391% single-block summary and the 100% oracle. BMFA attains lower mean error than shallow fixed partitions across all three data sources. Edge-aware keep is a full-retention upper bound that uses diagnostic boundaries.
+
+retention with 𝑝 = 0.5 use leaf ratios of 52 .66% and 51 .00% ,respectively; their agreements are 87 .00% and 72 .40% , and their KL divergences are 0.041 and 0.189 . The persistent differences at comparable budgets show that output fidelity arises primarily from free-energy-based spatial selection rather than retention quantity alone. A fixed 2 × 2 partition uses a 25 .00% leaf ratio and obtains 
+
+73 .50% agreement with 0.196 KL. BMFA with 𝜀 = 0.8 uses a moderately larger 30 .82% ratio but improves agreement by 2.48 percentage points and lowers KL. The variance-only configuration requires a 97 .57% leaf ratio to reach 99 .02% 
+
+agreement and therefore does not demonstrate effective low-granularity selection. Approximating more layers degrades ev-ery method, but the advantage of BMFA over budget-matched random retention persists for last-2, last-4, last-8, and all-layer settings, as shown in Supplementary Figure ?? .
+
+6.6 ImageNet-1K Model-Level Evaluation 
+
+Figure 6(a) compares BMFA with controls that have explicit leaf ratios. BMFA with 𝜀 = 0.5 reaches 71 .520% Top-1 accuracy at a 55 .861% average leaf ratio, a decrease of 0.564 
+
+percentage points from the full DeiT-Tiny result of 72 .084% ,with 93 .646% Top-1 agreement. Random retention with 
+
+𝑝 = 0.5 uses a comparable 51 .024% leaf ratio but reaches only 69 .148% Top-1. BMFA with 𝜀 = 0.8 and random retention with 𝑝 = 0.25 attain 69 .820% and 65 .146% Top-1, respectively. A fixed 2 × 2 partition reaches 69 .322% at a 25% 
+
+leaf ratio, below the 69 .820% result of BMFA with 𝜀 = 0.8.The comparisons again indicate that adaptive spatial allocation is more effective than fixed or random assignment. Figure 6(b) additionally includes ToMe, PiToMe [ 16 ], DiffRate [ 30 ], CrossGET [ 31 ], ToFu [ 13 ], and a local DCT token-reduction implementation. ToMe with 𝑟 = 8 reaches 
+
+71 .666% Top-1 and 1.187 × measured speedup, providing a stronger accuracy-throughput point in the current table. BMFA throughput is below that of the full model, so the present con-tribution is restricted to boundary-minority failure analysis, selection quality, and output fidelity. Transforming the leaf structure into speedup requires predicting the refinement score before full QK computation and implementing a fused sparse or token-reduction kernel. 
+
+6.7 Qualitative Analysis on Real Instances 
+
+Figure ?? presents four COCO instances from the kite, person, book, and spoon categories. Each example contains the image crop, the boundary-minority response field constructed from the instance boundary, and the adaptive BMFA refinement. Minority area ratios range from 9.8% to 12 .5% , Gibbs masses exceed 97% , and free-energy gaps range from 2.854 to 3.091 .Fine leaves concentrate around contours, elongated structures, and small parts, while extensive near-homogeneous regions retain coarse representations. The spatial allocation agrees with the theoretical local-heterogeneity criterion and does not imply that an external boundary label is required during inference. Supplementary Figure ?? provides the complete visualiza-tion panels and per-instance statistics. 
+
+6.8 Scope of the Empirical Claims and Current Limita-tions 
+
+The experiments support three claims. Mean-based coarse summaries systematically underestimate free energy in boundary-minority regions; BMFA substantially reduces aver-age underestimation across synthetic, COCO, and LVIS data; and adaptive selection preserves DeiT outputs and ImageNet accuracy more effectively than random or fixed controls at comparable leaf budgets. The evidence also has explicit boundaries. First, the one-step score is a lower-bound signal, and the P95 tail does not uniformly outperform variance cor-rection. Second, the real-data probes use annotation-informed score construction to validate the mechanism rather than to emulate annotation-free deployment. Third, the prototype ap-plies the approximation after full QK computation and has not demonstrated sparse acceleration. Future evaluation should examine multi-level look-ahead or dual-bound certification and combine a low-cost score proxy with a hardware-efficient kernel. 
+
+## 7 Conclusion 
+
+We studied the failure of coarse token and attention sum-maries in boundary-minority regions, where spatially rare high responses can dominate exponential attention mass while contributing negligibly to a block mean. The theoretical analysis connects the free-energy gap to KL divergence, estab-12 0 20 40 60 80 100 
+
+Mean leaf fraction (%) 
+
+40 
+
+60 
+
+80 
+
+100     
+
+> Top-1 agreement with full (%)
+> 2 × 2
+> ε= . 8
+> ε= . 5
+> p= . 25
+> p= . 5
+
+(a) Prediction agreement 
+
+0 20 40 60 80 100 
+
+Mean leaf fraction (%) 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0     
+
+> DKL  to full
+> 2 × 2
+> ε= . 8
+> ε= . 5
+> p= . 25
+> p= . 5
+
+(b) Distribution fidelity 
+
+Full BMFA Random Fixed Figure 5: Closed-loop fidelity on COCO 5k when replacing attention logits in the last four DeiT-Tiny blocks. (a) Top-1 prediction agreement with the full model. (b) KL divergence from the approximate output distribution to the full-model distribution. At leaf budgets comparable to random retention, BMFA yields higher agreement and lower KL. Global mean and very shallow fixed partitions occupy the low-budget, low-fidelity region. 
+
+Table 2: Representative ImageNet-1K validation results. Speedup is computed from measured images per second relative to the full model in the same environment. Current BMFA results evaluate selection quality and do not represent an optimized sparse kernel. 
+
+# Method Top-1 (%) Drop (pp) Agreement (%) Leaf (%) Speedup Full DeiT-Tiny 72.084 0.000 – – 1.000 ×
+
+# ToMe 𝑟 = 8 [10] 71.666 0.418 94.122 – 1.187 ×
+
+# Fixed 2 × 2 69.322 2.762 87.322 25.000 0.940 ×
+
+# BMFA 𝜀 = 0.8 69.820 2.264 88.146 34.868 0.864 ×
+
+# BMFA 𝜀 = 0.5 71.520 0.564 93.646 55.861 0.860 ×
+
+# Random 𝑝 = 0.25 65.146 6.938 79.458 26.530 0.916 ×
+
+# Random 𝑝 = 0.5 69.148 2.936 86.908 51.024 0.920 ×
+
+lishes minority-mass reversal and asymptotic mean blindness, and clarifies why finite-order moment corrections cannot uni-formly resolve the limiting regime. BMFA operationalizes the analysis through a hierarchical lower-bound refinement score and an adaptive quadtree that allocates resolution to unresolved heterogeneous blocks. Synthetic, COCO, LVIS, closed-loop DeiT-Tiny, and ImageNet-1K evaluations con-sistently support the selection-quality claim. The one-step score remains a lower-bound signal rather than a complete certificate, and the present implementation operates after full QK computation. Multi-level look-ahead, certified upper bounds, low-cost score prediction, and fused sparse or token-reduction kernels constitute the principal directions required to convert the demonstrated selection fidelity into end-to-end acceleration. 
+
+## References 
+
+[1] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weis-senborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby. An image is worth 16x16 words: Transformers for image recognition at scale. In International Conference on Learning Representations , 2021. [2] Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin, and Baining Guo. Swin transformer: Hierarchical vision transformer using shifted windows. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 10012–10022, 2021. [3] Robin Strudel, Ricardo Garcia, Ivan Laptev, and Cordelia Schmid. Segmenter: Transformer for semantic segmentation. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 7262–7272, 2021. [4] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen Krueger, and Ilya Sutskever. Learning transferable visual models from natural language supervision. In Proceedings of the 38th International Conference on Machine Learning , volume 139 of 
+
+Proceedings of Machine Learning Research , pages 8748–8763, 2021. [5] Hugo Touvron, Matthieu Cord, Matthijs Douze, Francisco Massa, Alexandre Sablayrolles, and Hervé Jégou. Training data-efficient image transformers and distillation through attention. In Proceedings of the 38th International Conference on Machine Learning , volume 139 of 
+
+Proceedings of Machine Learning Research , pages 10347–10357, 2021. [6] Yongming Rao, Wenliang Zhao, Benlin Liu, Jiwen Lu, Jie Zhou, and Cho-Jui Hsieh. Dynamicvit: Efficient vision transformers with dynamic token sparsification. In Advances in Neural Information Processing Systems , volume 34, pages 13937–13949, 2021. [7] Youwei Liang, Chongjian Ge, Zhan Tong, Yibing Song, Jue Wang, and Pengtao Xie. Not all patches are what you need: Expediting vision transformers via token reorganizations. In International Conference on Learning Representations , 2022. [8] Hongxu Yin, Arash Vahdat, Jose M. Alvarez, Arun Mallya, Jan Kautz, and Pavlo Molchanov. A-vit: Adaptive tokens for efficient vision transformer. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 10809–10818, 2022. [9] Michael S. Ryoo, A. J. Piergiovanni, Anurag Arnab, Mostafa Dehghani, and Anelia Angelova. Tokenlearner: What can 8 learned tokens do for images and videos? In Advances in Neural Information Processing 
+
+13 20 30 40 50 60 
+
+Mean leaf fraction (%) 
+
+65 
+
+66 
+
+67 
+
+68 
+
+69 
+
+70 
+
+71 
+
+72     
+
+> ImageNet-1K Top-1 (%)
+> 2 × 2
+> ε= . 8
+> ε= . 5
+> p= . 25
+> p= . 5
+> Full: 72.084
+
+(a) BMFA selection quality 
+
+1.0 1.2 1.4 1.6 
+
+Measured speedup vs. full 
+
+62 
+
+64 
+
+66 
+
+68 
+
+70 
+
+72        
+
+> ImageNet-1K Top-1 (%)
+> Full ToMe r8
+> ToMe r12
+> ToMe r16
+> BMFA ε= . 5
+> BMFA ε= . 8 PiToMe DiffRate
+> ToFu
+
+(b) Accuracy--throughput plane 
+
+Full BMFA adaptive BMFA controls ToMe Other reducers Figure 6: Model-level results on the ImageNet-1K validation set. (a) Leaf-ratio–Top-1 trade-off for adaptive BMFA, random retention, and fixed controls; the black horizontal line denotes full DeiT-Tiny. (b) Measured accuracy–throughput plane for all local implementations; the purple dashed line denotes full-model throughput. Because the current BMFA prototype performs score replacement after full QK computation, panel (b) reports prototype overhead rather than a speed Pareto claim. 
+
+Systems , volume 34, pages 23696–23708, 2021. [10] Daniel Bolya, Cheng-Yang Fu, Xiaoliang Dai, Peizhao Zhang, Christoph Feichtenhofer, and Judy Hoffman. Token merging: Your vit but faster. In International Conference on Learning Representations , 2023. [11] Shuning Chang, Pichao Wang, Fan Wang, Hao Li, and Jiashi Feng. Making vision transformers efficient from a token sparsification view. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 6195–6205, 2023. [12] Hongjie Wang, Bhishma Dedhia, and Niraj K. Jha. Zero-tprune: Zero-shot token pruning through leveraging of the attention graph in pre-trained transformers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 16070–16079, 2024. [13] Minchul Kim, Shangqian Gao, Yen-Chang Hsu, Yilin Shen, and Hongxia Jin. Token fusion: Bridging the gap between token pruning and token merging. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision , pages 1383–1392, 2024. [14] Sanghyeok Lee, Joonmyung Choi, and Hyunwoo J. Kim. Multi-criteria token fusion with one-step-ahead attention for efficient vision transformers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 15741–15750, 2024. [15] Narges Norouzi, Svetlana Orlova, Daan de Geus, and Gijs Dubbelman. Algm: Adaptive local-then-global token merging for efficient semantic segmentation with plain vision transformers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,pages 15773–15782, 2024. [16] Hoai-Chau Tran, Duy M. H. Nguyen, Duy M. Nguyen, Trung-Tin Nguyen, Ngan Le, Pengtao Xie, Daniel Sonntag, James Zou, Binh T. Nguyen, and Mathias Niepert. Accelerating transformers with spectrum-preserving token merging. In Advances in Neural Information Process-ing Systems , volume 37, 2024. [17] Weiying Xie, Xiaoyu Chen, Xin Zhang, Chenhe Hao, Jitao Ma, Yun-song Li, and Leyuan Fang. Saliency-driven token merging for vision transformers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 32184–32193, 2026. [18] Luka Ribar, Ivan Chelombiev, Luke Hudlass-Galley, Charlie Blake, Carlo Luschi, and Douglas Orr. Sparq attention: Bandwidth-efficient llm inference. In Proceedings of the 41st International Conference on Machine Learning , volume 235 of Proceedings of Machine Learning Research , pages 42558–42583, 2024. [19] Jiaming Tang, Yilong Zhao, Kan Zhu, Guangxuan Xiao, Baris Kasikci, and Song Han. Quest: Query-aware sparsity for efficient long-context llm inference. In Proceedings of the 41st International Conference on Machine Learning , volume 235 of Proceedings of Machine Learning Research , pages 47901–47911, 2024. [20] Jintao Zhang, Chendong Xiang, Haofeng Huang, Jia Wei, Haocheng Xi, Jun Zhu, and Jianfei Chen. Spargeattention: Accurate and training-free sparse attention accelerating any model inference. In Proceedings of the 42nd International Conference on Machine Learning , volume 267 of Proceedings of Machine Learning Research , pages 76397–76413, 2025. [21] Jingyang Yuan, Huazuo Gao, Damai Dai, Junyu Luo, Liang Zhao, Zhengyan Zhang, Zhenda Xie, Yuxing Wei, Lean Wang, Zhiping Xiao, Yuqing Wang, Chong Ruan, Ming Zhang, Wenfeng Liang, and Wangding Zeng. Native sparse attention: Hardware-aligned and natively trainable sparse attention. In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) ,pages 23078–23097. Association for Computational Linguistics, 2025. doi: 10.18653/v1/2025.acl-long.1126. [22] Tsung-Yi Lin, Michael Maire, Serge Belongie, Lubomir Bourdev, Ross Girshick, James Hays, Pietro Perona, Deva Ramanan, Piotr Dollár, and C. Lawrence Zitnick. Microsoft coco: Common objects in context. In 
+
+European Conference on Computer Vision , pages 740–755, 2014. [23] Agrim Gupta, Piotr Dollár, and Ross Girshick. Lvis: A dataset for large vocabulary instance segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2019. [24] Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, and Li Fei-Fei. Imagenet: A large-scale hierarchical image database. In 2009 IEEE Conference on Computer Vision and Pattern Recognition , pages 248–255, 2009. [25] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Advances in Neural Information Processing Systems ,volume 30, 2017. [26] Raphael A. Finkel and Jon Louis Bentley. Quad trees: A data structure for retrieval on composite keys. Acta Informatica , 4(1):1–9, 1974. doi: 10.1007/BF00288933. [27] Stephen Boyd and Lieven Vandenberghe. Convex Optimization . Cam-bridge University Press, 2004. [28] Igal Sason. On reverse pinsker inequalities. arXiv preprint arXiv:1503.07118 , 2015. [29] Wassily Hoeffding. Probability inequalities for sums of bounded random variables. Journal of the American Statistical Association , 58(301): 13–30, 1963. doi: 10.1080/01621459.1963.10500830. [30] Mengzhao Chen, Wenqi Shao, Peng Xu, Mingbao Lin, Kaipeng Zhang, Fei Chao, Rongrong Ji, Yu Qiao, and Ping Luo. Diffrate: Differentiable compression rate for efficient vision transformers. In Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023. [31] Dachuan Shi, Chaofan Tao, Anyi Rao, Zhendong Yang, Chun Yuan, and Jiaqi Wang. Crossget: Cross-guided ensemble of tokens for accelerating vision-language transformers. In Proceedings of the 41st International Conference on Machine Learning , 2024. 
+
+14

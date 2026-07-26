@@ -6,61 +6,79 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-22
-- 运行时间：2026-07-22 20:43:09 UTC
+- 最新运行日期：2026-07-26
+- 运行时间：2026-07-26 21:41:16 UTC
 - 运行状态：成功
-- 本次总论文数：13
-- 精读区：3
-- 速读区：10
+- 本次总论文数：19
+- 精读区：7
+- 速读区：12
 
 ### 今日简报（AI）
-今日阅读13篇论文，精读2篇高分工作：将前向过程强化学习引入平均速度生成器（MeanFlowNFT），以及面向文本到视频生成的物理与语义直接偏好优化（8.0/10）。  
-最值得关注的方向是视频生成中的偏好对齐（物理+语义约束）和多目标跟踪新范式——将生成模型直接用作跟踪器。  
-建议进一步探索生成与跟踪的协同，以及结合稀有性感知的离散扩散在图像超分辨率中的应用。
-- 详情：[/202607/22/README](/202607/22/README)
+今日阅读19篇，精读7篇，高分论文聚焦注意力机制改进与物理感知视频生成。
+最值得看的两篇9分论文：《Kernelized Linear Attention》突破线性注意力容量极限，《DeforM》通过时空掩码实现推理引导的物理感知视频生成。
+建议普通读者关注线性注意力在长序列任务中的落地潜力，以及视频生成中物理约束与可控性的结合趋势。
+- 详情：[/202607/26/README](/202607/26/README)
 
 ### 精读区论文标签
-1. [MeanFlowNFT: Bringing Forward-Process RL to Average-Velocity Generators](/202607/22/2607.15273v2-meanflownft-bringing-forward-process-rl-to-average-velocity-generators)  
-   标签：评分：8.0/10、query:vd
-   evidence：MeanFlow通过平均速度实现快速少步采样
-2. [When Physical Preferences Meet Semantic Constraints: Physical and Semantic Direct Preference Optimization for Text-to-Video Generation](/202607/22/2607.16947v1-when-physical-preferences-meet-semantic-constraints-physical-and-semantic-direct-preference-optimization-for-text-to-video-generation)  
-   标签：评分：8.0/10、query:vd
-   evidence：通过DPO对视频生成模型进行后训练优化
-3. [ROMS-IMLE: A Minimalist Approach to Competitive Single-Step Generative Modelling](/202607/22/2607.19332v1-roms-imle-a-minimalist-approach-to-competitive-single-step-generative-modelling)  
+1. [Kernelized Linear Attention: Breaking the Capacity Wall with Symmetric Cones](/202607/26/2607.17419v1-kernelized-linear-attention-breaking-the-capacity-wall-with-symmetric-cones)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：提出新型线性注意力框架，提升召回容量
+2. [DeforM: Reasoning-Guided Physics-Aware Video Generation via Spatial-Temporal Masking](/202607/26/2607.18664v1-deform-reasoning-guided-physics-aware-video-generation-via-spatial-temporal-masking)  
+   标签：评分：9.0/10、query:vd
+   evidence：物理感知视频生成提升运动动态
+3. [Ms. Forcing: Efficient Streaming Video Generation with Multi-Scale Patchification and Attention](/202607/26/2607.20940v1-ms-forcing-efficient-streaming-video-generation-with-multi-scale-patchification-and-attention)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：提出多尺度分块注意力机制用于高效流式视频生成，直接实现快速视频生成
+4. [DART: A Degradation-Aware Recurrent Transformer for Archival Film Restoration](/202607/26/2607.21219v1-dart-a-degradation-aware-recurrent-transformer-for-archival-film-restoration)  
+   标签：评分：9.0/10、query:video-refine
+   evidence：面向生成输出的视频修复，退化感知的时间融合
+5. [SANA-Video 2.0: Hybrid Linear Attention with Attention Residuals for Efficient Video Generation](/202607/26/2607.21553v1-sana-video-20-hybrid-linear-attention-with-attention-residuals-for-efficient-video-generation)  
+   标签：评分：9.0/10、query:fast-gen
+   evidence：混合线性-软注意力和注意力残差实现单GPU高效视频生成
+6. [HeadCast: Casting Attention Heads for Efficient Autoregressive Video Generation](/202607/26/2607.20125v1-headcast-casting-attention-heads-for-efficient-autoregressive-video-generation)  
    标签：评分：8.0/10、query:fast-gen
-   evidence：单步生成建模挑战多步扩散，实现快速生成
+   evidence：通过分类注意力头实现训练免费的自回归视频生成加速
+7. [StreamHOI: Interaction-aware Temporal Memory Adaptation for Streaming HOI Video Generation](/202607/26/2607.20174v1-streamhoi-interaction-aware-temporal-memory-adaptation-for-streaming-hoi-video-generation)  
+   标签：评分：8.0/10、query:fast-gen
+   evidence：低延迟流式框架用于实时视频生成
 
 ### 速读区论文标签
-1. [The generator is the tracker: Multi-object tracking by painting persistent identity colours](/202607/22/2607.17120v1-the-generator-is-the-tracker-multi-object-tracking-by-painting-persistent-identity-colours)  
+1. [Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing](/202607/26/2607.19064v1-mage-flow-an-efficient-native-resolution-foundation-model-for-image-generation-and-editing)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：高效图像生成，使用流匹配和轻量级tokenizer，与快速生成主题相关
+2. [Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing](/202607/26/2607.19064v2-mage-flow-an-efficient-native-resolution-foundation-model-for-image-generation-and-editing)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：高效图像生成，轻量级分词器与原生分辨率建模
+3. [OSVE: One Step Video Editing with One Step Diffusion Models](/202607/26/2607.19895v1-osve-one-step-video-editing-with-one-step-diffusion-models)  
    标签：评分：7.0/10、query:vd
-   evidence：使用LoRA微调视频扩散模型，将后训练应用于跟踪任务
-2. [Rarity-Aware Discrete Diffusion with Spatially Consistent Decoding for Photo-Realistic Image Super-Resolution](/202607/22/2607.17612v1-rarity-aware-discrete-diffusion-with-spatially-consistent-decoding-for-photo-realistic-image-super-resolution)  
+   evidence：一步扩散用于视频编辑
+4. [Importance-Aware OBS Pruning for Diffusion Models](/202607/26/2607.20048v1-importance-aware-obs-pruning-for-diffusion-models)  
+   标签：评分：7.0/10、query:fast-gen
+   evidence：提出面向扩散模型的重要性感知剪枝，可在消费级GPU上加速推理
+5. [Self Gradient Forcing: Native Long Video Extrapolation](/202607/26/2607.20368v1-self-gradient-forcing-native-long-video-extrapolation)  
+   标签：评分：7.0/10、query:vd
+   evidence：两遍训练策略改善视频扩散模型的长视频外推
+6. [RealVDeblur: One-Step Diffusion for Generalizable Real-World Video Deblurring](/202607/26/2607.20628v1-realvdeblur-one-step-diffusion-for-generalizable-real-world-video-deblurring)  
    标签：评分：7.0/10、query:video-refine
-   evidence：面向图像超分辨率的稀有感知离散扩散，可应用于视频精炼
-3. [Surprise Forcing: What to Remember, When to Skip in Long Video Generation](/202607/22/2607.18436v1-surprise-forcing-what-to-remember-when-to-skip-in-long-video-generation)  
+   evidence：一步扩散视频去模糊
+7. [Inference-Time Scaling of Diffusion Models via Progressive Seed Pruning](/202607/26/2607.21591v1-inference-time-scaling-of-diffusion-models-via-progressive-seed-pruning)  
    标签：评分：7.0/10、query:fast-gen
-   evidence：长视频生成中无训练的资源分配方法，跳过不必要的步骤
-4. [Learning Explicit Physical Parameter Control and Benchmarking for Video Generation](/202607/22/2607.18924v1-learning-explicit-physical-parameter-control-and-benchmarking-for-video-generation)  
-   标签：评分：7.0/10、query:vd
-   evidence：通过显式物理参数化改善运动动态
-5. [Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing](/202607/22/2607.19064v1-mage-flow-an-efficient-native-resolution-foundation-model-for-image-generation-and-editing)  
-   标签：评分：7.0/10、query:fast-gen
-   evidence：高效的图像生成栈，原生分辨率与CUDA融合，与消费级快速生成相关
-6. [Attention-Free and Lightweight Token Reduction for Efficient Vision-Language Models](/202607/22/2607.13500v1-attention-free-and-lightweight-token-reduction-for-efficient-vision-language-models)  
+   evidence：通过种子剪枝加速扩散模型推理，适用于快速生成
+8. [Pixel-Space Diffusion Transformers](/202607/26/2607.17585v1-pixel-space-diffusion-transformers)  
    标签：评分：6.0/10、query:fast-gen
-   evidence：无注意力令牌减少降低计算开销，适用于生成模型加速
-7. [PE-Field 4D: Video Generation Models as Canvas](/202607/22/2607.15667v1-pe-field-4d-video-generation-models-as-canvas)  
-   标签：评分：6.0/10、query:vd
-   evidence：通过几何感知交叉注意力改善视频生成中的运动动态
-8. [Deep Learning-based Filtering for Video Coding: A Survey on Architectures, Algorithms, and Complexity Analysis](/202607/22/2607.16319v1-deep-learning-based-filtering-for-video-coding-a-survey-on-architectures-algorithms-and-complexity-analysis)  
-   标签：评分：6.0/10、query:video-refine
-   evidence：深度学习滤波用于视频压缩伪影去除
-9. [Spatial Transport of Integration Error in Generative ODEs](/202607/22/2607.16361v1-spatial-transport-of-integration-error-in-generative-odes)  
-   标签：评分：6.0/10、query:vd
-   evidence：少步生成ODE中积分误差分析
-10. [Pixel-Space Diffusion Transformers](/202607/22/2607.17585v1-pixel-space-diffusion-transformers)  
+   evidence：像素空间扩散Transformer实现高效高保真生成
+9. [BMFA: Boundary-Minority Free-Energy Adaptive Screening](/202607/26/2607.17656v1-bmfa-boundary-minority-free-energy-adaptive-screening)  
    标签：评分：6.0/10、query:fast-gen
-   evidence：像素空间扩散Transformer实现高效图像生成
+   evidence：自适应token筛选提高视觉Transformer推理效率
+10. [ShotPlan: Cinematic Video Generation with Learnable Planning Token](/202607/26/2607.17675v1-shotplan-cinematic-video-generation-with-learnable-planning-token)  
+   标签：评分：6.0/10、query:vd
+   evidence：可学习规划token用于多镜头视频生成，附加到预训练模型
+11. [ROMS-IMLE: A Minimalist Approach to Competitive Single-Step Generative Modelling](/202607/26/2607.19332v1-roms-imle-a-minimalist-approach-to-competitive-single-step-generative-modelling)  
+   标签：评分：6.0/10、query:vd
+   evidence：单步生成建模用于快速采样
+12. [VQ-Transplant: Efficient VQ-Module Integration for Pre-trained Visual Tokenizers](/202607/26/2607.19575v1-vq-transplant-efficient-vq-module-integration-for-pre-trained-visual-tokenizers)  
+   标签：评分：6.0/10、query:fast-gen
+   evidence：提出即插即用的VQ模块集成，属于模型量化技术
 
 
 <div class="dpr-home-promo-card">
