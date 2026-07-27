@@ -1,0 +1,750 @@
+Title: Locality-Aware Density Control for Efficient Gaussian-based Image Representation
+
+URL Source: https://arxiv.org/pdf/2607.17896v1
+
+Published Time: Tue, 21 Jul 2026 01:52:47 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+# Locality-Aware Density Control for Efficient Gaussian-based Image Representation 
+
+## Jiacong Chen 
+
+Shenzhen University Shenzhen, China 2210434045@email.szu.edu.cn 
+
+## Qingyu Mao 
+
+Shenzhen University Shenzhen, China qingyu.mao@outlook.com 
+
+## Xiandong Meng 
+
+Pengcheng Laboratory Shenzhen, China mengxd@pcl.ac.cn 
+
+## Shuai Liu 
+
+Shenzhen University Shenzhen, China 2205414001@email.szu.edu.cn 
+
+## Chao Li 
+
+Harbin Institute of Technology (Shenzhen) Shenzhen, China lcc233@stu.hit.edu.cn 
+
+## Fanyang Meng 
+
+Pengcheng Laboratory Shenzhen, China mengfy@pcl.ac.cn 
+
+## Youneng Bao ∗
+
+Shenzhen University Shenzhen, China baoyn@szu.edu.cn 
+
+## Yongsheng Liang ∗
+
+Shenzhen University Shenzhen, China liangys@szu.edu.cn 
+
+## Abstract 
+
+2D Gaussian Splatting is an attractive direction for image repre-sentation due to its explicit formulation, fast rasterization, and favorable decoding efficiency. The representation quality of this paradigm depends on the proper allocation of Gaussian capacity to the demanding regions. However, existing methods fail to al-locate Gaussian capacity efficiently during optimization: under-reconstructed content is often refined in a fragmented pixel-wise manner, while neighboring optimized Gaussians with similar at-tributes are redundantly retained. This inefficiency motivates the need for a density control framework that jointly addresses insuf-ficient allocation in under-reconstructed regions and redundant allocation in over-reconstructed regions. Our key insight is that this framework should exploit two complementary forms of locality: the local continuity of reconstruction errors in image space for improved Gaussian allocation, and the local similarity of neigh-boring Gaussians in Gaussian space for redundant elimination. Based on this insight, we propose Locality-Aware Density Control (LocoADC), a plug-and-play framework that improves Gaussian capacity utilization through Region-wise Gaussian Densification (RGD) and Similarity-Driven Gaussian Merging (SDGM) strategies, together with a local color consistency constraint for more reliable merging. Extensive experiments on diverse datasets show that Lo-coADC consistently improves multiple baselines by enabling more effective local Gaussian allocation, including a 2.93 dB PSNR gain over GI on the CLIC dataset under the same 30k Gaussian budget. Code is available at: https://github.com/ChenJiaCong-1005/LocoADC .
+
+## Keywords 
+
+Image Representation, Gaussian Splatting, Density Control 
+
+## 1 Introduction 
+
+Image representation is a fundamental problem in computer vision and signal processing, with broad applications in image compres-sion [ 9 , 24 ], restoration [ 8, 23 ], and efficient visual content delivery. A desirable image representation method should balance visual fidelity with optimization efficiency, compact storage, and fast de-coding. Recent years have witnessed rapid progress in implicit neu-ral representations (INRs) [ 22 ], which model images as continuous              
+
+> ∗Corresponding authors: Yongsheng Liang and Youneng Bao. GI EA -GI GI -Plus
+> GI+Ours EA -GI+Ours GI -Plus+Ours
+> GI EA -GI GI -Plus
+> GI+Ours EA -GI+Ours GI -Plus+Ours
+> GI GI+Ours EA-GI EA-GI+Ours GI-Plus GI-Plus+Ours 29.0 29.5 30.0 30.5 31.0 31.5 32.0 32.5 33.0
+> PSNR (dB)
+> 29.94 32.44 30.84 32.51 31.90
+> 32.68
+
+(b) (a)
+
+Figure 1: (a) Visual comparisons show that our method pro-duces clearer and more faithful local details. (b) Quantitative results on the Kodak dataset [ 15 ] further demonstrate consis-tent PSNR improvements over the corresponding baselines. 
+
+functions and achieve impressive reconstruction quality. However, their strong performance typically relies on relatively large neural networks, leading to substantial training memory consumption and prolonged decoding time [35]. To address these limitations, Gaussian-based image representa-tion [ 38 ] has emerged as a promising direction by representing an image as a set of explicit 2D Gaussians and rendering it through efficient rasterization. This paradigm significantly reduces train-ing memory consumption and achieves real-time decoding speed. arXiv:2607.17896v1 [cs.CV] 20 Jul 2026 Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Jiacong Chen, Qingyu Mao, Xiandong Meng, Shuai Liu, Chao Li, Fanyang Meng, Youneng Bao, and Yongsheng Liang Euclidean distance Density Color           
+
+> 0.5 1.0 1.5 2.0 2.5 3.0 0.0
+> 0.2 0.4 0.6 0.8 1.0 1.2 1.4
+> Density
+> 0.0 1.0 2.0 3.0 4.0 5.0 0.0 0.2 0.4 0.6 0.8 1.0 1.2 1.4 0.0
+> Euclidean distance Color
+> (a) (b)
+
+Figure 2: Locality of Gaussian-based image representation. (a) Reconstruction errors exhibit clear local continuity, where under-reconstructed pixels tend to form spatially coherent regions rather than isolated responses. (b) Spatially nearby Gaussians often show strong local color similarity, as evi-denced by the concentration of small pairwise color differ-ences. 
+
+Building on this paradigm, subsequent works [ 5, 19 , 35 ] propose content-aware initialization strategies that leverage image priors to allocate more Gaussians to high-complexity regions before training. More recently, GI-Plus [ 18 ] further introduced a distortion-driven densification during optimization to refine under-reconstructed pixels. Despite these advances, current methods still lack an effective way to regulate Gaussian capacity during optimization. This rep-resentation paradigm relies on multiple spatially neighboring and overlapping Gaussians to jointly model local image content that exhibits continuous structure. Therefore, representation efficiency depends on the proper allocation of local Gaussians to capture such content. Existing methods lack effective locality-aware density con-trol: initialization-based methods improve the starting allocation but cannot regulate evolving local budget imbalance during opti-mization, while existing densification methods mainly refine high-error responses in a pixel-wise manner but overlook local Gaussian redundancy. As a result, representation quality depends on whether Gaussian capacity is properly allocated during optimization. To better understand and exploit the locality, we analyze Gaussian-based image representation from two perspectives: image content and Gaussian space. From the image-content perspective, challeng-ing structures such as edges and textures usually exhibit strong local continuity, and the resulting reconstruction errors therefore form coherent local patterns rather than isolated pixel artifacts, as shown in Fig. 2(a). This observation suggests that densification should account for such locally continuous reconstruction errors in a region-aware manner, rather than treating high-error pixels independently. From the Gaussian-space perspective, neighboring Gaussians often become highly similar in appearance and recon-struction contribution (Fig. 2(b)), indicating that multiple Gaussians may repeatedly represent similar local content within the same region. This local similarity indicates that these regions can be rep-resented with fewer Gaussians by merging redundant neighboring Gaussians. Based on this insight, we propose Locality-Aware Density Con-trol (LocoADC), a plug-and-play framework for Gaussian-based im-age representation. Specifically, we introduce a Region-wise Gauss-ian Densification (RGD), which allocates Gaussians according to locally coherent distortion structures for more effective refinement of under-reconstructed regions. We further develop a Similarity-Driven Gaussian Merging (SDGM), which identifies and merges redundant neighboring Gaussians under appearance and stability constraints to improve representation efficiency. To support reli-able merging, we additionally introduce a local color consistency constraint that stabilizes similarity estimation among neighbor-ing Gaussians. As shown in Fig. 1, LocoADC effectively improves Gaussian capacity allocation during optimization by locally allo-cating Gaussians to under-reconstructed regions in region-wise manner and merging redundant Gaussians in over-reconstructed ones, without changing the underlying representation or decoding pipeline. Extensive experiments on Kodak [ 15 ], DIV2K ×2 [ 1 ], and CLIC [ 27 ]demonstrate that LocoADC consistently improves GI [ 38 ], EA-GI [ 5 ], and GI-Plus [ 18 ], while yielding more effective local Gaussian allocation. In particular, under the same 30k-Gaussian budget on the high-resolution CLIC dataset, LocoADC improves GI from 32.50 dB to 35.43 dB, achieving a 2.93 dB PSNR gain, and still boosts GI-Plus from 35.35 dB to 36.48 dB. The main contributions of this paper are summarized as follows: 
+
+• We identify that the core inefficiency of Gaussian-based image representation lies in locality-unaware Gaussian budget allocation during optimization, which manifests as insufficient allocation in under-reconstructed regions and redundant allocation in over-reconstructed regions. 
+
+• We propose LocoADC , a plug-and-play locality-aware den-sity control framework that combines Region-wise Gauss-ian Densification and Similarity-Driven Gaussian Merging strategies, together with a local color consistency constraint for reliable merging. 
+
+• We validate the proposed framework on diverse benchmarks and across multiple Gaussian-based baselines, showing that LocoADC consistently improves reconstruction quality un-der comparable Gaussian budgets and more effective local Gaussian allocation. 
+
+## 2 Related Work 2.1 Image Representation 
+
+Traditional image representations, such as JPEG [ 29 ] and JPEG2000 [ 26 ], represent images as discrete grid-based or transform-domain co-efficients [ 7]. While efficient and widely standardized, these ap-proaches remain constrained by fixed transforms and hand-crafted Locality-Aware Density Control for Efficient Gaussian-based Image Representation Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Distortion map   
+
+> Compute error
+> Distortion
+> Gradient Field Local Distortion
+> Coherence Densification
+
+(a) Region -wise Gaussian Densification 
+
+> Gaussian set
+> Rank
+> Candidate
+> Pairs
+> GT
+> Rendered Image
+
+(b)  Similarity -Driven Gaussian Merging     
+
+> Pair
+> Selection
+> P1
+> P2
+> P3
+> Merging P1'
+> P3
+> P1'
+> P3
+> P1 ➡P2 √
+> P2 ➡P3 ×
+> P1 ➡P3 ×
+> Rank
+> ℒcolor
+
+Figure 3: Illustration of the proposed LocoADC framework. Our LocoADC improves Gaussian allocation from two aspects: in under-reconstructed regions, it introduces Gaussians in a more proper manner through the region-wise Gaussian densification strategy, while in over-reconstructed regions, it merges locally similar Gaussians through the similarity-driven Gaussian merging strategy to avoid redundant representation. 
+
+modules, which limit their compression efficiency and visual qual-ity. Neural image representations [ 3, 4, 6, 12 ] employ autoencoder-based architectures within end-to-end optimization pipelines, achiev-ing superior visual quality compared to traditional codecs. However, these methods typically build upon fixed data organizations that provide little flexibility for adapting to image content. Recently, Implicit Neural Representations (INRs) [ 9, 22 ] have emerged as a novel paradigm for image representation. These methods model an image as a continuous mapping from spatial coordinates to RGB values, with the image content encoded in the parameters of a neu-ral network. Subsequent works further improve the representation capability of INRs by introducing positional encoding [ 25 ] and de-signing activation functions [ 22 ] that better capture high-frequency details and enhance visual quality. However, the high performance of INRs often relies on large neural networks, and reconstructing each pixel requires a separate forward pass through the network, resulting in high GPU memory consumption and slow decoding speed. 
+
+## 2.2 Gaussian-based Image Representation 
+
+3D Gaussian Splatting (GS) [ 14 ] represents 3D scenes by a collec-tion of explicit 3D Gaussians with learnable attribute parameters. As a pioneering work, GaussianImage (GI) [ 38 ] first extends GS into 2D image representation, which designs a compact 2D Gauss-ian with only 8 parameters and an accumulated blending-based rasterization without redundant computation. However, this work fails to consider the imbalanced information distribution in the image, which employs a simple uniform initialization strategy to allocate Gaussians, resulting in under-reconstruction in complex regions. To mitigate this limitation, InstantGI [ 35 ] proposes a gener-alizable network for efficient initialization and significantly reduces training time. Fast 2DGS [ 30 ] introduces a Deep Gaussian Prior to capture the spatial distribution of Gaussian primitives under different complexities. EA-GI [ 5 ] initializes Gaussians uniformly in the divided regions with approximately equal entropy, allowing each Gaussian to have equal information load. StructureGI [ 19 ]leverages spatial structural priors to design a structure-guided ini-tialization. Besides the initialization, MiraGe [ 28 ] utilizes adaptive density control in 3DGS to grow and prune the Gaussians, while GI-Plus [ 18 ] introduces a distortion-driven densification to handle the under-reconstruction areas. For ultra-high-resolution image representation, LIG [ 40 ] fits these large images with a large number of Gaussians, and SmartSplat [ 17 ] designs an adaptive and feature-aware framework to effectively support arbitrary image resolutions. However, these methods largely optimize Gaussian representations in a pixel-wise manner and ignore the locality underlying both image structures and Gaussian distributions. As a result, locally continuous high-error regions may be fragmented during densifi-cation, while neighboring Gaussians with similar attributes may remain redundant after optimization. In contrast, our method ex-plicitly models locality in both pixel space and Gaussian space, en-abling region-wise Gaussian densification and redundancy-aware Gaussian merging within a unified framework. 
+
+## 2.3 Density Control in 3D Gaussian Splatting 
+
+Existing density control methods [ 14 , 16 , 33 ] in 3DGS for scene reconstruction include two representative directions: densification for under-reconstructed regions [ 33 , 34 , 39 ] and sparsification for redundant Gaussians [ 10 , 11 , 16 , 20 ]. Densification-based meth-ods refine the under-reconstructed regions by iteratively split-ting or cloning Gaussians based on positional gradient magni-tudes. Sparsification-based methods reduce the number of Gaus-sians based on various criteria (e.g., attribute-based [ 20 , 21 ], or optimization-driven [ 10 , 31 ]) to avoid redundant representation Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Jiacong Chen, Qingyu Mao, Xiandong Meng, Shuai Liu, Chao Li, Fanyang Meng, Youneng Bao, and Yongsheng Liang 
+
+while maintaining the visual quality. These strategies are not suit-able for Gaussian-based image representation, since low position gradients hinder reliable densification [ 18 ] and directly removing Gaussians may degrade reconstruction quality (validated in Sec . 4.4). 
+
+## 3 Methodology 
+
+We begin with the basics of Gaussian-based image representation, and then introduce our proposed Locality-Aware Density Control (LocoADC) framework, as illustrated in Fig. 3. 
+
+## 3.1 Preliminaries 
+
+GI [ 38 ] represents a 2D image as a set of 2D Gaussians G = Ð𝑁 𝑖 =1 𝑔 𝑖 
+
+by an accumulated summation rasterization. Each Gaussian is char-acterized by a position vector 𝜇 ∈ R2, a covariance matrix Σ ∈ R2×2,and a color value 𝑐 ∈ R3. To ensure the positive semi-definiteness of 
+
+Σ during optimization, existing methods typically adopt three strate-gies: (1) Cholesky factorization [ 38 ]; (2) decomposing into a scaling matrix 𝑆 ∈ R2×2 and a rotation matrix 𝑅 ∈ R2×2 [ 14 ]; (3) directly optimizing and pruning no-positive semi-definite cases [18, 40]. The learnable parameters of each Gaussian are optimized by differentiable rasterization. To render an image, GI simplifies 𝛼 -blending with accumulated blending-based rasterization that elimi-nates the need to consider project transformation and depth infor-mation. The color of 𝐶 (𝑥 ) of a given pixel 𝑥 is rendered as 
+
+𝐶 (𝑥 ) =∑︁  
+
+> 𝑖 ∈𝑁
+
+𝑐 𝑖 · exp (− 𝜎 𝑖 ), (1) 
+
+𝜎 𝑖 = 12𝑑 𝑇 𝑖 Σ−1𝑑 𝑖 , (2) where 𝑑 𝑖 ∈ R2 is the distance between the corresponding pixel center and the Gaussian position. Gaussian parameter optimization is supervised by the reconstruction loss Lrecon :
+
+Lrecon = ∥ ˆ𝐼 − 𝐼 ∥22, (3) where ˆ𝐼 and 𝐼 represent the rendered and ground truth images, respectively. In addition to Gaussian parameter optimization, the Gaussian set can be dynamically updated during training through a density control framework C. This process, widely adopted in 3DGS [ 14 ], can be generally formulated as 
+
+C( G𝑡 ) =
+
+(
+
+D ( G𝑡 ), Δ|G𝑡 | > 0,
+
+S( G𝑡 ), Δ|G𝑡 | < 0. (4) Here, D ( G𝑡 ) and S( G𝑡 ) denote the densification and sparsification operations applied to the Gaussian set G𝑡 , respectively. Density con-trol provides a natural framework for efficient Gaussian allocation by densifying Gaussians in under-reconstructed regions D ( G𝑡 ) and sparsifying them in over-reconstructed ones S( G𝑡 ). However, most existing methods [ 5, 19 , 35 ] focus primarily on Gaussian initial-ization and overlook the allocation inefficiency that arises during optimization. GI-Plus [ 18 ] takes a step further by densifying under-reconstructed pixels, but its refinement remains pixel-wise and one-sided. In contrast, our density control framework exploits lo-cality to allocate Gaussians more efficiently and appropriately to the local regions, thereby enhancing the representation capability of Gaussian-based image representation. 
+
+## 3.2 Region-wise Gaussian Densification 
+
+Guided by the above analysis, we develop the densification branch 
+
+D ( G𝑡 ) in our LocoADC framework as Region-wise Gaussian Den-sification (RGD) strategy (Fig. 3(a)) to refine under-reconstructed regions. Unlike existing pixel-wise densification strategies that treat high-error pixels independently, our goal is to densify locally coherent distortion regions, enabling additional Gaussians to be al-located more effectively and efficiently to insufficiently represented content. We first compute a distortion map to measure the reconstruction error of the rendered image, which can be defined as: 
+
+E ( 𝑥 ) = ∥𝐼 (𝑥 ) − ˆ𝐼 (𝑥 )∥ 2, (5) where 𝐼 (𝑥 ) and ˆ𝐼 (𝑥 ) represent the ground truth and rendered im-age at pixel 𝑥 , respectively. This distortion map provides a direct cue for locating high-error regions. However, identifying under-reconstructed regions solely based on the distortion map remains insufficient, since it ignores the internal structural patterns of local reconstruction distortions. To complement this information, we further extract the distortion gradient field u(𝑥 ) from the distortion map using the Sobel operator: 
+
+u(𝑥 ) =
+
+ ∇x E ( 𝑥 ), ∇y E ( 𝑥 )⊤
+
+|∇E ( 𝑥 )| 2 + 𝜖 , (6) where ∇𝑥 E ( 𝑥 ) and ∇𝑦 E ( 𝑥 ) denote the horizontal and vertical gra-dient of the distortion map E ( 𝑥 ), respectively, and 𝜖 is a small constant introduced for numerical stability. Based on the distortion gradient field, we further compute the local distortion coherence within each neighborhood to identify whether nearby reconstruc-tion errors are spatially correlated. As the distortion gradient field captures the local variation of the distortion map, consistent gradi-ent directions imply that neighboring high-error responses follow a shared spatial trend rather than appearing as isolated deviations. This local correlation indicates a coherent under-reconstructed region, which is more suitable for region-wise densification. Ac-cordingly, we define the local distortion coherence 𝐷 (𝑥 ) at pixel 𝑥 
+
+as: 
+
+𝐷 (𝑥 ) = 1
+
+𝑤 2∑︁ 𝑞 ∈ N 𝑤 (𝑥 )
+
+u(𝑞 )
+
+> 2
+
+, (7) where N𝑤 (𝑥 ) denotes a 𝑤 × 𝑤 window centered at pixel 𝑥 . Then, we jointly consider the distortion magnitude and the local distor-tion coherence to identify pixels that indicate under-reconstructed regions. Specifically, the candidate set is defined as 
+
+C𝐾 = TopK (E ( 𝑥 ) · 𝐷 (𝑥 )) . (8) Among the selected candidates, spatially neighboring pixels are first grouped into regional subsets, and one new Gaussian is allocated to each region and initialized at its center. If the densification budget remains available after regional refinement, the remaining budget is further allocated to isolated candidate pixels. 
+
+## 3.3 Similarity-Driven Gaussian Merging 
+
+As shown in Fig. 3(b), we design the sparsification branch S( G𝑡 )
+
+in LocoADC as Similarity-Driven Gaussian Merging (SDGM) strat-egy, which leverages local similarity in Gaussian space to merge Locality-Aware Density Control for Efficient Gaussian-based Image Representation Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil 
+
+Table 1: Quantitative comparison on the Kodak, DIV2K ×2, and CLIC datasets. For fair comparison, the results of the compared methods are reproduced using their official codebases with 120,000 training iterations.                                                                                                                                                                                                                                                          
+
+> Methods Kodak DIV2K ×2CLIC PSNR(dB) MS-SSIM Params(M) Training(s) PSNR(dB) MS-SSIM Params(M) Training(s) PSNR(dB) MS-SSIM Params(M) Training(s)
+> INR-based
+> SIREN [22] 26.50 0.8705 3.74 889 30.01 0.9630 0.42 2242 29.57 0.9386 0.57 4296 SIREN+ 𝑇 𝑠𝑦𝑚 [36] 32.80 0.9820 0.10 166 29.61 0.9712 0.10 261 29.45 0.9392 0.10 824 EVOS [37] 33.64 0.9809 0.10 106 30.38 0.9687 0.10 189 ––––
+> GS-based Number of GS (5k) Number of GS (10k) Number of GS (10k) 3D GS [14] 27.22 0.942 0.3 436 26.88 0.9499 0.59 722 27.29 0.9283 0.59 1980 MiraGe [28] 29.83 0.9661 0.27 754 29.89 0.9766 0.53 1117 29.76 0.9507 0.53 3336 GI [38] 29.94 0.9632 0.04 234.47 29.71 0.9727 0.08 260.12 29.35 0.9383 0.08 261.81 GI+Ours 32.44 0.956 0.04 296.11 32.47 0.9713 0.08 335.01 31.52 0.9367 0.08 359.05 EA-GI [5] 30.84 0.9614 0.04 247.8 30.23 0.9653 0.08 301.31 29.90 0.9274 0.08 305.23 EA-GI+Ours 32.51 0.9551 0.04 316.24 32.52 0.9711 0.08 341.53 31.57 0.9456 0.08 376.28 GI-Plus [18] 31.90 0.9614 0.04 247.75 32.05 0.9742 0.08 283.28 31.58 0.9430 0.08 284.86 GI-Plus+Ours 32.68 0.9596 0.04 313.88 32.84 0.9742 0.08 337.93 32.38 0.9468 0.08 386.27 Number of GS (10k) Number of GS (30k) Number of GS (30k) 3D GS [14] 29.96 0.968 0.59 457 31.29 0.9779 1.77 759 30.67 0.9634 1.77 2122 MiraGe [28] 32.57 0.9839 0.53 749 35.29 0.9943 1.59 1141 33.18 0.9789 1.59 3367 GI [38] 32.58 0.9824 0.08 258.11 34.64 0.9926 0.24 287.15 32.5 0.9727 0.24 282.77 GI+Ours 35.60 0.9794 0.08 336.56 37.66 0.992 0.24 355.34 35.43 0.9731 0.24 385.95 EA-GI [5] 33.87 0.9806 0.08 267.21 35.59 0.9896 0.24 346.78 33.29 0.9651 0.24 365.38 EA-GI+Ours 35.68 0.9784 0.08 343.9 37.89 0.9913 0.24 359.74 35.54 0.9736 0.24 382.47 GI-Plus [18] 35.41 0.9832 0.08 283.2 38.30 0.9940 0.24 290.85 35.35 0.9736 0.24 292.37 GI-Plus+Ours 36.15 0.9826 0.08 354.8 39.09 0.9942 0.24 369.61 36.48 0.979 0.24 420.65
+
+redundant neighboring Gaussians into a more compact and effi-cient representation, rather than directly pruning them [ 10 , 20 ]. Specifically, to support reliable merging, we first impose a local color consistency constraint during training. Based on this, SDGM strategy identifies similar Gaussian pairs under appearance and overlap constraints, and then merges them to improve representa-tion compactness while preserving image fidelity. 
+
+Local Color Consistency Regularization. Before Gaussian merging, we impose a local color consistency constraint to en-courage neighboring redundant Gaussians to be more consistent in appearance and thus easier to merge reliably. Specifically, we formulate this regularization over the color differences between spatially nearby Gaussian pairs within each local neighborhood: 
+
+Lcolor = 1
+
+|P | ∑︁ (𝑖,𝑗 ) ∈ P 
+
+|c𝑖 − c𝑗 |22, (9) where P denotes the set of Gaussian pairs that are spatial neigh-bors within a local radius. Since this regularization only requires spatially nearby Gaussian pairs for local consistency enforcement, we construct these pairs by 𝐾𝑁 𝑁 search with a radius constraint in 2D space. During the regularized training stage, the total loss is defined as: 
+
+Ltotal = Lrec + 𝜆 color Lcolor , (10) where 𝜆 color is typically set to 0.01. 
+
+Similar Gaussian Pair Selection. To identify similar and merge-able Gaussians, we select candidate pairs within local neighbor-hoods under a Gaussian overlap constraint and a color similarity constraint. We first filter out unstable Gaussians according to their accumulated optimization gradients, since Gaussians with large gradients often correspond to regions that are still under active correction and may incur large errors after merging: 
+
+𝑔 𝑖 
+
+max 𝑘 𝑔 𝑘 
+
+< 0.5, (11) where 𝑔 𝑖 denotes the accumulated optimization gradient magnitude of Gaussian 𝑖 . Then, we identify spatially adjacent Gaussian pairs among the retained Gaussians based on Mahalanobis overlap: 
+
+𝑑 M (𝝁 𝑖 , 𝝁 𝑗 ; 𝚺 𝑖 ) =√︃ (𝝁 𝑖 − 𝝁 𝑗 )⊤ 𝚺 −1 
+
+> 𝑖
+
+(𝝁 𝑖 − 𝝁 𝑗 ) < 𝜏 M, (12) where 𝑑 M denotes the Mahalanobis distance, and 𝜏 M is the adjacency threshold. This criterion treats two Gaussians as neighboring when one Gaussian center falls within the effective region of the other. Then, we retain only Gaussian pairs with similar colors: 
+
+|c𝑖 − c𝑗 |2 < 𝜏 color , (13) where 𝜏 color is the color similarity threshold. The Gaussian pairs satisfying both criteria form a candidate set for the subsequent merging. Since one Gaussian may appear in multiple candidate pairs, we further define a Pair Discrepancy Score to rank them: 
+
+D ( 𝑖, 𝑗 ) = |𝝁 𝑖 − 𝝁 𝑗 |22 + | c𝑖 − c𝑗 |22 + | ℓ𝑖 − ℓ 𝑗 |22, (14) where ℓ𝑖 denotes the vectorized lower-triangular entries of Σ𝑖 . A lower discrepancy indicates a more compatible pair for merging. If a Gaussian is involved in multiple candidate pairs, we retain only the pair with the lowest discrepancy. 
+
+Gaussian Merging. Given the selected Gaussian pairs, we per-form Gaussian merging to improve representation efficiency. To reduce the degradation caused by merging, the merged Gaussian is updated to preserve the local representative content of the original Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Jiacong Chen, Qingyu Mao, Xiandong Meng, Shuai Liu, Chao Li, Fanyang Meng, Youneng Bao, and Yongsheng Liang 4 8 12 16 20      
+
+> Number of Gaussians (k)
+> 28
+> 32
+> 36
+> 40
+> PSNR (dB)
+> Kodak
+> GI
+> GI+Ours
+> EA-GI
+> EA-GI+Ours
+> GI-Plus
+> GI-Plus+Ours
+> 10 20 30 40 50
+> Number of Gaussians (k)
+> DIV2K ×2
+> GI
+> GI+Ours
+> EA-GI
+> EA-GI+Ours
+> GI-Plus
+> GI-Plus+Ours
+
+Figure 4: Comparison under different numbers of Gaussians on the Kodak and DIV2K ×2 datasets. 
+
+pair. Specifically, we update the merged Gaussian by area-weighted averaging of its position and color: 
+
+𝑤 𝑖 = 𝑆 𝑖 
+
+𝑆 𝑖 + 𝑆 𝑗 
+
+, 𝑤 𝑗 = 𝑆 𝑗 
+
+𝑆 𝑖 + 𝑆 𝑗 
+
+,
+
+𝝁 merged = 𝑤 𝑖 𝝁 𝑖 + 𝑤 𝑗 𝝁 𝑗 ,
+
+cmerged = 𝑤 𝑖 c𝑖 + 𝑤 𝑗 c𝑗 ,
+
+(15) where 𝑆 𝑖 and 𝑆 𝑗 denote the effective support areas of the two Gaus-sians, 𝑤 𝑖 and 𝑤 𝑗 are the corresponding merge weights. To preserve the covered area of both original Gaussians, we initialize the co-variance via second-moment matching: 
+
+Mmerged = 𝑤 𝑖 
+
+ 𝚺 𝑖 + 𝝁 𝑖 𝝁 ⊤
+
+> 𝑖
+
+ + 𝑤 𝑗 
+
+
+
+𝚺 𝑗 + 𝝁 𝑗 𝝁 ⊤
+
+> 𝑗
+
+
+
+,
+
+𝚺 merged = Mmerged − 𝝁 merged 𝝁 ⊤
+
+> merged
+
+,
+
+(16) where Mmerged denotes the area-weighted second moment of the original pair. This initialization allows the merged Gaussian to better cover the original area, reducing the merging error. To avoid overly loose merging, we further constrain the effective support area of the merged Gaussian as: 
+
+𝑆 merged ≤ 𝜂 · ( 𝑆 𝑖 + 𝑆 𝑗 ), (17) where 𝑆 merged denotes the effective support area of the merged Gaussian and 𝜂 = 1.5 is the merging constraint ratio. 
+
+## 4 Experiments 4.1 Experimental Setup 
+
+Datasets and Evaluation Metrics. We evaluate our method on the image representation task using three widely used benchmarks: Kodak [ 15 ], DIV2K [ 1], and CLIC [ 27 ]. Kodak contains 24 images at a resolution of 768 ×512. For DIV2K, we use the validation set and generate the test images by 2× bicubic upsampling, resulting in resolutions ranging from 408 ×1020 to 1020 ×1020. To further assess performance on high-resolution images, we also evaluate on the CLIC dataset, which contains 101 high-resolution images. We employ PSNR and MS-SSIM [ 32 ] to measure the representation quality. We also report the parameter size and training time. 
+
+Implementation Details. We select three typical Gaussian-based methods ( 𝑖.𝑒. , GI [ 38 ], EA-GI [ 5], and GI-Plus [ 18 ]) as our baseline methods. Then, we enhance their performance by integrat-ing our LocoADC framework. We optimize the Gaussian parameters for 120,000 iterations in total. Specifically, the first 50,000 iterations are used for normal fitting and densification, the next 20,000 iter-ations focus only on merging redundant Gaussians, and the final 50,000 iterations are used for fine-tuning with continued densifica-tion. We predefine a maximum number of Gaussians, initialize with half of this amount, and restrict densification to this limit. Both den-sification and merging are performed every 5,000 iterations. For a fair comparison, the results of all other methods are obtained using the same total number of iterations. All experiments are conducted using NVIDIA RTX 4090 GPUs and PyTorch. More implementation details are provided in Appendix .
+
+## 4.2 Quantitative Results 
+
+In addition to GI, EA-GI, and GI-Plus, we further provide quantita-tive comparisons with representative methods from INR-based and GS-based paradigms, including SIREN [ 22 ], SYM [ 36 ], EVOS [ 37 ], 3DGS [ 14 ], and MiraGe [ 28 ], to demonstrate the effectiveness of our method. Tab. 1 presents the quantitative evaluation results on Kodak, DIV2K ×2 and CLIC datasets under identical settings. It is evident that our enhanced methods achieve consistently higher PSNR across all datasets and Gaussian budgets, while remaining competitive in MS-SSIM. This improvement can be attributed to the efficient allocation of Gaussians in our framework, which den-sifies under-reconstructed regions in region-wise manner while reducing redundancy in over-reconstructed regions, thereby en-hancing representation efficiency. In addition, as shown in Fig. 4, our method consistently achieves better results than the baseline across different numbers of Gaussians on both the Kodak and DIV2K 
+
+×2 datasets. It is worth noting that our method incurs additional training time, especially on the CLIC dataset. This overhead stems Locality-Aware Density Control for Efficient Gaussian-based Image Representation Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil GI  EA -GI  GI -Plus  GI -Plus+Ours  GT 
+
+> PSNR: 25.10dB
+> MS -SSIM: 0.9595
+> PSNR: 25.64dB
+> MS -SSIM: 0.9489
+> PSNR: 26.09dB
+> MS -SSIM: 0.9529
+> PSNR: 27.15dB
+> MS -SSIM: 0.9532
+> PSNR: 35.62dB
+> MS -SSIM: 0.9908
+> PSNR: 34.65dB
+> MS -SSIM: 0.9887
+> PSNR: 33.27dB
+> MS -SSIM: 0.9390
+> PSNR: 31.28dB
+> MS -SSIM: 0.9181
+> PSNR: 32.29dB
+> MS -SSIM: 0.9877
+> PSNR: 29.75dB
+> MS -SSIM: 0.9296
+> PSNR: 28.61dB
+> MS -SSIM: 0.9291
+> PSNR: 30.55dB
+> MS -SSIM: 0.9879
+
+Figure 5: Qualitative comparison of our approach with GI, EA-GI, and GI-Plus on the Kodak, DIV2K ×2, and CLIC datasets. Our method consistently achieves improved visual quality across three datasets. 
+
+from distortion-map computation during densification, which is resolution-dependent, as well as from the merging process and local color consistency constraint, both of which involve neighboring-Gaussian search and thus scale with the number of Gaussians. Despite the additional training cost, the achieved performance im-provements are substantial rather than simply resulting from longer optimization. In the Appendix , more quantitative results are pro-vided for a more detailed comparison. 
+
+## 4.3 Qualitative Results 
+
+We visualize the reconstructed images to show the improvements achieved by our method. As shown in Fig. 1(a), compared with GI, EA-GI, and GI-Plus, the versions integrated with our method achieve substantially improved detail representation quality, espe-cially for fine structures such as the house and leaves. In addition to Kodak and DIV2K ×2, Fig. 5 further includes comparisons on the high-resolution CLIC dataset. It can be observed that our method reconstructs clearer and more vivid structural textures. This im-provement can be attributed to the densification strategy guided by local structural distortions, enabling higher-quality recovery of structural information. Although some Gaussians are merged in our method, they are highly similar and can be adequately repre-sented by fewer Gaussians. Therefore, our method still achieves competitive representation quality in smooth regions. 
+
+## 4.4 Ablation Study 
+
+In this section, we conduct ablation experiments to validate the rationality of our proposed method. 
+
+Effectiveness of each component. Tab. 2 presents the abla-tion results of RGD and SDGM strategies on three datasets, where SDGM consists of two parts: merging, and color constraint. The effectiveness of applying the RGD strategy is shown in the sec-ond row. Compared with pixel-wise densification, our approach 
+
+Table 2: Ablation study on evaluating RGD (Sec. 3.2) and SDGM (Sec. 3.3) strategies on the Kodak, DIV2K ×2, and CLIC datasets. The GI-Plus is selected as the baseline. 
+
+GI-Plus RGD Merging Color Cons. Kodak DIV2K ×2 CLIC 
+
+✓ 31.9 32.05 31.58 
+
+✓ ✓ 32.24 32.41 32.00 
+
+✓ ✓ 32.34 32.51 32.01 
+
+✓ ✓ ✓ 32.52 32.69 32.19 
+
+✓ ✓ ✓ ✓ 32.68 32.84 32.38 
+
+achieves improvements in PSNR by exploiting the local continuity of image content and reconstruction errors for better structural representation. The ablation results of SDGM are reported in the third and fourth rows. Gaussian merging yields a notable gain in PSNR, indicating that reducing redundant representation in over-reconstructed regions allows more Gaussians to be allocated to complex regions, thereby improving the overall representation ca-pability. By encouraging better color alignment among neighboring Gaussians before merging, the proposed local color consistency constraint alleviates this issue and further improves reconstruction quality. 
+
+Locality analysis. Fig. 6 presents the Gaussian density maps and quantitative comparisons in two representative local regions. A clear observation is that our method achieves higher local recon-struction quality with fewer Gaussians. The density maps clearly show that our method allocates Gaussians more efficiently accord-ing to local image structure. Specifically, more Gaussians are as-signed in structurally complex regions and arranged in a more structure-aligned manner to better capture edges and textures, while in relatively smooth regions, redundant Gaussians are merged Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Jiacong Chen, Qingyu Mao, Xiandong Meng, Shuai Liu, Chao Li, Fanyang Meng, Youneng Bao, and Yongsheng Liang GI                 
+
+> EA -GI
+> GI -Plus
+> GI -Plus+Ours GI -Plus+Ours
+> GI -Plus
+> EA -GI
+> GI
+> GI EA-GI GI-Plus GI-Plus+Ours
+> 60 80 100 120 140
+> Number  of  Gaussians
+> 114 54 133 67
+> Density Map
+> GI EA-GI GI-Plus GI-Plus+Ours
+> 28 29 30 31 32 33 34 35 36
+> PSNR  (dB)
+> 34.89 29.81 34.65 35.41 GI EA-GI GI-Plus GI-Plus+Ours 50 60 70 80 90 100 110
+> Number  of  Gaussians
+> 99 112 109 107
+> GI EA-GI GI-Plus GI-Plus+Ours 28 29 30 31 32 33 34
+> PSNR (dB)
+> 28.71 32.31 32.57 33.53
+> Density Map
+
+Figure 6: Locality analysis in local regions. For each region, we compare the Gaussian density maps, the number of allocated Gaussians, and the local PSNR. Our method achieves higher local PSNR with fewer or comparable Gaussians, indicating more effective Gaussian allocation according to local image structures. 0.0 0.1 0.2 0.3 0.4 0.5 0.6               
+
+> Euclidean Distance
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Cumulative ratio Kodak #3
+> 0.0 0.2 0.4 0.6 0.8 1.0 1.2 1.4
+> Euclidean Distance DIV2K #0806x2
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Cumulative ratio
+> w/o color regularization with color regularization
+> 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6
+> w/o color regularization
+> with color regularization
+> 0.5 1.0 1.5 2.0 2.5 3.0 3.5
+> Kodak
+> #3DIV2K
+> #0806x2
+
+(a) (b)   
+
+> w/o color regularization
+> with color regularization
+
+Figure 7: Effectiveness of local color consistency constraint. (a) CDF of pairwise color differences between neighboring Gaussians before merging. (b) Visualization of neighborhood color inconsistency. 
+
+to reduce unnecessary representation. Our LocoADC framework effectively enhances the representation capacity. 
+
+Effect of local color consistency constraint. As shown in Fig. 9(a), applying the color constraint makes the colors of spatially nearby Gaussians more consistent before Gaussian merging. The visualization in Fig. 9(b) further confirms that local color fluctua-tions are effectively reduced. This provides a more reliable basis for subsequent Gaussian merging. 
+
+Comparison with existing Gaussian reduction strategies. 
+
+As discussed in Sec.2.3, directly adopting sparsification strategies from 3DGS can significantly degrade representation quality. To 
+
+Table 3: Comparison with sparsification-based strategies from 3DGS methods on Kodak dataset. 
+
+Method PSNR (dB) MS-SSIM Size-based [20] 30.5 0.9498 Learning-based [10] 32.19 0.9527 SDGM (Ours) 32.68 0.9596 
+
+validate this, we compare our method with two Gaussian reduc-tion strategies used in 3DGS for scene reconstruction: size-based pruning[ 20 ] and learning-based masking [ 10 ] (Tab. 3). Their inferior performance shows that Gaussian reduction in image representa-tion is fundamentally different from that in scene reconstruction: even small Gaussians may be important for fine-detail representa-tion, and directly removing them would degrade visual quality. In contrast, our merging process exploits locality in Gaussian space to identify truly inefficient and neighboring Gaussians, leading to better representation quality. 
+
+## 5 Conclusion 
+
+In this paper, we show that an important source of inefficiency lies in locality-unaware density control: under-reconstructed content is often refined in a fragmented pixel-wise manner, while neighbor-ing optimized Gaussians with similar attributes are redundantly re-tained. To address this issue, we propose LocoADC, a plug-and-play framework that improves Gaussian capacity utilization through Region-wise Gaussian Densification, Similarity-Driven Gaussian merging, and a local color consistency constraint. The key idea is to jointly exploit the local continuity of reconstruction errors and the local similarity of neighboring Gaussians for more effective density control. Experiments on Kodak, DIV2K ×2, and CLIC demonstrate that LocoADC consistently improves GI, EA-GI, and GI-Plus, and comprehensive ablations verify the effectiveness of all components. In future work, we plan to extend our method to video representa-tion and 3D scenes, while further formulating density control in a rate-distortion-aware manner. Locality-Aware Density Control for Efficient Gaussian-based Image Representation Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil 
+
+## Acknowledgements 
+
+This work was supported by the National Natural Science Founda-tion of China (Grant No.62571160), Engineering Technology R&D Center of Guangdong Provincial Universities (2024GCZX004), and the Pengcheng Laboratory. 
+
+## References 
+
+[1] Eirikur Agustsson and Radu Timofte. 2017. Ntire 2017 challenge on single image super-resolution: Dataset and study. In Proceedings of the IEEE conference on computer vision and pattern recognition workshops . 126–135. [2] Johannes Ballé, Valero Laparra, and Eero P Simoncelli. 2016. End-to-end optimized image compression. arXiv preprint arXiv:1611.01704 (2016). [3] Johannes Ballé, David Minnen, Saurabh Singh, Sung Jin Hwang, and Nick John-ston. 2018. Variational image compression with a scale hyperprior. arXiv preprint arXiv:1802.01436 (2018). [4] Youneng Bao, Wen Tan, Chuanmin Jia, Mu Li, Yongsheng Liang, and Yonghong Tian. 2025. ShiftLIC: Lightweight Learned Image Compression With Spatial-Channel Shift Operations. IEEE Trans. Circuits Syst. Video Technol. 35, 9 (2025), 9428–9442. [5] Jiacong Chen, Qingyu Mao, Shuai Liu, Chao Li, Jierun Lin, Xiandong Meng, Fanyang Meng, and Yongsheng Liang. 2026. Entropy-Aware Image Representa-tion via 2D Gaussian Splatting. Signal Processing (2026), 110521. [6] Zhengxue Cheng, Heming Sun, Masaru Takeuchi, and Jiro Katto. 2020. Learned image compression with discretized gaussian mixture likelihoods and attention modules. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition . 7939–7948. [7] Renato J Cintra and Fábio M Bayer. 2011. A DCT approximation for image compression. IEEE Signal Processing Letters 18, 10 (2011), 579–582. [8] Mikolaj Czerkawski, Javier Cardona, Robert Atkinson, Craig Michie, Ivan An-donovic, Carmine Clemente, and Christos Tachtatzis. 2024. Neural knitworks: Patched neural implicit representation networks. Pattern Recognition 151 (2024), 110378. [9] Emilien Dupont, Adam Goliński, Milad Alizadeh, Yee Whye Teh, and Arnaud Doucet. 2021. Coin: Compression with implicit neural representations. arXiv preprint arXiv:2103.03123 (2021). [10] Zhiwen Fan, Kevin Wang, Kairun Wen, Zehao Zhu, Dejia Xu, Zhangyang Wang, et al . 2024. Lightgaussian: Unbounded 3d gaussian compression with 15x reduc-tion and 200+ fps. Advances in neural information processing systems 37 (2024), 140138–140158. [11] Abdullah Hamdi, Luke Melas-Kyriazi, Jinjie Mai, Guocheng Qian, Ruoshi Liu, Carl Vondrick, Bernard Ghanem, and Andrea Vedaldi. 2024. Ges: Generalized exponential splatting for efficient radiance field rendering. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition . 19812–19822. [12] Dailan He, Ziming Yang, Weikun Peng, Rui Ma, Hongwei Qin, and Yan Wang. 2022. Elic: Efficient learned image compression with unevenly grouped space-channel contextual adaptive coding. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition . 5718–5727. [13] Shoukang Hu, Tao Hu, and Ziwei Liu. 2024. Gauhuman: Articulated gaussian splatting from monocular human videos. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition . 20418–20431. [14] Bernhard Kerbl, Georgios Kopanas, Thomas Leimkühler, and George Drettakis. 2023. 3D Gaussian splatting for real-time radiance field rendering. ACM Trans. Graph. 42, 4 (2023), 139–1. [15] Kodak. 1999. Kodak lossless true color image suite. In 
+
+https://r0k.us/graphics/kodak/ . 11. [16] Joo Chan Lee, Daniel Rho, Xiangyu Sun, Jong Hwan Ko, and Eunbyung Park. 2024. Compact 3d gaussian representation for radiance field. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition . 21719–21728. [17] Linfei Li, Lin Zhang, Zhong Wang, and Ying Shen. 2026. SmartSplat: Feature-Smart Gaussians for Scalable Compression of Ultra-High-Resolution Images. In 
+
+Proceedings of the AAAI Conference on Artificial Intelligence , Vol. 40. 6315–6323. [18] Tiantian Li, Xinjie Zhang, Xingtong Ge, Tongda Xu, Dailan He, Jun Zhang, and Yan Wang. 2026. GaussianImage++: Boosted Image Representation and Compression with 2D Gaussian Splatting. In Proceedings of the AAAI Conference on Artificial Intelligence , Vol. 40. 6442–6449. [19] Huanxiong Liang, Yunuo Chen, Yicheng Pan, Sixian Wang, Jincheng Dai, Guo Lu, and Wenjun Zhang. 2025. Structure-Guided Allocation of 2D Gaussians for Image Representation and Compression. arXiv preprint arXiv:2512.24018 (2025). [20] Xiangrui Liu, Xinju Wu, Pingping Zhang, Shiqi Wang, Zhu Li, and Sam Kwong. 2024. Compgs: Efficient 3d scene representation via compressed gaussian splat-ting. In Proceedings of the 32nd ACM International Conference on Multimedia .2936–2944. [21] Panagiotis Papantonakis, Georgios Kopanas, Bernhard Kerbl, Alexandre Lanvin, and George Drettakis. 2024. Reducing the memory footprint of 3d gaussian splatting. Proceedings of the ACM on Computer Graphics and Interactive Techniques 
+
+7, 1 (2024), 1–17. [22] Vincent Sitzmann, Julien Martel, Alexander Bergman, David Lindell, and Gordon Wetzstein. 2020. Implicit neural representations with periodic activation func-tions. Advances in neural information processing systems 33 (2020), 7462–7473. [23] Yangyang Song and Xiaozhen Xie. 2025. Triple-layer representation of low rank and group sparsity for hyperspectral image denoising. Signal Processing 233 (2025), 109960. [24] Yannick Strümpler, Janis Postels, Ren Yang, Luc Van Gool, and Federico Tombari. 2022. Implicit neural representations for image compression. In European Con-ference on Computer Vision . Springer, 74–91. [25] Matthew Tancik, Pratul Srinivasan, Ben Mildenhall, Sara Fridovich-Keil, Nithin Raghavan, Utkarsh Singhal, Ravi Ramamoorthi, Jonathan Barron, and Ren Ng. 2020. Fourier features let networks learn high frequency functions in low di-mensional domains. Advances in neural information processing systems 33 (2020), 7537–7547. [26] David S Taubman, Michael W Marcellin, and Majid Rabbani. 2002. JPEG2000: Image compression fundamentals, standards and practice. Journal of Electronic Imaging 11, 2 (2002), 286–287. [27] George Toderici, Wenzhe Shi, Radu Timofte, Lucas Theis, Johannes Balle, Eirikur Agustsson, Nick Johnston, and Fabian Mentzer. 2020. Workshop and challenge on learned image compression (clic2020). In CVPR .[28] Joanna Waczyńska, Tomasz Szczepanik, Piotr Borycki, Sławomir Tadeja, Thomas Bohné, and Przemysław Spurek. 2024. Mirage: Editable 2d images using gaussian splatting. arXiv preprint arXiv:2410.01521 (2024). [29] Gregory K Wallace. 1991. The JPEG still picture compression standard. Commun. ACM 34, 4 (1991), 30–44. [30] Hao Wang, Ashish Bastola, Chaoyi Zhou, Wenhui Zhu, Xiwen Chen, Xuanzhao Dong, Siyu Huang, and Abolfazl Razi. 2026. Fast 2DGS: Efficient Image Rep-resentation with Deep Gaussian Prior. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision . 1184–1193. [31] Henan Wang, Hanxin Zhu, Tianyu He, Runsen Feng, Jiajun Deng, Jiang Bian, and Zhibo Chen. 2024. End-to-end rate-distortion optimized 3d gaussian repre-sentation. In European Conference on Computer Vision . Springer, 76–92. [32] Zhou Wang, Eero P Simoncelli, and Alan C Bovik. 2003. Multiscale structural similarity for image quality assessment. In The thrity-seventh asilomar conference on signals, systems & computers, 2003 , Vol. 2. Ieee, 1398–1402. [33] Zongxin Ye, Wenyu Li, Sidun Liu, Peng Qiao, and Yong Dou. 2024. Absgs: Recovering fine details in 3d gaussian splatting. In Proceedings of the 32nd ACM international conference on multimedia . 1053–1061. [34] Zehao Yu, Torsten Sattler, and Andreas Geiger. 2024. Gaussian opacity fields: Efficient adaptive surface reconstruction in unbounded scenes. ACM Transactions on Graphics (ToG) 43, 6 (2024), 1–13. [35] Zhaojie Zeng, Yuesong Wang, Chao Yang, Tao Guan, and Lili Ju. 2025. Instant GaussianImage: A Generalizable and Self-Adaptive Image Representation via 2D Gaussian Splatting. arXiv preprint arXiv:2506.23479 (2025). [36] Weixiang Zhang, Shuzhao Xie, Chengwei Ren, Shijia Ge, Mingzi Wang, and Zhi Wang. 2025. Enhancing implicit neural representations via symmetric power transformation. In Proceedings of the AAAI Conference on Artificial Intelligence ,Vol. 39. 10157–10165. [37] Weixiang Zhang, Shuzhao Xie, Chengwei Ren, Siyi Xie, Chen Tang, Shijia Ge, Mingzi Wang, and Zhi Wang. 2025. Evos: Efficient implicit neural training via evolutionary selector. In Proceedings of the Computer Vision and Pattern Recognition Conference . 30472–30482. [38] Xinjie Zhang, Xingtong Ge, Tongda Xu, Dailan He, Yan Wang, Hongwei Qin, Guo Lu, Jing Geng, and Jun Zhang. 2024. Gaussianimage: 1000 fps image repre-sentation and compression by 2d gaussian splatting. In European Conference on Computer Vision . Springer, 327–345. [39] Zheng Zhang, Wenbo Hu, Yixing Lao, Tong He, and Hengshuang Zhao. 2024. Pixel-gs: Density control with pixel-aware gradient for 3d gaussian splatting. In 
+
+European Conference on Computer Vision . Springer, 326–342. [40] Lingting Zhu, Guying Lin, Jinnan Chen, Xinjie Zhang, Zhenchao Jin, Zhao Wang, and Lequan Yu. 2025. Large images are Gaussians: High-quality large image representation with levels of 2D Gaussian splatting. In Proceedings of the AAAI Conference on Artificial Intelligence , Vol. 39. 10977–10985. Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Jiacong Chen, Qingyu Mao, Xiandong Meng, Shuai Liu, Chao Li, Fanyang Meng, Youneng Bao, and Yongsheng Liang 
+
+## Appendix 
+
+We provide more material to supplement our main paper. This appendix first introduces more implementation details in Sec. A. Then, we provide additional experimental results in Sec. B. Finally, we discuss the limitations and future work in Sec. C. 
+
+## A More Implementation Details 
+
+Supplementary explanations of LocoADC. As shown in Fig. 8, the detailed training process of the proposed LocoADC framework is provided. To avoid introducing improper constraints on Gaus-sians before they are sufficiently optimized, we enforce the local color consistency constraint only after the warm-up stage. After the merging operation, the released Gaussian budget is further real-located through densification to the regions with higher distortion, enabling the model to better fit the image while improving the efficiency of Gaussian representation. To further facilitate the understanding of our Region-wise Gauss-ian Densification (RGD) and Similarity-Driven Gaussian Merging (SDGM) strategies, the corresponding pseudocode is provided in Algorithms 1 and 2. 
+
+Algorithm 1 RGD strategy for D ( G𝑡 )
+
+Require: Gaussian set G𝑡 , ground-truth image 𝐼 , rendered image 
+
+ˆ𝐼 , window size 𝑤 , candidate number 𝐾 
+
+Ensure: Updated Gaussian set D ( G𝑡 ) 
+
+> 1:
+
+𝐸 (𝑥 ) ← ∥ 𝐼 (𝑥 ) − ˆ𝐼 (𝑥 )∥ 2 
+
+> 2:
+
+u(𝑥 ) ← (∇ 𝑥 𝐸 (𝑥 ), ∇𝑦 𝐸 (𝑥 )) ⊤
+
+∥∇ 𝐸 (𝑥 )∥ 22 + 𝜖  
+
+> 3:
+
+𝐷 (𝑥 ) ← 1
+
+𝑤 2
+
+Í𝑞 ∈𝑁 𝑤 (𝑥 ) u(𝑞 ) 2 
+
+> 4:
+
+𝐶 𝐾 ← TopK  𝐸 (𝑥 ) · 𝐷 (𝑥 ) 
+
+> 5:
+
+Group spatially neighboring pixels in 𝐶 𝐾 into regional subsets  
+
+> 6:
+
+Initialize one Gaussian at the center of each region  
+
+> 7:
+
+Let all initialized Gaussians form ΔG𝑡  
+
+> 8:
+
+G𝑡 ← G𝑡 ∪ ΔG𝑡  
+
+> 9:
+
+return G𝑡 
+
+Effective support area. In Eq. 15, we impose a support-area constraint based on the effective support areas 𝑆 𝑖 of the original and merged Gaussians. We provide the definition of the effective support area used in that formulation. The influence of a 2D Gaussian is primarily concentrated in a local neighborhood around its mean. To quantify this practical spatial extent, for a Gaussian 𝑔 𝑖 with mean 
+
+𝜇 𝑖 ∈ R2 and covariance Σ𝑖 ∈ R2×2, we define its effective support region as 
+
+A𝑖 = 𝑥 ∈ R2 (𝑥 − 𝜇 𝑖 )⊤ Σ−1 
+
+> 𝑖
+
+(𝑥 − 𝜇 𝑖 ) ≤ 𝜏 (18) where 𝜏 > 0 is a predefined Mahalanobis-distance threshold. The corresponding effective support area is defined as 
+
+𝑆 𝑖 = Area (A 𝑖 ) (19) Since A𝑖 is an equal-density ellipse induced by Σ𝑖 , its area can be written as: 
+
+𝑆 𝑖 = 𝜋𝜏 √︁ |Σ𝑖 | (20) where |Σ𝑖 | denotes the determinant of Σ𝑖 . Therefore, 𝑆 𝑖 provides a compact quantitative measure of the practical spatial coverage 
+
+Algorithm 2 SDGM strategy for S( G𝑡 )
+
+Require: Gaussian set G𝑡 , thresholds 𝜏 𝑀 , 𝜏 color , area ratio 𝜂 
+
+Ensure: Updated Gaussian set G𝑡  
+
+> 1:
+
+Filter out unstable Gaussians with 𝑔 𝑖 
+
+max 𝑘 𝑔 𝑘 
+
+< 0.5 
+
+> 2:
+
+Construct local Gaussian pairs (𝑖, 𝑗 ) 
+
+> 3:
+
+Retain pairs satisfying 𝑑 𝑀 (𝜇 𝑖 , 𝜇 𝑗 ; Σ𝑖 ) < 𝜏 𝑀 and ∥𝑐 𝑖 − 𝑐 𝑗 ∥2 <
+
+𝜏 color  
+
+> 4:
+
+𝐷 (𝑖, 𝑗 ) ← ∥ 𝜇 𝑖 − 𝜇 𝑗 ∥22 + ∥ 𝑐 𝑖 − 𝑐 𝑗 ∥22 + ∥ ℓ𝑖 − ℓ𝑗 ∥22 
+
+> 5:
+
+For each Gaussian involved in multiple pairs, retain the pair with the lowest 𝐷 (𝑖, 𝑗 ) 
+
+> 6:
+
+for each selected pair (𝑖, 𝑗 ) do  
+
+> 7:
+
+Compute the merged Gaussian 𝑔 merged  
+
+> 8:
+
+if 𝑆 merged ≤ 𝜂 (𝑆 𝑖 + 𝑆 𝑗 ) then  
+
+> 9:
+
+Replace 𝑔 𝑖 and 𝑔 𝑗 in G𝑡 with 𝑔 merged  
+
+> 10:
+
+end if  
+
+> 11:
+
+end for  
+
+> 12:
+
+Let the updated Gaussian set form G𝑡  
+
+> 13:
+
+return G𝑡 
+
+of Gaussian 𝑔 𝑖 , which is used in Eq. 15 to compute the Gaussian merging weights. Note that, in the actual computation of Eq. 15, the constant factor 𝜋𝜏 is canceled out. Therefore, in implementation, we only use the proportional term √︁ |Σ𝑖 | without explicitly evaluating the constant. 
+
+Hyperparameter setting. Unless otherwise specified, we use the following default hyperparameters for LocoADC. In RGD strat-egy, the default window size is 𝑤 = 7 (i.e., a 7 × 7 local window) in Eq. 7. For similar Gaussian pair selection, the Mahalanobis overlap threshold is set to 𝜏 𝑀 = 5.0, and the color similarity threshold is set to 𝜏 color = 10 /255 (RGB ℓ2 distance). The merging constraint ratio is 𝜂 = 1.5. For local color consistency constraint, we enable color constraint with weight 𝜆 color = 0.01 .
+
+## B Additional Experimental Results 
+
+Rate-Distortion and Time-Quality Analysis. To further eval-uate the representation efficiency of our method, we compare it with traditional image codecs [ 26 , 29 ], learned image compres-sion methods [ 2, 3], an INR-based method [ 9 ], and representative Gaussian-based image representation methods [ 18 , 38 ]. The PSNR-Bpp comparison in Fig. 9(a) shows that our method consistently achieves a better rate-distortion trade-off than existing Gaussian-based approaches while approaching the performance of existing learned image compression methods. Fig. 9(b) further reports the PSNR-Time curves. Although our method converges slightly slower in the early stage due to the additional optimization introduced by RGD and SDGM, it consistently surpasses the baseline after convergence, demonstrating a better quality-efficiency trade-off. 
+
+Comparison with Recent GS-based Image Representation Methods. Tab. 4 reports comparisons with recent Gaussian-based image representation methods [ 17 , 19 , 30 , 40 ]. Our method consis-tently achieves the best performance under the same Gaussian bud-get. Compared with StructureGI [ 19 ], our method further achieves superior reconstruction quality with significantly fewer Gaussians and model parameters. Locality-Aware Density Control for Efficient Gaussian-based Image Representation Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Iterations (t) 
+
+Densification 
+
+each 5000 t  Densification 
+
+paused 
+
+Merging 
+
+each 5000 t 
+
+Merging 
+
+paused 
+
+Densification 
+
+each 5000 t 
+
+Warm up for 
+
+overfitting 
+
+Local color 
+
+consistency constraint  Fine -tuning 
+
+## LocoADC milestones 
+
+Figure 8: Detailed training process of the proposed LocoADC framework. 0.2 0.4 0.6 0.8 1.0 1.2 1.4 
+
+Bpp 
+
+> 24 26 28 30 32 34 36 38
+> PSNR (dB)
+
+(a)    
+
+> 200 400 800 1000 32.0 32.5 33.0 33.5 34.0 34.5 35.0 35.5 36.0
+> PSNR (dB)
+> 600
+> Balle17 Balle18 JPEG JPEG2000 COIN GI GI-Plus GI+Ours GI-Plus+Ours
+
+Time cost (s) 
+
+(b )
+
+Figure 9: Rate-distortion (left) and Time-PSNR (right) comparisons. Table 4: Recent GS-based method comparisons on Kodak. GS Num. denotes the number of Gaussians. 
+
+Methods PSNR ↑ MS-SSIM ↑ Params ↓ GS Num. SmartSplat [17] 33.47 0.9813 0.08M 10k LIG [40] 31.00 0.9750 0.08M 10k Fast2DGS [30] 33.79 – 0.08M 10k GI-Plus+Ours 36.15 0.9826 0.08M 10k StructureGI [19] 45.40 0.9987 0.56M 70k GI-Plus+Ours 46.83 0.9991 0.38M 48k 
+
+Effectiveness of RGD strategy. To verify the effectiveness of the proposed RGD strategy, we further compare it with a magnitude-only regional densification variant. Specifically, this variant also performs region-wise Gaussian allocation, but identifies candidate regions solely according to the distortion magnitude, without con-sidering the local distortion coherence defined in Eq. (7). 
+
+Table 5: Ablation study on RGD strategy on Kodak dataset. 
+
+Variant PSNR (dB) MS-SSIM Pixel-wise Densification 31.9 0.9614 Magnitude-only Region-wise Densification 31.98 0.9617 RGD (Ours) 32.24 0.964 
+
+As reported in Tab. 5, the magnitude-only variant brings only marginal improvement over pixel-wise densification, increasing PSNR from 31.90 to 31.98 and MS-SSIM from 0.9614 to 0.9617. In contrast, our full RGD strategy achieves the best performance. This result indicates that the effectiveness of RGD arises not only from region-wise densification itself, but also from the proposed Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Jiacong Chen, Qingyu Mao, Xiandong Meng, Shuai Liu, Chao Li, Fanyang Meng, Youneng Bao, and Yongsheng Liang GT  
+
+> RGD (Ours)
+> Magnitude-only Region-wise Densification
+> Pixel-wise Densification
+> PSNR:33.21
+> PSNR:32.99
+> PSNR:33.77
+> PSNR:32.22
+> PSNR:31.92
+> PSNR:32.86
+> PSNR:33.22
+> PSNR:32.89
+> PSNR:33.87 PSNR:34.81
+> PSNR:33.97
+> PSNR:33.67
+
+Figure 10: Qualitative ablation of the RGD strategy. Com-pared with pixel-wise densification and magnitude-only region-wise densification, our method better recovers co-herent fine structures and textured details. 
+
+coherence-aware region identification. The qualitative comparisons in Fig. 10 further support this observation, as our method recovers finer structures and more faithful textures than the magnitude-only variant. 
+
+Hyper-parameter sensitivity analysis. To investigate the ro-bustness of LocoADC to different hyper-parameters, we conduct a one-factor-at-a-time sensitivity analysis on Kodak. Specifically, we vary one hyper-parameter while keeping all others fixed to the default setting. As reported in Tab. 6, the performance remains stable within reasonable ranges of the tested parameters, indicating that LocoADC does not rely on carefully tuned hyper-parameters. We also observe that overly loose merging-related thresholds, such as large 𝜏 color and 𝜂 , may slightly reduce MS-SSIM, since they al-low more aggressive merging and may introduce mild smoothing. Therefore, we adopt a moderate global setting for all images and datasets in our default implementation. 
+
+Effectiveness of each component. Tab. 7 reports the recon-struction quality and training time of different module combina-tions. RGD improves both PSNR and MS-SSIM by allocating addi-tional Gaussians to under-reconstructed regions, thereby correcting local reconstruction errors and enhancing structural consistency. In contrast, merging further improves PSNR by removing redundant Gaussians, while slightly reducing MS-SSIM because consolidating similar Gaussians in locally smooth regions may mildly smooth subtle edge variations. The local color consistency constraint allevi-ates this effect by encouraging neighboring Gaussians to maintain 
+
+Table 6: Hyper-parameter sensitivity analysis on Kodak.                                                                                                         
+
+> Hyper-parameter Metric Values
+> 𝜆 color
+> Value 0.001 0.005 0.01 0.02 0.05 PSNR ↑32.59 32.64 32.68 32.62 32.61 MS-SSIM ↑0.9588 0.9591 0.9596 0.9590 0.9590
+> 𝑤
+> Value 357911 PSNR ↑32.67 32.66 32.68 32.65 32.64 MS-SSIM ↑0.9594 0.9593 0.9596 0.9593 0.9593 Gradient cutoff Value 0.1 0.3 0.5 0.7 0.9 PSNR ↑32.59 32.66 32.68 32.63 32.55 MS-SSIM ↑0.9622 0.9603 0.9596 0.9590 0.9582
+> 𝜏 𝑀
+> Value 13579PSNR ↑32.53 32.62 32.68 32.64 32.59 MS-SSIM ↑0.9628 0.9614 0.9596 0.9592 0.9587
+> 𝜏 color
+> Value 2.5 510 15 20 PSNR ↑32.63 32.65 32.68 32.71 32.72 MS-SSIM ↑0.9624 0.9611 0.9596 0.9584 0.9579
+> 𝜂
+> Value 11.5 35–PSNR ↑32.67 32.68 32.61 32.47 –MS-SSIM ↑0.9595 0.9596 0.9578 0.9556 –
+
+Table 7: Training time analysis on RGD (Sec. 3.2) and SDGM (Sec. 3.3) strategies. The GI-Plus is selected as the baseline. 
+
+GI-Plus RGD Merging Color Cons. PSNR ↑ MS-SSIM ↑ Time (s) 
+
+✓ 31.90 0.9614 247.75 
+
+✓ ✓ 32.24 0.9640 260.55 
+
+✓ ✓ 32.34 0.9561 268.2 
+
+✓ ✓ ✓ 32.52 0.9577 302.47 
+
+✓ ✓ ✓ ✓ 32.68 0.9596 313.88 
+
+Table 8: 3DGS density control comparison. 
+
+Method PSNR ↑ MS-SSIM ↑
+
+3DGS [14] 28.99 0.9435 AbsGS [33] 28.93 0.9430 GauHuman [13] 28.85 0.9426 Ours 32.68 0.9596 
+
+consistent colors, leading to further improvements in both PSNR and MS-SSIM. Overall, the proposed methods achieve the best re-construction quality with only a moderate increase in training time. 
+
+Comparison with 3DGS density control strategies. Tab. 8 compares our method with representative 3DGS density control strategies [ 13 , 14 , 33 ]. These methods are less effective for image representation because position gradients are typically too weak to reliably identify under-reconstructed regions for densification. Consequently, our distortion-guided density control achieves sub-stantially better reconstruction quality. 
+
+More Qualitative Results. Fig. 11 provides more qualitative comparisons among GI [ 38 ], EA-GI [ 5], and GI-Plus [ 18 ], as well as Locality-Aware Density Control for Efficient Gaussian-based Image Representation Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil 
+
+their counterparts equipped with our LocoADC framework. The results demonstrate that applying our LocoADC framework consis-tently improves the visual quality over the baselines. 
+
+## C Limitations 
+
+Despite the promising results achieved by our method for Gaussian image representation, several limitations remain. First, there is still a noticeable performance gap between Gaussian-based methods and neural image representations. Second, the current framework is mainly validated on conventional image settings, while its appli-cability to more challenging formats, such as 360 ◦ and panoramic images, remains underexplored. Finally, this work focuses on image representation and reconstruction, and the potential of Gaussian image representations for downstream tasks, such as image classifi-cation, object detection, and style transfer, has yet to be investigated. Conference ’MM, Nov. 10–14, 2026, Rio de Janeiro, Brazil Jiacong Chen, Qingyu Mao, Xiandong Meng, Shuai Liu, Chao Li, Fanyang Meng, Youneng Bao, and Yongsheng Liang GI 
+
+GI +Ours 
+
+EA -GI 
+
++Ours 
+
+EA -GI 
+
+GI -Plus 
+
++Ours 
+
+GI -Plus 
+
+GT 
+
+Figure 11: Qualitative results on Kodak, DIV2k ×2 and CLIC datasets.

@@ -1,0 +1,454 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-27T21:52:37.257514+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 3,
+    "deep_cap": 8,
+    "deep_selected": 3,
+    "quick_candidates": 6,
+    "quick_skim_target": 13,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2607.22231v1",
+      "source": "arxiv",
+      "title": "TRaM-VSR: Importance-Aware Token Routing and Merging for One-Step Diffusion Video Super-Resolution",
+      "abstract": "Video super-resolution (VSR) using large-scale Diffusion Transformer (DiT) priors achieves exceptional perceptual quality but is often impractical due to the quadratic computational cost of processing dense spatio-temporal token sequences. Existing efficiency-oriented methods risk irreversible detail loss and temporal flickering, a vulnerability especially pronounced in one-step diffusion models. To address this, we propose TRaM-VSR, a Token Routing and Merging framework for adaptive token allocation, leveraging both context-aware video priors and network-level priors. First, token importance is estimated by fusing motion-sensitive temporal cues with semantic text similarity, isolating dynamic objects and structural boundaries. Next, this importance is further calibrated and adjusted by an offline planner to guide routing across optimally grouped network blocks. Technically, within each routed group, structurally critical tokens are processed in a high-fidelity local stream, while less informative tokens are aggregated into a compact global stream, both modulated by network depth and aligned with the multigranular nature of diffusion models. Extensive experiments show that TRaM-VSR accelerates inference significantly while preserving state-of-the-art reconstruction quality and robust temporal consistency. The code is available at https://github.com/Ree1s/TRaM-VSR.",
+      "authors": [
+        "Sicheng Gao",
+        "Zhuyun Zhou",
+        "Yixuan Liu",
+        "Tong Shen",
+        "Zongwei Wu",
+        "Radu Timofte"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-24T11:57:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.22231v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "one-step diffusion video super-resolution with token routing",
+      "llm_evidence_cn": "一步扩散视频超分辨率结合令牌路由",
+      "llm_evidence": "一步扩散视频超分辨率结合令牌路由",
+      "canonical_evidence": "一步扩散视频超分辨率结合令牌路由",
+      "llm_tldr_en": "Proposes TRaM-VSR, a token routing and merging framework for one-step diffusion video super-resolution that adaptively allocates tokens to preserve detail and temporal coherence while reducing computation.",
+      "llm_tldr_cn": "扩散模型视频超分辨率质量高但计算昂贵，现有效率方法会丢失细节和时序一致性。本文提出TRaM-VSR，通过令牌路由与合并框架自适应分配令牌，利用运动敏感时序线索和语义文本相似度估计令牌重要性，保护动态对象和结构边界。在一步扩散模型中，该方法在保持优质恢复效果的同时大幅降低计算量，为视频后处理提供了高效方案。",
+      "llm_tldr": "扩散模型视频超分辨率质量高但计算昂贵，现有效率方法会丢失细节和时序一致性。本文提出TRaM-VSR，通过令牌路由与合并框架自适应分配令牌，利用运动敏感时序线索和语义文本相似度估计令牌重要性，保护动态对象和结构边界。在一步扩散模型中，该方法在保持优质恢复效果的同时大幅降低计算量，为视频后处理提供了高效方案。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video super resolution methods for quality enhancement",
+      "matched_requirement_id": "req-19",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19064v1",
+      "source": "arxiv",
+      "title": "Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing",
+      "abstract": "Large-scale visual generators are increasingly capable but costly to train, fine-tune, and deploy. We introduce Mage-Flow, a compact 4B-scale generative stack for efficient text-to-image generation and instruction-based image editing. The stack is built from two co-designed components: Mage-VAE, a lightweight high-fidelity latent tokenizer, and a Native-Resolution Multimodal Diffusion Transformer trained with rectified flow matching. Mage-VAE uses one-step diffusion-style encoding and decoding with anchor-latent regularization, preserving the reconstruction quality of strong public VAEs while reducing tokenization cost by more than an order of magnitude. Together with native-resolution packing and stack-level CUDA kernel fusion, the stack supports flexible-resolution training and improves end-to-end training throughput by about $2.5\\times$. Built on this foundation, we develop a complete model family with Base, RL-aligned, and Turbo variants for both generation and editing. Diffusion-NFT improves prompt following, text rendering, aesthetic quality, and editing fidelity, while few-step distillation with adversarial perceptual guidance produces 4-step Turbo models for low-latency inference. Despite its compact scale, Mage-Flow and Mage-Flow-Edit achieves competitive performance across standard generation and editing benchmarks. More importantly, the Turbo variants make high-resolution generation and editing practical for interactive use: at $1024^2$ resolution on a single NVIDIA A100 GPU, Mage-Flow-Turbo generates an image in 0.59s, and Mage-Flow-Edit-Turbo edits an image in 1.02s, while maintaining a small memory footprint. These results show that careful tokenizer--backbone--system co-design can deliver strong high-resolution generation and editing within an efficient 4B model family.",
+      "authors": [
+        "Xinjie Zhang",
+        "Peng Zhang",
+        "Shicheng Zheng",
+        "Jinghao Guo",
+        "Zhaoyang Jia",
+        "Yifei Shen",
+        "Xun Guo",
+        "Yuxuan Luo",
+        "Jiahao Li",
+        "Wenxuan Xie",
+        "Fanyi Pu",
+        "Xiaoyi Zhang",
+        "Kaichen Zhang",
+        "Zongyu Guo",
+        "Tianci Bi",
+        "Dongnan Gui",
+        "Zhening Liu",
+        "Zimo Wen",
+        "Zihan Zheng",
+        "Senqiao Yang",
+        "Xiao Li",
+        "Jinglu Wang",
+        "Bin Li",
+        "Yan Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.MM",
+        "eess.IV"
+      ],
+      "published": "2026-07-21T12:55:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.19064v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "efficient image generation with lightweight VAE and kernel fusion enabling fast inference on consumer GPUs",
+      "llm_evidence_cn": "通过轻量VAE和CUDA内核融合实现高效图像生成，可在消费级GPU上快速推理",
+      "llm_evidence": "通过轻量VAE和CUDA内核融合实现高效图像生成，可在消费级GPU上快速推理",
+      "canonical_evidence": "通过轻量VAE和CUDA内核融合实现高效图像生成，可在消费级GPU上快速推理",
+      "llm_tldr_en": "Mage-Flow proposes a compact 4B-scale generative stack with a one-step diffusion VAE and native-resolution packing, reducing tokenization cost by an order of magnitude and enabling efficient text-to-image generation and editing.",
+      "llm_tldr_cn": "大型视觉生成器训练和部署成本高昂。Mage-Flow构建了一个紧凑的4B规模生成栈，包含轻量高保真潜在分词器Mage-VAE和原生分辨率多模态扩散Transformer，通过单步扩散编码解码和CUDA内核融合大幅降低计算成本，同时保持重建质量，实现高效的文本到图像生成与编辑。",
+      "llm_tldr": "大型视觉生成器训练和部署成本高昂。Mage-Flow构建了一个紧凑的4B规模生成栈，包含轻量高保真潜在分词器Mage-VAE和原生分辨率多模态扩散Transformer，通过单步扩散编码解码和CUDA内核融合大幅降低计算成本，同时保持重建质量，实现高效的文本到图像生成与编辑。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19064v2",
+      "source": "arxiv",
+      "title": "Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing",
+      "abstract": "Large-scale visual generators are increasingly capable but costly to train, fine-tune, and deploy. We introduce Mage-Flow, a compact 4B-scale generative stack for efficient text-to-image generation and instruction-based image editing. The stack is built from two co-designed components: Mage-VAE, a lightweight high-fidelity latent tokenizer, and a Native-Resolution Multimodal Diffusion Transformer trained with rectified flow matching. Mage-VAE uses one-step diffusion-style encoding and decoding with anchor-latent regularization, preserving the reconstruction quality of strong public VAEs while reducing tokenization cost by more than an order of magnitude. Together with native-resolution packing and stack-level CUDA kernel fusion, the stack supports flexible-resolution training and improves end-to-end training throughput by about $2.5\\times$. Built on this foundation, we develop a complete model family with Base, RL-aligned, and Turbo variants for both generation and editing. Diffusion-NFT improves prompt following, text rendering, aesthetic quality, and editing fidelity, while few-step distillation with adversarial perceptual guidance produces 4-step Turbo models for low-latency inference. Despite its compact scale, Mage-Flow and Mage-Flow-Edit achieves competitive performance across standard generation and editing benchmarks. More importantly, the Turbo variants make high-resolution generation and editing practical for interactive use: at $1024^2$ resolution on a single NVIDIA A100 GPU, Mage-Flow-Turbo generates an image in 0.59s, and Mage-Flow-Edit-Turbo edits an image in 1.02s, while maintaining a small memory footprint. These results show that careful tokenizer--backbone--system co-design can deliver strong high-resolution generation and editing within an efficient 4B model family.",
+      "authors": [
+        "Xinjie Zhang",
+        "Peng Zhang",
+        "Shicheng Zheng",
+        "Jinghao Guo",
+        "Zhaoyang Jia",
+        "Yifei Shen",
+        "Xun Guo",
+        "Yuxuan Luo",
+        "Jiahao Li",
+        "Wenxuan Xie",
+        "Fanyi Pu",
+        "Xiaoyi Zhang",
+        "Kaichen Zhang",
+        "Zongyu Guo",
+        "Tianci Bi",
+        "Dongnan Gui",
+        "Zhening Liu",
+        "Zimo Wen",
+        "Zihan Zheng",
+        "Senqiao Yang",
+        "Xiao Li",
+        "Jinglu Wang",
+        "Bin Li",
+        "Yan Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.MM",
+        "eess.IV"
+      ],
+      "published": "2026-07-21T12:55:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.19064v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "efficient native-resolution image generation and editing with compact model",
+      "llm_evidence_cn": "高效原生分辨率图像生成与编辑，紧凑模型",
+      "llm_evidence": "高效原生分辨率图像生成与编辑，紧凑模型",
+      "canonical_evidence": "高效原生分辨率图像生成与编辑，紧凑模型",
+      "llm_tldr_en": "Mage-Flow is a 4B-parameter generative stack for efficient text-to-image generation and editing, featuring lightweight VAE and native-resolution diffusion transformer with rectified flow matching.",
+      "llm_tldr_cn": "该论文提出Mage-Flow，一个4B规模的紧凑生成栈，用于高效文本到图像生成和编辑。核心包括轻量级VAE（Mage-VAE）采用一步扩散式编解码和锚点潜在正则化，以及原生分辨率多模态扩散Transformer配合整流流匹配。通过内核融合和原生分辨率打包，在消费级GPU上实现快速推理，同时保持高质量。",
+      "llm_tldr": "该论文提出Mage-Flow，一个4B规模的紧凑生成栈，用于高效文本到图像生成和编辑。核心包括轻量级VAE（Mage-VAE）采用一步扩散式编解码和锚点潜在正则化，以及原生分辨率多模态扩散Transformer配合整流流匹配。通过内核融合和原生分辨率打包，在消费级GPU上实现快速推理，同时保持高质量。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.17612v2",
+      "source": "arxiv",
+      "title": "Rarity-Aware Discrete Diffusion with Spatially Consistent Decoding for Photo-Realistic Image Super-Resolution",
+      "abstract": "Continuous diffusion models have become the dominant paradigm for photo-realistic image Super-Resolution (SR), but they typically formulate reconstruction as continuous signal-level denoising and incorporate semantic priors through external conditioning modules. This makes it less direct to exploit the unified token-based scaling paradigm of modern multimodal models. Autoregressive models provide a more native semantic representation by modeling images as discrete visual tokens, yet their causal decoding is inefficient for high-resolution reconstruction. Discrete diffusion offers a promising middle ground by enabling non-causal, parallel prediction over visual tokens. However, directly adapting discrete diffusion to SR remains non-trivial due to two task-specific challenges: (1) the long-tailed distribution of visual tokens, which under-represents rare but perceptually critical textures; and (2) spatially inconsistent parallel decoding, which may introduce isolated artifacts. To address these issues, we propose DiMOO-SR, a rarity-aware multimodal discrete diffusion framework for photo-realistic image SR. During training, Inverse Frequency Sampling (IFS) prioritizes under-represented but information-rich tokens. During inference, Spatial Consistency Ranking (SCR) refines token confidence using local neighborhood agreement to improve structural coherence. Extensive experiments on widely used real-world SR benchmarks demonstrate that DiMOO-SR achieves competitive perceptual quality with only a few parallel decoding steps, highlighting the potential of discrete diffusion for generative image super-resolution. The code will be released upon publication.",
+      "authors": [
+        "Ao Li",
+        "Yapeng Du",
+        "Yi Xin",
+        "Lei Zhu",
+        "Le Zhang",
+        "Guangtao Zhai",
+        "Ce Zhu",
+        "Xiaohong Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T07:01:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.17612v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "image super-resolution method, transferable to video refinement",
+      "llm_evidence_cn": "图像超分辨率方法，可迁移到视频精炼",
+      "llm_evidence": "图像超分辨率方法，可迁移到视频精炼",
+      "canonical_evidence": "图像超分辨率方法，可迁移到视频精炼",
+      "llm_tldr_en": "Proposes a rarity-aware discrete diffusion with spatially consistent decoding for photo-realistic image super-resolution, enabling non-causal parallel prediction over visual tokens.",
+      "llm_tldr_cn": "该论文针对连续扩散模型在超分辨率中难以充分利用统一token缩放范式的问题，提出了一种稀有感知的离散扩散方法，结合空间一致解码实现非因果并行视觉token预测。实验表明该方法在图像超分辨率上取得了照片级真实感效果，其离散扩散框架为视频超分辨率等下游任务提供了可迁移的技术基础。",
+      "llm_tldr": "该论文针对连续扩散模型在超分辨率中难以充分利用统一token缩放范式的问题，提出了一种稀有感知的离散扩散方法，结合空间一致解码实现非因果并行视觉token预测。实验表明该方法在图像超分辨率上取得了照片级真实感效果，其离散扩散框架为视频超分辨率等下游任务提供了可迁移的技术基础。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video super resolution methods for quality enhancement",
+      "matched_requirement_id": "req-19",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17896v1",
+      "source": "arxiv",
+      "title": "Locality-Aware Density Control for Efficient Gaussian-based Image Representation",
+      "abstract": "2D Gaussian Splatting is an attractive direction for image representation due to its explicit formulation, fast rasterization, and favorable decoding efficiency. The representation quality of this paradigm depends on the proper allocation of Gaussian capacity to the demanding regions. However, existing methods fail to allocate Gaussian capacity efficiently during optimization: under-reconstructed content is often refined in a fragmented pixel-wise manner, while neighboring optimized Gaussians with similar attributes are redundantly retained. This inefficiency motivates the need for a density control framework that jointly addresses insufficient allocation in under-reconstructed regions and redundant allocation in over-reconstructed regions. Our key insight is that this framework should exploit two complementary forms of locality: the local continuity of reconstruction errors in image space for improved Gaussian allocation, and the local similarity of neighboring Gaussians in Gaussian space for redundant elimination. Based on this insight, we propose Locality-Aware Density Control (LocoADC), a plug-and-play framework that improves Gaussian capacity utilization through Region-wise Gaussian Densification (RGD) and Similarity-Driven Gaussian Merging (SDGM) strategies, together with a local color consistency constraint for more reliable merging. Extensive experiments on diverse datasets show that LocoADC consistently improves multiple baselines by enabling more effective local Gaussian allocation, including a 2.93 dB PSNR gain over GI on the CLIC dataset under the same 30k Gaussian budget. Code is available at: \\textit{https://github.com/ChenJiaCong-1005/LocoADC}.",
+      "authors": [
+        "Jiacong Chen",
+        "Qingyu Mao",
+        "Xiandong Meng",
+        "Shuai Liu",
+        "Chao Li",
+        "Fanyang Meng",
+        "Youneng Bao",
+        "Yongsheng Liang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T12:44:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.17896v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "efficient Gaussian-based image representation with density control, enabling fast decoding for image/video generation",
+      "llm_evidence_cn": "高效高斯图像表示，密度控制加速解码，可用于快速图像/视频生成",
+      "llm_evidence": "高效高斯图像表示，密度控制加速解码，可用于快速图像/视频生成",
+      "canonical_evidence": "高效高斯图像表示，密度控制加速解码，可用于快速图像/视频生成",
+      "llm_tldr_en": "Proposes locality-aware density control for 2D Gaussian splatting to improve efficiency in image representation, enabling fast decoding.",
+      "llm_tldr_cn": "该论文针对2D高斯泼溅图像表示提出局部感知密度控制方法，通过联合优化欠重建和过重建区域的容量分配，提升表示效率。该方法可加速图像解码，有望用于快速图像/视频生成中的表示。",
+      "llm_tldr": "该论文针对2D高斯泼溅图像表示提出局部感知密度控制方法，通过联合优化欠重建和过重建区域的容量分配，提升表示效率。该方法可加速图像解码，有望用于快速图像/视频生成中的表示。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21752v1",
+      "source": "arxiv",
+      "title": "Parameter-free Adaptive Sparse Attention via Compression-Based Content Selection",
+      "abstract": "Data-adaptive sparse attention masks substantially outperform fixed patterns (e.g., BigBird and Longformer) and can even exceed dense attention on long sequences. Existing adaptive approaches---including SBM-Transformer, Dynamic Mask Attention, and NSA---typically require additional learnable parameters, custom gradient estimators, or specialized CUDA kernels.   We show that classical data compression provides an effective masking signal with \\textbf{no additional parameters}. By computing per-block gzip compression ratios, we identify non-redundant content blocks and route long-range attention selectively through them. Intuitively, blocks that gzip cannot compress contain information not predictable from local repetition, making them natural long-range attention targets. Because the compression profile is input-dependent, the resulting sparse mask adapts dynamically to content without learned parameters, auxiliary losses, or custom kernels.   On PG-19 byte-level language modeling at 92M parameters with 8K context, our method achieves 1.71 bits-per-byte (BPB), outperforming dense attention (2.89), BigBird (2.34), Longformer (3.21), and a reimplemented SBM-Transformer (3.38)---the only learned-mask baseline---by up to 1.67 BPB while adding no parameters. The advantage grows with sequence length, with the gap over BigBird widening from 0.05 BPB at 4K context to 0.63 BPB at 8K, while convergence is 3.3$\\times$ faster.",
+      "authors": [
+        "Debarshi Kundu",
+        "Swaroop Ghosh",
+        "Vasant Honavar"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-23T19:05:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.21752v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "adaptive sparse attention mechanism without parameters, applicable to efficient generation",
+      "llm_evidence_cn": "无参数自适应稀疏注意力机制，适用于高效生成",
+      "llm_evidence": "无参数自适应稀疏注意力机制，适用于高效生成",
+      "canonical_evidence": "无参数自适应稀疏注意力机制，适用于高效生成",
+      "llm_tldr_en": "Proposes a parameter-free adaptive sparse attention using gzip compression ratios, which can be applied to accelerate attention in generative models.",
+      "llm_tldr_cn": "该论文提出一种无需额外参数的自适应稀疏注意力方法，通过gzip压缩比识别非冗余内容块，实现高效长序列注意力。该方法可迁移至图像/视频生成中，作为稀疏注意力架构的核心组件，有望加速生成模型的推理过程。",
+      "llm_tldr": "该论文提出一种无需额外参数的自适应稀疏注意力方法，通过gzip压缩比识别非冗余内容块，实现高效长序列注意力。该方法可迁移至图像/视频生成中，作为稀疏注意力架构的核心组件，有望加速生成模型的推理过程。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "efficient image or video generation using sparse or linear attention architecture",
+      "matched_requirement_id": "req-17",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.18116v1",
+      "source": "arxiv",
+      "title": "SGA: Plug&Play Geometric Verification for Educational Video Synthesis",
+      "abstract": "Recent work leverages Large Language Models (LLMs) to generate executable code for pedagogical animations using libraries such as Manim. However, ensuring spatial correctness and visual legibility remains challenging, as existing frameworks emphasize pedagogical content while overlooking geometric occlusions. We propose the Symbolic Geometric Agent (SGA), a plug-and-play module for code-centric animation pipelines that intercepts LLM-generated code, performs partial execution to extract symbolic scene graphs, and applies targeted refinement when spatial conflicts are detected. We further introduce the Manim Visual Quality Score (MVQS), a deterministic rendering-free proxy for spatial integrity. Experiments on the MMMC-Code benchmark across four LLM backbones and two agentic pipelines show that SGA achieves a peak MVQS of 73.11 (Code2Video + GPT-5.1), corresponding to a 16.1% relative improvement over the raw baseline, and improves MVQS in 7 of 8 backbone x pipeline configurations.",
+      "authors": [
+        "Lopez Jhon",
+        "Hinojosa Carlos",
+        "Ghanem Bernard"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.GR",
+        "cs.MA",
+        "cs.MM"
+      ],
+      "published": "2026-07-20T16:11:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.18116v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "video refinement for generated educational videos",
+      "llm_evidence_cn": "生成的视频的精细处理",
+      "llm_evidence": "生成的视频的精细处理",
+      "canonical_evidence": "生成的视频的精细处理",
+      "llm_tldr_en": "SGA is a plug-and-play module that intercepts LLM-generated code for educational animations and applies geometric refinement to correct spatial conflicts.",
+      "llm_tldr_cn": "现有大模型生成教育动画代码时往往忽略几何遮挡，导致空间错误。本文提出符号几何智能体（SGA），作为即插即用模块，截取LLM生成的动画代码，部分执行后提取符号场景图，检测并修正空间冲突。同时提出无需渲染的MVQS评分指标。在MMMC-Code基准上使用四种LLM后端实验，证明SGA有效提升了动画的空间正确性和视觉清晰度。",
+      "llm_tldr": "现有大模型生成教育动画代码时往往忽略几何遮挡，导致空间错误。本文提出符号几何智能体（SGA），作为即插即用模块，截取LLM生成的动画代码，部分执行后提取符号场景图，检测并修正空间冲突。同时提出无需渲染的MVQS评分指标。在MMMC-Code基准上使用四种LLM后端实验，证明SGA有效提升了动画的空间正确性和视觉清晰度。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video refinement techniques for generated videos",
+      "matched_requirement_id": "req-18",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.20048v1",
+      "source": "arxiv",
+      "title": "Importance-Aware OBS Pruning for Diffusion Models",
+      "abstract": "We propose importance-aware pruning for diffusion models, a training-free framework that prioritizes preserving parameters critical to semantically salient image regions. To do so, we incorporate spatial importance maps -- derived from conditioning signals or model attention -- into the pruning objective. This produces parameter rankings aligned with perceptual relevance rather than uniform reconstruction error. On MS-COCO dataset, our proposed approach consistently retains subject fidelity and structural correctness at high compression ratios where conventional pruning causes visible degradation. These results demonstrate that content-aware objectives are key to perceptually faithful compression of generative models.",
+      "authors": [
+        "Ba-Thinh Lam",
+        "Srijan Das",
+        "Hieu Le"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T11:42:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.20048v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free pruning for diffusion models that preserves perceptual quality, enabling faster generation",
+      "llm_evidence_cn": "面向扩散模型的无训练剪枝方法，保留感知质量，可实现更快生成",
+      "llm_evidence": "面向扩散模型的无训练剪枝方法，保留感知质量，可实现更快生成",
+      "canonical_evidence": "面向扩散模型的无训练剪枝方法，保留感知质量，可实现更快生成",
+      "llm_tldr_en": "Importance-aware pruning for diffusion models incorporates spatial importance maps into the pruning objective to preserve parameters critical to semantic regions, achieving perceptual fidelity at high compression ratios.",
+      "llm_tldr_cn": "扩散模型剪枝常导致视觉退化。本文提出重要性感知剪枝框架，利用条件信号或注意力图生成空间重要性图，指导剪枝保留对语义关键区域的参数。在MS-COCO数据集上，该方法在高压缩比下保持主体保真度和结构正确性，优于传统剪枝方法。",
+      "llm_tldr": "扩散模型剪枝常导致视觉退化。本文提出重要性感知剪枝框架，利用条件信号或注意力图生成空间重要性图，指导剪枝保留对语义关键区域的参数。在MS-COCO数据集上，该方法在高压缩比下保持主体保真度和结构正确性，优于传统剪枝方法。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21529v1",
+      "source": "arxiv",
+      "title": "ElasticTTT: Prior-Preserving Test-Time Tuning for Video Editing",
+      "abstract": "Test-Time Tuning (TTT) on pretrained diffusion models has emerged as a powerful paradigm for video editing. However, there exists a foundational mismatch between the distribution-mapping nature of generative models and the single-point optimization of standard TTT. In this paper, we demonstrate that this mismatch triggers \\textit{Prior Collapse}, a degenerate state where the model discards the text conditions and spatial latents, collapsing generations to the source video, or entangling the features of distinct regions. To resolve this, we propose \\textbf{ElasticTTT}, a novel framework that preserves the prior generative distribution and rescues generative elasticity. Specifically, we propose \\textit{Target Distribution Regularization} to prevent sharp memorization minima, \\textit{Contrastive CFG} to guide inference away from source biases, and \\textit{Asynchronous Noise Schedule} to preserve unedited regions. Extensive evaluations, supported by theoretical analysis, demonstrate that ElasticTTT successfully preserves the generative prior of the base model, achieving state-of-the-art performance on one-shot video editing.",
+      "authors": [
+        "Yueyi Liu",
+        "Chi Zhang",
+        "Sen Cui",
+        "Miao Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-23T17:15:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.21529v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "test-time tuning on pretrained diffusion models relates to post-training adaptation for video models",
+      "llm_evidence_cn": "扩散模型上的测试时微调与视频模型的后训练适应相关",
+      "llm_evidence": "扩散模型上的测试时微调与视频模型的后训练适应相关",
+      "canonical_evidence": "扩散模型上的测试时微调与视频模型的后训练适应相关",
+      "llm_tldr_en": "Proposes ElasticTTT to prevent prior collapse during test-time tuning for video editing, preserving generative distribution; relevant to post-training methods.",
+      "llm_tldr_cn": "该论文针对视频编辑中的测试时微调（TTT）提出ElasticTTT框架，通过目标分布正则化防止先验崩溃，保持生成模型的弹性。虽然直接用于编辑，但其后训练思想可推广至视频生成模型的后训练蒸馏。",
+      "llm_tldr": "该论文针对视频编辑中的测试时微调（TTT）提出ElasticTTT框架，通过目标分布正则化防止先验崩溃，保持生成模型的弹性。虽然直接用于编辑，但其后训练思想可推广至视频生成模型的后训练蒸馏。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "post-training for video generation models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
