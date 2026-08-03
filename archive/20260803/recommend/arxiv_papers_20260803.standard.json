@@ -1,0 +1,369 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-03T22:00:31.270349+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 3,
+    "deep_cap": 8,
+    "deep_selected": 3,
+    "quick_candidates": 5,
+    "quick_skim_target": 13,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2607.28058v1",
+      "source": "arxiv",
+      "title": "Temporal Concentration from Rollout Errors: Implicit Preference Optimization for Text-to-Video Diffusion",
+      "abstract": "Recent advances in preference alignment for diffusion-based video generation, particularly via Direct Preference Optimization (DPO), have significantly improved visual quality. However, temporally sparse artifacts such as motion collapse, object flickering, and color oversaturation remain a major barrier to perceptual realism. Existing methods struggle with these issues due to two key limitations: (1) the preference attribution bottleneck, where offline human annotations are costly and fail to accurately capture learning dynamics, while online reward signals are rollout-aware but often unstable and biased; and (2) temporal credit misallocation, where uniformly applied supervision cannot effectively target the brief segments in which artifacts occur. To address these challenges, we propose concentrated Implicit Preference Optimization (cIPO), a post-training framework for video diffusion models. cIPO derives implicit preference signals directly from the denoising process: given a real video, the model adds forward noise and reconstructs it via iterative denoising, treating the original as the preferred sample and the reconstruction as the dispreferred one. This formulation captures inference-time errors without requiring human annotations or external reward models. Moreover, frame-level discrepancies between original and reconstructed videos reveal when failures occur. cIPO leverages this by computing temporal reconstruction errors and concentrating optimization on high-error segments, enabling more precise correction of failure-prone regions. Extensive experiments demonstrate that cIPO consistently enhances video authenticity and temporal coherence across multiple datasets, highlighting the effectiveness and efficiency of implicit preference with temporally concentrated optimization.",
+      "authors": [
+        "Henglin Liu",
+        "Fangyuan Kong",
+        "Jing Wang",
+        "Yizhou Lin",
+        "Nisha Huang",
+        "Chang Liu",
+        "Xintao Wang",
+        "Pengfei Wan",
+        "Kun Gai",
+        "Xiu Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-30T11:36:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.28058v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "temporal preference optimization to reduce motion collapse and flickering in text-to-video diffusion",
+      "llm_evidence_cn": "面向文生视频扩散模型的时序偏好优化，解决运动崩溃与闪烁",
+      "llm_evidence": "面向文生视频扩散模型的时序偏好优化，解决运动崩溃与闪烁",
+      "canonical_evidence": "面向文生视频扩散模型的时序偏好优化，解决运动崩溃与闪烁",
+      "llm_tldr_en": "Proposes implicit preference optimization from rollout errors to fix temporally sparse artifacts such as motion collapse and flickering, improving perceptual realism and temporal quality in T2V diffusion.",
+      "llm_tldr_cn": "文生视频扩散模型常出现运动崩溃、物体闪烁和色彩过饱和等时序稀疏伪影，现有偏好对齐方法受限于偏好归因瓶颈和时序信用分配错误。本文提出基于展开误差的隐式偏好优化，利用在线回报信号并沿时间维度集中监督关键异常片段，以精准修正问题帧。实验表明该方法在提升感知真实度和时序一致性上优于DPO等基线，为高质量视频生成的后训练优化提供了有效方案。",
+      "llm_tldr": "文生视频扩散模型常出现运动崩溃、物体闪烁和色彩过饱和等时序稀疏伪影，现有偏好对齐方法受限于偏好归因瓶颈和时序信用分配错误。本文提出基于展开误差的隐式偏好优化，利用在线回报信号并沿时间维度集中监督关键异常片段，以精准修正问题帧。实验表明该方法在提升感知真实度和时序一致性上优于DPO等基线，为高质量视频生成的后训练优化提供了有效方案。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26706v1",
+      "source": "arxiv",
+      "title": "TPD: Temporal Prior Decoupling for Text-to-Video Diffusion Models",
+      "abstract": "Text-to-video diffusion models generate temporally coherent content from natural language, yet when a prompt describes an early scene that persists while a new event emerges on top of it---such as \"a tall sandcastle standing on a beach where a wave rushes in and washes it away\"---generation frequently fails to realize the late-segment event in the corresponding frames. We identify this failure as Temporal Prior Suppression (TPS): the dominant prior of the early segment captures the cross-attention trajectory across the temporal axis and suppresses the guidance signal needed for late-segment realization, a competing tendency existing guidance mechanisms do not model. We introduce Temporal Prior Decoupling (TPD), a training-free framework that restores suppressed late-segment signals during diffusion sampling. TPD constructs a temporal counterfactual by conditioning on the early segment alone, and defines the discrepancy between the full-prompt and counterfactual trajectories as a suppressed signal direction. Rather than removing this direction as in prior subtractive projection methods, TPD restores it through a frame-selective lower-bound constraint resolved jointly over diffusion timestep and video frame, realizing the suppressed event in the late frames without disrupting early-segment coherence: where prior work enforces upper-bound feasibility to remove unwanted semantics, TPD enforces lower-bound feasibility to guarantee suppressed-signal contribution. TPD runs entirely within standard diffusion sampling without retraining, and is defined purely in classifier-free guidance space, making it backbone-agnostic by construction. Experiments show that TPD significantly improves late-concept realization while preserving temporal coherence and visual fidelity, and that the targeted suppression recurs across distinct text-to-video backbones.",
+      "authors": [
+        "Taewon Kang",
+        "Matthias Zwicker"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-29T09:52:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.26706v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Training-free framework restoring suppressed late-segment events to improve temporal dynamics in text-to-video diffusion",
+      "llm_evidence_cn": "无训练框架恢复被抑制的视频后半段事件，改善文生视频扩散模型的时间动态",
+      "llm_evidence": "无训练框架恢复被抑制的视频后半段事件，改善文生视频扩散模型的时间动态",
+      "canonical_evidence": "无训练框架恢复被抑制的视频后半段事件，改善文生视频扩散模型的时间动态",
+      "llm_tldr_en": "TPD identifies Temporal Prior Suppression in text-to-video diffusion models and introduces a training-free Temporal Prior Decoupling framework that restores suppressed guidance to realize late-segment events.",
+      "llm_tldr_cn": "文生视频扩散模型在描述持续场景并叠加新事件时，常常无法让后半段事件在对应帧中实现。作者将失败归因于时间先验抑制，即早期主导先验沿时间轴压制后期引导信号。为此提出时间先验解耦（TPD），一种无需训练的新框架，通过恢复被压制的引导信号来呈现晚期事件。实验证明该框架可提升生成视频的运动动态与时间连贯性。",
+      "llm_tldr": "文生视频扩散模型在描述持续场景并叠加新事件时，常常无法让后半段事件在对应帧中实现。作者将失败归因于时间先验抑制，即早期主导先验沿时间轴压制后期引导信号。为此提出时间先验解耦（TPD），一种无需训练的新框架，通过恢复被压制的引导信号来呈现晚期事件。实验证明该框架可提升生成视频的运动动态与时间连贯性。",
+      "llm_tags": [
+        "query:vd"
+      ],
+      "matched_query_tag": "query:vd",
+      "matched_query_text": "improving diversity and motion dynamics in video generation",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.29284v1",
+      "source": "arxiv",
+      "title": "FillGS: Filling Observation Gaps in 4D Gaussian Splatting via Viewpoint-Time Selection and Generative Refinement",
+      "abstract": "4D Gaussian Splatting (4DGS) can render dynamic scenes photorealistically. However, with limited viewpoint coverage, some spatiotemporal regions remain sparsely observed, leading to artifacts, particularly in scenes with large motion. Existing approaches leveraging generative models rely on heuristic virtual-viewpoint selection before refining rendered views. As a result, they cannot actively explore such sparsely observed regions. To address this issue, we propose a pipeline that actively selects spatiotemporal virtual viewpoints to improve 4DGS reconstruction. Our method selects virtual viewpoints for generative enhancement based on the rendering sensitivity and motion-aware observation density of 4D Gaussians, prioritizing views that alleviate observation sparsity. In the refined images, we filter out regions that conflict with captured observations or are likely to contain generative artifacts and then fine-tune 4DGS using only the reliable regions. We evaluate our method on multi-view video benchmarks using new train/test splits designed to induce observation gaps. Results show consistent improvements over prior viewpoint selection strategies and fine-tuning methods in both qualitative and quantitative evaluations, while reducing artifacts.",
+      "authors": [
+        "Takashi Otonari",
+        "Toshihiko Yamasaki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-31T10:57:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.29284v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Generative refinement to fill observation gaps and reduce artifacts in dynamic scene rendering",
+      "llm_evidence_cn": "通过生成式细化填补观测空缺、减少动态场景渲染伪影",
+      "llm_evidence": "通过生成式细化填补观测空缺、减少动态场景渲染伪影",
+      "canonical_evidence": "通过生成式细化填补观测空缺、减少动态场景渲染伪影",
+      "llm_tldr_en": "FillGS actively selects spatiotemporal virtual viewpoints and applies generative refinement to 4D Gaussian Splatting renderings, filling observation gaps and reducing artifacts in dynamic scenes.",
+      "llm_tldr_cn": "4D高斯泼溅在视角覆盖有限时，部分时空区域观测稀疏，容易产生伪影，尤其在大运动场景中。现有方法依赖启发式虚拟视点选择，无法主动探索稀疏区域。FillGS提出基于渲染敏感度和运动感知观测密度的视点-时间选择策略，主动选出虚拟视点并进行生成式细化。实验表明该管线能有效填补观测空缺，提升动态场景重建质量。",
+      "llm_tldr": "4D高斯泼溅在视角覆盖有限时，部分时空区域观测稀疏，容易产生伪影，尤其在大运动场景中。现有方法依赖启发式虚拟视点选择，无法主动探索稀疏区域。FillGS提出基于渲染敏感度和运动感知观测密度的视点-时间选择策略，主动选出虚拟视点并进行生成式细化。实验表明该管线能有效填补观测空缺，提升动态场景重建质量。",
+      "llm_tags": [
+        "query:video-refine"
+      ],
+      "matched_query_tag": "query:video-refine",
+      "matched_query_text": "video refinement techniques for generated videos",
+      "matched_requirement_id": "req-18",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.28760v1",
+      "source": "arxiv",
+      "title": "WaiT for the Signal: Simple Frequency-Aware Flow-Matching",
+      "abstract": "As image generation models scale to ever higher resolutions, global coherence, local detail, and texture fidelity become critical axes for generation quality. However, standard flow matching treats all spatial frequencies uniformly, ignoring the natural frequency hierarchy where high-frequency bands become indistinguishable from pure noise far earlier than coarse structures. We introduce WaiT, a Wavelet-aware image Transformer that decomposes generation into coarse and fine bands via lossless wavelets. True to its name, the high-frequency bands wait for the signal: staying pure noise until coarse structure has emerged, then joining the flow for joint refinement. Since standard FID discards fine-grained detail through aggressive downsampling, we introduce a more stringent three-axis evaluation protocol to assess quality at native resolution. On ImageNet 512x512, WaiT achieves a pixel-space FID of 1.43 and is Pareto-optimal across all three axes, reducing sampling compute by up to 50%. With our largest 2B model, we set a new state-of-the-art FID of 1.3 for pixel-space models on ImageNet 512 resolution. Our formulation outperforms even the strongest latent-space models on texture fidelity, and scales seamlessly to high-resolution OpenImages and to video generation, achieving a state-of-the-art FVD of 0.84 on Kinetics-600 with no algorithmic modifications.",
+      "authors": [
+        "Krunoslav Lehman Pavasovic",
+        "Théophane Vallaeys",
+        "Stéphane Mallat",
+        "Giulio Biroli",
+        "Luke Zettlemoyer",
+        "Brian Karrer",
+        "Jakob Verbeek"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "stat.ML"
+      ],
+      "published": "2026-07-30T18:26:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.28760v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "wavelet-aware image transformer improves generation efficiency by delaying high-frequency bands and refining them jointly",
+      "llm_evidence_cn": "小波感知图像Transformer通过延迟高频带并联合细化，提升生成效率",
+      "llm_evidence": "小波感知图像Transformer通过延迟高频带并联合细化，提升生成效率",
+      "canonical_evidence": "小波感知图像Transformer通过延迟高频带并联合细化，提升生成效率",
+      "llm_tldr_en": "WaiT decomposes image generation into coarse and fine frequency bands via lossless wavelets, delaying high-frequency noise until coarse structure emerges, improving efficiency and detail fidelity.",
+      "llm_tldr_cn": "标准流匹配对所有空间频率一视同仁，而高频带往往更早被噪声淹没。该论文提出小波感知Transformer，通过无损小波把生成分解为粗、细频带，让高频带在粗结构形成后再参与联合细化。这样既保持全局结构又提升纹理保真度，同时可能降低不必要的高频计算。论文还提出更严格的评估指标，以保留细粒度细节。",
+      "llm_tldr": "标准流匹配对所有空间频率一视同仁，而高频带往往更早被噪声淹没。该论文提出小波感知Transformer，通过无损小波把生成分解为粗、细频带，让高频带在粗结构形成后再参与联合细化。这样既保持全局结构又提升纹理保真度，同时可能降低不必要的高频计算。论文还提出更严格的评估指标，以保留细粒度细节。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "efficient image or video generation using sparse or linear attention architecture",
+      "matched_requirement_id": "req-17",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.25234v1",
+      "source": "arxiv",
+      "title": "WHTMix: Efficient Stereo Depth Estimation via Walsh-Hadamard Token Mixing",
+      "abstract": "Stereo depth estimation for driving, robotics and augmented reality must run at high resolution under tight latency budgets, yet in transformer-based matchers the global self-attention that aggregates scene context grows quadratically with the number of pixels and comes to dominate runtime. We show that the joint self-attention stage of a stereo transformer, whose role is to spread context across both views, can be replaced by a data-independent Walsh-Hadamard token mixer that mixes tokens globally in the transform domain at log-linear cost, while the data-dependent cross-attention that performs left-right correspondence is retained. On synthetic driving data the mixer matches the attention baseline in end-point error while reducing model compute by a factor of 2.46 and single-image inference latency by a factor of 2.65. A complexity analysis shows the benefit is governed by the ratio of sequence length to channel width, which explains why high-resolution stereo matching is a particularly favorable setting and why classification transformers are not; we confirm this token-to-channel scaling on non-stereo long-sequence benchmarks. Furthermore, we introduce a hybrid log-disparity loss function designed to up-weight small-disparity pixels corresponding to long-range objects. This approach reduces the error on distant objects without incurring any additional computational overhead.",
+      "authors": [
+        "Prathyush Sajith",
+        "Emadeldeen Hamdan",
+        "Ahmet Enis Cetin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "eess.IV",
+        "eess.SP"
+      ],
+      "published": "2026-07-28T03:22:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.25234v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Efficient attention architecture using Walsh-Hadamard token mixing that replaces quadratic self-attention with log-linear cost; transferable to fast image/video generation",
+      "llm_evidence_cn": "利用Walsh-Hadamard令牌混合的高效注意力架构，将二次成本降至对数线性，可迁移到快速图像/视频生成",
+      "llm_evidence": "利用Walsh-Hadamard令牌混合的高效注意力架构，将二次成本降至对数线性，可迁移到快速图像/视频生成",
+      "canonical_evidence": "利用Walsh-Hadamard令牌混合的高效注意力架构，将二次成本降至对数线性，可迁移到快速图像/视频生成",
+      "llm_tldr_en": "WHTMix replaces global self-attention with a data-independent Walsh-Hadamard token mixer at log-linear cost, matching baseline accuracy; a transferable efficient attention architecture for generation.",
+      "llm_tldr_cn": "立体匹配中的全局自注意力计算量随像素数平方增长，严重制约高分辨率实时应用。WHTMix用数据无关的Walsh-Hadamard令牌混合替代全局自注意力，在对数线性复杂度下仍保持与注意力基线相当的精度，同时显著降低模型计算量。该注意力替代机制不依赖具体任务，可作为高效架构设计思路迁移到图像/视频生成模型中，用于加速推理。",
+      "llm_tldr": "立体匹配中的全局自注意力计算量随像素数平方增长，严重制约高分辨率实时应用。WHTMix用数据无关的Walsh-Hadamard令牌混合替代全局自注意力，在对数线性复杂度下仍保持与注意力基线相当的精度，同时显著降低模型计算量。该注意力替代机制不依赖具体任务，可作为高效架构设计思路迁移到图像/视频生成模型中，用于加速推理。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "efficient image or video generation using sparse or linear attention architecture",
+      "matched_requirement_id": "req-17",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.29398v1",
+      "source": "arxiv",
+      "title": "OnlineCache: Learning Dynamic Caching Policies with Error Correction for Efficient Diffusion Inference",
+      "abstract": "Diffusion models have revolutionized generative tasks but incur high latency due to iterative denoising. While cache-based strategies accelerate inference by reusing intermediate features, they largely rely on static, sample-agnostic schedules. We argue that this rigidity overlooks two facts empirically validated in this paper: (i) generation difficulty varies across prompts, requiring adaptive resource allocation--complex inputs demand more computation while simpler ones require less; (ii) error sensitivity fluctuates across timesteps, where static policies may cache high-error steps or waste computation on low-error ones. We therefore propose OnlineCache, a dynamic caching framework that jointly learns when to cache and how to correct approximation errors. We leverage policy gradient to train a lightweight network for adaptive speed-quality trade-offs, and incorporate a learnable corrector to mitigate caching-induced errors. Both modules are jointly optimized under a bilevel optimization framework, with the policy targeting global generation quality and the corrector minimizing local errors. Our method automatically allocates computational resources across both samples and timesteps, improving overall generation quality. Extensive experiments demonstrate clear superiority. On FLUX.1-dev model, OnlineCache achieves nearly 3 speedup while preserving generation fidelity. On DiT and CogVideoX, it similarly delivers competitive acceleration without compromising quality; across all scenarios, it consistently outperforms existing cache-based acceleration baselines.",
+      "authors": [
+        "Zhikang Xie",
+        "Xichen Ye",
+        "Yifan Wu",
+        "Haoshen Yu",
+        "Li chenan",
+        "Peizhu Gong",
+        "Weizhong Zhang",
+        "Cheng Jin"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-31T13:17:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.29398v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "dynamic caching framework to reduce diffusion inference latency",
+      "llm_evidence_cn": "动态缓存框架降低扩散推理延迟",
+      "llm_evidence": "动态缓存框架降低扩散推理延迟",
+      "canonical_evidence": "动态缓存框架降低扩散推理延迟",
+      "llm_tldr_en": "OnlineCache learns adaptive caching policies with error correction for diffusion models, allocating computation based on prompt difficulty and timestep sensitivity to speed up inference while maintaining quality.",
+      "llm_tldr_cn": "扩散模型推理因迭代去噪导致延迟高，现有缓存策略多依赖静态调度，未考虑不同提示的难度差异和时间步对错误的敏感程度。本文提出OnlineCache，联合学习何时缓存并带有误差校正，根据提示复杂度和时间步特点动态分配计算资源，避免在高错误步缓存或在低错误步浪费算力，从而在保持生成质量的同时显著加速扩散推理。该方法为扩散模型的高效部署提供了新的自适应缓存思路。",
+      "llm_tldr": "扩散模型推理因迭代去噪导致延迟高，现有缓存策略多依赖静态调度，未考虑不同提示的难度差异和时间步对错误的敏感程度。本文提出OnlineCache，联合学习何时缓存并带有误差校正，根据提示复杂度和时间步特点动态分配计算资源，避免在高错误步缓存或在低错误步浪费算力，从而在保持生成质量的同时显著加速扩散推理。该方法为扩散模型的高效部署提供了新的自适应缓存思路。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "real-time inference generation",
+      "matched_requirement_id": "req-11",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.25234v2",
+      "source": "arxiv",
+      "title": "WHTMix: Efficient Stereo Depth Estimation via Walsh-Hadamard Token Mixing",
+      "abstract": "Stereo depth estimation for driving, robotics and augmented reality must run at high resolution under tight latency budgets, yet in transformer-based matchers the global self-attention that aggregates scene context grows quadratically with the number of pixels and comes to dominate runtime. We show that the joint self-attention stage of a stereo transformer, whose role is to spread context across both views, can be replaced by a data-independent Walsh-Hadamard token mixer that mixes tokens globally in the transform domain at log-linear cost, while the data-dependent cross-attention that performs left-right correspondence is retained. On synthetic driving data the mixer matches the attention baseline in end-point error while reducing model compute by a factor of 2.46 and single-image inference latency by a factor of 2.65. A complexity analysis shows the benefit is governed by the ratio of sequence length to channel width, which explains why high-resolution stereo matching is a particularly favorable setting and why classification transformers are not; we confirm this token-to-channel scaling on non-stereo long-sequence benchmarks. Furthermore, we introduce a hybrid log-disparity loss function designed to up-weight small-disparity pixels corresponding to long-range objects. This approach reduces the error on distant objects without incurring any additional computational overhead.",
+      "authors": [
+        "Prathyush Sajith",
+        "Emadeldeen Hamdan",
+        "Ahmet Enis Cetin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "eess.IV",
+        "eess.SP"
+      ],
+      "published": "2026-07-28T03:22:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.25234v2",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Walsh-Hadamard token mixing replaces quadratic self-attention, enabling efficient architecture",
+      "llm_evidence_cn": "用Walsh-Hadamard令牌混合替换二次自注意力，支持高效架构",
+      "llm_evidence": "用Walsh-Hadamard令牌混合替换二次自注意力，支持高效架构",
+      "canonical_evidence": "用Walsh-Hadamard令牌混合替换二次自注意力，支持高效架构",
+      "llm_tldr_en": "WHTMix replaces the quadratic self-attention in stereo transformer with a data-independent Walsh-Hadamard token mixer, achieving log-linear complexity and matching attention baseline accuracy, offering an efficient attention alternative that could benefit token-mixing generation architectures.",
+      "llm_tldr_cn": "针对变换器全局自注意力随像素数平方增长、成为高分辨率立体匹配耗时瓶颈的问题，提出用数据无关的Walsh-Hadamard变换在变换域进行全局令牌混合，将复杂度降至对数线性，同时保留数据相关的交叉注意力进行左右视图匹配。实验表明该混合器在保持端点误差的同时显著降低计算量，为高效注意力机制提供了新选择，有望用于生成模型的架构改进。",
+      "llm_tldr": "针对变换器全局自注意力随像素数平方增长、成为高分辨率立体匹配耗时瓶颈的问题，提出用数据无关的Walsh-Hadamard变换在变换域进行全局令牌混合，将复杂度降至对数线性，同时保留数据相关的交叉注意力进行左右视图匹配。实验表明该混合器在保持端点误差的同时显著降低计算量，为高效注意力机制提供了新选择，有望用于生成模型的架构改进。",
+      "llm_tags": [
+        "query:fast-gen"
+      ],
+      "matched_query_tag": "query:fast-gen",
+      "matched_query_text": "efficient image or video generation using sparse or linear attention architecture",
+      "matched_requirement_id": "req-17",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.25275v1",
+      "source": "arxiv",
+      "title": "ScaleResfusion: Residual Rectified Flow based on Residual Vector Field",
+      "abstract": "Real-world Image Restoration (Real-IR) aims to recover high-quality (HQ) images from complex and unknown degradations. Although recent diffusion-based methods have substantially improved perceptual quality, their current designs leave two key challenges unresolved. Methods that start from Gaussian noise are slow and often less faithful to the degraded input. Residual-based methods usually train from scratch, which makes it hard to exploit modern pre-trained generative priors. In this paper, we present ScaleResfusion, a scalable diffusion framework for real-world image restoration built on pre-trained text-to-image rectified-flow models. The core of our method is Residual Rectified Flow, which introduces the residual term R into Standard Rectified Flow. Instead of starting from pure noise, it uses a residual transport path that starts from noisy low-quality (LQ) images and admits an exact acceleration point. By learning the residual vector field, Residual Rectified Flow keeps the output distribution and linear diffusion process consistent with the pre-trained rectified-flow models. This makes parameter-efficient fine-tuning possible at scale. We further introduce a knowledge-distillation pipeline to reduce sampling cost while maintaining restoration quality. Extensive experiments on multiple real-world restoration tasks show that ScaleResfusion achieves state-of-the-art performance with much higher efficiency. These results suggest a practical and scalable way to adapt large pre-trained diffusion models to real-world image restoration. Our code and models are available at https://github.com/YukinoshitaLove/ScaleResfusion.",
+      "authors": [
+        "Zhenning Shi",
+        "Chen Xu",
+        "Junhao Zhang",
+        "Kefei Zhang",
+        "Linjie Liu",
+        "Zhedong Zheng",
+        "Tao Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-28T04:26:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.25275v1",
+      "tags": [
+        "keyword:fast-gen",
+        "keyword:vd",
+        "keyword:video-refine",
+        "query:fast-gen",
+        "query:vd",
+        "query:video-refine"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "residual rectified flow accelerates diffusion-based restoration by starting from degraded images instead of pure noise",
+      "llm_evidence_cn": "残差整流流从退化图像出发而非纯噪声，加速扩散恢复过程",
+      "llm_evidence": "残差整流流从退化图像出发而非纯噪声，加速扩散恢复过程",
+      "canonical_evidence": "残差整流流从退化图像出发而非纯噪声，加速扩散恢复过程",
+      "llm_tldr_en": "The paper proposes ScaleResfusion, a residual rectified flow framework that leverages pre-trained text-to-image models for fast real-world image restoration, addressing the slowness of noise-initialized diffusion methods.",
+      "llm_tldr_cn": "针对从纯噪声出发的扩散恢复方法速度慢、忠实度低的问题，提出ScaleResfusion，利用预训练文生图模型和残差整流流实现快速真实图像恢复。该方法在标准整流流中引入残差项，使生成从退化输入开始，减少推理步骤。实验证明其在保持高质量感知效果的同时显著提升恢复速度。此技术对加速图像/视频生成具有借鉴意义。",
+      "llm_tldr": "针对从纯噪声出发的扩散恢复方法速度慢、忠实度低的问题，提出ScaleResfusion，利用预训练文生图模型和残差整流流实现快速真实图像恢复。该方法在标准整流流中引入残差项，使生成从退化输入开始，减少推理步骤。实验证明其在保持高质量感知效果的同时显著提升恢复速度。此技术对加速图像/视频生成具有借鉴意义。",
+      "llm_tags": [
+        "query:fast-gen:composite"
+      ],
+      "matched_query_tag": "query:fast-gen:composite",
+      "matched_query_text": "Papers central to 请帮我查找实时（快速）视频生成、图像生成相关的论文，最理想的情况下是在消费级显卡上可用，方向包括但不限于，蒸馏、量化、架构设计如sparse和linear attention等, especially work that connects or combines: fast video generation; real-time inference generation; knowledge distillation for generative models; model quantization efficient generation; sparse attention video generation; linear attention image generation; fast image or video generation with knowledge distillation and quantization for consumer GPUs; efficient image or video generation using sparse or linear attention architecture.",
+      "matched_requirement_id": "req-composite-fast-gen",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
