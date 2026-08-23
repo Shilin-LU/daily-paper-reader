@@ -1,31 +1,32 @@
 {
-  "generated_at": "2026-08-17T20:52:08.469750+00:00",
-  "updated_date": "20260817",
+  "generated_at": "2026-08-23T20:35:25.097868+00:00",
+  "updated_date": "20260823",
   "carryover_days": 9,
   "tag_states": {
     "vd": {
-      "updated_date": "20260817",
+      "updated_date": "20260823",
       "carryover_days": 9,
       "items": [
         {
-          "id": "2608.13546v1",
+          "id": "2608.19556v1",
           "source": "arxiv",
-          "title": "Alaya-EVOKE: From Linear-Scaling Supervision to Endless World",
-          "abstract": "Interactive world models must support persistent memory, responsive interaction, and long-horizon generation, yet these requirements place conflicting demands on the model. Maintaining history in the denoiser context or key-value cache incurs growing cost, forcing a trade-off between session length and retained memory, while low-latency interaction relies on few-step generation whose capabilities are bounded by its teacher. Evoke addresses both limitations by externalizing persistent world state and redesigning the teacher for long-horizon interactive generation. Scene geometry is maintained in an external, camera-indexed world state bank, from which only view-relevant information is retrieved, keeping the denoiser context bounded as the session grows. Rather than treating the teacher as a fixed generator, we design it for long-horizon supervision: its sparse attention combines chunk-wise grouping, retrieval of selected distant frames, and a linear-attention global state, yielding linear growth in memory and compute while enabling supervision over long horizons. Such supervision exposes content drift that stays locally plausible within short windows, while per-chunk conditioning enables prompt changes and event control throughout the sequence. A 30-second distribution-matching objective, applied under self-forced rollouts, transfers both capabilities to a three-step student that uses no classifier-free guidance, improving resistance to long-term drift while preserving responsive conditioning. With bounded context and recurrent external memory, Evoke supports open-ended, continuously evolving generation; on a single H200 at $384\\times 640$, each $1.5\\,\\mathrm{s}$ chunk is generated in $2.11\\,\\mathrm{s}$. As a three-step world model, Evoke achieves state-of-the-art performance on WBench while remaining competitive on VBench-Long and VBench-2.0.",
+          "title": "Stream4D: 4D-Consistency for Streaming Autoregressive Diffusion Video Models",
+          "abstract": "Streaming autoregressive diffusion models enable real-time, long-horizon video generation, but their training objectives optimize local frame prediction rather than the geometry and dynamics of a coherent world: long rollouts accumulate geometric drift and degrade into static or unnatural motion. Recent bidirectional approaches address this problem using rewards signals built upon 3D Gaussian-Splatting reconstruction. However, a single rigid 3d reconstruction cannot model a dynamic scene, so this critic penalizes genuine object motion as reconstruction error and is maximized by freezing the video. This shortcut is especially detrimental in the AR setting, where each chunk can propagate an already-static configuration. In this work, we propose Stream4D, which replaces the static critic with a feed-forward 4D reconstruction reward that explicitly models scene dynamics, allowing coherent motion to receive high consistency rewards. To further guide motion magnitude and quality, we add a motion prior that rewards natural scene-flow magnitude while penalizing jitter and non-rigid artifacts. Our final recipe combines these two terms with a lightweight perceptual anchor. Across various autoregressive video backbones and various generation horizons, Stream4D improves 4D reconstruction quality, preserves motion more effectively, and achieves higher human-aligned preference. Project page: https://banyuanhao.github.io/Stream4D/",
           "authors": [
-            "Yuanyang Yin",
-            "Gongxuan Wang",
-            "Yifan Zhan",
-            "Chuanhao Li",
-            "Kaipeng Zhang",
-            "Feng Zhao"
+            "Yuanhao Ban",
+            "Jiaqi Feng",
+            "Hengguang Zhou",
+            "Xiaohuan Pei",
+            "Justin Cui",
+            "Cho-Jui Hsieh"
           ],
           "primary_category": "cs.CV",
           "categories": [
-            "cs.CV"
+            "cs.CV",
+            "cs.AI"
           ],
-          "published": "2026-08-13T17:57:00+00:00",
-          "link": "https://arxiv.org/pdf/2608.13546v1",
+          "published": "2026-08-20T01:54:26+00:00",
+          "link": "https://arxiv.org/pdf/2608.19556v1",
           "tags": [
             "keyword:fast-gen",
             "keyword:vd",
@@ -35,47 +36,63 @@
             "query:video-refine"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "few-step generation bounded by teacher; redesigns teacher for interactive world model",
-          "llm_evidence_cn": "少步生成受限于教师模型；针对交互世界模型重设计教师",
-          "llm_evidence": "少步生成受限于教师模型；针对交互世界模型重设计教师",
-          "canonical_evidence": "少步生成受限于教师模型；针对交互世界模型重设计教师",
-          "llm_tldr_en": "Interactive world models need low-latency few-step generation, whose quality is bounded by the teacher; Evoke externalizes world state and redesigns the teacher to improve long-horizon generation while keeping context bounded.",
-          "llm_tldr_cn": "交互式世界模型需要支持低延迟的少步生成，但少步生成的质量受限于教师模型。本文提出Evoke，通过将持久世界状态外部化到相机索引的状态库中，并重新设计教师模型以支持长视野交互生成，从而在会话增长时保持去噪器上下文有界。该方法缓解了记忆与响应速度之间的冲突，提升了少步生成的能力上限。",
-          "llm_tldr": "交互式世界模型需要支持低延迟的少步生成，但少步生成的质量受限于教师模型。本文提出Evoke，通过将持久世界状态外部化到相机索引的状态库中，并重新设计教师模型以支持长视野交互生成，从而在会话增长时保持去噪器上下文有界。该方法缓解了记忆与响应速度之间的冲突，提升了少步生成的能力上限。",
+          "llm_evidence_en": "addresses geometric drift and static/unnatural motion in streaming autoregressive video generation",
+          "llm_evidence_cn": "解决流式自回归视频生成中的几何漂移和静态/不自然运动问题",
+          "llm_evidence": "解决流式自回归视频生成中的几何漂移和静态/不自然运动问题",
+          "canonical_evidence": "解决流式自回归视频生成中的几何漂移和静态/不自然运动问题",
+          "llm_tldr_en": "Stream4D adds 4D-consistency to streaming autoregressive diffusion video models to prevent geometric drift and static/unnatural motion in long rollouts, improving motion dynamics while enabling real-time generation.",
+          "llm_tldr_cn": "流式自回归扩散模型能够实现实时长视频生成，但训练目标只优化局部帧预测，导致长时间生成中出现几何漂移和运动退化。本文提出Stream4D，通过引入4D一致性约束来抑制静态或非自然运动，使模型在保持实时生成能力的同时显著提高运动动态质量。实验表明该方法纠正了现有双向方法对真实运动过度惩罚的缺陷，为高质量长视频生成提供了新思路。",
+          "llm_tldr": "流式自回归扩散模型能够实现实时长视频生成，但训练目标只优化局部帧预测，导致长时间生成中出现几何漂移和运动退化。本文提出Stream4D，通过引入4D一致性约束来抑制静态或非自然运动，使模型在保持实时生成能力的同时显著提高运动动态质量。实验表明该方法纠正了现有双向方法对真实运动过度惩罚的缺陷，为高质量长视频生成提供了新思路。",
           "llm_tags": [
             "query:vd"
           ],
           "matched_query_tag": "query:vd",
-          "matched_query_text": "few-step sampling video generation",
-          "matched_requirement_id": "req-2",
+          "matched_query_text": "improving diversity and motion dynamics in video generation",
+          "matched_requirement_id": "req-3",
           "selection_source": "carryover_cache",
-          "paper_id": "2608.13546v1",
+          "paper_id": "2608.19556v1",
           "carry_days": 1
         }
       ]
     },
     "fast-gen": {
-      "updated_date": "20260817",
+      "updated_date": "20260823",
       "carryover_days": 9,
       "items": [
         {
-          "id": "2608.13932v1",
+          "id": "2608.20334v1",
           "source": "arxiv",
-          "title": "Post-training Quantization for Hybrid Iterative Generative Models",
-          "abstract": "Iterative Generative Models (IGMs) span autoregressive and diffusion paradigms, and hybrid variants that couple them can achieve remarkable image-generation fidelity. However, their iterative inference incurs substantial computational overhead, making Post-training Quantization (PTQ) appealing for acceleration, while directly applying vanilla PTQ to hybrid IGMs can trigger model collapse. By analyzing these failures, we identify two critical challenges: Excessive Outliers (EOs) in the activations create an irreconcilable trade-off between preserving normal precision and covering EOs, resulting in severe degradation in generation quality; Amplified Anomalies (AAs) arising unpredictably from minor quantization errors, create a mismatch between calibration and inference, thus iteratively triggering model collapse. To address these challenges, we introduce HyGenQ, a PTQ framework for hybrid IGMs. HyGenQ comprises Hierarchical Cluster Decoupling (HCD) and Scaling Recalibration (SR). HCD identifies and decouples outlier channels via a multi-stage clustering process, effectively isolating EOs while maintaining normal value precision, thereby alleviating performance degradation. SR scales AAs beyond Gaussian Bound, thereby avoiding model collapse caused by aggressive truncation. Extensive experiments demonstrate that HyGenQ successfully quantizes representative hybrid IGMs to 8-bit precision (W8A8), significantly outperforming existing baselines and validating its robustness across different model families.",
+          "title": "Swift-Image: Exploring the Performance Frontier of Compact Unified Image Generation Models",
+          "abstract": "We present Swift-Image, a compact unified model for text-to-image generation, single-image editing, and multi-image editing. Our goal is to explore how far a relatively small visual generator can be pushed through systematic training engineering under a constrained computational budget. Swift-Image adopts an efficient 6B single-stream DiT and a progressive training pipeline that evolves from broad semantic coverage to higher resolution, stronger visual quality, and unified generation-editing supervision. For post-training, we employ parallel expert reinforcement learning followed by multi-teacher on-policy distillation to alleviate interference among heterogeneous objectives. We further decouple high-level reasoning from pixel-level rendering with a Prompt Enhancer that translates user requests into generator-aligned visual specifications. For efficient deployment, structural pruning and few-step distillation produce 3B and accelerated variants. Swift-Image achieves leading aggregate performance among evaluated open-source models with only 6B parameters and 243K GPU training hours; the compressed 3B model incurs nearly no loss, while few-step distillation further improves aggregate editing performance with substantially fewer sampling steps. Our study also summarizes practical lessons for architecture, data curriculum, post-training, prompt enhancement, and model compression.",
           "authors": [
-            "Jing Gao",
-            "Junyi Wu",
-            "Wei Wang",
-            "Yan Yan",
-            "Yao Zhao"
+            "Taihang Hu",
+            "Zhao Wang",
+            "Zuan Gao",
+            "Tao Liu",
+            "Hao Yan",
+            "Zhengze Xu",
+            "Yuhang Yu",
+            "Yongchao Du",
+            "Xingjian Wang",
+            "Jun Zheng",
+            "Qinye Zhou",
+            "Zhengrui Chen",
+            "Chao Lin",
+            "Yefeng Shen",
+            "Zhengtao Wu",
+            "Ge Wu",
+            "Xiaoli Xu",
+            "Denghui Yang",
+            "Huayu Zhang",
+            "Mingzhou Zhang",
+            "Mengting Chen"
           ],
-          "primary_category": "cs.LG",
+          "primary_category": "cs.CV",
           "categories": [
-            "cs.LG"
+            "cs.CV"
           ],
-          "published": "2026-08-14T04:07:14+00:00",
-          "link": "https://arxiv.org/pdf/2608.13932v1",
+          "published": "2026-08-20T17:59:52+00:00",
+          "link": "https://arxiv.org/pdf/2608.20334v1",
           "tags": [
             "keyword:fast-gen",
             "keyword:vd",
@@ -85,27 +102,27 @@
             "query:video-refine"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "Post-training quantization for hybrid iterative generative models to accelerate inference",
-          "llm_evidence_cn": "针对混合迭代生成模型的后训练量化，加速生成推理",
-          "llm_evidence": "针对混合迭代生成模型的后训练量化，加速生成推理",
-          "canonical_evidence": "针对混合迭代生成模型的后训练量化，加速生成推理",
-          "llm_tldr_en": "Hybrid iterative generative models suffer from collapse under vanilla post-training quantization. Paper identifies outlier and anomaly challenges, proposes targeted PTQ that preserves generation quality while accelerating inference.",
-          "llm_tldr_cn": "迭代生成模型结合自回归和扩散范式可获得高保真图像，但推理开销大。直接对混合迭代生成模型应用后训练量化会导致模型崩溃，根源在于激活中的过度离群值和量化误差引发的异常放大。论文在分析这些失败后提出针对性的量化方案，缓解离群值与异常问题。实验证明该方法能在保持生成质量的同时显著加速推理，为生成模型的低精度部署提供了实用路径。",
-          "llm_tldr": "迭代生成模型结合自回归和扩散范式可获得高保真图像，但推理开销大。直接对混合迭代生成模型应用后训练量化会导致模型崩溃，根源在于激活中的过度离群值和量化误差引发的异常放大。论文在分析这些失败后提出针对性的量化方案，缓解离群值与异常问题。实验证明该方法能在保持生成质量的同时显著加速推理，为生成模型的低精度部署提供了实用路径。",
+          "llm_evidence_en": "Compact image generation model uses multi-teacher on-policy distillation and post-training to improve performance; directly relevant to knowledge distillation for generative models.",
+          "llm_evidence_cn": "紧凑图像生成模型采用多教师在线蒸馏与后训练提升性能，直接符合生成模型知识蒸馏需求。",
+          "llm_evidence": "紧凑图像生成模型采用多教师在线蒸馏与后训练提升性能，直接符合生成模型知识蒸馏需求。",
+          "canonical_evidence": "紧凑图像生成模型采用多教师在线蒸馏与后训练提升性能，直接符合生成模型知识蒸馏需求。",
+          "llm_tldr_en": "Swift-Image pushes a compact 6B DiT for unified image generation and editing via progressive training and multi-teacher on-policy distillation, decoupling reasoning from pixel rendering to reach high performance under constrained budget.",
+          "llm_tldr_cn": "在有限算力下，紧凑图像生成模型常难以同时兼顾生成、编辑等多目标性能，且目标间易相互干扰。本文提出Swift-Image，采用高效6B单流DiT和渐进式训练流程，从广语义覆盖逐步演进到高分辨率与统一生成-编辑监督；后训练阶段使用并行专家强化学习结合多教师在线蒸馏，缓解异构目标冲突，并解耦高层推理与像素级渲染。结果表明该紧凑模型在受限预算下达到领先的生成与编辑性能，展示了训练工程对小型视觉生成器上限的推动作用。",
+          "llm_tldr": "在有限算力下，紧凑图像生成模型常难以同时兼顾生成、编辑等多目标性能，且目标间易相互干扰。本文提出Swift-Image，采用高效6B单流DiT和渐进式训练流程，从广语义覆盖逐步演进到高分辨率与统一生成-编辑监督；后训练阶段使用并行专家强化学习结合多教师在线蒸馏，缓解异构目标冲突，并解耦高层推理与像素级渲染。结果表明该紧凑模型在受限预算下达到领先的生成与编辑性能，展示了训练工程对小型视觉生成器上限的推动作用。",
           "llm_tags": [
             "query:fast-gen"
           ],
           "matched_query_tag": "query:fast-gen",
-          "matched_query_text": "model quantization efficient generation",
-          "matched_requirement_id": "req-13",
+          "matched_query_text": "knowledge distillation for generative models",
+          "matched_requirement_id": "req-12",
           "selection_source": "carryover_cache",
-          "paper_id": "2608.13932v1",
+          "paper_id": "2608.20334v1",
           "carry_days": 1
         }
       ]
     },
     "video-refine": {
-      "updated_date": "20260817",
+      "updated_date": "20260823",
       "carryover_days": 9,
       "items": []
     }
