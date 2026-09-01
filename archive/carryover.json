@@ -1,128 +1,20 @@
 {
-  "generated_at": "2026-08-23T20:35:25.097868+00:00",
-  "updated_date": "20260823",
+  "generated_at": "2026-09-01T00:29:37.112704+00:00",
+  "updated_date": "20260831",
   "carryover_days": 9,
   "tag_states": {
     "vd": {
-      "updated_date": "20260823",
+      "updated_date": "20260831",
       "carryover_days": 9,
-      "items": [
-        {
-          "id": "2608.19556v1",
-          "source": "arxiv",
-          "title": "Stream4D: 4D-Consistency for Streaming Autoregressive Diffusion Video Models",
-          "abstract": "Streaming autoregressive diffusion models enable real-time, long-horizon video generation, but their training objectives optimize local frame prediction rather than the geometry and dynamics of a coherent world: long rollouts accumulate geometric drift and degrade into static or unnatural motion. Recent bidirectional approaches address this problem using rewards signals built upon 3D Gaussian-Splatting reconstruction. However, a single rigid 3d reconstruction cannot model a dynamic scene, so this critic penalizes genuine object motion as reconstruction error and is maximized by freezing the video. This shortcut is especially detrimental in the AR setting, where each chunk can propagate an already-static configuration. In this work, we propose Stream4D, which replaces the static critic with a feed-forward 4D reconstruction reward that explicitly models scene dynamics, allowing coherent motion to receive high consistency rewards. To further guide motion magnitude and quality, we add a motion prior that rewards natural scene-flow magnitude while penalizing jitter and non-rigid artifacts. Our final recipe combines these two terms with a lightweight perceptual anchor. Across various autoregressive video backbones and various generation horizons, Stream4D improves 4D reconstruction quality, preserves motion more effectively, and achieves higher human-aligned preference. Project page: https://banyuanhao.github.io/Stream4D/",
-          "authors": [
-            "Yuanhao Ban",
-            "Jiaqi Feng",
-            "Hengguang Zhou",
-            "Xiaohuan Pei",
-            "Justin Cui",
-            "Cho-Jui Hsieh"
-          ],
-          "primary_category": "cs.CV",
-          "categories": [
-            "cs.CV",
-            "cs.AI"
-          ],
-          "published": "2026-08-20T01:54:26+00:00",
-          "link": "https://arxiv.org/pdf/2608.19556v1",
-          "tags": [
-            "keyword:fast-gen",
-            "keyword:vd",
-            "keyword:video-refine",
-            "query:fast-gen",
-            "query:vd",
-            "query:video-refine"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "addresses geometric drift and static/unnatural motion in streaming autoregressive video generation",
-          "llm_evidence_cn": "解决流式自回归视频生成中的几何漂移和静态/不自然运动问题",
-          "llm_evidence": "解决流式自回归视频生成中的几何漂移和静态/不自然运动问题",
-          "canonical_evidence": "解决流式自回归视频生成中的几何漂移和静态/不自然运动问题",
-          "llm_tldr_en": "Stream4D adds 4D-consistency to streaming autoregressive diffusion video models to prevent geometric drift and static/unnatural motion in long rollouts, improving motion dynamics while enabling real-time generation.",
-          "llm_tldr_cn": "流式自回归扩散模型能够实现实时长视频生成，但训练目标只优化局部帧预测，导致长时间生成中出现几何漂移和运动退化。本文提出Stream4D，通过引入4D一致性约束来抑制静态或非自然运动，使模型在保持实时生成能力的同时显著提高运动动态质量。实验表明该方法纠正了现有双向方法对真实运动过度惩罚的缺陷，为高质量长视频生成提供了新思路。",
-          "llm_tldr": "流式自回归扩散模型能够实现实时长视频生成，但训练目标只优化局部帧预测，导致长时间生成中出现几何漂移和运动退化。本文提出Stream4D，通过引入4D一致性约束来抑制静态或非自然运动，使模型在保持实时生成能力的同时显著提高运动动态质量。实验表明该方法纠正了现有双向方法对真实运动过度惩罚的缺陷，为高质量长视频生成提供了新思路。",
-          "llm_tags": [
-            "query:vd"
-          ],
-          "matched_query_tag": "query:vd",
-          "matched_query_text": "improving diversity and motion dynamics in video generation",
-          "matched_requirement_id": "req-3",
-          "selection_source": "carryover_cache",
-          "paper_id": "2608.19556v1",
-          "carry_days": 1
-        }
-      ]
+      "items": []
     },
     "fast-gen": {
-      "updated_date": "20260823",
+      "updated_date": "20260831",
       "carryover_days": 9,
-      "items": [
-        {
-          "id": "2608.20334v1",
-          "source": "arxiv",
-          "title": "Swift-Image: Exploring the Performance Frontier of Compact Unified Image Generation Models",
-          "abstract": "We present Swift-Image, a compact unified model for text-to-image generation, single-image editing, and multi-image editing. Our goal is to explore how far a relatively small visual generator can be pushed through systematic training engineering under a constrained computational budget. Swift-Image adopts an efficient 6B single-stream DiT and a progressive training pipeline that evolves from broad semantic coverage to higher resolution, stronger visual quality, and unified generation-editing supervision. For post-training, we employ parallel expert reinforcement learning followed by multi-teacher on-policy distillation to alleviate interference among heterogeneous objectives. We further decouple high-level reasoning from pixel-level rendering with a Prompt Enhancer that translates user requests into generator-aligned visual specifications. For efficient deployment, structural pruning and few-step distillation produce 3B and accelerated variants. Swift-Image achieves leading aggregate performance among evaluated open-source models with only 6B parameters and 243K GPU training hours; the compressed 3B model incurs nearly no loss, while few-step distillation further improves aggregate editing performance with substantially fewer sampling steps. Our study also summarizes practical lessons for architecture, data curriculum, post-training, prompt enhancement, and model compression.",
-          "authors": [
-            "Taihang Hu",
-            "Zhao Wang",
-            "Zuan Gao",
-            "Tao Liu",
-            "Hao Yan",
-            "Zhengze Xu",
-            "Yuhang Yu",
-            "Yongchao Du",
-            "Xingjian Wang",
-            "Jun Zheng",
-            "Qinye Zhou",
-            "Zhengrui Chen",
-            "Chao Lin",
-            "Yefeng Shen",
-            "Zhengtao Wu",
-            "Ge Wu",
-            "Xiaoli Xu",
-            "Denghui Yang",
-            "Huayu Zhang",
-            "Mingzhou Zhang",
-            "Mengting Chen"
-          ],
-          "primary_category": "cs.CV",
-          "categories": [
-            "cs.CV"
-          ],
-          "published": "2026-08-20T17:59:52+00:00",
-          "link": "https://arxiv.org/pdf/2608.20334v1",
-          "tags": [
-            "keyword:fast-gen",
-            "keyword:vd",
-            "keyword:video-refine",
-            "query:fast-gen",
-            "query:vd",
-            "query:video-refine"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Compact image generation model uses multi-teacher on-policy distillation and post-training to improve performance; directly relevant to knowledge distillation for generative models.",
-          "llm_evidence_cn": "紧凑图像生成模型采用多教师在线蒸馏与后训练提升性能，直接符合生成模型知识蒸馏需求。",
-          "llm_evidence": "紧凑图像生成模型采用多教师在线蒸馏与后训练提升性能，直接符合生成模型知识蒸馏需求。",
-          "canonical_evidence": "紧凑图像生成模型采用多教师在线蒸馏与后训练提升性能，直接符合生成模型知识蒸馏需求。",
-          "llm_tldr_en": "Swift-Image pushes a compact 6B DiT for unified image generation and editing via progressive training and multi-teacher on-policy distillation, decoupling reasoning from pixel rendering to reach high performance under constrained budget.",
-          "llm_tldr_cn": "在有限算力下，紧凑图像生成模型常难以同时兼顾生成、编辑等多目标性能，且目标间易相互干扰。本文提出Swift-Image，采用高效6B单流DiT和渐进式训练流程，从广语义覆盖逐步演进到高分辨率与统一生成-编辑监督；后训练阶段使用并行专家强化学习结合多教师在线蒸馏，缓解异构目标冲突，并解耦高层推理与像素级渲染。结果表明该紧凑模型在受限预算下达到领先的生成与编辑性能，展示了训练工程对小型视觉生成器上限的推动作用。",
-          "llm_tldr": "在有限算力下，紧凑图像生成模型常难以同时兼顾生成、编辑等多目标性能，且目标间易相互干扰。本文提出Swift-Image，采用高效6B单流DiT和渐进式训练流程，从广语义覆盖逐步演进到高分辨率与统一生成-编辑监督；后训练阶段使用并行专家强化学习结合多教师在线蒸馏，缓解异构目标冲突，并解耦高层推理与像素级渲染。结果表明该紧凑模型在受限预算下达到领先的生成与编辑性能，展示了训练工程对小型视觉生成器上限的推动作用。",
-          "llm_tags": [
-            "query:fast-gen"
-          ],
-          "matched_query_tag": "query:fast-gen",
-          "matched_query_text": "knowledge distillation for generative models",
-          "matched_requirement_id": "req-12",
-          "selection_source": "carryover_cache",
-          "paper_id": "2608.20334v1",
-          "carry_days": 1
-        }
-      ]
+      "items": []
     },
     "video-refine": {
-      "updated_date": "20260823",
+      "updated_date": "20260831",
       "carryover_days": 9,
       "items": []
     }
