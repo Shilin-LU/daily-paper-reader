@@ -6,26 +6,19 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-31
-- 运行时间：2026-09-01 00:33:18 UTC
+- 最新运行日期：2026-09-06
+- 运行时间：2026-09-06 21:49:59 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：2
+- 本次总论文数：0
+- 精读区：0
 - 速读区：0
 
 ### 今日简报（AI）
-- 今日共生成 2 篇推荐（精读 2 篇，速读 0 篇）
-- 精读：《Stream4D: 4D-Consistency for Streaming Autoregressive Diffusion Video Models》（8.0/10）, 《Swift-Image: Exploring the Performance Frontier of Compact Unified Image Generation Models》（8.0/10）
-- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
-- 详情：[/202608/31/README](/202608/31/README)
+> 今日无新推荐，系统未产出可展示论文。
+- 详情：[/202609/06/README](/202609/06/README)
 
 ### 精读区论文标签
-1. [Stream4D: 4D-Consistency for Streaming Autoregressive Diffusion Video Models](/202608/31/2608.19556v1-stream4d-4d-consistency-for-streaming-autoregressive-diffusion-video-models)  
-   标签：评分：8.0/10、query:vd
-   evidence：解决流式自回归视频生成中的几何漂移和静态/不自然运动问题
-2. [Swift-Image: Exploring the Performance Frontier of Compact Unified Image Generation Models](/202608/31/2608.20334v1-swift-image-exploring-the-performance-frontier-of-compact-unified-image-generation-models)  
-   标签：评分：8.0/10、query:fast-gen
-   evidence：紧凑图像生成模型采用多教师在线蒸馏与后训练提升性能，直接符合生成模型知识蒸馏需求。
+- 本次无精读推荐。
 
 ### 速读区论文标签
 - 本次无速读推荐。
